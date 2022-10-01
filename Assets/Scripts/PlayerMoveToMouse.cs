@@ -23,9 +23,6 @@ public class PlayerMoveToMouse : MonoBehaviour
     {
         target = transform.position;
         animator = GetComponent<Animator>();
-
-        Debug.Log("Position [" + transform.position.x + ", " + transform.position.y + "]");
-        Debug.Log("Target [" + target.x + ", " + target.y + "]");
     }
 
     // Update is called once per frame
@@ -44,10 +41,6 @@ public class PlayerMoveToMouse : MonoBehaviour
     {
         if(transform.position != target)
         {
-            Debug.Log("Position [" + transform.position.x + ", " + transform.position.y + "]");
-            Debug.Log("Target [" + target.x + ", " + target.y + "]");
-            int x, y = 0;
-
             if (target.y > transform.position.y)
             {
                 SetDirection(Direction.Up);
