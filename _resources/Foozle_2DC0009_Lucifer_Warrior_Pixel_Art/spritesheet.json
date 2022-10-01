@@ -1,0 +1,815 @@
+{
+	"frames": {
+		"WarriorDownAttack01.png": {
+			"frame": {
+				"x": 0,
+				"y": 0,
+				"w": 288,
+				"h": 48
+			},
+			"rotated": false,
+			"trimmed": false,
+			"spriteSourceSize": {
+				"x": 0,
+				"y": 0,
+				"w": 288,
+				"h": 48
+			},
+			"sourceSize": {
+				"w": 288,
+				"h": 48
+			}
+		},
+		"WarriorDownAttack02.png": {
+			"frame": {
+				"x": 0,
+				"y": 48,
+				"w": 288,
+				"h": 48
+			},
+			"rotated": false,
+			"trimmed": false,
+			"spriteSourceSize": {
+				"x": 0,
+				"y": 0,
+				"w": 288,
+				"h": 48
+			},
+			"sourceSize": {
+				"w": 288,
+				"h": 48
+			}
+		},
+		"WarriorDownAttack03.png": {
+			"frame": {
+				"x": 0,
+				"y": 96,
+				"w": 240,
+				"h": 48
+			},
+			"rotated": false,
+			"trimmed": false,
+			"spriteSourceSize": {
+				"x": 0,
+				"y": 0,
+				"w": 240,
+				"h": 48
+			},
+			"sourceSize": {
+				"w": 240,
+				"h": 48
+			}
+		},
+		"WarriorDownClimb.png": {
+			"frame": {
+				"x": 0,
+				"y": 144,
+				"w": 288,
+				"h": 48
+			},
+			"rotated": false,
+			"trimmed": false,
+			"spriteSourceSize": {
+				"x": 0,
+				"y": 0,
+				"w": 288,
+				"h": 48
+			},
+			"sourceSize": {
+				"w": 288,
+				"h": 48
+			}
+		},
+		"WarriorDownDeath.png": {
+			"frame": {
+				"x": 0,
+				"y": 192,
+				"w": 240,
+				"h": 48
+			},
+			"rotated": false,
+			"trimmed": false,
+			"spriteSourceSize": {
+				"x": 0,
+				"y": 0,
+				"w": 240,
+				"h": 48
+			},
+			"sourceSize": {
+				"w": 240,
+				"h": 48
+			}
+		},
+		"WarriorDownHurt.png": {
+			"frame": {
+				"x": 0,
+				"y": 240,
+				"w": 192,
+				"h": 48
+			},
+			"rotated": false,
+			"trimmed": false,
+			"spriteSourceSize": {
+				"x": 0,
+				"y": 0,
+				"w": 192,
+				"h": 48
+			},
+			"sourceSize": {
+				"w": 192,
+				"h": 48
+			}
+		},
+		"WarriorDownIdle.png": {
+			"frame": {
+				"x": 0,
+				"y": 288,
+				"w": 240,
+				"h": 48
+			},
+			"rotated": false,
+			"trimmed": false,
+			"spriteSourceSize": {
+				"x": 0,
+				"y": 0,
+				"w": 240,
+				"h": 48
+			},
+			"sourceSize": {
+				"w": 240,
+				"h": 48
+			}
+		},
+		"WarriorDownJump.png": {
+			"frame": {
+				"x": 0,
+				"y": 336,
+				"w": 240,
+				"h": 48
+			},
+			"rotated": false,
+			"trimmed": false,
+			"spriteSourceSize": {
+				"x": 0,
+				"y": 0,
+				"w": 240,
+				"h": 48
+			},
+			"sourceSize": {
+				"w": 240,
+				"h": 48
+			}
+		},
+		"WarriorDownLand.png": {
+			"frame": {
+				"x": 0,
+				"y": 384,
+				"w": 240,
+				"h": 48
+			},
+			"rotated": false,
+			"trimmed": false,
+			"spriteSourceSize": {
+				"x": 0,
+				"y": 0,
+				"w": 240,
+				"h": 48
+			},
+			"sourceSize": {
+				"w": 240,
+				"h": 48
+			}
+		},
+		"WarriorDownWalk.png": {
+			"frame": {
+				"x": 0,
+				"y": 432,
+				"w": 384,
+				"h": 48
+			},
+			"rotated": false,
+			"trimmed": false,
+			"spriteSourceSize": {
+				"x": 0,
+				"y": 0,
+				"w": 384,
+				"h": 48
+			},
+			"sourceSize": {
+				"w": 384,
+				"h": 48
+			}
+		},
+		"WarriorLeftAttack01.png": {
+			"frame": {
+				"x": 0,
+				"y": 480,
+				"w": 288,
+				"h": 48
+			},
+			"rotated": false,
+			"trimmed": false,
+			"spriteSourceSize": {
+				"x": 0,
+				"y": 0,
+				"w": 288,
+				"h": 48
+			},
+			"sourceSize": {
+				"w": 288,
+				"h": 48
+			}
+		},
+		"WarriorLeftAttack02.png": {
+			"frame": {
+				"x": 0,
+				"y": 528,
+				"w": 288,
+				"h": 48
+			},
+			"rotated": false,
+			"trimmed": false,
+			"spriteSourceSize": {
+				"x": 0,
+				"y": 0,
+				"w": 288,
+				"h": 48
+			},
+			"sourceSize": {
+				"w": 288,
+				"h": 48
+			}
+		},
+		"WarriorLeftAttack03.png": {
+			"frame": {
+				"x": 0,
+				"y": 576,
+				"w": 240,
+				"h": 48
+			},
+			"rotated": false,
+			"trimmed": false,
+			"spriteSourceSize": {
+				"x": 0,
+				"y": 0,
+				"w": 240,
+				"h": 48
+			},
+			"sourceSize": {
+				"w": 240,
+				"h": 48
+			}
+		},
+		"WarriorLeftClimb.png": {
+			"frame": {
+				"x": 0,
+				"y": 624,
+				"w": 288,
+				"h": 48
+			},
+			"rotated": false,
+			"trimmed": false,
+			"spriteSourceSize": {
+				"x": 0,
+				"y": 0,
+				"w": 288,
+				"h": 48
+			},
+			"sourceSize": {
+				"w": 288,
+				"h": 48
+			}
+		},
+		"WarriorLeftDeath.png": {
+			"frame": {
+				"x": 0,
+				"y": 672,
+				"w": 240,
+				"h": 48
+			},
+			"rotated": false,
+			"trimmed": false,
+			"spriteSourceSize": {
+				"x": 0,
+				"y": 0,
+				"w": 240,
+				"h": 48
+			},
+			"sourceSize": {
+				"w": 240,
+				"h": 48
+			}
+		},
+		"WarriorLeftHurt.png": {
+			"frame": {
+				"x": 0,
+				"y": 720,
+				"w": 192,
+				"h": 48
+			},
+			"rotated": false,
+			"trimmed": false,
+			"spriteSourceSize": {
+				"x": 0,
+				"y": 0,
+				"w": 192,
+				"h": 48
+			},
+			"sourceSize": {
+				"w": 192,
+				"h": 48
+			}
+		},
+		"WarriorLeftIdle.png": {
+			"frame": {
+				"x": 0,
+				"y": 768,
+				"w": 240,
+				"h": 48
+			},
+			"rotated": false,
+			"trimmed": false,
+			"spriteSourceSize": {
+				"x": 0,
+				"y": 0,
+				"w": 240,
+				"h": 48
+			},
+			"sourceSize": {
+				"w": 240,
+				"h": 48
+			}
+		},
+		"WarriorLeftJump.png": {
+			"frame": {
+				"x": 0,
+				"y": 816,
+				"w": 240,
+				"h": 48
+			},
+			"rotated": false,
+			"trimmed": false,
+			"spriteSourceSize": {
+				"x": 0,
+				"y": 0,
+				"w": 240,
+				"h": 48
+			},
+			"sourceSize": {
+				"w": 240,
+				"h": 48
+			}
+		},
+		"WarriorLeftLand.png": {
+			"frame": {
+				"x": 0,
+				"y": 864,
+				"w": 240,
+				"h": 48
+			},
+			"rotated": false,
+			"trimmed": false,
+			"spriteSourceSize": {
+				"x": 0,
+				"y": 0,
+				"w": 240,
+				"h": 48
+			},
+			"sourceSize": {
+				"w": 240,
+				"h": 48
+			}
+		},
+		"WarriorLeftWalk.png": {
+			"frame": {
+				"x": 0,
+				"y": 912,
+				"w": 384,
+				"h": 48
+			},
+			"rotated": false,
+			"trimmed": false,
+			"spriteSourceSize": {
+				"x": 0,
+				"y": 0,
+				"w": 384,
+				"h": 48
+			},
+			"sourceSize": {
+				"w": 384,
+				"h": 48
+			}
+		},
+		"WarriorRightAttack01.png": {
+			"frame": {
+				"x": 0,
+				"y": 960,
+				"w": 288,
+				"h": 48
+			},
+			"rotated": false,
+			"trimmed": false,
+			"spriteSourceSize": {
+				"x": 0,
+				"y": 0,
+				"w": 288,
+				"h": 48
+			},
+			"sourceSize": {
+				"w": 288,
+				"h": 48
+			}
+		},
+		"WarriorRightAttack02.png": {
+			"frame": {
+				"x": 0,
+				"y": 1008,
+				"w": 288,
+				"h": 48
+			},
+			"rotated": false,
+			"trimmed": false,
+			"spriteSourceSize": {
+				"x": 0,
+				"y": 0,
+				"w": 288,
+				"h": 48
+			},
+			"sourceSize": {
+				"w": 288,
+				"h": 48
+			}
+		},
+		"WarriorRightAttack03.png": {
+			"frame": {
+				"x": 0,
+				"y": 1056,
+				"w": 240,
+				"h": 48
+			},
+			"rotated": false,
+			"trimmed": false,
+			"spriteSourceSize": {
+				"x": 0,
+				"y": 0,
+				"w": 240,
+				"h": 48
+			},
+			"sourceSize": {
+				"w": 240,
+				"h": 48
+			}
+		},
+		"WarriorRightClimb.png": {
+			"frame": {
+				"x": 0,
+				"y": 1104,
+				"w": 288,
+				"h": 48
+			},
+			"rotated": false,
+			"trimmed": false,
+			"spriteSourceSize": {
+				"x": 0,
+				"y": 0,
+				"w": 288,
+				"h": 48
+			},
+			"sourceSize": {
+				"w": 288,
+				"h": 48
+			}
+		},
+		"WarriorRightDeath.png": {
+			"frame": {
+				"x": 0,
+				"y": 1152,
+				"w": 240,
+				"h": 48
+			},
+			"rotated": false,
+			"trimmed": false,
+			"spriteSourceSize": {
+				"x": 0,
+				"y": 0,
+				"w": 240,
+				"h": 48
+			},
+			"sourceSize": {
+				"w": 240,
+				"h": 48
+			}
+		},
+		"WarriorRightHurt.png": {
+			"frame": {
+				"x": 0,
+				"y": 1200,
+				"w": 192,
+				"h": 48
+			},
+			"rotated": false,
+			"trimmed": false,
+			"spriteSourceSize": {
+				"x": 0,
+				"y": 0,
+				"w": 192,
+				"h": 48
+			},
+			"sourceSize": {
+				"w": 192,
+				"h": 48
+			}
+		},
+		"WarriorRightIdle.png": {
+			"frame": {
+				"x": 0,
+				"y": 1248,
+				"w": 240,
+				"h": 48
+			},
+			"rotated": false,
+			"trimmed": false,
+			"spriteSourceSize": {
+				"x": 0,
+				"y": 0,
+				"w": 240,
+				"h": 48
+			},
+			"sourceSize": {
+				"w": 240,
+				"h": 48
+			}
+		},
+		"WarriorRightJump.png": {
+			"frame": {
+				"x": 0,
+				"y": 1296,
+				"w": 240,
+				"h": 48
+			},
+			"rotated": false,
+			"trimmed": false,
+			"spriteSourceSize": {
+				"x": 0,
+				"y": 0,
+				"w": 240,
+				"h": 48
+			},
+			"sourceSize": {
+				"w": 240,
+				"h": 48
+			}
+		},
+		"WarriorRightLand.png": {
+			"frame": {
+				"x": 0,
+				"y": 1344,
+				"w": 240,
+				"h": 48
+			},
+			"rotated": false,
+			"trimmed": false,
+			"spriteSourceSize": {
+				"x": 0,
+				"y": 0,
+				"w": 240,
+				"h": 48
+			},
+			"sourceSize": {
+				"w": 240,
+				"h": 48
+			}
+		},
+		"WarriorRightWalk.png": {
+			"frame": {
+				"x": 0,
+				"y": 1392,
+				"w": 384,
+				"h": 48
+			},
+			"rotated": false,
+			"trimmed": false,
+			"spriteSourceSize": {
+				"x": 0,
+				"y": 0,
+				"w": 384,
+				"h": 48
+			},
+			"sourceSize": {
+				"w": 384,
+				"h": 48
+			}
+		},
+		"WarriorUpAttack01.png": {
+			"frame": {
+				"x": 0,
+				"y": 1440,
+				"w": 288,
+				"h": 48
+			},
+			"rotated": false,
+			"trimmed": false,
+			"spriteSourceSize": {
+				"x": 0,
+				"y": 0,
+				"w": 288,
+				"h": 48
+			},
+			"sourceSize": {
+				"w": 288,
+				"h": 48
+			}
+		},
+		"WarriorUpAttack02.png": {
+			"frame": {
+				"x": 0,
+				"y": 1488,
+				"w": 288,
+				"h": 48
+			},
+			"rotated": false,
+			"trimmed": false,
+			"spriteSourceSize": {
+				"x": 0,
+				"y": 0,
+				"w": 288,
+				"h": 48
+			},
+			"sourceSize": {
+				"w": 288,
+				"h": 48
+			}
+		},
+		"WarriorUpAttack03.png": {
+			"frame": {
+				"x": 0,
+				"y": 1536,
+				"w": 240,
+				"h": 48
+			},
+			"rotated": false,
+			"trimmed": false,
+			"spriteSourceSize": {
+				"x": 0,
+				"y": 0,
+				"w": 240,
+				"h": 48
+			},
+			"sourceSize": {
+				"w": 240,
+				"h": 48
+			}
+		},
+		"WarriorUpClimb.png": {
+			"frame": {
+				"x": 0,
+				"y": 1584,
+				"w": 288,
+				"h": 48
+			},
+			"rotated": false,
+			"trimmed": false,
+			"spriteSourceSize": {
+				"x": 0,
+				"y": 0,
+				"w": 288,
+				"h": 48
+			},
+			"sourceSize": {
+				"w": 288,
+				"h": 48
+			}
+		},
+		"WarriorUpDeath.png": {
+			"frame": {
+				"x": 0,
+				"y": 1632,
+				"w": 288,
+				"h": 48
+			},
+			"rotated": false,
+			"trimmed": false,
+			"spriteSourceSize": {
+				"x": 0,
+				"y": 0,
+				"w": 288,
+				"h": 48
+			},
+			"sourceSize": {
+				"w": 288,
+				"h": 48
+			}
+		},
+		"WarriorUpHurt.png": {
+			"frame": {
+				"x": 0,
+				"y": 1680,
+				"w": 192,
+				"h": 48
+			},
+			"rotated": false,
+			"trimmed": false,
+			"spriteSourceSize": {
+				"x": 0,
+				"y": 0,
+				"w": 192,
+				"h": 48
+			},
+			"sourceSize": {
+				"w": 192,
+				"h": 48
+			}
+		},
+		"WarriorUpIdle.png": {
+			"frame": {
+				"x": 0,
+				"y": 1728,
+				"w": 240,
+				"h": 48
+			},
+			"rotated": false,
+			"trimmed": false,
+			"spriteSourceSize": {
+				"x": 0,
+				"y": 0,
+				"w": 240,
+				"h": 48
+			},
+			"sourceSize": {
+				"w": 240,
+				"h": 48
+			}
+		},
+		"WarriorUpJump.png": {
+			"frame": {
+				"x": 0,
+				"y": 1776,
+				"w": 240,
+				"h": 48
+			},
+			"rotated": false,
+			"trimmed": false,
+			"spriteSourceSize": {
+				"x": 0,
+				"y": 0,
+				"w": 240,
+				"h": 48
+			},
+			"sourceSize": {
+				"w": 240,
+				"h": 48
+			}
+		},
+		"WarriorUpLand.png": {
+			"frame": {
+				"x": 0,
+				"y": 1824,
+				"w": 240,
+				"h": 48
+			},
+			"rotated": false,
+			"trimmed": false,
+			"spriteSourceSize": {
+				"x": 0,
+				"y": 0,
+				"w": 240,
+				"h": 48
+			},
+			"sourceSize": {
+				"w": 240,
+				"h": 48
+			}
+		},
+		"WarriorUpWalk.png": {
+			"frame": {
+				"x": 0,
+				"y": 1872,
+				"w": 384,
+				"h": 48
+			},
+			"rotated": false,
+			"trimmed": false,
+			"spriteSourceSize": {
+				"x": 0,
+				"y": 0,
+				"w": 384,
+				"h": 48
+			},
+			"sourceSize": {
+				"w": 384,
+				"h": 48
+			}
+		}
+	},
+	"meta": {
+		"app": "http://www.codeandweb.com/texturepacker",
+		"version": "1.0",
+		"image": "spritesheet.png",
+		"format": "RGBA8888",
+		"size": {
+			"w": 384,
+			"h": 1920
+		},
+		"scale": "1"
+	}
+}

@@ -1,0 +1,104 @@
+using System;
+using System.Collections;
+using System.Collections.Generic;
+using Unity.VisualScripting;
+using UnityEngine;
+
+public class PlayerMoveToMouse : MonoBehaviour
+{
+    enum Direction
+    {
+        Down,
+        Left,
+        Right,
+        Up
+    }
+
+    public float speed = (float)2.5;
+    private Vector3 target;
+    private Animator animator;
+
+    // Start is called before the first frame update
+    void Start()
+    {
+        target = transform.position;
+        animator = GetComponent<Animator>();
+
+        Debug.Log("Position [" + transform.position.x + ", " + transform.position.y + "]");
+        Debug.Log("Target [" + target.x + ", " + target.y + "]");
+    }
+
+    // Update is called once per frame
+    void Update()
+    {
+        if (Input.GetMouseButtonDown(0))
+        {
+            target = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+            target.z = transform.position.z;
+
+        }  
+
+    }
+
+    void FixedUpdate()
+    {
+        if(transform.position != target)
+        {
+            Debug.Log("Position [" + transform.position.x + ", " + transform.position.y + "]");
+            Debug.Log("Target [" + target.x + ", " + target.y + "]");
+            int x, y = 0;
+
+            if (target.y > transform.position.y)
+            {
+                SetDirection(Direction.Up);
+
+                if (Math.Abs((target.y - transform.position.y)) < Math.Abs((target.x - transform.position.x)))
+                {
+                    if (target.x - transform.position.x > 0) { SetDirection(Direction.Right); }
+                    else { SetDirection(Direction.Left); }
+                }
+            }
+            else
+            {
+                SetDirection(Direction.Down);
+
+                if (Math.Abs((transform.position.y - target.y)) < Math.Abs((transform.position.x - target.x)))
+                {
+                    if (target.x - transform.position.x > 0) { SetDirection(Direction.Right); }
+                    else { SetDirection(Direction.Left); }
+                } 
+            }
+
+            transform.position = Vector3.MoveTowards(transform.position, target, speed * Time.fixedDeltaTime);
+            animator.SetBool("moving", true);
+
+        } else
+        {
+            animator.SetBool("moving", false);
+        }
+        
+    }
+
+    private void SetDirection(Direction direction)
+    {
+        switch (direction)
+        {
+            case Direction.Down:
+                animator.SetFloat("moveX", 0);
+                animator.SetFloat("moveY", -1);
+                break;
+            case Direction.Left:
+                animator.SetFloat("moveX", -1);
+                animator.SetFloat("moveY", 0);
+                break;
+            case Direction.Right:
+                animator.SetFloat("moveX", 1);
+                animator.SetFloat("moveY", 0);
+                break;
+            case Direction.Up:
+                animator.SetFloat("moveX", 0);
+                animator.SetFloat("moveY", 1);
+                break;
+        }
+    }
+}
