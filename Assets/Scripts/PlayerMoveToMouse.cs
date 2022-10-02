@@ -1,45 +1,63 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
+using System.Security.Cryptography;
 using Unity.VisualScripting;
 using UnityEngine;
+using static UnityEngine.CullingGroup;
+
+public enum State
+{
+    Idle,
+    Walk,
+    Attack1,
+    Attack2,
+    Attack3
+}
+
+public enum Direction
+{
+    Down,
+    Left,
+    Right,
+    Up
+}
 
 public class PlayerMoveToMouse : MonoBehaviour
 {
-    enum Direction
-    {
-        Down,
-        Left,
-        Right,
-        Up
-    }
 
-    public float speed = (float)2.5;
+    public float playerSpeed = (float)2.5;
+    public Direction playerDIrection = Direction.Down;
+    public State playerState = State.Idle;
+
+    private State previousState = State.Idle;
     private Vector3 target;
     private Animator animator;
+    private bool stateLocked;
 
     // Start is called before the first frame update
     void Start()
     {
         target = transform.position;
         animator = GetComponent<Animator>();
+        SetDirection(playerDIrection);
+        SetState(playerState);
     }
 
     // Update is called once per frame
     void Update()
     {
+
+        SetState(State.Idle);
+
         if (Input.GetMouseButtonDown(0))
         {
             target = Camera.main.ScreenToWorldPoint(Input.mousePosition);
             target.z = transform.position.z;
-
         }  
 
-    }
-
-    void FixedUpdate()
-    {
-        if(transform.position != target)
+        if (transform.position != target)
         {
             if (target.y > transform.position.y)
             {
@@ -59,24 +77,107 @@ public class PlayerMoveToMouse : MonoBehaviour
                 {
                     if (target.x - transform.position.x > 0) { SetDirection(Direction.Right); }
                     else { SetDirection(Direction.Left); }
-                } 
+                }
             }
 
-            transform.position = Vector3.MoveTowards(transform.position, target, speed * Time.fixedDeltaTime);
-            animator.SetBool("moving", true);
+            transform.position = Vector3.MoveTowards(transform.position, target, playerSpeed * Time.fixedDeltaTime);
+            SetState(State.Walk);
 
-        } else
-        {
-            animator.SetBool("moving", false);
         }
-        
+
+        if (Input.GetButtonDown("Attack1"))
+        {
+            SetState(State.Attack1);
+        }
+
+        if (Input.GetButtonDown("Attack2"))
+        {
+            SetState(State.Attack2);
+        }
+
+        if (Input.GetButtonDown("Attack3"))
+        {
+            SetState(State.Attack3);
+        }
+
+
+    }
+
+
+    void FixedUpdate()
+    {
+
+    }
+
+    // Used to ensure the state doesn't change before an animation is completed.
+    private void LockState(string resetParameter)
+    {
+        StartCoroutine(LockStateCoroutine(resetParameter));
+
+        IEnumerator LockStateCoroutine( string resetParameter)
+        {
+            stateLocked = true;
+            animator.SetBool(resetParameter, !animator.GetBool(resetParameter));
+
+            yield return null;
+            animator.SetBool(resetParameter, !animator.GetBool(resetParameter));
+
+            float seconds = animator.runtimeAnimatorController.animationClips
+                .Where<AnimationClip>((x) => x.name == "down" + char.ToUpper(resetParameter[0]) + resetParameter.Substring(1))
+                .First()
+                .length;
+
+            yield return new WaitForSeconds(seconds);      
+            stateLocked = false;
+            
+        }
+    }
+
+    private void SetState(State state)
+    {
+
+        if (!stateLocked && playerState != state) {
+
+            // Capture previous state and current for locking purposes
+            previousState = playerState;
+            playerState = state;
+
+            // Set Animator to default state
+            foreach (AnimatorControllerParameter parameter in animator.parameters)
+            {
+                if (parameter.type == AnimatorControllerParameterType.Bool)
+                {
+                    animator.SetBool(parameter.name, false);
+                }
+            }
+
+            // Set Animator to Current State
+            switch (playerState)
+            {
+                case State.Walk:
+                    animator.SetBool("walk", true);
+                    break;
+                case State.Attack1:
+                    LockState("attack1");
+                    break;
+                case State.Attack2:
+                    LockState("attack2");
+                    break;
+                case State.Attack3:
+                    LockState("attack3");
+                    break;
+            }
+
+            
+        }
     }
 
     private void SetDirection(Direction direction)
     {
 
-        Debug.Log(direction.ToString());
-        switch (direction)
+        playerDIrection = direction;
+
+        switch (playerDIrection)
         {
             case Direction.Down:
                 animator.SetFloat("moveX", 0);
