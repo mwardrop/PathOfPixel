@@ -1,0 +1,815 @@
+{
+	"frames": {
+		"SorceressDownAttack01.png": {
+			"frame": {
+				"x": 0,
+				"y": 0,
+				"w": 240,
+				"h": 48
+			},
+			"rotated": false,
+			"trimmed": false,
+			"spriteSourceSize": {
+				"x": 0,
+				"y": 0,
+				"w": 240,
+				"h": 48
+			},
+			"sourceSize": {
+				"w": 240,
+				"h": 48
+			}
+		},
+		"SorceressDownAttack02.png": {
+			"frame": {
+				"x": 0,
+				"y": 48,
+				"w": 336,
+				"h": 48
+			},
+			"rotated": false,
+			"trimmed": false,
+			"spriteSourceSize": {
+				"x": 0,
+				"y": 0,
+				"w": 336,
+				"h": 48
+			},
+			"sourceSize": {
+				"w": 336,
+				"h": 48
+			}
+		},
+		"SorceressDownAttack03.png": {
+			"frame": {
+				"x": 0,
+				"y": 96,
+				"w": 336,
+				"h": 48
+			},
+			"rotated": false,
+			"trimmed": false,
+			"spriteSourceSize": {
+				"x": 0,
+				"y": 0,
+				"w": 336,
+				"h": 48
+			},
+			"sourceSize": {
+				"w": 336,
+				"h": 48
+			}
+		},
+		"SorceressDownClimb.png": {
+			"frame": {
+				"x": 0,
+				"y": 144,
+				"w": 288,
+				"h": 48
+			},
+			"rotated": false,
+			"trimmed": false,
+			"spriteSourceSize": {
+				"x": 0,
+				"y": 0,
+				"w": 288,
+				"h": 48
+			},
+			"sourceSize": {
+				"w": 288,
+				"h": 48
+			}
+		},
+		"SorceressDownDeath.png": {
+			"frame": {
+				"x": 0,
+				"y": 192,
+				"w": 480,
+				"h": 48
+			},
+			"rotated": false,
+			"trimmed": false,
+			"spriteSourceSize": {
+				"x": 0,
+				"y": 0,
+				"w": 480,
+				"h": 48
+			},
+			"sourceSize": {
+				"w": 480,
+				"h": 48
+			}
+		},
+		"SorceressDownHurt.png": {
+			"frame": {
+				"x": 0,
+				"y": 240,
+				"w": 192,
+				"h": 48
+			},
+			"rotated": false,
+			"trimmed": false,
+			"spriteSourceSize": {
+				"x": 0,
+				"y": 0,
+				"w": 192,
+				"h": 48
+			},
+			"sourceSize": {
+				"w": 192,
+				"h": 48
+			}
+		},
+		"SorceressDownIdle.png": {
+			"frame": {
+				"x": 0,
+				"y": 288,
+				"w": 288,
+				"h": 48
+			},
+			"rotated": false,
+			"trimmed": false,
+			"spriteSourceSize": {
+				"x": 0,
+				"y": 0,
+				"w": 288,
+				"h": 48
+			},
+			"sourceSize": {
+				"w": 288,
+				"h": 48
+			}
+		},
+		"SorceressDownJump.png": {
+			"frame": {
+				"x": 0,
+				"y": 336,
+				"w": 192,
+				"h": 48
+			},
+			"rotated": false,
+			"trimmed": false,
+			"spriteSourceSize": {
+				"x": 0,
+				"y": 0,
+				"w": 192,
+				"h": 48
+			},
+			"sourceSize": {
+				"w": 192,
+				"h": 48
+			}
+		},
+		"SorceressDownLand.png": {
+			"frame": {
+				"x": 0,
+				"y": 384,
+				"w": 192,
+				"h": 48
+			},
+			"rotated": false,
+			"trimmed": false,
+			"spriteSourceSize": {
+				"x": 0,
+				"y": 0,
+				"w": 192,
+				"h": 48
+			},
+			"sourceSize": {
+				"w": 192,
+				"h": 48
+			}
+		},
+		"SorceressDownWalk.png": {
+			"frame": {
+				"x": 0,
+				"y": 432,
+				"w": 288,
+				"h": 48
+			},
+			"rotated": false,
+			"trimmed": false,
+			"spriteSourceSize": {
+				"x": 0,
+				"y": 0,
+				"w": 288,
+				"h": 48
+			},
+			"sourceSize": {
+				"w": 288,
+				"h": 48
+			}
+		},
+		"SorceressLeftAttack01.png": {
+			"frame": {
+				"x": 0,
+				"y": 480,
+				"w": 240,
+				"h": 48
+			},
+			"rotated": false,
+			"trimmed": false,
+			"spriteSourceSize": {
+				"x": 0,
+				"y": 0,
+				"w": 240,
+				"h": 48
+			},
+			"sourceSize": {
+				"w": 240,
+				"h": 48
+			}
+		},
+		"SorceressLeftAttack02.png": {
+			"frame": {
+				"x": 0,
+				"y": 528,
+				"w": 336,
+				"h": 48
+			},
+			"rotated": false,
+			"trimmed": false,
+			"spriteSourceSize": {
+				"x": 0,
+				"y": 0,
+				"w": 336,
+				"h": 48
+			},
+			"sourceSize": {
+				"w": 336,
+				"h": 48
+			}
+		},
+		"SorceressLeftAttack03.png": {
+			"frame": {
+				"x": 0,
+				"y": 576,
+				"w": 336,
+				"h": 48
+			},
+			"rotated": false,
+			"trimmed": false,
+			"spriteSourceSize": {
+				"x": 0,
+				"y": 0,
+				"w": 336,
+				"h": 48
+			},
+			"sourceSize": {
+				"w": 336,
+				"h": 48
+			}
+		},
+		"SorceressLeftClimb.png": {
+			"frame": {
+				"x": 0,
+				"y": 624,
+				"w": 288,
+				"h": 48
+			},
+			"rotated": false,
+			"trimmed": false,
+			"spriteSourceSize": {
+				"x": 0,
+				"y": 0,
+				"w": 288,
+				"h": 48
+			},
+			"sourceSize": {
+				"w": 288,
+				"h": 48
+			}
+		},
+		"SorceressLeftDeath.png": {
+			"frame": {
+				"x": 0,
+				"y": 672,
+				"w": 480,
+				"h": 48
+			},
+			"rotated": false,
+			"trimmed": false,
+			"spriteSourceSize": {
+				"x": 0,
+				"y": 0,
+				"w": 480,
+				"h": 48
+			},
+			"sourceSize": {
+				"w": 480,
+				"h": 48
+			}
+		},
+		"SorceressLeftHurt.png": {
+			"frame": {
+				"x": 0,
+				"y": 720,
+				"w": 192,
+				"h": 48
+			},
+			"rotated": false,
+			"trimmed": false,
+			"spriteSourceSize": {
+				"x": 0,
+				"y": 0,
+				"w": 192,
+				"h": 48
+			},
+			"sourceSize": {
+				"w": 192,
+				"h": 48
+			}
+		},
+		"SorceressLeftIdle.png": {
+			"frame": {
+				"x": 0,
+				"y": 768,
+				"w": 288,
+				"h": 48
+			},
+			"rotated": false,
+			"trimmed": false,
+			"spriteSourceSize": {
+				"x": 0,
+				"y": 0,
+				"w": 288,
+				"h": 48
+			},
+			"sourceSize": {
+				"w": 288,
+				"h": 48
+			}
+		},
+		"SorceressLeftJump.png": {
+			"frame": {
+				"x": 0,
+				"y": 816,
+				"w": 192,
+				"h": 48
+			},
+			"rotated": false,
+			"trimmed": false,
+			"spriteSourceSize": {
+				"x": 0,
+				"y": 0,
+				"w": 192,
+				"h": 48
+			},
+			"sourceSize": {
+				"w": 192,
+				"h": 48
+			}
+		},
+		"SorceressLeftLand.png": {
+			"frame": {
+				"x": 0,
+				"y": 864,
+				"w": 192,
+				"h": 48
+			},
+			"rotated": false,
+			"trimmed": false,
+			"spriteSourceSize": {
+				"x": 0,
+				"y": 0,
+				"w": 192,
+				"h": 48
+			},
+			"sourceSize": {
+				"w": 192,
+				"h": 48
+			}
+		},
+		"SorceressLeftWalk.png": {
+			"frame": {
+				"x": 0,
+				"y": 912,
+				"w": 288,
+				"h": 48
+			},
+			"rotated": false,
+			"trimmed": false,
+			"spriteSourceSize": {
+				"x": 0,
+				"y": 0,
+				"w": 288,
+				"h": 48
+			},
+			"sourceSize": {
+				"w": 288,
+				"h": 48
+			}
+		},
+		"SorceressRighAttack01.png": {
+			"frame": {
+				"x": 0,
+				"y": 960,
+				"w": 240,
+				"h": 48
+			},
+			"rotated": false,
+			"trimmed": false,
+			"spriteSourceSize": {
+				"x": 0,
+				"y": 0,
+				"w": 240,
+				"h": 48
+			},
+			"sourceSize": {
+				"w": 240,
+				"h": 48
+			}
+		},
+		"SorceressRightAttack02.png": {
+			"frame": {
+				"x": 0,
+				"y": 1008,
+				"w": 336,
+				"h": 48
+			},
+			"rotated": false,
+			"trimmed": false,
+			"spriteSourceSize": {
+				"x": 0,
+				"y": 0,
+				"w": 336,
+				"h": 48
+			},
+			"sourceSize": {
+				"w": 336,
+				"h": 48
+			}
+		},
+		"SorceressRightAttack03.png": {
+			"frame": {
+				"x": 0,
+				"y": 1056,
+				"w": 336,
+				"h": 48
+			},
+			"rotated": false,
+			"trimmed": false,
+			"spriteSourceSize": {
+				"x": 0,
+				"y": 0,
+				"w": 336,
+				"h": 48
+			},
+			"sourceSize": {
+				"w": 336,
+				"h": 48
+			}
+		},
+		"SorceressRightClimb.png": {
+			"frame": {
+				"x": 0,
+				"y": 1104,
+				"w": 288,
+				"h": 48
+			},
+			"rotated": false,
+			"trimmed": false,
+			"spriteSourceSize": {
+				"x": 0,
+				"y": 0,
+				"w": 288,
+				"h": 48
+			},
+			"sourceSize": {
+				"w": 288,
+				"h": 48
+			}
+		},
+		"SorceressRightDeath.png": {
+			"frame": {
+				"x": 0,
+				"y": 1152,
+				"w": 480,
+				"h": 48
+			},
+			"rotated": false,
+			"trimmed": false,
+			"spriteSourceSize": {
+				"x": 0,
+				"y": 0,
+				"w": 480,
+				"h": 48
+			},
+			"sourceSize": {
+				"w": 480,
+				"h": 48
+			}
+		},
+		"SorceressRightHurt.png": {
+			"frame": {
+				"x": 0,
+				"y": 1200,
+				"w": 192,
+				"h": 48
+			},
+			"rotated": false,
+			"trimmed": false,
+			"spriteSourceSize": {
+				"x": 0,
+				"y": 0,
+				"w": 192,
+				"h": 48
+			},
+			"sourceSize": {
+				"w": 192,
+				"h": 48
+			}
+		},
+		"SorceressRightIdle.png": {
+			"frame": {
+				"x": 0,
+				"y": 1248,
+				"w": 288,
+				"h": 48
+			},
+			"rotated": false,
+			"trimmed": false,
+			"spriteSourceSize": {
+				"x": 0,
+				"y": 0,
+				"w": 288,
+				"h": 48
+			},
+			"sourceSize": {
+				"w": 288,
+				"h": 48
+			}
+		},
+		"SorceressRightJump.png": {
+			"frame": {
+				"x": 0,
+				"y": 1296,
+				"w": 192,
+				"h": 48
+			},
+			"rotated": false,
+			"trimmed": false,
+			"spriteSourceSize": {
+				"x": 0,
+				"y": 0,
+				"w": 192,
+				"h": 48
+			},
+			"sourceSize": {
+				"w": 192,
+				"h": 48
+			}
+		},
+		"SorceressRightLand.png": {
+			"frame": {
+				"x": 0,
+				"y": 1344,
+				"w": 192,
+				"h": 48
+			},
+			"rotated": false,
+			"trimmed": false,
+			"spriteSourceSize": {
+				"x": 0,
+				"y": 0,
+				"w": 192,
+				"h": 48
+			},
+			"sourceSize": {
+				"w": 192,
+				"h": 48
+			}
+		},
+		"SorceressRightWalk.png": {
+			"frame": {
+				"x": 0,
+				"y": 1392,
+				"w": 288,
+				"h": 48
+			},
+			"rotated": false,
+			"trimmed": false,
+			"spriteSourceSize": {
+				"x": 0,
+				"y": 0,
+				"w": 288,
+				"h": 48
+			},
+			"sourceSize": {
+				"w": 288,
+				"h": 48
+			}
+		},
+		"SorceressUpAttack01.png": {
+			"frame": {
+				"x": 0,
+				"y": 1440,
+				"w": 240,
+				"h": 48
+			},
+			"rotated": false,
+			"trimmed": false,
+			"spriteSourceSize": {
+				"x": 0,
+				"y": 0,
+				"w": 240,
+				"h": 48
+			},
+			"sourceSize": {
+				"w": 240,
+				"h": 48
+			}
+		},
+		"SorceressUpAttack02.png": {
+			"frame": {
+				"x": 0,
+				"y": 1488,
+				"w": 336,
+				"h": 48
+			},
+			"rotated": false,
+			"trimmed": false,
+			"spriteSourceSize": {
+				"x": 0,
+				"y": 0,
+				"w": 336,
+				"h": 48
+			},
+			"sourceSize": {
+				"w": 336,
+				"h": 48
+			}
+		},
+		"SorceressUpAttack03.png": {
+			"frame": {
+				"x": 0,
+				"y": 1536,
+				"w": 336,
+				"h": 48
+			},
+			"rotated": false,
+			"trimmed": false,
+			"spriteSourceSize": {
+				"x": 0,
+				"y": 0,
+				"w": 336,
+				"h": 48
+			},
+			"sourceSize": {
+				"w": 336,
+				"h": 48
+			}
+		},
+		"SorceressUpClimb.png": {
+			"frame": {
+				"x": 0,
+				"y": 1584,
+				"w": 288,
+				"h": 48
+			},
+			"rotated": false,
+			"trimmed": false,
+			"spriteSourceSize": {
+				"x": 0,
+				"y": 0,
+				"w": 288,
+				"h": 48
+			},
+			"sourceSize": {
+				"w": 288,
+				"h": 48
+			}
+		},
+		"SorceressUpDeath.png": {
+			"frame": {
+				"x": 0,
+				"y": 1632,
+				"w": 480,
+				"h": 48
+			},
+			"rotated": false,
+			"trimmed": false,
+			"spriteSourceSize": {
+				"x": 0,
+				"y": 0,
+				"w": 480,
+				"h": 48
+			},
+			"sourceSize": {
+				"w": 480,
+				"h": 48
+			}
+		},
+		"SorceressUpHurt.png": {
+			"frame": {
+				"x": 0,
+				"y": 1680,
+				"w": 192,
+				"h": 48
+			},
+			"rotated": false,
+			"trimmed": false,
+			"spriteSourceSize": {
+				"x": 0,
+				"y": 0,
+				"w": 192,
+				"h": 48
+			},
+			"sourceSize": {
+				"w": 192,
+				"h": 48
+			}
+		},
+		"SorceressUpIdle.png": {
+			"frame": {
+				"x": 0,
+				"y": 1728,
+				"w": 288,
+				"h": 48
+			},
+			"rotated": false,
+			"trimmed": false,
+			"spriteSourceSize": {
+				"x": 0,
+				"y": 0,
+				"w": 288,
+				"h": 48
+			},
+			"sourceSize": {
+				"w": 288,
+				"h": 48
+			}
+		},
+		"SorceressUpJump.png": {
+			"frame": {
+				"x": 0,
+				"y": 1776,
+				"w": 192,
+				"h": 48
+			},
+			"rotated": false,
+			"trimmed": false,
+			"spriteSourceSize": {
+				"x": 0,
+				"y": 0,
+				"w": 192,
+				"h": 48
+			},
+			"sourceSize": {
+				"w": 192,
+				"h": 48
+			}
+		},
+		"SorceressUpLand.png": {
+			"frame": {
+				"x": 0,
+				"y": 1824,
+				"w": 192,
+				"h": 48
+			},
+			"rotated": false,
+			"trimmed": false,
+			"spriteSourceSize": {
+				"x": 0,
+				"y": 0,
+				"w": 192,
+				"h": 48
+			},
+			"sourceSize": {
+				"w": 192,
+				"h": 48
+			}
+		},
+		"SorceressUpWalk.png": {
+			"frame": {
+				"x": 0,
+				"y": 1872,
+				"w": 288,
+				"h": 48
+			},
+			"rotated": false,
+			"trimmed": false,
+			"spriteSourceSize": {
+				"x": 0,
+				"y": 0,
+				"w": 288,
+				"h": 48
+			},
+			"sourceSize": {
+				"w": 288,
+				"h": 48
+			}
+		}
+	},
+	"meta": {
+		"app": "http://www.codeandweb.com/texturepacker",
+		"version": "1.0",
+		"image": "spritesheet.png",
+		"format": "RGBA8888",
+		"size": {
+			"w": 480,
+			"h": 1920
+		},
+		"scale": "1"
+	}
+}

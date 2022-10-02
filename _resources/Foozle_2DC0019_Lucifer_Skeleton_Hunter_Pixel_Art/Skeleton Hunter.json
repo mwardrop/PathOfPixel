@@ -1,0 +1,575 @@
+{
+	"frames": {
+		"SkeletonWithBowDownAttack01.png": {
+			"frame": {
+				"x": 0,
+				"y": 0,
+				"w": 576,
+				"h": 48
+			},
+			"rotated": false,
+			"trimmed": false,
+			"spriteSourceSize": {
+				"x": 0,
+				"y": 0,
+				"w": 576,
+				"h": 48
+			},
+			"sourceSize": {
+				"w": 576,
+				"h": 48
+			}
+		},
+		"SkeletonWithBowDownDeath.png": {
+			"frame": {
+				"x": 0,
+				"y": 48,
+				"w": 384,
+				"h": 48
+			},
+			"rotated": false,
+			"trimmed": false,
+			"spriteSourceSize": {
+				"x": 0,
+				"y": 0,
+				"w": 384,
+				"h": 48
+			},
+			"sourceSize": {
+				"w": 384,
+				"h": 48
+			}
+		},
+		"SkeletonWithBowDownHurt.png": {
+			"frame": {
+				"x": 0,
+				"y": 96,
+				"w": 192,
+				"h": 48
+			},
+			"rotated": false,
+			"trimmed": false,
+			"spriteSourceSize": {
+				"x": 0,
+				"y": 0,
+				"w": 192,
+				"h": 48
+			},
+			"sourceSize": {
+				"w": 192,
+				"h": 48
+			}
+		},
+		"SkeletonWithBowDownIdle.png": {
+			"frame": {
+				"x": 0,
+				"y": 144,
+				"w": 288,
+				"h": 48
+			},
+			"rotated": false,
+			"trimmed": false,
+			"spriteSourceSize": {
+				"x": 0,
+				"y": 0,
+				"w": 288,
+				"h": 48
+			},
+			"sourceSize": {
+				"w": 288,
+				"h": 48
+			}
+		},
+		"SkeletonWithBowDownJump.png": {
+			"frame": {
+				"x": 0,
+				"y": 192,
+				"w": 192,
+				"h": 48
+			},
+			"rotated": false,
+			"trimmed": false,
+			"spriteSourceSize": {
+				"x": 0,
+				"y": 0,
+				"w": 192,
+				"h": 48
+			},
+			"sourceSize": {
+				"w": 192,
+				"h": 48
+			}
+		},
+		"SkeletonWithBowDownLand.png": {
+			"frame": {
+				"x": 0,
+				"y": 240,
+				"w": 192,
+				"h": 48
+			},
+			"rotated": false,
+			"trimmed": false,
+			"spriteSourceSize": {
+				"x": 0,
+				"y": 0,
+				"w": 192,
+				"h": 48
+			},
+			"sourceSize": {
+				"w": 192,
+				"h": 48
+			}
+		},
+		"SkeletonWithBowDownWalk.png": {
+			"frame": {
+				"x": 0,
+				"y": 288,
+				"w": 288,
+				"h": 48
+			},
+			"rotated": false,
+			"trimmed": false,
+			"spriteSourceSize": {
+				"x": 0,
+				"y": 0,
+				"w": 288,
+				"h": 48
+			},
+			"sourceSize": {
+				"w": 288,
+				"h": 48
+			}
+		},
+		"SkeletonWithBowLeftAttack01.png": {
+			"frame": {
+				"x": 0,
+				"y": 336,
+				"w": 576,
+				"h": 48
+			},
+			"rotated": false,
+			"trimmed": false,
+			"spriteSourceSize": {
+				"x": 0,
+				"y": 0,
+				"w": 576,
+				"h": 48
+			},
+			"sourceSize": {
+				"w": 576,
+				"h": 48
+			}
+		},
+		"SkeletonWithBowLeftDeath.png": {
+			"frame": {
+				"x": 0,
+				"y": 384,
+				"w": 384,
+				"h": 48
+			},
+			"rotated": false,
+			"trimmed": false,
+			"spriteSourceSize": {
+				"x": 0,
+				"y": 0,
+				"w": 384,
+				"h": 48
+			},
+			"sourceSize": {
+				"w": 384,
+				"h": 48
+			}
+		},
+		"SkeletonWithBowLeftHurt.png": {
+			"frame": {
+				"x": 0,
+				"y": 432,
+				"w": 192,
+				"h": 48
+			},
+			"rotated": false,
+			"trimmed": false,
+			"spriteSourceSize": {
+				"x": 0,
+				"y": 0,
+				"w": 192,
+				"h": 48
+			},
+			"sourceSize": {
+				"w": 192,
+				"h": 48
+			}
+		},
+		"SkeletonWithBowLeftIdle.png": {
+			"frame": {
+				"x": 0,
+				"y": 480,
+				"w": 288,
+				"h": 48
+			},
+			"rotated": false,
+			"trimmed": false,
+			"spriteSourceSize": {
+				"x": 0,
+				"y": 0,
+				"w": 288,
+				"h": 48
+			},
+			"sourceSize": {
+				"w": 288,
+				"h": 48
+			}
+		},
+		"SkeletonWithBowLeftJump.png": {
+			"frame": {
+				"x": 0,
+				"y": 528,
+				"w": 192,
+				"h": 48
+			},
+			"rotated": false,
+			"trimmed": false,
+			"spriteSourceSize": {
+				"x": 0,
+				"y": 0,
+				"w": 192,
+				"h": 48
+			},
+			"sourceSize": {
+				"w": 192,
+				"h": 48
+			}
+		},
+		"SkeletonWithBowLeftLand.png": {
+			"frame": {
+				"x": 0,
+				"y": 576,
+				"w": 192,
+				"h": 48
+			},
+			"rotated": false,
+			"trimmed": false,
+			"spriteSourceSize": {
+				"x": 0,
+				"y": 0,
+				"w": 192,
+				"h": 48
+			},
+			"sourceSize": {
+				"w": 192,
+				"h": 48
+			}
+		},
+		"SkeletonWithBowLeftWalk.png": {
+			"frame": {
+				"x": 0,
+				"y": 624,
+				"w": 288,
+				"h": 48
+			},
+			"rotated": false,
+			"trimmed": false,
+			"spriteSourceSize": {
+				"x": 0,
+				"y": 0,
+				"w": 288,
+				"h": 48
+			},
+			"sourceSize": {
+				"w": 288,
+				"h": 48
+			}
+		},
+		"SkeletonWithBowRightAttack01.png": {
+			"frame": {
+				"x": 0,
+				"y": 672,
+				"w": 576,
+				"h": 48
+			},
+			"rotated": false,
+			"trimmed": false,
+			"spriteSourceSize": {
+				"x": 0,
+				"y": 0,
+				"w": 576,
+				"h": 48
+			},
+			"sourceSize": {
+				"w": 576,
+				"h": 48
+			}
+		},
+		"SkeletonWithBowRightDeath.png": {
+			"frame": {
+				"x": 0,
+				"y": 720,
+				"w": 384,
+				"h": 48
+			},
+			"rotated": false,
+			"trimmed": false,
+			"spriteSourceSize": {
+				"x": 0,
+				"y": 0,
+				"w": 384,
+				"h": 48
+			},
+			"sourceSize": {
+				"w": 384,
+				"h": 48
+			}
+		},
+		"SkeletonWithBowRightHurt.png": {
+			"frame": {
+				"x": 0,
+				"y": 768,
+				"w": 192,
+				"h": 48
+			},
+			"rotated": false,
+			"trimmed": false,
+			"spriteSourceSize": {
+				"x": 0,
+				"y": 0,
+				"w": 192,
+				"h": 48
+			},
+			"sourceSize": {
+				"w": 192,
+				"h": 48
+			}
+		},
+		"SkeletonWithBowRightIdle.png": {
+			"frame": {
+				"x": 0,
+				"y": 816,
+				"w": 288,
+				"h": 48
+			},
+			"rotated": false,
+			"trimmed": false,
+			"spriteSourceSize": {
+				"x": 0,
+				"y": 0,
+				"w": 288,
+				"h": 48
+			},
+			"sourceSize": {
+				"w": 288,
+				"h": 48
+			}
+		},
+		"SkeletonWithBowRightJump.png": {
+			"frame": {
+				"x": 0,
+				"y": 864,
+				"w": 192,
+				"h": 48
+			},
+			"rotated": false,
+			"trimmed": false,
+			"spriteSourceSize": {
+				"x": 0,
+				"y": 0,
+				"w": 192,
+				"h": 48
+			},
+			"sourceSize": {
+				"w": 192,
+				"h": 48
+			}
+		},
+		"SkeletonWithBowRightLand.png": {
+			"frame": {
+				"x": 0,
+				"y": 912,
+				"w": 192,
+				"h": 48
+			},
+			"rotated": false,
+			"trimmed": false,
+			"spriteSourceSize": {
+				"x": 0,
+				"y": 0,
+				"w": 192,
+				"h": 48
+			},
+			"sourceSize": {
+				"w": 192,
+				"h": 48
+			}
+		},
+		"SkeletonWithBowRightWalk.png": {
+			"frame": {
+				"x": 0,
+				"y": 960,
+				"w": 288,
+				"h": 48
+			},
+			"rotated": false,
+			"trimmed": false,
+			"spriteSourceSize": {
+				"x": 0,
+				"y": 0,
+				"w": 288,
+				"h": 48
+			},
+			"sourceSize": {
+				"w": 288,
+				"h": 48
+			}
+		},
+		"SkeletonWithBowUpAttack01.png": {
+			"frame": {
+				"x": 0,
+				"y": 1008,
+				"w": 576,
+				"h": 48
+			},
+			"rotated": false,
+			"trimmed": false,
+			"spriteSourceSize": {
+				"x": 0,
+				"y": 0,
+				"w": 576,
+				"h": 48
+			},
+			"sourceSize": {
+				"w": 576,
+				"h": 48
+			}
+		},
+		"SkeletonWithBowUpDeath.png": {
+			"frame": {
+				"x": 0,
+				"y": 1056,
+				"w": 384,
+				"h": 48
+			},
+			"rotated": false,
+			"trimmed": false,
+			"spriteSourceSize": {
+				"x": 0,
+				"y": 0,
+				"w": 384,
+				"h": 48
+			},
+			"sourceSize": {
+				"w": 384,
+				"h": 48
+			}
+		},
+		"SkeletonWithBowUpHurt.png": {
+			"frame": {
+				"x": 0,
+				"y": 1104,
+				"w": 192,
+				"h": 48
+			},
+			"rotated": false,
+			"trimmed": false,
+			"spriteSourceSize": {
+				"x": 0,
+				"y": 0,
+				"w": 192,
+				"h": 48
+			},
+			"sourceSize": {
+				"w": 192,
+				"h": 48
+			}
+		},
+		"SkeletonWithBowUpIdle.png": {
+			"frame": {
+				"x": 0,
+				"y": 1152,
+				"w": 288,
+				"h": 48
+			},
+			"rotated": false,
+			"trimmed": false,
+			"spriteSourceSize": {
+				"x": 0,
+				"y": 0,
+				"w": 288,
+				"h": 48
+			},
+			"sourceSize": {
+				"w": 288,
+				"h": 48
+			}
+		},
+		"SkeletonWithBowUpJump.png": {
+			"frame": {
+				"x": 0,
+				"y": 1200,
+				"w": 192,
+				"h": 48
+			},
+			"rotated": false,
+			"trimmed": false,
+			"spriteSourceSize": {
+				"x": 0,
+				"y": 0,
+				"w": 192,
+				"h": 48
+			},
+			"sourceSize": {
+				"w": 192,
+				"h": 48
+			}
+		},
+		"SkeletonWithBowUpLand.png": {
+			"frame": {
+				"x": 0,
+				"y": 1248,
+				"w": 192,
+				"h": 48
+			},
+			"rotated": false,
+			"trimmed": false,
+			"spriteSourceSize": {
+				"x": 0,
+				"y": 0,
+				"w": 192,
+				"h": 48
+			},
+			"sourceSize": {
+				"w": 192,
+				"h": 48
+			}
+		},
+		"SkeletonWithSBowUpWalk.png": {
+			"frame": {
+				"x": 0,
+				"y": 1296,
+				"w": 288,
+				"h": 48
+			},
+			"rotated": false,
+			"trimmed": false,
+			"spriteSourceSize": {
+				"x": 0,
+				"y": 0,
+				"w": 288,
+				"h": 48
+			},
+			"sourceSize": {
+				"w": 288,
+				"h": 48
+			}
+		}
+	},
+	"meta": {
+		"app": "http://www.codeandweb.com/texturepacker",
+		"version": "1.0",
+		"image": "spritesheet.png",
+		"format": "RGBA8888",
+		"size": {
+			"w": 576,
+			"h": 1344
+		},
+		"scale": "1"
+	}
+}

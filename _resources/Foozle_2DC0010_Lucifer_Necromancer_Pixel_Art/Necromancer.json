@@ -1,0 +1,815 @@
+{
+	"frames": {
+		"NecromancerDownAttack01.png": {
+			"frame": {
+				"x": 0,
+				"y": 0,
+				"w": 336,
+				"h": 48
+			},
+			"rotated": false,
+			"trimmed": false,
+			"spriteSourceSize": {
+				"x": 0,
+				"y": 0,
+				"w": 336,
+				"h": 48
+			},
+			"sourceSize": {
+				"w": 336,
+				"h": 48
+			}
+		},
+		"NecromancerDownAttack02.png": {
+			"frame": {
+				"x": 0,
+				"y": 48,
+				"w": 336,
+				"h": 48
+			},
+			"rotated": false,
+			"trimmed": false,
+			"spriteSourceSize": {
+				"x": 0,
+				"y": 0,
+				"w": 336,
+				"h": 48
+			},
+			"sourceSize": {
+				"w": 336,
+				"h": 48
+			}
+		},
+		"NecromancerDownAttack03.png": {
+			"frame": {
+				"x": 0,
+				"y": 96,
+				"w": 576,
+				"h": 48
+			},
+			"rotated": false,
+			"trimmed": false,
+			"spriteSourceSize": {
+				"x": 0,
+				"y": 0,
+				"w": 576,
+				"h": 48
+			},
+			"sourceSize": {
+				"w": 576,
+				"h": 48
+			}
+		},
+		"NecromancerDownClimb.png": {
+			"frame": {
+				"x": 0,
+				"y": 144,
+				"w": 288,
+				"h": 48
+			},
+			"rotated": false,
+			"trimmed": false,
+			"spriteSourceSize": {
+				"x": 0,
+				"y": 0,
+				"w": 288,
+				"h": 48
+			},
+			"sourceSize": {
+				"w": 288,
+				"h": 48
+			}
+		},
+		"NecromancerDownDeath.png": {
+			"frame": {
+				"x": 0,
+				"y": 192,
+				"w": 528,
+				"h": 48
+			},
+			"rotated": false,
+			"trimmed": false,
+			"spriteSourceSize": {
+				"x": 0,
+				"y": 0,
+				"w": 528,
+				"h": 48
+			},
+			"sourceSize": {
+				"w": 528,
+				"h": 48
+			}
+		},
+		"NecromancerDownHurt.png": {
+			"frame": {
+				"x": 0,
+				"y": 240,
+				"w": 192,
+				"h": 48
+			},
+			"rotated": false,
+			"trimmed": false,
+			"spriteSourceSize": {
+				"x": 0,
+				"y": 0,
+				"w": 192,
+				"h": 48
+			},
+			"sourceSize": {
+				"w": 192,
+				"h": 48
+			}
+		},
+		"NecromancerDownIdle.png": {
+			"frame": {
+				"x": 0,
+				"y": 288,
+				"w": 288,
+				"h": 48
+			},
+			"rotated": false,
+			"trimmed": false,
+			"spriteSourceSize": {
+				"x": 0,
+				"y": 0,
+				"w": 288,
+				"h": 48
+			},
+			"sourceSize": {
+				"w": 288,
+				"h": 48
+			}
+		},
+		"NecromancerDownJump.png": {
+			"frame": {
+				"x": 0,
+				"y": 336,
+				"w": 240,
+				"h": 48
+			},
+			"rotated": false,
+			"trimmed": false,
+			"spriteSourceSize": {
+				"x": 0,
+				"y": 0,
+				"w": 240,
+				"h": 48
+			},
+			"sourceSize": {
+				"w": 240,
+				"h": 48
+			}
+		},
+		"NecromancerDownLand.png": {
+			"frame": {
+				"x": 0,
+				"y": 384,
+				"w": 240,
+				"h": 48
+			},
+			"rotated": false,
+			"trimmed": false,
+			"spriteSourceSize": {
+				"x": 0,
+				"y": 0,
+				"w": 240,
+				"h": 48
+			},
+			"sourceSize": {
+				"w": 240,
+				"h": 48
+			}
+		},
+		"NecromancerDownWalk.png": {
+			"frame": {
+				"x": 0,
+				"y": 432,
+				"w": 288,
+				"h": 48
+			},
+			"rotated": false,
+			"trimmed": false,
+			"spriteSourceSize": {
+				"x": 0,
+				"y": 0,
+				"w": 288,
+				"h": 48
+			},
+			"sourceSize": {
+				"w": 288,
+				"h": 48
+			}
+		},
+		"NecromancerLeftAttack01.png": {
+			"frame": {
+				"x": 0,
+				"y": 480,
+				"w": 336,
+				"h": 48
+			},
+			"rotated": false,
+			"trimmed": false,
+			"spriteSourceSize": {
+				"x": 0,
+				"y": 0,
+				"w": 336,
+				"h": 48
+			},
+			"sourceSize": {
+				"w": 336,
+				"h": 48
+			}
+		},
+		"NecromancerLeftAttack02.png": {
+			"frame": {
+				"x": 0,
+				"y": 528,
+				"w": 336,
+				"h": 48
+			},
+			"rotated": false,
+			"trimmed": false,
+			"spriteSourceSize": {
+				"x": 0,
+				"y": 0,
+				"w": 336,
+				"h": 48
+			},
+			"sourceSize": {
+				"w": 336,
+				"h": 48
+			}
+		},
+		"NecromancerLeftAttack03.png": {
+			"frame": {
+				"x": 0,
+				"y": 576,
+				"w": 576,
+				"h": 48
+			},
+			"rotated": false,
+			"trimmed": false,
+			"spriteSourceSize": {
+				"x": 0,
+				"y": 0,
+				"w": 576,
+				"h": 48
+			},
+			"sourceSize": {
+				"w": 576,
+				"h": 48
+			}
+		},
+		"NecromancerLeftClimb.png": {
+			"frame": {
+				"x": 0,
+				"y": 624,
+				"w": 288,
+				"h": 48
+			},
+			"rotated": false,
+			"trimmed": false,
+			"spriteSourceSize": {
+				"x": 0,
+				"y": 0,
+				"w": 288,
+				"h": 48
+			},
+			"sourceSize": {
+				"w": 288,
+				"h": 48
+			}
+		},
+		"NecromancerLeftDeath.png": {
+			"frame": {
+				"x": 0,
+				"y": 672,
+				"w": 528,
+				"h": 48
+			},
+			"rotated": false,
+			"trimmed": false,
+			"spriteSourceSize": {
+				"x": 0,
+				"y": 0,
+				"w": 528,
+				"h": 48
+			},
+			"sourceSize": {
+				"w": 528,
+				"h": 48
+			}
+		},
+		"NecromancerLeftHurt.png": {
+			"frame": {
+				"x": 0,
+				"y": 720,
+				"w": 192,
+				"h": 48
+			},
+			"rotated": false,
+			"trimmed": false,
+			"spriteSourceSize": {
+				"x": 0,
+				"y": 0,
+				"w": 192,
+				"h": 48
+			},
+			"sourceSize": {
+				"w": 192,
+				"h": 48
+			}
+		},
+		"NecromancerLeftIdle.png": {
+			"frame": {
+				"x": 0,
+				"y": 768,
+				"w": 288,
+				"h": 48
+			},
+			"rotated": false,
+			"trimmed": false,
+			"spriteSourceSize": {
+				"x": 0,
+				"y": 0,
+				"w": 288,
+				"h": 48
+			},
+			"sourceSize": {
+				"w": 288,
+				"h": 48
+			}
+		},
+		"NecromancerLeftJump.png": {
+			"frame": {
+				"x": 0,
+				"y": 816,
+				"w": 240,
+				"h": 48
+			},
+			"rotated": false,
+			"trimmed": false,
+			"spriteSourceSize": {
+				"x": 0,
+				"y": 0,
+				"w": 240,
+				"h": 48
+			},
+			"sourceSize": {
+				"w": 240,
+				"h": 48
+			}
+		},
+		"NecromancerLeftLand.png": {
+			"frame": {
+				"x": 0,
+				"y": 864,
+				"w": 240,
+				"h": 48
+			},
+			"rotated": false,
+			"trimmed": false,
+			"spriteSourceSize": {
+				"x": 0,
+				"y": 0,
+				"w": 240,
+				"h": 48
+			},
+			"sourceSize": {
+				"w": 240,
+				"h": 48
+			}
+		},
+		"NecromancerLeftWalk.png": {
+			"frame": {
+				"x": 0,
+				"y": 912,
+				"w": 288,
+				"h": 48
+			},
+			"rotated": false,
+			"trimmed": false,
+			"spriteSourceSize": {
+				"x": 0,
+				"y": 0,
+				"w": 288,
+				"h": 48
+			},
+			"sourceSize": {
+				"w": 288,
+				"h": 48
+			}
+		},
+		"NecromancerRightAttack01.png": {
+			"frame": {
+				"x": 0,
+				"y": 960,
+				"w": 336,
+				"h": 48
+			},
+			"rotated": false,
+			"trimmed": false,
+			"spriteSourceSize": {
+				"x": 0,
+				"y": 0,
+				"w": 336,
+				"h": 48
+			},
+			"sourceSize": {
+				"w": 336,
+				"h": 48
+			}
+		},
+		"NecromancerRightAttack02.png": {
+			"frame": {
+				"x": 0,
+				"y": 1008,
+				"w": 336,
+				"h": 48
+			},
+			"rotated": false,
+			"trimmed": false,
+			"spriteSourceSize": {
+				"x": 0,
+				"y": 0,
+				"w": 336,
+				"h": 48
+			},
+			"sourceSize": {
+				"w": 336,
+				"h": 48
+			}
+		},
+		"NecromancerRightAttack03.png": {
+			"frame": {
+				"x": 0,
+				"y": 1056,
+				"w": 576,
+				"h": 48
+			},
+			"rotated": false,
+			"trimmed": false,
+			"spriteSourceSize": {
+				"x": 0,
+				"y": 0,
+				"w": 576,
+				"h": 48
+			},
+			"sourceSize": {
+				"w": 576,
+				"h": 48
+			}
+		},
+		"NecromancerRightClimb.png": {
+			"frame": {
+				"x": 0,
+				"y": 1104,
+				"w": 288,
+				"h": 48
+			},
+			"rotated": false,
+			"trimmed": false,
+			"spriteSourceSize": {
+				"x": 0,
+				"y": 0,
+				"w": 288,
+				"h": 48
+			},
+			"sourceSize": {
+				"w": 288,
+				"h": 48
+			}
+		},
+		"NecromancerRightDeath.png": {
+			"frame": {
+				"x": 0,
+				"y": 1152,
+				"w": 528,
+				"h": 48
+			},
+			"rotated": false,
+			"trimmed": false,
+			"spriteSourceSize": {
+				"x": 0,
+				"y": 0,
+				"w": 528,
+				"h": 48
+			},
+			"sourceSize": {
+				"w": 528,
+				"h": 48
+			}
+		},
+		"NecromancerRightHurt.png": {
+			"frame": {
+				"x": 0,
+				"y": 1200,
+				"w": 192,
+				"h": 48
+			},
+			"rotated": false,
+			"trimmed": false,
+			"spriteSourceSize": {
+				"x": 0,
+				"y": 0,
+				"w": 192,
+				"h": 48
+			},
+			"sourceSize": {
+				"w": 192,
+				"h": 48
+			}
+		},
+		"NecromancerRightIdle.png": {
+			"frame": {
+				"x": 0,
+				"y": 1248,
+				"w": 288,
+				"h": 48
+			},
+			"rotated": false,
+			"trimmed": false,
+			"spriteSourceSize": {
+				"x": 0,
+				"y": 0,
+				"w": 288,
+				"h": 48
+			},
+			"sourceSize": {
+				"w": 288,
+				"h": 48
+			}
+		},
+		"NecromancerRightJump.png": {
+			"frame": {
+				"x": 0,
+				"y": 1296,
+				"w": 240,
+				"h": 48
+			},
+			"rotated": false,
+			"trimmed": false,
+			"spriteSourceSize": {
+				"x": 0,
+				"y": 0,
+				"w": 240,
+				"h": 48
+			},
+			"sourceSize": {
+				"w": 240,
+				"h": 48
+			}
+		},
+		"NecromancerRightLand.png": {
+			"frame": {
+				"x": 0,
+				"y": 1344,
+				"w": 240,
+				"h": 48
+			},
+			"rotated": false,
+			"trimmed": false,
+			"spriteSourceSize": {
+				"x": 0,
+				"y": 0,
+				"w": 240,
+				"h": 48
+			},
+			"sourceSize": {
+				"w": 240,
+				"h": 48
+			}
+		},
+		"NecromancerRightWalk.png": {
+			"frame": {
+				"x": 0,
+				"y": 1392,
+				"w": 288,
+				"h": 48
+			},
+			"rotated": false,
+			"trimmed": false,
+			"spriteSourceSize": {
+				"x": 0,
+				"y": 0,
+				"w": 288,
+				"h": 48
+			},
+			"sourceSize": {
+				"w": 288,
+				"h": 48
+			}
+		},
+		"NecromancerUpAttack01.png": {
+			"frame": {
+				"x": 0,
+				"y": 1440,
+				"w": 336,
+				"h": 48
+			},
+			"rotated": false,
+			"trimmed": false,
+			"spriteSourceSize": {
+				"x": 0,
+				"y": 0,
+				"w": 336,
+				"h": 48
+			},
+			"sourceSize": {
+				"w": 336,
+				"h": 48
+			}
+		},
+		"NecromancerUpAttack02.png": {
+			"frame": {
+				"x": 0,
+				"y": 1488,
+				"w": 336,
+				"h": 48
+			},
+			"rotated": false,
+			"trimmed": false,
+			"spriteSourceSize": {
+				"x": 0,
+				"y": 0,
+				"w": 336,
+				"h": 48
+			},
+			"sourceSize": {
+				"w": 336,
+				"h": 48
+			}
+		},
+		"NecromancerUpAttack03.png": {
+			"frame": {
+				"x": 0,
+				"y": 1536,
+				"w": 576,
+				"h": 48
+			},
+			"rotated": false,
+			"trimmed": false,
+			"spriteSourceSize": {
+				"x": 0,
+				"y": 0,
+				"w": 576,
+				"h": 48
+			},
+			"sourceSize": {
+				"w": 576,
+				"h": 48
+			}
+		},
+		"NecromancerUpClimb.png": {
+			"frame": {
+				"x": 0,
+				"y": 1584,
+				"w": 288,
+				"h": 48
+			},
+			"rotated": false,
+			"trimmed": false,
+			"spriteSourceSize": {
+				"x": 0,
+				"y": 0,
+				"w": 288,
+				"h": 48
+			},
+			"sourceSize": {
+				"w": 288,
+				"h": 48
+			}
+		},
+		"NecromancerUpDeath.png": {
+			"frame": {
+				"x": 0,
+				"y": 1632,
+				"w": 528,
+				"h": 48
+			},
+			"rotated": false,
+			"trimmed": false,
+			"spriteSourceSize": {
+				"x": 0,
+				"y": 0,
+				"w": 528,
+				"h": 48
+			},
+			"sourceSize": {
+				"w": 528,
+				"h": 48
+			}
+		},
+		"NecromancerUpHurt.png": {
+			"frame": {
+				"x": 0,
+				"y": 1680,
+				"w": 192,
+				"h": 48
+			},
+			"rotated": false,
+			"trimmed": false,
+			"spriteSourceSize": {
+				"x": 0,
+				"y": 0,
+				"w": 192,
+				"h": 48
+			},
+			"sourceSize": {
+				"w": 192,
+				"h": 48
+			}
+		},
+		"NecromancerUpIdle.png": {
+			"frame": {
+				"x": 0,
+				"y": 1728,
+				"w": 288,
+				"h": 48
+			},
+			"rotated": false,
+			"trimmed": false,
+			"spriteSourceSize": {
+				"x": 0,
+				"y": 0,
+				"w": 288,
+				"h": 48
+			},
+			"sourceSize": {
+				"w": 288,
+				"h": 48
+			}
+		},
+		"NecromancerUpJump.png": {
+			"frame": {
+				"x": 0,
+				"y": 1776,
+				"w": 240,
+				"h": 48
+			},
+			"rotated": false,
+			"trimmed": false,
+			"spriteSourceSize": {
+				"x": 0,
+				"y": 0,
+				"w": 240,
+				"h": 48
+			},
+			"sourceSize": {
+				"w": 240,
+				"h": 48
+			}
+		},
+		"NecromancerUpLand.png": {
+			"frame": {
+				"x": 0,
+				"y": 1824,
+				"w": 240,
+				"h": 48
+			},
+			"rotated": false,
+			"trimmed": false,
+			"spriteSourceSize": {
+				"x": 0,
+				"y": 0,
+				"w": 240,
+				"h": 48
+			},
+			"sourceSize": {
+				"w": 240,
+				"h": 48
+			}
+		},
+		"NecromancerUpWalk.png": {
+			"frame": {
+				"x": 0,
+				"y": 1872,
+				"w": 288,
+				"h": 48
+			},
+			"rotated": false,
+			"trimmed": false,
+			"spriteSourceSize": {
+				"x": 0,
+				"y": 0,
+				"w": 288,
+				"h": 48
+			},
+			"sourceSize": {
+				"w": 288,
+				"h": 48
+			}
+		}
+	},
+	"meta": {
+		"app": "http://www.codeandweb.com/texturepacker",
+		"version": "1.0",
+		"image": "spritesheet.png",
+		"format": "RGBA8888",
+		"size": {
+			"w": 576,
+			"h": 1920
+		},
+		"scale": "1"
+	}
+}

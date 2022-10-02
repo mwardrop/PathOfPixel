@@ -1,0 +1,735 @@
+{
+	"frames": {
+		"GoblinBeastDownAttack01.png": {
+			"frame": {
+				"x": 0,
+				"y": 0,
+				"w": 512,
+				"h": 64
+			},
+			"rotated": false,
+			"trimmed": false,
+			"spriteSourceSize": {
+				"x": 0,
+				"y": 0,
+				"w": 512,
+				"h": 64
+			},
+			"sourceSize": {
+				"w": 512,
+				"h": 64
+			}
+		},
+		"GoblinBeastDownAttack02.png": {
+			"frame": {
+				"x": 0,
+				"y": 64,
+				"w": 576,
+				"h": 64
+			},
+			"rotated": false,
+			"trimmed": false,
+			"spriteSourceSize": {
+				"x": 0,
+				"y": 0,
+				"w": 576,
+				"h": 64
+			},
+			"sourceSize": {
+				"w": 576,
+				"h": 64
+			}
+		},
+		"GoblinBeastDownAttack03.png": {
+			"frame": {
+				"x": 0,
+				"y": 128,
+				"w": 896,
+				"h": 64
+			},
+			"rotated": false,
+			"trimmed": false,
+			"spriteSourceSize": {
+				"x": 0,
+				"y": 0,
+				"w": 896,
+				"h": 64
+			},
+			"sourceSize": {
+				"w": 896,
+				"h": 64
+			}
+		},
+		"GoblinBeastDownDeath.png": {
+			"frame": {
+				"x": 0,
+				"y": 192,
+				"w": 480,
+				"h": 48
+			},
+			"rotated": false,
+			"trimmed": false,
+			"spriteSourceSize": {
+				"x": 0,
+				"y": 0,
+				"w": 480,
+				"h": 48
+			},
+			"sourceSize": {
+				"w": 480,
+				"h": 48
+			}
+		},
+		"GoblinBeastDownHurt.png": {
+			"frame": {
+				"x": 0,
+				"y": 240,
+				"w": 192,
+				"h": 48
+			},
+			"rotated": false,
+			"trimmed": false,
+			"spriteSourceSize": {
+				"x": 0,
+				"y": 0,
+				"w": 192,
+				"h": 48
+			},
+			"sourceSize": {
+				"w": 192,
+				"h": 48
+			}
+		},
+		"GoblinBeastDownIdle.png": {
+			"frame": {
+				"x": 0,
+				"y": 288,
+				"w": 288,
+				"h": 48
+			},
+			"rotated": false,
+			"trimmed": false,
+			"spriteSourceSize": {
+				"x": 0,
+				"y": 0,
+				"w": 288,
+				"h": 48
+			},
+			"sourceSize": {
+				"w": 288,
+				"h": 48
+			}
+		},
+		"GoblinBeastDownJump.png": {
+			"frame": {
+				"x": 0,
+				"y": 336,
+				"w": 192,
+				"h": 48
+			},
+			"rotated": false,
+			"trimmed": false,
+			"spriteSourceSize": {
+				"x": 0,
+				"y": 0,
+				"w": 192,
+				"h": 48
+			},
+			"sourceSize": {
+				"w": 192,
+				"h": 48
+			}
+		},
+		"GoblinBeastDownLand.png": {
+			"frame": {
+				"x": 0,
+				"y": 384,
+				"w": 192,
+				"h": 48
+			},
+			"rotated": false,
+			"trimmed": false,
+			"spriteSourceSize": {
+				"x": 0,
+				"y": 0,
+				"w": 192,
+				"h": 48
+			},
+			"sourceSize": {
+				"w": 192,
+				"h": 48
+			}
+		},
+		"GoblinBeastDownWalk.png": {
+			"frame": {
+				"x": 0,
+				"y": 432,
+				"w": 288,
+				"h": 48
+			},
+			"rotated": false,
+			"trimmed": false,
+			"spriteSourceSize": {
+				"x": 0,
+				"y": 0,
+				"w": 288,
+				"h": 48
+			},
+			"sourceSize": {
+				"w": 288,
+				"h": 48
+			}
+		},
+		"GoblinBeastLeftAttack01.png": {
+			"frame": {
+				"x": 0,
+				"y": 480,
+				"w": 512,
+				"h": 64
+			},
+			"rotated": false,
+			"trimmed": false,
+			"spriteSourceSize": {
+				"x": 0,
+				"y": 0,
+				"w": 512,
+				"h": 64
+			},
+			"sourceSize": {
+				"w": 512,
+				"h": 64
+			}
+		},
+		"GoblinBeastLeftAttack02.png": {
+			"frame": {
+				"x": 0,
+				"y": 544,
+				"w": 432,
+				"h": 48
+			},
+			"rotated": false,
+			"trimmed": false,
+			"spriteSourceSize": {
+				"x": 0,
+				"y": 0,
+				"w": 432,
+				"h": 48
+			},
+			"sourceSize": {
+				"w": 432,
+				"h": 48
+			}
+		},
+		"GoblinBeastLeftAttack03.png": {
+			"frame": {
+				"x": 0,
+				"y": 592,
+				"w": 672,
+				"h": 48
+			},
+			"rotated": false,
+			"trimmed": false,
+			"spriteSourceSize": {
+				"x": 0,
+				"y": 0,
+				"w": 672,
+				"h": 48
+			},
+			"sourceSize": {
+				"w": 672,
+				"h": 48
+			}
+		},
+		"GoblinBeastLeftDeath.png": {
+			"frame": {
+				"x": 0,
+				"y": 640,
+				"w": 480,
+				"h": 48
+			},
+			"rotated": false,
+			"trimmed": false,
+			"spriteSourceSize": {
+				"x": 0,
+				"y": 0,
+				"w": 480,
+				"h": 48
+			},
+			"sourceSize": {
+				"w": 480,
+				"h": 48
+			}
+		},
+		"GoblinBeastLeftHurt.png": {
+			"frame": {
+				"x": 0,
+				"y": 688,
+				"w": 192,
+				"h": 48
+			},
+			"rotated": false,
+			"trimmed": false,
+			"spriteSourceSize": {
+				"x": 0,
+				"y": 0,
+				"w": 192,
+				"h": 48
+			},
+			"sourceSize": {
+				"w": 192,
+				"h": 48
+			}
+		},
+		"GoblinBeastLeftIdle.png": {
+			"frame": {
+				"x": 0,
+				"y": 736,
+				"w": 288,
+				"h": 48
+			},
+			"rotated": false,
+			"trimmed": false,
+			"spriteSourceSize": {
+				"x": 0,
+				"y": 0,
+				"w": 288,
+				"h": 48
+			},
+			"sourceSize": {
+				"w": 288,
+				"h": 48
+			}
+		},
+		"GoblinBeastLeftJump.png": {
+			"frame": {
+				"x": 0,
+				"y": 784,
+				"w": 192,
+				"h": 48
+			},
+			"rotated": false,
+			"trimmed": false,
+			"spriteSourceSize": {
+				"x": 0,
+				"y": 0,
+				"w": 192,
+				"h": 48
+			},
+			"sourceSize": {
+				"w": 192,
+				"h": 48
+			}
+		},
+		"GoblinBeastLeftLand.png": {
+			"frame": {
+				"x": 0,
+				"y": 832,
+				"w": 192,
+				"h": 48
+			},
+			"rotated": false,
+			"trimmed": false,
+			"spriteSourceSize": {
+				"x": 0,
+				"y": 0,
+				"w": 192,
+				"h": 48
+			},
+			"sourceSize": {
+				"w": 192,
+				"h": 48
+			}
+		},
+		"GoblinBeastLeftWalk.png": {
+			"frame": {
+				"x": 0,
+				"y": 880,
+				"w": 288,
+				"h": 48
+			},
+			"rotated": false,
+			"trimmed": false,
+			"spriteSourceSize": {
+				"x": 0,
+				"y": 0,
+				"w": 288,
+				"h": 48
+			},
+			"sourceSize": {
+				"w": 288,
+				"h": 48
+			}
+		},
+		"GoblinBeastRightAttack01.png": {
+			"frame": {
+				"x": 0,
+				"y": 928,
+				"w": 512,
+				"h": 64
+			},
+			"rotated": false,
+			"trimmed": false,
+			"spriteSourceSize": {
+				"x": 0,
+				"y": 0,
+				"w": 512,
+				"h": 64
+			},
+			"sourceSize": {
+				"w": 512,
+				"h": 64
+			}
+		},
+		"GoblinBeastRightAttack02.png": {
+			"frame": {
+				"x": 0,
+				"y": 992,
+				"w": 432,
+				"h": 48
+			},
+			"rotated": false,
+			"trimmed": false,
+			"spriteSourceSize": {
+				"x": 0,
+				"y": 0,
+				"w": 432,
+				"h": 48
+			},
+			"sourceSize": {
+				"w": 432,
+				"h": 48
+			}
+		},
+		"GoblinBeastRightAttack03.png": {
+			"frame": {
+				"x": 0,
+				"y": 1040,
+				"w": 672,
+				"h": 48
+			},
+			"rotated": false,
+			"trimmed": false,
+			"spriteSourceSize": {
+				"x": 0,
+				"y": 0,
+				"w": 672,
+				"h": 48
+			},
+			"sourceSize": {
+				"w": 672,
+				"h": 48
+			}
+		},
+		"GoblinBeastRightDeath.png": {
+			"frame": {
+				"x": 0,
+				"y": 1088,
+				"w": 480,
+				"h": 48
+			},
+			"rotated": false,
+			"trimmed": false,
+			"spriteSourceSize": {
+				"x": 0,
+				"y": 0,
+				"w": 480,
+				"h": 48
+			},
+			"sourceSize": {
+				"w": 480,
+				"h": 48
+			}
+		},
+		"GoblinBeastRightHurt.png": {
+			"frame": {
+				"x": 0,
+				"y": 1136,
+				"w": 192,
+				"h": 48
+			},
+			"rotated": false,
+			"trimmed": false,
+			"spriteSourceSize": {
+				"x": 0,
+				"y": 0,
+				"w": 192,
+				"h": 48
+			},
+			"sourceSize": {
+				"w": 192,
+				"h": 48
+			}
+		},
+		"GoblinBeastRightIdle.png": {
+			"frame": {
+				"x": 0,
+				"y": 1184,
+				"w": 288,
+				"h": 48
+			},
+			"rotated": false,
+			"trimmed": false,
+			"spriteSourceSize": {
+				"x": 0,
+				"y": 0,
+				"w": 288,
+				"h": 48
+			},
+			"sourceSize": {
+				"w": 288,
+				"h": 48
+			}
+		},
+		"GoblinBeastRightJump.png": {
+			"frame": {
+				"x": 0,
+				"y": 1232,
+				"w": 192,
+				"h": 48
+			},
+			"rotated": false,
+			"trimmed": false,
+			"spriteSourceSize": {
+				"x": 0,
+				"y": 0,
+				"w": 192,
+				"h": 48
+			},
+			"sourceSize": {
+				"w": 192,
+				"h": 48
+			}
+		},
+		"GoblinBeastRightLand.png": {
+			"frame": {
+				"x": 0,
+				"y": 1280,
+				"w": 192,
+				"h": 48
+			},
+			"rotated": false,
+			"trimmed": false,
+			"spriteSourceSize": {
+				"x": 0,
+				"y": 0,
+				"w": 192,
+				"h": 48
+			},
+			"sourceSize": {
+				"w": 192,
+				"h": 48
+			}
+		},
+		"GoblinBeastRightWalk.png": {
+			"frame": {
+				"x": 0,
+				"y": 1328,
+				"w": 288,
+				"h": 48
+			},
+			"rotated": false,
+			"trimmed": false,
+			"spriteSourceSize": {
+				"x": 0,
+				"y": 0,
+				"w": 288,
+				"h": 48
+			},
+			"sourceSize": {
+				"w": 288,
+				"h": 48
+			}
+		},
+		"GoblinBeastUpAttack01.png": {
+			"frame": {
+				"x": 0,
+				"y": 1376,
+				"w": 512,
+				"h": 64
+			},
+			"rotated": false,
+			"trimmed": false,
+			"spriteSourceSize": {
+				"x": 0,
+				"y": 0,
+				"w": 512,
+				"h": 64
+			},
+			"sourceSize": {
+				"w": 512,
+				"h": 64
+			}
+		},
+		"GoblinBeastUpAttack02.png": {
+			"frame": {
+				"x": 0,
+				"y": 1440,
+				"w": 576,
+				"h": 64
+			},
+			"rotated": false,
+			"trimmed": false,
+			"spriteSourceSize": {
+				"x": 0,
+				"y": 0,
+				"w": 576,
+				"h": 64
+			},
+			"sourceSize": {
+				"w": 576,
+				"h": 64
+			}
+		},
+		"GoblinBeastUpAttack03.png": {
+			"frame": {
+				"x": 0,
+				"y": 1504,
+				"w": 896,
+				"h": 64
+			},
+			"rotated": false,
+			"trimmed": false,
+			"spriteSourceSize": {
+				"x": 0,
+				"y": 0,
+				"w": 896,
+				"h": 64
+			},
+			"sourceSize": {
+				"w": 896,
+				"h": 64
+			}
+		},
+		"GoblinBeastUpDeath.png": {
+			"frame": {
+				"x": 0,
+				"y": 1568,
+				"w": 480,
+				"h": 48
+			},
+			"rotated": false,
+			"trimmed": false,
+			"spriteSourceSize": {
+				"x": 0,
+				"y": 0,
+				"w": 480,
+				"h": 48
+			},
+			"sourceSize": {
+				"w": 480,
+				"h": 48
+			}
+		},
+		"GoblinBeastUpHurt.png": {
+			"frame": {
+				"x": 0,
+				"y": 1616,
+				"w": 192,
+				"h": 48
+			},
+			"rotated": false,
+			"trimmed": false,
+			"spriteSourceSize": {
+				"x": 0,
+				"y": 0,
+				"w": 192,
+				"h": 48
+			},
+			"sourceSize": {
+				"w": 192,
+				"h": 48
+			}
+		},
+		"GoblinBeastUpIdle.png": {
+			"frame": {
+				"x": 0,
+				"y": 1664,
+				"w": 288,
+				"h": 48
+			},
+			"rotated": false,
+			"trimmed": false,
+			"spriteSourceSize": {
+				"x": 0,
+				"y": 0,
+				"w": 288,
+				"h": 48
+			},
+			"sourceSize": {
+				"w": 288,
+				"h": 48
+			}
+		},
+		"GoblinBeastUpJump.png": {
+			"frame": {
+				"x": 0,
+				"y": 1712,
+				"w": 192,
+				"h": 48
+			},
+			"rotated": false,
+			"trimmed": false,
+			"spriteSourceSize": {
+				"x": 0,
+				"y": 0,
+				"w": 192,
+				"h": 48
+			},
+			"sourceSize": {
+				"w": 192,
+				"h": 48
+			}
+		},
+		"GoblinBeastUpLand.png": {
+			"frame": {
+				"x": 0,
+				"y": 1760,
+				"w": 192,
+				"h": 48
+			},
+			"rotated": false,
+			"trimmed": false,
+			"spriteSourceSize": {
+				"x": 0,
+				"y": 0,
+				"w": 192,
+				"h": 48
+			},
+			"sourceSize": {
+				"w": 192,
+				"h": 48
+			}
+		},
+		"GoblinBeastUpWalk.png": {
+			"frame": {
+				"x": 0,
+				"y": 1808,
+				"w": 288,
+				"h": 48
+			},
+			"rotated": false,
+			"trimmed": false,
+			"spriteSourceSize": {
+				"x": 0,
+				"y": 0,
+				"w": 288,
+				"h": 48
+			},
+			"sourceSize": {
+				"w": 288,
+				"h": 48
+			}
+		}
+	},
+	"meta": {
+		"app": "http://www.codeandweb.com/texturepacker",
+		"version": "1.0",
+		"image": "spritesheet.png",
+		"format": "RGBA8888",
+		"size": {
+			"w": 896,
+			"h": 1856
+		},
+		"scale": "1"
+	}
+}
