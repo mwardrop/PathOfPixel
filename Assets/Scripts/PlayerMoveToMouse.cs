@@ -74,6 +74,8 @@ public class PlayerMoveToMouse : MonoBehaviour
 
     private void SetDirection(Direction direction)
     {
+
+        Debug.Log(direction.ToString());
         switch (direction)
         {
             case Direction.Down:
