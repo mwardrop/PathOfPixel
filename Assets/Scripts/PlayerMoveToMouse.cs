@@ -29,9 +29,10 @@ public class PlayerMoveToMouse : MonoBehaviour
 
     public float playerSpeed = (float)2.5;
     public Direction playerDIrection = Direction.Down;
-    public State playerState = State.Idle;
 
+    public State playerState = State.Idle;
     private State previousState = State.Idle;
+
     private Vector3 target;
     private Animator animator;
     private bool stateLocked;
@@ -103,36 +104,6 @@ public class PlayerMoveToMouse : MonoBehaviour
 
     }
 
-
-    void FixedUpdate()
-    {
-
-    }
-
-    // Used to ensure the state doesn't change before an animation is completed.
-    private void LockState(string resetParameter)
-    {
-        StartCoroutine(LockStateCoroutine(resetParameter));
-
-        IEnumerator LockStateCoroutine( string resetParameter)
-        {
-            stateLocked = true;
-            animator.SetBool(resetParameter, !animator.GetBool(resetParameter));
-
-            yield return null;
-            animator.SetBool(resetParameter, !animator.GetBool(resetParameter));
-
-            float seconds = animator.runtimeAnimatorController.animationClips
-                .Where<AnimationClip>((x) => x.name == "down" + char.ToUpper(resetParameter[0]) + resetParameter.Substring(1))
-                .First()
-                .length;
-
-            yield return new WaitForSeconds(seconds);      
-            stateLocked = false;
-            
-        }
-    }
-
     private void SetState(State state)
     {
 
@@ -167,7 +138,6 @@ public class PlayerMoveToMouse : MonoBehaviour
                     LockState("attack3");
                     break;
             }
-
             
         }
     }
@@ -195,6 +165,30 @@ public class PlayerMoveToMouse : MonoBehaviour
                 animator.SetFloat("moveX", 0);
                 animator.SetFloat("moveY", 1);
                 break;
+        }
+    }
+
+    // Used to ensure the state doesn't change before an animation is completed.
+    private void LockState(string resetParameter)
+    {
+        StartCoroutine(LockStateCoroutine(resetParameter));
+
+        IEnumerator LockStateCoroutine(string resetParameter)
+        {
+            stateLocked = true;
+            animator.SetBool(resetParameter, !animator.GetBool(resetParameter));
+
+            yield return null;
+            animator.SetBool(resetParameter, !animator.GetBool(resetParameter));
+
+            float seconds = animator.runtimeAnimatorController.animationClips
+                .Where<AnimationClip>((x) => x.name == "down" + char.ToUpper(resetParameter[0]) + resetParameter.Substring(1))
+                .First()
+                .length;
+
+            yield return new WaitForSeconds(seconds);
+            stateLocked = false;
+
         }
     }
 }
