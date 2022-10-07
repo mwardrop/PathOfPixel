@@ -3,11 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
-public class TakeDamage : MonoBehaviour
+public class TakeDamage : CustomMonoBehaviour
 {
 
     private Animator animator;
-    private bool stateLocked = false;
+    private int hitCount = 0;
 
     // Start is called before the first frame update
     void Start()
@@ -18,47 +18,23 @@ public class TakeDamage : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+
+        if (hitCount > 2)
+        {
+            animator.SetBool("Death", true);
+
+        } else
+        {
+            //animator.SetBool("Idle", true);
+        }
     }
 
-    private int hitCount = 0;
+    
     public void Damage()
     {
         hitCount += 1;
-        if(!stateLocked) { LockState("hurt"); }
-        if(hitCount > 2)
-        {
-            LockState("death");
-            
-        }
-    }
+        if(!IsAnimationStateLocked) { LockAnimationState("Hurt", animator, "downHurt"); }
 
-    // Used to ensure the state doesn't change before an animation is completed.
-    private void LockState(string resetParameter)
-    {
-        StartCoroutine(LockStateCoroutine(resetParameter));
-
-        IEnumerator LockStateCoroutine(string resetParameter)
-        {
-            stateLocked = true;
-            animator.SetBool(resetParameter, !animator.GetBool(resetParameter));
-
-            yield return null;
-            animator.SetBool(resetParameter, !animator.GetBool(resetParameter));
-
-            float seconds = animator.runtimeAnimatorController.animationClips
-                .Where<AnimationClip>((x) => x.name == "down" + char.ToUpper(resetParameter[0]) + resetParameter.Substring(1))
-                .First()
-                .length;
-
-            yield return new WaitForSeconds(seconds);
-            if(resetParameter == "death")
-            {
-                this.gameObject.SetActive(false);
-            }
-            stateLocked = false;
-
-        }
     }
 
 }

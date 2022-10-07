@@ -15,6 +15,7 @@ GameObject:
   - component: {fileID: 1183764082010960888}
   - component: {fileID: 6382331187337652475}
   - component: {fileID: 1119482819649367992}
+  - component: {fileID: 7359920596573594516}
   - component: {fileID: 23905190600907058}
   m_Layer: 0
   m_Name: Possessed
@@ -181,6 +182,26 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3e2e85ebf5099bd4e879bdc7d93ee548, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &7359920596573594516
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1183764082010960867}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 21018a948e0009d4c87af20f9b41003e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  health: 0
+  enemyName: 
+  baseDamage: 0
+  moveSpeed: 0
+  target: {fileID: 0}
+  chaseRadius: 0
+  attackRadius: 0
+  homePosition: {fileID: 0}
 --- !u!114 &23905190600907058
 MonoBehaviour:
   m_ObjectHideFlags: 0

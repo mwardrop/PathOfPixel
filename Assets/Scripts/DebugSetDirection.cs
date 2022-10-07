@@ -28,20 +28,20 @@ public class DebugSetDirection : MonoBehaviour
         switch (direction)
         {
             case Direction.Down:
-                animator.SetFloat("moveX", 0);
-                animator.SetFloat("moveY", -1);
+                animator.SetFloat("MoveX", 0);
+                animator.SetFloat("MoveY", -1);
                 break;
             case Direction.Left:
-                animator.SetFloat("moveX", -1);
-                animator.SetFloat("moveY", 0);
+                animator.SetFloat("MoveX", -1);
+                animator.SetFloat("MoveY", 0);
                 break;
             case Direction.Right:
-                animator.SetFloat("moveX", 1);
-                animator.SetFloat("moveY", 0);
+                animator.SetFloat("MoveX", 1);
+                animator.SetFloat("MoveY", 0);
                 break;
             case Direction.Up:
-                animator.SetFloat("moveX", 0);
-                animator.SetFloat("moveY", 1);
+                animator.SetFloat("MoveX", 0);
+                animator.SetFloat("MoveY", 1);
                 break;
         }
     }

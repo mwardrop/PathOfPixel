@@ -1,11 +1,5 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
-using System.Security.Cryptography;
-using Unity.VisualScripting;
 using UnityEngine;
-using static UnityEngine.CullingGroup;
 
 public enum State
 {
@@ -24,26 +18,24 @@ public enum Direction
     Up
 }
 
-public class PlayerMoveToMouse : MonoBehaviour
+public class PlayerMovement : CustomMonoBehaviour
 {
 
-    public float playerSpeed = (float)2.5;
-    public Direction playerDIrection = Direction.Down;
+    public float moveSpeed = (float)2.5;
+    public Direction direction = Direction.Down;
 
-    public State playerState = State.Idle;
-    private State previousState = State.Idle;
+    public State state = State.Idle;
 
     private Vector3 target;
     private Animator animator;
-    private bool stateLocked;
 
     // Start is called before the first frame update
     void Start()
     {
         target = transform.position;
         animator = GetComponent<Animator>();
-        SetDirection(playerDIrection);
-        SetState(playerState);
+        SetDirection(direction);
+        SetState(state);
     }
 
     // Update is called once per frame
@@ -81,7 +73,7 @@ public class PlayerMoveToMouse : MonoBehaviour
                 }
             }
 
-            transform.position = Vector3.MoveTowards(transform.position, target, playerSpeed * Time.fixedDeltaTime);
+            transform.position = Vector3.MoveTowards(transform.position, target, moveSpeed * Time.deltaTime);
             SetState(State.Walk);
 
         }
@@ -107,11 +99,10 @@ public class PlayerMoveToMouse : MonoBehaviour
     private void SetState(State state)
     {
 
-        if (!stateLocked && playerState != state) {
+        if (!IsAnimationStateLocked && this.state != state) {
 
             // Capture previous state and current for locking purposes
-            previousState = playerState;
-            playerState = state;
+            this.state = state;
 
             // Set Animator to default state
             foreach (AnimatorControllerParameter parameter in animator.parameters)
@@ -123,19 +114,18 @@ public class PlayerMoveToMouse : MonoBehaviour
             }
 
             // Set Animator to Current State
-            switch (playerState)
+            switch (this.state)
             {
                 case State.Walk:
-                    animator.SetBool("walk", true);
+                    animator.SetBool("Walk", true);
                     break;
                 case State.Attack1:
-                    LockState("attack1");
-                    break;
                 case State.Attack2:
-                    LockState("attack2");
-                    break;
                 case State.Attack3:
-                    LockState("attack3");
+                    LockAnimationState(
+                        this.state.ToString(),
+                        animator,
+                        direction.ToString().ToLower() + this.state);
                     break;
             }
             
@@ -145,50 +135,27 @@ public class PlayerMoveToMouse : MonoBehaviour
     private void SetDirection(Direction direction)
     {
 
-        playerDIrection = direction;
+        this.direction = direction;
 
-        switch (playerDIrection)
+        switch (this.direction)
         {
             case Direction.Down:
-                animator.SetFloat("moveX", 0);
-                animator.SetFloat("moveY", -1);
+                animator.SetFloat("MoveX", 0);
+                animator.SetFloat("MoveY", -1);
                 break;
             case Direction.Left:
-                animator.SetFloat("moveX", -1);
-                animator.SetFloat("moveY", 0);
+                animator.SetFloat("MoveX", -1);
+                animator.SetFloat("MoveY", 0);
                 break;
             case Direction.Right:
-                animator.SetFloat("moveX", 1);
-                animator.SetFloat("moveY", 0);
+                animator.SetFloat("MoveX", 1);
+                animator.SetFloat("MoveY", 0);
                 break;
             case Direction.Up:
-                animator.SetFloat("moveX", 0);
-                animator.SetFloat("moveY", 1);
+                animator.SetFloat("MoveX", 0);
+                animator.SetFloat("MoveY", 1);
                 break;
         }
     }
 
-    // Used to ensure the state doesn't change before an animation is completed.
-    private void LockState(string resetParameter)
-    {
-        StartCoroutine(LockStateCoroutine(resetParameter));
-
-        IEnumerator LockStateCoroutine(string resetParameter)
-        {
-            stateLocked = true;
-            animator.SetBool(resetParameter, !animator.GetBool(resetParameter));
-
-            yield return null;
-            animator.SetBool(resetParameter, !animator.GetBool(resetParameter));
-
-            float seconds = animator.runtimeAnimatorController.animationClips
-                .Where<AnimationClip>((x) => x.name == "down" + char.ToUpper(resetParameter[0]) + resetParameter.Substring(1))
-                .First()
-                .length;
-
-            yield return new WaitForSeconds(seconds);
-            stateLocked = false;
-
-        }
-    }
 }
