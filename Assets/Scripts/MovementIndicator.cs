@@ -9,41 +9,89 @@ public class MovementIndicator : MonoBehaviour
     public Sprite move;
     public Sprite attack;
 
+    private PlayerSprite player;
+    private SpriteRenderer spriteRenderer;
+
     public Boolean enemyClicked = false;
+
+    private IEnumerator coroutine;
+    private bool coroutineRunning = false;
+
+    void Start()
+    {
+        player = GameObject.FindWithTag("Player").GetComponent<PlayerSprite>();
+        spriteRenderer = this.GetComponent<SpriteRenderer>();
+        coroutine = hideIndicatorCoroutine();
+    }
 
     // Update is called once per frame
     void Update()
     {
-
-        PlayerSprite player = GameObject.FindWithTag("Player").GetComponent<PlayerSprite>();
-
+    
         if (Input.GetMouseButtonDown(0))
         {
+
             Vector3 target = Camera.main.ScreenToWorldPoint(Input.mousePosition);
             target.z = transform.position.z;
             transform.position = target;
-            this.GetComponent<SpriteRenderer>().enabled = true;
+            spriteRenderer.sortingOrder = player.spriteRenderer.sortingOrder + 1;
+
+            showIndicator();
+
             if (enemyClicked)
             {
-                this.GetComponent<SpriteRenderer>().sprite = attack;
+                spriteRenderer.sprite = attack;
             }
             else
             {
-                this.GetComponent<SpriteRenderer>().sprite = move;
+                spriteRenderer.sprite = move;
             }
             enemyClicked = false;
         }      
 
-        if (Vector3.Distance(player.transform.position, transform.position) < 0.5)
+        if (spriteRenderer.enabled)
         {
-            this.GetComponent<SpriteRenderer>().enabled = false;
+            if (!coroutineRunning)
+            {
+                if (Vector3.Distance(player.transform.position, transform.position) < 1)
+                {
+                    hideIndicator();
+                }
+            }
         }
 
         if(enemyClicked)
         {
-            this.GetComponent<SpriteRenderer>().sprite = attack;
+            spriteRenderer.sprite = attack;
         }
     }
 
+    private void hideIndicator()
+    {
+        coroutine = hideIndicatorCoroutine();
+        StartCoroutine(coroutine);
+
+    }
+
+    private IEnumerator hideIndicatorCoroutine()
+    {
+        coroutineRunning = true;
+        yield return new WaitForSeconds(0.5f);
+        spriteRenderer.enabled = false;
+        coroutineRunning = false;
+    }
+
+    private void showIndicator()
+    {
+        
+        if (coroutineRunning)
+        {
+            StopCoroutine(coroutine);
+            
+            coroutineRunning = false;
+        }
+
+        spriteRenderer.enabled = true;
+    }
 
 }
