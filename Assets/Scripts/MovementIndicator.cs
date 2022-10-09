@@ -9,7 +9,7 @@ public class MovementIndicator : MonoBehaviour
     public Sprite move;
     public Sprite attack;
 
-    public Boolean isAttack = false;
+    public Boolean enemyClicked = false;
 
     // Update is called once per frame
     void Update()
@@ -23,25 +23,23 @@ public class MovementIndicator : MonoBehaviour
             target.z = transform.position.z;
             transform.position = target;
             this.GetComponent<SpriteRenderer>().enabled = true;
-            if (player.isAttacking)
+            if (enemyClicked)
             {
                 this.GetComponent<SpriteRenderer>().sprite = attack;
-                isAttack = false;
             }
             else
             {
                 this.GetComponent<SpriteRenderer>().sprite = move;
             }
-        }
-
-        
+            enemyClicked = false;
+        }      
 
         if (Vector3.Distance(player.transform.position, transform.position) < 0.5)
         {
             this.GetComponent<SpriteRenderer>().enabled = false;
         }
 
-        if(player.isAttacking)
+        if(enemyClicked)
         {
             this.GetComponent<SpriteRenderer>().sprite = attack;
         }

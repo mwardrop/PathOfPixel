@@ -16,7 +16,7 @@ GameObject:
   - component: {fileID: 7350744966597286729}
   m_Layer: 0
   m_Name: Possessed
-  m_TagString: Untagged
+  m_TagString: canTakeDamage
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -101,14 +101,14 @@ Rigidbody2D:
   m_Simulated: 1
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
-  m_Mass: 1
-  m_LinearDrag: 0
+  m_Mass: 10
+  m_LinearDrag: 100
   m_AngularDrag: 0.05
   m_GravityScale: 0
   m_Material: {fileID: 0}
   m_Interpolate: 0
-  m_SleepingMode: 1
-  m_CollisionDetection: 0
+  m_SleepingMode: 0
+  m_CollisionDetection: 1
   m_Constraints: 4
 --- !u!61 &1183764082010960894
 BoxCollider2D:
@@ -168,17 +168,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 21018a948e0009d4c87af20f9b41003e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  moveSpeed: 1
   direction: 0
   state: 0
-  moveSpeed: 1
-  health: 3
-  enemyName: 
-  baseDamage: 0
-  target: {fileID: 0}
-  chaseRadius: 0
-  attackRadius: 0
-  homePosition: {fileID: 0}
-  knockback: 1
+  health: 30
+  enemyName: Possessed
+  baseDamage: 3
+  chaseRadius: 6
+  attackRadius: 1.2
 --- !u!1 &2107567475545686206
 GameObject:
   m_ObjectHideFlags: 0
