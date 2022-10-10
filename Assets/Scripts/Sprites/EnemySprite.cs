@@ -24,7 +24,7 @@ public class EnemySprite : BaseSprite
     {
         target = GameObject.FindWithTag("Player");
         homePosition = new Vector3(transform.position.x, transform.position.y);
-        health = 300f;
+        
 
         SetDirection(direction);
         SetState(state);
@@ -36,7 +36,7 @@ public class EnemySprite : BaseSprite
 
         if (Input.GetMouseButtonDown(0))
         {
-            if (this.GetComponent<CapsuleCollider2D>().OverlapPoint(Camera.main.ScreenToWorldPoint(Input.mousePosition)))
+            if (state != State.Death && this.GetComponent<CapsuleCollider2D>().OverlapPoint(Camera.main.ScreenToWorldPoint(Input.mousePosition)))
             {
                 target.GetComponent<PlayerSprite>().enemy = this;
                 GameObject.FindWithTag("MovementIndicator").GetComponent<MovementIndicator>().enemyClicked = true;

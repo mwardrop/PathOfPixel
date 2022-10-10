@@ -112,7 +112,7 @@ public abstract class BaseSprite : MonoBehaviour
             yield return null;
             if (!permanent) { animator.SetBool(resetParameter, !animator.GetBool(resetParameter)); }
 
-            //TODO : Will need to account for Animation Speed and Animator Transition properties 
+            // TODO : Will need to account for Animation Speed and Animator Transition properties when implementing attack speed
             float seconds = animator.runtimeAnimatorController.animationClips
                 .Where<AnimationClip>((x) => x.name == animation)
                 .First()

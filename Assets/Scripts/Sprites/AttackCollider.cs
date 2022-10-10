@@ -8,9 +8,11 @@ public class AttackCollider : MonoBehaviour
     private void OnTriggerEnter2D(Collider2D other)
     {
 
+        // Make sure the Attack Collider is Colliding with Damage Hitbox (CapsureCollider2D)
         if (other.GetType() == typeof(CapsuleCollider2D))
         {
-            if (other.CompareTag("canTakeDamage"))
+            // A Player is hitting an Enemy
+            if (this.CompareTag("Player") && other.CompareTag("Enemy"))
             {
 
                 PlayerSprite player = GameObject.FindWithTag("Player").GetComponent<PlayerSprite>();
@@ -25,7 +27,9 @@ public class AttackCollider : MonoBehaviour
                         break;
                 }
             }
-            if (other.CompareTag("Player"))
+
+            // A Enemy is hitting a player
+            if (this.CompareTag("Enemy") && other.CompareTag("Player"))
             {
                 other.GetComponent<PlayerSprite>().Damage(3, 0);
             }

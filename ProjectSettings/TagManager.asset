@@ -4,9 +4,9 @@
 TagManager:
   serializedVersion: 2
   tags:
-  - canTakeDamage
   - GameManager
   - MovementIndicator
+  - Enemy
   layers:
   - Default
   - TransparentFX

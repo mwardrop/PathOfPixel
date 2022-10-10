@@ -9,15 +9,15 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1183764082010960895}
-  - component: {fileID: 1183764082010960888}
+  - component: {fileID: 7350744966597286729}
   - component: {fileID: 1183764082010960892}
+  - component: {fileID: 1183764082010960888}
   - component: {fileID: 1183764082010960889}
   - component: {fileID: 1183764082010960894}
-  - component: {fileID: 7350744966597286729}
   - component: {fileID: 146921105425382379}
   m_Layer: 0
   m_Name: Possessed
-  m_TagString: canTakeDamage
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -38,26 +38,30 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!95 &1183764082010960888
-Animator:
-  serializedVersion: 4
+--- !u!114 &7350744966597286729
+MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1183764082010960867}
   m_Enabled: 1
-  m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 7915f17001cbffd4fa24da986055ec17, type: 2}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_StabilizeFeet: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorControllerStateOnDisable: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 21018a948e0009d4c87af20f9b41003e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  moveSpeed: 1
+  direction: 0
+  state: 0
+  health: 30
+  debugHitCount: 0
+  enemyName: Possessed
+  baseDamage: 3
+  chaseRadius: 6
+  attackRadius: 1.2
+  idleRadius: 2
+  canAttack: 1
+  canMove: 1
 --- !u!212 &1183764082010960892
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -110,6 +114,26 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!95 &1183764082010960888
+Animator:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1183764082010960867}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 7915f17001cbffd4fa24da986055ec17, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!50 &1183764082010960889
 Rigidbody2D:
   serializedVersion: 4
@@ -157,30 +181,6 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 0.24926834, y: 0.09191933}
   m_EdgeRadius: 0
---- !u!114 &7350744966597286729
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1183764082010960867}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 21018a948e0009d4c87af20f9b41003e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  moveSpeed: 1
-  direction: 0
-  state: 0
-  health: 30
-  debugHitCount: 0
-  enemyName: Possessed
-  baseDamage: 3
-  chaseRadius: 6
-  attackRadius: 1.2
-  idleRadius: 2
-  canAttack: 1
-  canMove: 1
 --- !u!70 &146921105425382379
 CapsuleCollider2D:
   m_ObjectHideFlags: 0
@@ -245,7 +245,7 @@ GameObject:
   - component: {fileID: 2155854853875156295}
   m_Layer: 0
   m_Name: upAttack1
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -322,7 +322,7 @@ GameObject:
   - component: {fileID: 8425415353633203575}
   m_Layer: 0
   m_Name: downAttack1
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -399,7 +399,7 @@ GameObject:
   - component: {fileID: 62348752704408301}
   m_Layer: 0
   m_Name: rightAttack1
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -477,7 +477,7 @@ GameObject:
   - component: {fileID: 7852327878402782510}
   m_Layer: 0
   m_Name: leftAttack1
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

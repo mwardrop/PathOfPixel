@@ -15,17 +15,19 @@ public class PlayerSprite : BaseSprite
 
     private bool shouldMove = false;
 
+
     public EnemySprite enemy { 
         get { return _enemy; }
         set { _enemy = value; hasAttackClick = true; }
     }
-
+    // TODO :   hasAttackClick should have a 1sec reset after set in order to
+    //          ensure the player doesn't attack the enemy after deselecting the enemy
 
     void Start()
     {
         target = transform.position;
         hasAttackClick = false;
-        health = 3000f;
+        
 
         SetDirection(direction);
         SetState(state);
