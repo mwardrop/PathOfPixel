@@ -12,7 +12,7 @@ public class PlayerSprite : BaseSprite
     public State selectedAttack = State.Attack1;
     public float attackRadius = 1.2f;
     public float moveRadius = 1;
-
+    public GameObject movementIndicator;
     private bool shouldMove = false;
 
 
@@ -25,6 +25,7 @@ public class PlayerSprite : BaseSprite
 
     void Start()
     {
+        if(movementIndicator == null) { throw new Exception("Player Movement Indicator not attached to Player.");}
         target = transform.position;
         hasAttackClick = false;
         
