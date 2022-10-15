@@ -41,7 +41,7 @@ public class EnemySprite : BaseSprite
                 target.GetComponent<PlayerSprite>().enemy = this;
                 GameObject.FindWithTag("MovementIndicator").GetComponent<MovementIndicator>().enemyClicked = true;
             }
-        }
+        } 
 
         // Chase Player
         if (canMove &&

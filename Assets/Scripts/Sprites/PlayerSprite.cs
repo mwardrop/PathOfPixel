@@ -5,30 +5,22 @@ using UnityEngine;
 
 public class PlayerSprite : BaseSprite
 {
-    private EnemySprite _enemy;
-    private Boolean hasAttackClick;
     private Vector3 target;
+    private MovementIndicator movementIndicator;
     
     public State selectedAttack = State.Attack1;
     public float attackRadius = 1.2f;
     public float moveRadius = 1;
-    public GameObject movementIndicator;
+    public GameObject movementIndicatorObject;
+    public EnemySprite enemy;
+    public ScriptableObject gameSate;
+
     private bool shouldMove = false;
-
-
-    public EnemySprite enemy { 
-        get { return _enemy; }
-        set { _enemy = value; hasAttackClick = true; }
-    }
-    // TODO :   hasAttackClick should have a 1sec reset after set in order to
-    //          ensure the player doesn't attack the enemy after deselecting the enemy
 
     void Start()
     {
-        if(movementIndicator == null) { throw new Exception("Player Movement Indicator not attached to Player.");}
         target = transform.position;
-        hasAttackClick = false;
-        
+        movementIndicator = movementIndicatorObject.GetComponent<MovementIndicator>();
 
         SetDirection(direction);
         SetState(state);
@@ -63,10 +55,10 @@ public class PlayerSprite : BaseSprite
         }
 
         // Attack Enemy if in range
-        if (hasAttackClick && Vector3.Distance(transform.position, enemy.transform.position) < attackRadius)
+        if (movementIndicator.enemyClicked && Vector3.Distance(transform.position, enemy.transform.position) < attackRadius)
         {
             SetState(selectedAttack);
-            hasAttackClick = false;
+            movementIndicator.enemyClicked = false;
             return;
         }
 

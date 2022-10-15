@@ -4112,6 +4112,14 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7350744966597286729, guid: cdb2c2a91a72a5740bc5b7898b272f2e, type: 3}
+      propertyPath: canMove
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7350744966597286729, guid: cdb2c2a91a72a5740bc5b7898b272f2e, type: 3}
+      propertyPath: canAttack
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: cdb2c2a91a72a5740bc5b7898b272f2e, type: 3}
 --- !u!4 &416992424 stripped
@@ -5147,6 +5155,14 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7350744966597286729, guid: cdb2c2a91a72a5740bc5b7898b272f2e, type: 3}
+      propertyPath: canMove
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7350744966597286729, guid: cdb2c2a91a72a5740bc5b7898b272f2e, type: 3}
+      propertyPath: canAttack
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: cdb2c2a91a72a5740bc5b7898b272f2e, type: 3}
 --- !u!1 &1235454534
@@ -5542,6 +5558,14 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1183764082010960895, guid: cdb2c2a91a72a5740bc5b7898b272f2e, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7350744966597286729, guid: cdb2c2a91a72a5740bc5b7898b272f2e, type: 3}
+      propertyPath: canMove
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7350744966597286729, guid: cdb2c2a91a72a5740bc5b7898b272f2e, type: 3}
+      propertyPath: canAttack
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
@@ -43485,6 +43509,14 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1183764082010960895, guid: cdb2c2a91a72a5740bc5b7898b272f2e, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7350744966597286729, guid: cdb2c2a91a72a5740bc5b7898b272f2e, type: 3}
+      propertyPath: canMove
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7350744966597286729, guid: cdb2c2a91a72a5740bc5b7898b272f2e, type: 3}
+      propertyPath: canAttack
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []

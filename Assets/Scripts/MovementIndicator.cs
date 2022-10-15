@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using static UnityEngine.EventSystems.EventTrigger;
 using static UnityEngine.GraphicsBuffer;
 
 public class MovementIndicator : MonoBehaviour
@@ -9,17 +10,19 @@ public class MovementIndicator : MonoBehaviour
     public Sprite move;
     public Sprite attack;
 
-    private PlayerSprite player;
+    private PlayerSprite playerSprite;
     private SpriteRenderer spriteRenderer;
 
     public Boolean enemyClicked = false;
+    public Boolean interfaceClicked = false;
+    public GameObject playerSpriteObject;
 
     private IEnumerator coroutine;
     private bool coroutineRunning = false;
 
     void Start()
     {
-        player = GameObject.FindWithTag("Player").GetComponent<PlayerSprite>();
+        playerSprite = playerSpriteObject.GetComponent<PlayerSprite>();
         spriteRenderer = this.GetComponent<SpriteRenderer>();
         coroutine = hideIndicatorCoroutine();
     }
@@ -34,26 +37,31 @@ public class MovementIndicator : MonoBehaviour
             Vector3 target = Camera.main.ScreenToWorldPoint(Input.mousePosition);
             target.z = transform.position.z;
             transform.position = target;
-            spriteRenderer.sortingOrder = player.spriteRenderer.sortingOrder + 1;
+            spriteRenderer.sortingOrder = playerSprite.spriteRenderer.sortingOrder + 1;
 
             showIndicator();
 
             if (enemyClicked)
             {
-                spriteRenderer.sprite = attack;
+                if(Vector3.Distance(playerSprite.transform.position, transform.position) < playerSprite.attackRadius)
+                {
+                    spriteRenderer.sprite = attack;
+                } else
+                {
+                    //enemyClicked = false;
+                }
             }
             else
             {
                 spriteRenderer.sprite = move;
             }
-            enemyClicked = false;
         }      
 
         if (spriteRenderer.enabled)
         {
             if (!coroutineRunning)
             {
-                if (Vector3.Distance(player.transform.position, transform.position) < 1)
+                if (Vector3.Distance(playerSprite.transform.position, transform.position) < 1)
                 {
                     hideIndicator();
                 }
