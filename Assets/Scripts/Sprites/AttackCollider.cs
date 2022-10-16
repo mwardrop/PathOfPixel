@@ -19,10 +19,10 @@ public class AttackCollider : MonoBehaviour
 
                 switch (player.selectedAttack)
                 {
-                    case State.Attack1:
+                    case SpriteState.Attack1:
                         other.GetComponent<EnemySprite>().Damage(5, 0);
                         break;
-                    case State.Attack2:
+                    case SpriteState.Attack2:
                         other.GetComponent<EnemySprite>().Damage(1, 150);
                         break;
                 }

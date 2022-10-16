@@ -6,8 +6,16 @@ using UnityEditor.Build.Content;
 using UnityEngine;
 
 
-
-public class EnemySprite : BaseSprite
+public enum EnemyRarity
+{
+    Common,
+    Magic,
+    Rare,
+    Legendary,
+    Mythic,
+    Boss
+}
+public class EnemySprite : CharacterSprite
 {
     private GameObject target;
     private Vector3 homePosition;
@@ -17,8 +25,8 @@ public class EnemySprite : BaseSprite
     public float chaseRadius = 6;
     public float attackRadius = 1.2f;
     public float idleRadius = 2;
-    public bool canAttack = true;
-    public bool canMove = true;
+    public int enemyLevel = 1;
+    public EnemyRarity enemyRarity;
 
     void Start()
     {
@@ -30,13 +38,13 @@ public class EnemySprite : BaseSprite
         SetState(state);
     }
 
-    new void Update()
+    protected override void Update()
     {
         base.Update();
 
         if (Input.GetMouseButtonDown(0))
         {
-            if (state != State.Death && this.GetComponent<CapsuleCollider2D>().OverlapPoint(Camera.main.ScreenToWorldPoint(Input.mousePosition)))
+            if (state != SpriteState.Death && this.GetComponent<CapsuleCollider2D>().OverlapPoint(Camera.main.ScreenToWorldPoint(Input.mousePosition)))
             {
                 target.GetComponent<PlayerSprite>().enemy = this;
                 GameObject.FindWithTag("MovementIndicator").GetComponent<MovementIndicator>().enemyClicked = true;
@@ -45,39 +53,39 @@ public class EnemySprite : BaseSprite
 
         // Chase Player
         if (canMove &&
-            state != State.Death &&
+            state != SpriteState.Death &&
             Vector3.Distance(target.transform.position, transform.position) <= chaseRadius && 
             Vector3.Distance(target.transform.position, transform.position) > attackRadius) 
         {         
             SetDirection(target.transform.position);
-            SetState(State.Walk);
+            SetState(SpriteState.Walk);
             MoveToDestination(target.transform.position);
             return;
 
         }
         // Attack Player
         if (canAttack &&
-            state != State.Death && 
-            state != State.Attack1 && 
+            state != SpriteState.Death && 
+            state != SpriteState.Attack1 && 
             Vector3.Distance(target.transform.position, transform.position) < attackRadius)
         {
-            SetState(State.Attack1);
+            SetState(SpriteState.Attack1);
             return;
 
         }
         // Stop Chasing Player and return home
         if (canMove &&
-            state != State.Death &&
+            state != SpriteState.Death &&
             Vector3.Distance(target.transform.position, transform.position) > chaseRadius + 2 && 
             Vector3.Distance(homePosition, transform.position) > 0)
         {
             SetDirection(homePosition);
-            SetState(State.Walk);
+            SetState(SpriteState.Walk);
             MoveToDestination(homePosition);
             return;
         }
 
-        SetState(State.Idle);
+        SetState(SpriteState.Idle);
     }
 
 

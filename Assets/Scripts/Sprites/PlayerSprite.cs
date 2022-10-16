@@ -3,12 +3,12 @@ using System.Runtime.InteropServices.WindowsRuntime;
 using UnityEngine;
 
 
-public class PlayerSprite : BaseSprite
+public class PlayerSprite : CharacterSprite
 {
     private Vector3 target;
     private MovementIndicator movementIndicator;
     
-    public State selectedAttack = State.Attack1;
+    public SpriteState selectedAttack = SpriteState.Attack1;
     public float attackRadius = 1.2f;
     public float moveRadius = 1;
     public GameObject movementIndicatorObject;
@@ -24,16 +24,16 @@ public class PlayerSprite : BaseSprite
 
         SetDirection(direction);
         SetState(state);
-        SetAttack(State.Attack1);
+        SetAttack(SpriteState.Attack1);
     }
 
-    new void Update()
+    protected override void Update()
     {      
         if (Input.GetMouseButtonDown(0))
         {
             target = Camera.main.ScreenToWorldPoint(Input.mousePosition);
             target.z = transform.position.z;
-            if(Vector3.Distance(transform.position, target) > moveRadius) { shouldMove = true; }
+            if(canMove && Vector3.Distance(transform.position, target) > moveRadius) { shouldMove = true; }
             SetDirection(target);
         }
 
@@ -41,28 +41,30 @@ public class PlayerSprite : BaseSprite
 
         if (Input.GetButtonDown("Attack1"))
         {
-            SetAttack(State.Attack1);
+            SetAttack(SpriteState.Attack1);
         }
 
         if (Input.GetButtonDown("Attack2"))
         {
-            SetAttack(State.Attack2);
+            SetAttack(SpriteState.Attack2);
         }
 
         if (Input.GetButtonDown("Attack3"))
         {
-            SetAttack(State.Attack3);
+            SetAttack(SpriteState.Attack3);
         }
 
         // Attack Enemy if in range
-        if (movementIndicator.enemyClicked && Vector3.Distance(transform.position, enemy.transform.position) < attackRadius)
+        if (canAttack && 
+            movementIndicator.enemyClicked && 
+            Vector3.Distance(transform.position, enemy.transform.position) < attackRadius)
         {
             SetState(selectedAttack);
             movementIndicator.enemyClicked = false;
             return;
         }
 
-        if(transform.position.x == target.x && transform.position.y == target.y)
+        if(Vector3.Distance(transform.position, target) < moveRadius)
         {
             shouldMove = false;
         }
@@ -70,16 +72,16 @@ public class PlayerSprite : BaseSprite
         // Move to mouse click
         if (shouldMove)
         {      
-            SetState(State.Walk);
+            SetState(SpriteState.Walk);
             MoveToDestination(target);
             return;
         }
 
-        SetState(State.Idle);
+        SetState(SpriteState.Idle);
     }
 
 
-    private void SetAttack(State attack)
+    private void SetAttack(SpriteState attack)
     {
         selectedAttack = attack;
     }
