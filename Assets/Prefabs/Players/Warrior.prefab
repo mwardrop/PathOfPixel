@@ -672,13 +672,15 @@ MonoBehaviour:
   direction: 0
   state: 0
   health: 3000
-  debugHitCount: 0
+  canAttack: 1
+  canMove: 1
+  canTakeDamage: 1
+  gameState: {fileID: 11400000, guid: 01fd06731074b2a4286bafdbd3fd1f0b, type: 2}
   selectedAttack: 0
   attackRadius: 1.5
   moveRadius: 0.75
   movementIndicatorObject: {fileID: 2581196147910434309}
   enemy: {fileID: 0}
-  gameSate: {fileID: 11400000, guid: 01fd06731074b2a4286bafdbd3fd1f0b, type: 2}
 --- !u!212 &7198830804527960162
 SpriteRenderer:
   m_ObjectHideFlags: 0

@@ -13,7 +13,6 @@ public class PlayerSprite : CharacterSprite
     public float moveRadius = 1;
     public GameObject movementIndicatorObject;
     public EnemySprite enemy;
-    public ScriptableObject gameSate;
 
     private bool shouldMove = false;
 

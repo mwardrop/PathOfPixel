@@ -49,7 +49,7 @@ public class ItemGenerator
     public InventoryItem createInventoryItem(int itemLevel, InventoryItemType itemType, InventoryItemRarity itemRarity)
     {
         InventoryItem item = new InventoryItem();
-        item.itemLevel = itemLevel;
+        item.itemLevel = Random.Range(itemLevel, itemLevel + 5);
         item.itemType = itemType;
         item.itemRarity = itemRarity;
 

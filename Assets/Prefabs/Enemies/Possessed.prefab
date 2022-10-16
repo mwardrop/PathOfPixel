@@ -54,14 +54,17 @@ MonoBehaviour:
   direction: 0
   state: 0
   health: 30
-  debugHitCount: 0
+  canAttack: 1
+  canMove: 1
+  canTakeDamage: 1
+  gameState: {fileID: 11400000, guid: 01fd06731074b2a4286bafdbd3fd1f0b, type: 2}
   enemyName: Possessed
   baseDamage: 3
   chaseRadius: 6
   attackRadius: 1.2
   idleRadius: 2
-  canAttack: 1
-  canMove: 1
+  enemyLevel: 1
+  enemyRarity: 0
 --- !u!212 &1183764082010960892
 SpriteRenderer:
   m_ObjectHideFlags: 0

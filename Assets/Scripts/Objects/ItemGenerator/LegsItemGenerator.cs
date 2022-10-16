@@ -4,8 +4,14 @@ using UnityEngine;
 
 public class LegsItemGenerator : IitemGenerator
 {
+
+    private int ImageAssetCount = 5;
+
     public InventoryItem RollItem(InventoryItem legs)
     {
+
+        legs.itemImageId = Random.Range(0, ImageAssetCount - 1);
+
         return legs;
     }
 }

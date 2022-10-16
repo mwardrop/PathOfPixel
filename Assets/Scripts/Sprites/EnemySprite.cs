@@ -88,5 +88,9 @@ public class EnemySprite : CharacterSprite
         SetState(SpriteState.Idle);
     }
 
+    protected override void OnDeath()
+    {
+        gameState.generateEnemyDrops(this.gameObject);
+    }
 
 }

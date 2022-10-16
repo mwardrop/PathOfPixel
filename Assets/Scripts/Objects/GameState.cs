@@ -18,10 +18,19 @@ public class GameState : ScriptableObject
 
     public GameObject generateWorldDrop(GameObject dropObject, int itemLevel)
     {
+
+        float x = 0;
+        float y = 0;
+
+        // Set X 50/50 chance to move negative/postive out from dropObject by 1-2
+        if(Random.Range(0,2) == 0) { x = Random.Range(0.5f, 1.5f); } else { x = Random.Range(-1.5f, -0.5f); }
+        // Set Y 50/50 chance to move negative/postive out from dropObject by 1-2
+        if (Random.Range(0, 2) == 0) { y = Random.Range(0.5f, 1.5f); } else {  y = Random.Range(-1.5f, -0.5f); }
+
         return generateWorldDrop(
             itemLevel,
-            dropObject.transform.position.x + UnityEngine.Random.Range(-2.0f, 2.0f),
-            dropObject.transform.position.y + UnityEngine.Random.Range(-2.0f, 2.0f)
+            dropObject.transform.position.x + x,
+            dropObject.transform.position.y + y
             );
     }
 
@@ -32,6 +41,7 @@ public class GameState : ScriptableObject
 
         GameObject itemDrop =  Instantiate(itemDropPrefab, new Vector3(x, y, 0), Quaternion.identity);
         itemDrop.GetComponent<ItemDropSprite>().itemGuid = item.itemGuid;
+        itemDrop.GetComponent<ItemDropSprite>().inventoryItem = item;
 
         return itemDrop;
 

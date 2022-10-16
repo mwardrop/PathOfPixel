@@ -37,6 +37,8 @@ public abstract class CharacterSprite : BaseSprite
     public bool canMove = true;
     public bool canTakeDamage = true;
 
+    public GameState gameState;
+
     // Update is called once per frame
     protected override void Update()
     {
@@ -105,6 +107,7 @@ public abstract class CharacterSprite : BaseSprite
                     break;
                 // Stopping Animations
                 case SpriteState.Death:
+                    OnDeath();
                     LockState(
                         state.ToString(),
                         direction.ToString().ToLower() + this.state, true);
@@ -112,6 +115,11 @@ public abstract class CharacterSprite : BaseSprite
             }
 
         }
+    }
+
+    protected virtual void OnDeath()
+    {
+        Debug.Log("Character Death.");
     }
 
     protected SpriteDirection SetDirection(Vector3 target)

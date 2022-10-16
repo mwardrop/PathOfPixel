@@ -13,6 +13,19 @@ public enum InventoryItemType
     Weapon
 }
 
+public enum InventoryItemSubType
+{
+    None,
+    WeaponSword,
+    WeaponAxe,
+    WeaponStaff,
+    WeaponHammer,
+    WeaponFishingRod,
+    OtherRing,
+    OtherAmulet,
+    OtherGloves
+}
+
 public enum InventoryItemRarity
 {
     Common,
@@ -29,12 +42,13 @@ public class InventoryItem
 
     public string itemName = "Generic Item";
     public string itemDescription = "Generic Description";
-    public Sprite itemImage;
+    public int itemImageId = 0;
     public InventoryItemType itemType = InventoryItemType.Other;
+    public InventoryItemSubType itemSubType = InventoryItemSubType.None;
     public InventoryItemRarity itemRarity = InventoryItemRarity.Common;
     public int itemLevel = 1;
     public readonly Guid itemGuid;
-    public String identifier = "test";
+    public String identifier = ""; // TODO: Remove when no longer need to see GUID in Unity Editor
 
     public List<ItemOffenseModifier> offenseModifiers;
     public List<ItemDefenseModifier> defenseModifiers;
