@@ -3,7 +3,7 @@ guid: 9139cf2d13125cf4faf88b89587a01ff
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
-  serializedVersion: 11
+  serializedVersion: 12
   mipmaps:
     mipMapMode: 0
     enableMipMap: 0
@@ -63,10 +63,11 @@ TextureImporter:
   textureFormatSet: 0
   ignorePngGamma: 0
   applyGammaDecoding: 0
+  cookieLightType: 1
   platformSettings:
   - serializedVersion: 3
     buildTarget: DefaultTexturePlatform
-    maxTextureSize: 2048
+    maxTextureSize: 16384
     resizeAlgorithm: 0
     textureFormat: -1
     textureCompression: 1
@@ -102,6 +103,42 @@ TextureImporter:
     forceMaximumCompressionQuality_BC6H_BC7: 0
   - serializedVersion: 3
     buildTarget: WebGL
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: Android
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: iPhone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: Windows Store Apps
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: -1
@@ -3776,8 +3813,8 @@ TextureImporter:
       Goblin Beserker_106: -961537234
       Goblin Beserker_35: -1806221610
       Goblin Beserker_120: -1150171942
-      Goblin Beserker_38: 2027699240
       Goblin Beserker_169: -414939550
+      Goblin Beserker_38: 2027699240
       Goblin Beserker_40: 1021417777
       Goblin Beserker_124: 118703665
       Goblin Beserker_105: -1942069146
@@ -3841,10 +3878,10 @@ TextureImporter:
       Goblin Beserker_86: -1223521159
       Goblin Beserker_144: 604157834
       Goblin Beserker_3: 2143087987
-      Goblin Beserker_95: 1184777034
-      Goblin Beserker_73: -1281303403
-      Goblin Beserker_17: -278197820
       Goblin Beserker_122: -319846597
+      Goblin Beserker_73: -1281303403
+      Goblin Beserker_95: 1184777034
+      Goblin Beserker_17: -278197820
       Goblin Beserker_96: -1058064569
       Goblin Beserker_141: -281026531
       Goblin Beserker_102: -1759559263
@@ -3876,8 +3913,8 @@ TextureImporter:
       Goblin Beserker_143: -979919838
       Goblin Beserker_18: 345759507
       Goblin Beserker_15: 1470329707
-      Goblin Beserker_6: 1318089476
       Goblin Beserker_145: -72355441
+      Goblin Beserker_6: 1318089476
       Goblin Beserker_112: 2035998882
       Goblin Beserker_24: 1254243828
       Goblin Beserker_118: -753574765
@@ -3894,9 +3931,9 @@ TextureImporter:
       Goblin Beserker_81: -1529862185
       Goblin Beserker_130: -1459389667
       Goblin Beserker_8: 2080996549
-      Goblin Beserker_33: 896364081
-      Goblin Beserker_12: -857153189
       Goblin Beserker_116: 1947066570
+      Goblin Beserker_12: -857153189
+      Goblin Beserker_33: 896364081
       Goblin Beserker_50: -1075034195
       Goblin Beserker_156: 855980033
       Goblin Beserker_92: 550508826

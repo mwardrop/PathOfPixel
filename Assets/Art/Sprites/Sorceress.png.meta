@@ -3,7 +3,7 @@ guid: 8903e6094a3f1e44e8a981b50ec0f6bb
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
-  serializedVersion: 11
+  serializedVersion: 12
   mipmaps:
     mipMapMode: 0
     enableMipMap: 0
@@ -63,10 +63,11 @@ TextureImporter:
   textureFormatSet: 0
   ignorePngGamma: 0
   applyGammaDecoding: 0
+  cookieLightType: 1
   platformSettings:
   - serializedVersion: 3
     buildTarget: DefaultTexturePlatform
-    maxTextureSize: 2048
+    maxTextureSize: 16384
     resizeAlgorithm: 0
     textureFormat: -1
     textureCompression: 1
@@ -102,6 +103,42 @@ TextureImporter:
     forceMaximumCompressionQuality_BC6H_BC7: 0
   - serializedVersion: 3
     buildTarget: WebGL
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: Android
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: iPhone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: Windows Store Apps
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: -1
@@ -4944,21 +4981,21 @@ TextureImporter:
       Sorceress_40: 1076050687
       Sorceress_38: -857464937
       Sorceress_58: -89078790
-      Sorceress_63: -1358040041
-      Sorceress_106: 559921274
-      Sorceress_112: 112993419
       Sorceress_103: -1499264896
-      Sorceress_33: -1925973977
-      Sorceress_50: -177437026
-      Sorceress_100: -62142608
+      Sorceress_63: -1358040041
+      Sorceress_112: 112993419
       Sorceress_191: 423450287
+      Sorceress_33: -1925973977
+      Sorceress_201: 1804341946
+      Sorceress_50: -177437026
       Sorceress_8: 1850479356
       Sorceress_20: -805919765
-      Sorceress_201: 1804341946
       Sorceress_108: -1249676412
+      Sorceress_100: -62142608
       Sorceress_206: -1715917583
-      Sorceress_109: 1473071444
+      Sorceress_106: 559921274
       Sorceress_48: 1485334383
+      Sorceress_109: 1473071444
       Sorceress_11: 473667267
       Sorceress_36: 2093826427
       Sorceress_66: 915564054
@@ -4980,8 +5017,8 @@ TextureImporter:
       Sorceress_143: 241421625
       Sorceress_167: 1073989863
       Sorceress_2: -781601799
-      Sorceress_34: -1528572059
       Sorceress_175: 1420099731
+      Sorceress_34: -1528572059
       Sorceress_30: -757916984
       Sorceress_88: 1594655220
       Sorceress_125: -401682239
@@ -5023,6 +5060,7 @@ TextureImporter:
       Sorceress_78: -1393592298
       Sorceress_148: -1204346757
       Sorceress_19: -584381494
+      Sorceress_214: -934703490
       Sorceress_62: 209801622
       Sorceress_184: 418843909
       Sorceress_127: -1258381542
@@ -5030,7 +5068,6 @@ TextureImporter:
       Sorceress_99: -1120100262
       Sorceress_75: -1229434634
       Sorceress_107: 1585127540
-      Sorceress_214: -934703490
       Sorceress_51: 205559145
       Sorceress_42: 78353755
       Sorceress_5: -1334417457

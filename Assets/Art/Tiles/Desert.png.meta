@@ -3,7 +3,7 @@ guid: e388a955267f2004bb44bf2730004e7b
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
-  serializedVersion: 11
+  serializedVersion: 12
   mipmaps:
     mipMapMode: 0
     enableMipMap: 0
@@ -63,10 +63,11 @@ TextureImporter:
   textureFormatSet: 0
   ignorePngGamma: 0
   applyGammaDecoding: 0
+  cookieLightType: 1
   platformSettings:
   - serializedVersion: 3
     buildTarget: DefaultTexturePlatform
-    maxTextureSize: 2048
+    maxTextureSize: 16384
     resizeAlgorithm: 0
     textureFormat: -1
     textureCompression: 1
@@ -102,6 +103,42 @@ TextureImporter:
     forceMaximumCompressionQuality_BC6H_BC7: 0
   - serializedVersion: 3
     buildTarget: WebGL
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: Android
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: iPhone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: Windows Store Apps
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: -1
@@ -7164,11 +7201,12 @@ TextureImporter:
       Desert_55: -1228279085
       Desert_31: -1351542489
       Desert_258: -430620640
-      Desert_275: -1492153860
+      Desert_56: 2083012861
       Desert_229: 1750286831
       Desert_110: 671353051
+      Desert_62: 198631635
       Desert_39: 1379916546
-      Desert_99: 201407051
+      Desert_202: 1857973333
       Desert_114: -258181334
       Desert_152: -87000606
       Desert_286: 1078659314
@@ -7186,7 +7224,7 @@ TextureImporter:
       Desert_17: -888913737
       Desert_189: -12846658
       Desert_41: 1761797860
-      Desert_276: -135598294
+      Desert_89: 984157197
       Desert_40: 176711791
       Desert_132: 2032116068
       Desert_215: 519242955
@@ -7202,7 +7240,6 @@ TextureImporter:
       Desert_240: -1899355356
       Desert_77: 1443304839
       Desert_68: -1688367514
-      Desert_56: 2083012861
       Desert_13: 420298129
       Desert_261: 2049580786
       Desert_147: -817099954
@@ -7321,7 +7358,7 @@ TextureImporter:
       Desert_87: -216339333
       Desert_250: 936188915
       Desert_106: -1677512070
-      Desert_184: 1377313439
+      Desert_81: 810946031
       Desert_317: -173751696
       Desert_52: 1399283913
       Desert_203: -1138841710
@@ -7330,7 +7367,7 @@ TextureImporter:
       Desert_322: 1529439827
       Desert_138: -1445824648
       Desert_153: -2142795463
-      Desert_81: 810946031
+      Desert_184: 1377313439
       Desert_67: -789645411
       Desert_192: 631129482
       Desert_193: -526316273
@@ -7489,12 +7526,12 @@ TextureImporter:
       Desert_73: 1241620958
       Desert_319: -289774894
       Desert_100: 1984392370
-      Desert_89: 984157197
-      Desert_202: 1857973333
+      Desert_275: -1492153860
+      Desert_276: -135598294
       Desert_140: -71804108
-      Desert_62: 198631635
       Desert_311: 1131255948
       Desert_246: -1770081836
+      Desert_99: 201407051
       Desert_263: -561414478
   spritePackingTag: 
   pSDRemoveMatte: 0

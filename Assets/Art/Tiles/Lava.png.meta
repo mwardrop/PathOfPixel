@@ -3,7 +3,7 @@ guid: 64c9fefcb54eff94c94ed3f033bc0653
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
-  serializedVersion: 11
+  serializedVersion: 12
   mipmaps:
     mipMapMode: 0
     enableMipMap: 0
@@ -63,10 +63,11 @@ TextureImporter:
   textureFormatSet: 0
   ignorePngGamma: 0
   applyGammaDecoding: 0
+  cookieLightType: 1
   platformSettings:
   - serializedVersion: 3
     buildTarget: DefaultTexturePlatform
-    maxTextureSize: 2048
+    maxTextureSize: 16384
     resizeAlgorithm: 0
     textureFormat: -1
     textureCompression: 1
@@ -102,6 +103,42 @@ TextureImporter:
     forceMaximumCompressionQuality_BC6H_BC7: 0
   - serializedVersion: 3
     buildTarget: WebGL
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: Android
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: iPhone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: Windows Store Apps
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: -1
@@ -3383,10 +3420,10 @@ TextureImporter:
     nameFileIdTable:
       Lava_104: -1123006959
       Lava_1: 1938260277
-      Lava_24: -1802082145
+      Lava_81: 1481751730
       Lava_111: 154542003
       Lava_75: 1238290735
-      Lava_26: -69619405
+      Lava_147: 1823739986
       Lava_36: 1349413850
       Lava_51: -1467431421
       Lava_50: -1928547907
@@ -3419,8 +3456,8 @@ TextureImporter:
       Lava_103: -1493420438
       Lava_106: 406796374
       Lava_55: 723959711
-      Lava_87: -497991003
       Lava_62: 1752129477
+      Lava_87: -497991003
       Lava_7: -1008641684
       Lava_123: 927692745
       Lava_82: 578538761
@@ -3448,11 +3485,11 @@ TextureImporter:
       Lava_23: -137340040
       Lava_25: 1337021030
       Lava_56: -1177574605
-      Lava_132: 1343177572
-      Lava_115: 405180698
-      Lava_84: -1926880489
       Lava_76: -660199528
       Lava_99: 1567147639
+      Lava_115: 405180698
+      Lava_132: 1343177572
+      Lava_84: -1926880489
       Lava_120: -616252847
       Lava_77: -282943438
       Lava_139: -1729507673
@@ -3528,14 +3565,14 @@ TextureImporter:
       Lava_65: 641785676
       Lava_119: -933620058
       Lava_89: 336017325
-      Lava_27: -1768538016
-      Lava_147: 1823739986
+      Lava_74: 547084792
+      Lava_26: -69619405
       Lava_112: 1273290888
       Lava_8: 952700474
       Lava_17: 257398058
-      Lava_81: 1481751730
-      Lava_74: 547084792
       Lava_113: -2061699046
+      Lava_27: -1768538016
+      Lava_24: -1802082145
   spritePackingTag: 
   pSDRemoveMatte: 0
   pSDShowRemoveMatteOption: 0

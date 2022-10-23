@@ -3,7 +3,7 @@ guid: a0d44adf1272fe042afe9d52ba3863cd
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
-  serializedVersion: 11
+  serializedVersion: 12
   mipmaps:
     mipMapMode: 0
     enableMipMap: 0
@@ -63,10 +63,11 @@ TextureImporter:
   textureFormatSet: 0
   ignorePngGamma: 0
   applyGammaDecoding: 0
+  cookieLightType: 1
   platformSettings:
   - serializedVersion: 3
     buildTarget: DefaultTexturePlatform
-    maxTextureSize: 2048
+    maxTextureSize: 16384
     resizeAlgorithm: 0
     textureFormat: -1
     textureCompression: 1
@@ -102,6 +103,42 @@ TextureImporter:
     forceMaximumCompressionQuality_BC6H_BC7: 0
   - serializedVersion: 3
     buildTarget: WebGL
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: Android
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: iPhone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: Windows Store Apps
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: -1
@@ -3487,7 +3524,7 @@ TextureImporter:
     secondaryTextures: []
     nameFileIdTable:
       Skeleton Grunt_156: 119448705
-      Skeleton Grunt_123: 2005064631
+      Skeleton Grunt_103: 1210913776
       Skeleton Grunt_126: 1344939764
       Skeleton Grunt_30: 1981030267
       Skeleton Grunt_114: -2078837180
@@ -3501,9 +3538,10 @@ TextureImporter:
       Skeleton Grunt_135: -403279890
       Skeleton Grunt_143: -369434864
       Skeleton Grunt_130: -842730013
+      Skeleton Grunt_137: 2124856828
       Skeleton Grunt_43: 202260145
-      Skeleton Grunt_101: -494563804
       Skeleton Grunt_149: -1177277161
+      Skeleton Grunt_101: -494563804
       Skeleton Grunt_32: -854473708
       Skeleton Grunt_11: -691831458
       Skeleton Grunt_84: -240571273
@@ -3526,7 +3564,6 @@ TextureImporter:
       Skeleton Grunt_86: -704714048
       Skeleton Grunt_152: -586826499
       Skeleton Grunt_54: 1874969673
-      Skeleton Grunt_137: 2124856828
       Skeleton Grunt_94: -1551552316
       Skeleton Grunt_78: 1895276006
       Skeleton Grunt_99: -1832538849
@@ -3551,6 +3588,7 @@ TextureImporter:
       Skeleton Grunt_107: 108169399
       Skeleton Grunt_146: 832008759
       Skeleton Grunt_48: -1666503465
+      Skeleton Grunt_150: -337507950
       Skeleton Grunt_127: -2035530507
       Skeleton Grunt_91: 887785230
       Skeleton Grunt_40: -1086656527
@@ -3566,11 +3604,11 @@ TextureImporter:
       Skeleton Grunt_59: -1146581600
       Skeleton Grunt_153: 1285753733
       Skeleton Grunt_15: -1827201171
-      Skeleton Grunt_150: -337507950
       Skeleton Grunt_138: -1229298015
       Skeleton Grunt_36: -1746480105
-      Skeleton Grunt_61: 1838538055
       Skeleton Grunt_95: -247719008
+      Skeleton Grunt_147: -1152662170
+      Skeleton Grunt_61: 1838538055
       Skeleton Grunt_3: 1089002319
       Skeleton Grunt_64: 1332963473
       Skeleton Grunt_51: -1995638355
@@ -3592,7 +3630,6 @@ TextureImporter:
       Skeleton Grunt_131: 2033604700
       Skeleton Grunt_110: 1163895498
       Skeleton Grunt_88: -1974147575
-      Skeleton Grunt_147: -1152662170
       Skeleton Grunt_155: 2012798224
       Skeleton Grunt_6: -725568720
       Skeleton Grunt_13: 1771734623
@@ -3637,12 +3674,12 @@ TextureImporter:
       Skeleton Grunt_116: 1638592292
       Skeleton Grunt_100: -440497195
       Skeleton Grunt_119: -342461306
+      Skeleton Grunt_123: 2005064631
       Skeleton Grunt_44: 107531565
       Skeleton Grunt_28: -80299486
-      Skeleton Grunt_77: 1913829501
       Skeleton Grunt_93: -353621469
+      Skeleton Grunt_77: 1913829501
       Skeleton Grunt_157: 1715913179
-      Skeleton Grunt_103: 1210913776
       Skeleton Grunt_27: -1339216585
       Skeleton Grunt_115: -1137371133
       Skeleton Grunt_82: 354827093

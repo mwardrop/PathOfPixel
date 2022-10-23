@@ -3,7 +3,7 @@ guid: 360c2731513ae1c48bb485e17b369182
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
-  serializedVersion: 11
+  serializedVersion: 12
   mipmaps:
     mipMapMode: 0
     enableMipMap: 0
@@ -63,10 +63,11 @@ TextureImporter:
   textureFormatSet: 0
   ignorePngGamma: 0
   applyGammaDecoding: 0
+  cookieLightType: 1
   platformSettings:
   - serializedVersion: 3
     buildTarget: DefaultTexturePlatform
-    maxTextureSize: 2048
+    maxTextureSize: 16384
     resizeAlgorithm: 0
     textureFormat: -1
     textureCompression: 1
@@ -102,6 +103,42 @@ TextureImporter:
     forceMaximumCompressionQuality_BC6H_BC7: 0
   - serializedVersion: 3
     buildTarget: WebGL
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: Android
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: iPhone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: Windows Store Apps
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: -1
@@ -3858,19 +3895,19 @@ TextureImporter:
       Skeleton Hunter_85: 1117355999
       Skeleton Hunter_88: 1638152766
       Skeleton Hunter_72: -1831903541
-      Skeleton Hunter_68: 1151747919
-      Skeleton Hunter_170: -1657382995
       Skeleton Hunter_159: -712175054
+      Skeleton Hunter_170: -1657382995
       Skeleton Hunter_172: -1514056260
+      Skeleton Hunter_68: 1151747919
       Skeleton Hunter_110: 2107010595
       Skeleton Hunter_76: 1100375625
       Skeleton Hunter_91: -294510854
-      Skeleton Hunter_53: -1294632101
       Skeleton Hunter_36: 851283047
-      Skeleton Hunter_46: 1833431626
       Skeleton Hunter_12: 409370635
+      Skeleton Hunter_46: 1833431626
       Skeleton Hunter_137: -1062168601
       Skeleton Hunter_3: 887740292
+      Skeleton Hunter_53: -1294632101
       Skeleton Hunter_122: -368989883
       Skeleton Hunter_62: 577126514
       Skeleton Hunter_103: 1978046758
@@ -3892,12 +3929,12 @@ TextureImporter:
       Skeleton Hunter_13: 1700873078
       Skeleton Hunter_48: 2010073318
       Skeleton Hunter_89: 181593399
-      Skeleton Hunter_19: 1400654256
-      Skeleton Hunter_153: 1600718263
-      Skeleton Hunter_141: 1197992486
-      Skeleton Hunter_75: 1486452484
       Skeleton Hunter_149: 445613337
+      Skeleton Hunter_19: 1400654256
       Skeleton Hunter_154: 2142250927
+      Skeleton Hunter_75: 1486452484
+      Skeleton Hunter_141: 1197992486
+      Skeleton Hunter_153: 1600718263
       Skeleton Hunter_64: 889615189
       Skeleton Hunter_114: -1569141619
       Skeleton Hunter_80: 1530062809

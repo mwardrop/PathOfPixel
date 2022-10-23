@@ -3,7 +3,7 @@ guid: ff118ba448a1fac4fa4e4e4094fd8c5f
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
-  serializedVersion: 11
+  serializedVersion: 12
   mipmaps:
     mipMapMode: 0
     enableMipMap: 0
@@ -63,10 +63,11 @@ TextureImporter:
   textureFormatSet: 0
   ignorePngGamma: 0
   applyGammaDecoding: 0
+  cookieLightType: 1
   platformSettings:
   - serializedVersion: 3
     buildTarget: DefaultTexturePlatform
-    maxTextureSize: 2048
+    maxTextureSize: 16384
     resizeAlgorithm: 0
     textureFormat: -1
     textureCompression: 1
@@ -102,6 +103,42 @@ TextureImporter:
     forceMaximumCompressionQuality_BC6H_BC7: 0
   - serializedVersion: 3
     buildTarget: WebGL
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: Android
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: iPhone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: Windows Store Apps
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: -1
@@ -5947,20 +5984,20 @@ TextureImporter:
       Necromancer_103: -1344875529
       Necromancer_23: -990200932
       Necromancer_6: 1166847469
+      Necromancer_182: -1868343695
       Necromancer_50: -957091594
-      Necromancer_134: 372989612
       Necromancer_264: 1516890191
-      Necromancer_7: -701880948
       Necromancer_71: -265808418
+      Necromancer_7: -701880948
       Necromancer_107: -1128410139
       Necromancer_170: 1255806117
-      Necromancer_182: -1868343695
+      Necromancer_134: 372989612
       Necromancer_194: 151010021
       Necromancer_56: 698623840
-      Necromancer_70: 631156042
       Necromancer_236: 2136218410
-      Necromancer_117: -16668585
+      Necromancer_70: 631156042
       Necromancer_72: -624248548
+      Necromancer_117: -16668585
       Necromancer_161: 1614617448
       Necromancer_102: 1591236504
       Necromancer_19: 990010585
@@ -5987,26 +6024,26 @@ TextureImporter:
       Necromancer_268: 1582211288
       Necromancer_187: 1149305858
       Necromancer_206: 1170769363
-      Necromancer_106: -490032885
-      Necromancer_151: 2066022199
       Necromancer_256: 282007483
-      Necromancer_258: -1401761612
+      Necromancer_106: -490032885
+      Necromancer_259: 1298794953
+      Necromancer_151: 2066022199
       Necromancer_82: 587671731
       Necromancer_152: -217444964
       Necromancer_177: -1176188699
       Necromancer_213: -427687272
-      Necromancer_259: 1298794953
-      Necromancer_89: -788987952
       Necromancer_270: 1019602547
+      Necromancer_89: -788987952
+      Necromancer_258: -1401761612
       Necromancer_131: -1249237484
       Necromancer_27: -1748955111
       Necromancer_45: -338696104
       Necromancer_40: 1487265327
       Necromancer_28: 984521271
-      Necromancer_150: -291154394
       Necromancer_250: 121224784
-      Necromancer_162: -519129250
+      Necromancer_150: -291154394
       Necromancer_0: 1684433754
+      Necromancer_162: -519129250
       Necromancer_242: -529304837
       Necromancer_253: -580171902
       Necromancer_214: -549616952
@@ -6072,8 +6109,8 @@ TextureImporter:
       Necromancer_176: -1890397073
       Necromancer_118: 685337102
       Necromancer_87: 1167203411
-      Necromancer_75: 111660227
       Necromancer_127: 364938931
+      Necromancer_75: 111660227
       Necromancer_36: -38749919
       Necromancer_18: 1188260176
       Necromancer_137: 1326297480
@@ -6089,16 +6126,16 @@ TextureImporter:
       Necromancer_86: 1942146621
       Necromancer_84: -2044790565
       Necromancer_199: 2114988477
-      Necromancer_160: 1959943149
-      Necromancer_104: -1235631753
       Necromancer_225: 1781391830
+      Necromancer_104: -1235631753
+      Necromancer_243: -1133142489
       Necromancer_211: -176485851
       Necromancer_193: 2000592435
+      Necromancer_160: 1959943149
       Necromancer_203: 194406205
       Necromancer_120: -1026427453
-      Necromancer_141: 1081227868
       Necromancer_11: -1588821641
-      Necromancer_243: -1133142489
+      Necromancer_141: 1081227868
       Necromancer_212: 1235738616
       Necromancer_230: -1002404712
       Necromancer_269: -501151536

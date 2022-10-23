@@ -3,7 +3,7 @@ guid: e963a942cc854244ab1119496a1704c0
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
-  serializedVersion: 11
+  serializedVersion: 12
   mipmaps:
     mipMapMode: 0
     enableMipMap: 0
@@ -63,10 +63,11 @@ TextureImporter:
   textureFormatSet: 0
   ignorePngGamma: 0
   applyGammaDecoding: 0
+  cookieLightType: 1
   platformSettings:
   - serializedVersion: 3
     buildTarget: DefaultTexturePlatform
-    maxTextureSize: 2048
+    maxTextureSize: 16384
     resizeAlgorithm: 0
     textureFormat: -1
     textureCompression: 1
@@ -102,6 +103,42 @@ TextureImporter:
     forceMaximumCompressionQuality_BC6H_BC7: 0
   - serializedVersion: 3
     buildTarget: WebGL
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: Android
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: iPhone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: Windows Store Apps
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: -1
@@ -4793,8 +4830,8 @@ TextureImporter:
       Goblin Slinger_125: 1853687148
       Goblin Slinger_32: 128108901
       Goblin Slinger_139: -1880964652
-      Goblin Slinger_46: 684874043
       Goblin Slinger_197: 701327710
+      Goblin Slinger_46: 684874043
       Goblin Slinger_128: 590644004
       Goblin Slinger_178: 1185697032
       Goblin Slinger_171: 1731963964
@@ -4811,11 +4848,11 @@ TextureImporter:
       Goblin Slinger_140: -535765748
       Goblin Slinger_132: 543322739
       Goblin Slinger_146: -732802173
-      Goblin Slinger_199: -168434328
+      Goblin Slinger_214: -1825532547
       Goblin Slinger_85: 56654911
       Goblin Slinger_137: -790174596
+      Goblin Slinger_199: -168434328
       Goblin Slinger_211: 1394579768
-      Goblin Slinger_214: -1825532547
       Goblin Slinger_92: 1109678670
       Goblin Slinger_11: 706995902
       Goblin Slinger_35: 168071783
