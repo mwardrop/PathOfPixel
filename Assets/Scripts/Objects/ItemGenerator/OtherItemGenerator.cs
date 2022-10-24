@@ -22,17 +22,17 @@ public class OtherItemGenerator : IitemGenerator
     public InventoryItem RollItem(InventoryItem other)
     {
 
-        other.itemSubType = GetWeightedItemSubType();
+        other.ItemSubType = GetWeightedItemSubType();
 
-        switch (other.itemSubType) {
+        switch (other.ItemSubType) {
             case InventoryItemSubType.OtherGloves:
-                other.itemImageId = Random.Range(0, GlovesImageAssetCount - 1);
+                other.ItemImageId = Random.Range(0, GlovesImageAssetCount - 1);
                 break;
             case InventoryItemSubType.OtherRing:
-                other.itemImageId = Random.Range(0, RingImageAssetCount - 1);
+                other.ItemImageId = Random.Range(0, RingImageAssetCount - 1);
                 break;
             case InventoryItemSubType.OtherAmulet:
-                other.itemImageId = Random.Range(0, AmuletImageAssetCount - 1);
+                other.ItemImageId = Random.Range(0, AmuletImageAssetCount - 1);
                 break;
         }
 

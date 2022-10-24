@@ -37,19 +37,23 @@ public struct LoginRequestData : IDarkRiftSerializable
 public struct LoginInfoData : IDarkRiftSerializable
 {
     public ushort Id;
+    public WorldState State;
 
-    public LoginInfoData(ushort id)
+    public LoginInfoData(ushort id, WorldState state)
     {
         Id = id;
+        State = state;
     }
 
     public void Deserialize(DeserializeEvent e)
     {
         Id = e.Reader.ReadUInt16();
+        State = e.Reader.ReadSerializable<WorldState>();
     }
 
     public void Serialize(SerializeEvent e)
     {
         e.Writer.Write(Id);
+        e.Writer.Write(State);
     }
 }

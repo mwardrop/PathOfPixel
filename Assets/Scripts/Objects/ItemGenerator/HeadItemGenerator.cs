@@ -10,7 +10,7 @@ public class HeadItemGenerator : IitemGenerator
     public InventoryItem RollItem(InventoryItem head)
     {
 
-        head.itemImageId = Random.Range(0, ImageAssetCount - 1);
+        head.ItemImageId = Random.Range(0, ImageAssetCount - 1);
 
         return head;
     }

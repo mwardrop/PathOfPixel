@@ -1,14 +1,12 @@
 using DarkRift;
 using DarkRift.Client;
 using System;
-using System.Collections;
-using System.Collections.Generic;
+using System.Linq;
 using TMPro;
 using Unity.VisualScripting;
 using UnityEditor;
-using UnityEditor.VersionControl;
 using UnityEngine;
-using UnityEngine.EventSystems;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using Message = DarkRift.Message;
 
@@ -20,6 +18,7 @@ public class LoginScreen : MonoBehaviour
 
     private string host;
     private int port;
+    private string[] localhosts = { "localhost", "127.0.0.1" };
 
     void Start()
     {
@@ -27,7 +26,7 @@ public class LoginScreen : MonoBehaviour
         HostButton.onClick.AddListener(HostClicked);
         SettingsButton.onClick.AddListener(SettingsClicked);
 
-        ClientConnectionManager.Instance.Client.MessageReceived += OnNetworkMessage;
+        ClientManager.Instance.Client.MessageReceived += OnNetworkMessage;
     }
 
 
@@ -44,15 +43,24 @@ public class LoginScreen : MonoBehaviour
         host = ServerField.text.Split(":")[0];
         port = int.Parse(ServerField.text.Split(":")[1]);
 
-        ClientConnectionManager.Instance.OnConnected += Login;
-        ClientConnectionManager.Instance.Connect();
+        if (!localhosts.Contains(host.ToLower())){
+            GameObject.FindWithTag("ServerManager").SetActive(false);
+        }
 
+        if(host.ToLower() == "debug")
+        {
+            ClientManager.Instance.Connect("localhost", 666, Login);
+        } else
+        {
+            ClientManager.Instance.Connect(host, port, Login);
+        }
 
     }
 
     void HostClicked()
     {
-        EditorUtility.DisplayDialog("Not Implemented", "Dedicated Hosting is not yet implemented.", "Ok");
+        ServerManager.isDedicated = true;
+        SceneManager.LoadScene("OverworldScene", LoadSceneMode.Single);
     }
 
     void SettingsClicked()
@@ -60,12 +68,21 @@ public class LoginScreen : MonoBehaviour
         EditorUtility.DisplayDialog("Not Implemented", "Settings is not yet implemented.", "Ok");
     }
 
-    public void Login()
+    public void Login(Exception exception)
     {
-        using (Message message = Message.Create((ushort)NetworkTags.LoginRequest, new LoginRequestData(UsernameField.text, PasswordField.text)))
+        if (ClientManager.Instance.Client.ConnectionState == ConnectionState.Connected)
         {
-            ClientConnectionManager.Instance.Client.SendMessage(message, SendMode.Reliable);
+            Debug.Log("Connected to server.");
+
+            ClientManager.SendMessage(
+                NetworkTags.LoginRequest, 
+                new LoginRequestData(UsernameField.text, PasswordField.text));
         }
+        else
+        {
+            EditorUtility.DisplayDialog("Could not connect to server.", exception.Message.ToString(), "Ok");
+        }
+
     }
 
     public void OnNetworkMessage(object sender, MessageReceivedEventArgs e)
@@ -91,6 +108,7 @@ public class LoginScreen : MonoBehaviour
 
     private void OnLoginAccept(LoginInfoData data)
     {
-        EditorUtility.DisplayDialog("Login", "Login Success.", "Ok");
+        ClientManager.Instance.WorldState = data.State;
+        EditorUtility.DisplayDialog("Login", "World State Set.", "Ok");
     }
 }

@@ -8,7 +8,7 @@ public class ChestItemGenerator : IitemGenerator
 
     public InventoryItem RollItem(InventoryItem chest)
     {
-        chest.itemImageId = Random.Range(0, ImageAssetCount - 1);
+        chest.ItemImageId = Random.Range(0, ImageAssetCount - 1);
 
         return chest;
     }

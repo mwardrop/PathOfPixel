@@ -11,8 +11,10 @@ public class ServerManager : MonoBehaviour
     private XmlUnityServer xmlServer;
     private DarkRiftServer server;
 
-    public Dictionary<ushort, ClientConnection> Players = new Dictionary<ushort, ClientConnection>();
-    public Dictionary<string, ClientConnection> PlayersByUsername = new Dictionary<string, ClientConnection>();
+    public Dictionary<string, ClientConnection> Connections = new Dictionary<string, ClientConnection>();
+    public WorldState WorldState = new WorldState();
+
+    public static bool isDedicated = false;
 
     void Awake()
     {
@@ -65,7 +67,7 @@ public class ServerManager : MonoBehaviour
 
     private void OnClientLogin(IClient client, LoginRequestData data)
     {
-        if (PlayersByUsername.ContainsKey(data.Username))
+        if (Connections.ContainsKey(data.Username))
         {
             using (Message message = Message.CreateEmpty((ushort)NetworkTags.LoginRequestDenied))
             {

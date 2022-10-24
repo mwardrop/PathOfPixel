@@ -1,3 +1,4 @@
+using DarkRift;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -37,28 +38,49 @@ public enum InventoryItemRarity
 }
 
 [Serializable]
-public class InventoryItem
+public class InventoryItem: IDarkRiftSerializable
 {
 
-    public string itemName = "Generic Item";
-    public string itemDescription = "Generic Description";
-    public int itemImageId = 0;
-    public InventoryItemType itemType = InventoryItemType.Other;
-    public InventoryItemSubType itemSubType = InventoryItemSubType.None;
-    public InventoryItemRarity itemRarity = InventoryItemRarity.Common;
-    public int itemLevel = 1;
-    public readonly Guid itemGuid;
-    public String identifier = ""; // TODO: Remove when no longer need to see GUID in Unity Editor
+    public string ItemName = "Generic Item";
+    public string ItemDescription = "Generic Description";
+    public int ItemImageId = 0;
+    public InventoryItemType ItemType = InventoryItemType.Other;
+    public InventoryItemSubType ItemSubType = InventoryItemSubType.None;
+    public InventoryItemRarity ItemRarity = InventoryItemRarity.Common;
+    public int ItemLevel = 1;
+    public Guid ItemGuid;
 
-    public List<ItemOffenseModifier> offenseModifiers;
-    public List<ItemDefenseModifier> defenseModifiers;
-
-    public List<ItemCustomModifier> customModifiers;
+    //public List<ItemOffenseModifier> offenseModifiers;
+    //public List<ItemDefenseModifier> defenseModifiers;
+    //public List<ItemCustomModifier> customModifiers;
 
     public InventoryItem()
     {
-        itemGuid = Guid.NewGuid();
-        identifier = itemGuid.ToString();
+        ItemGuid = Guid.NewGuid();
     }
 
+    public void Deserialize(DeserializeEvent e)
+    {
+        ItemName = e.Reader.ReadString();
+        ItemDescription = e.Reader.ReadString();
+        ItemImageId = e.Reader.ReadInt32();
+        ItemType = (InventoryItemType)e.Reader.ReadInt32();
+        ItemSubType = (InventoryItemSubType)e.Reader.ReadInt32();
+        ItemRarity = (InventoryItemRarity)e.Reader.ReadInt32();
+        ItemLevel = e.Reader.ReadInt32();
+        String tempGuid = e.Reader.ReadString();
+        ItemGuid = Guid.Parse(tempGuid);
+    }
+
+    public void Serialize(SerializeEvent e)
+    {
+        e.Writer.Write(ItemName);
+        e.Writer.Write(ItemDescription);
+        e.Writer.Write(ItemImageId);
+        e.Writer.Write((int)ItemType);
+        e.Writer.Write((int)ItemSubType);
+        e.Writer.Write((int)ItemRarity);
+        e.Writer.Write(ItemLevel);
+        e.Writer.Write(ItemGuid.ToString());
+    }
 }

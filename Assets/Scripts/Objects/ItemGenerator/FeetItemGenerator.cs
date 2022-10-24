@@ -10,7 +10,7 @@ public class FeetItemGenerator : IitemGenerator
     public InventoryItem RollItem(InventoryItem feet)
     {
 
-        feet.itemImageId = Random.Range(0, ImageAssetCount - 1);
+        feet.ItemImageId = Random.Range(0, ImageAssetCount - 1);
 
         return feet;
     }

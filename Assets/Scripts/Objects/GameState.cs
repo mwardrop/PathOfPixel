@@ -40,7 +40,7 @@ public class GameState : ScriptableObject
         worldDrops.Add(item);
 
         GameObject itemDrop =  Instantiate(itemDropPrefab, new Vector3(x, y, 0), Quaternion.identity);
-        itemDrop.GetComponent<ItemDropSprite>().itemGuid = item.itemGuid;
+        itemDrop.GetComponent<ItemDropSprite>().itemGuid = item.ItemGuid;
         itemDrop.GetComponent<ItemDropSprite>().inventoryItem = item;
 
         return itemDrop;

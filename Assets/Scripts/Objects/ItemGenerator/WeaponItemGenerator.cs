@@ -24,21 +24,21 @@ public class WeaponItemGenerator: IitemGenerator
     public InventoryItem RollItem(InventoryItem weapon)
     {
 
-        weapon.itemSubType = GetWeightedItemSubType();
+        weapon.ItemSubType = GetWeightedItemSubType();
 
-        switch (weapon.itemSubType)
+        switch (weapon.ItemSubType)
         {
             case InventoryItemSubType.WeaponSword:
-                weapon.itemImageId = Random.Range(0, SwordImageAssetCount - 1);
+                weapon.ItemImageId = Random.Range(0, SwordImageAssetCount - 1);
                 break;
             case InventoryItemSubType.WeaponStaff:
-                weapon.itemImageId = Random.Range(0, StaffImageAssetCount - 1);
+                weapon.ItemImageId = Random.Range(0, StaffImageAssetCount - 1);
                 break;
             case InventoryItemSubType.WeaponAxe:
-                weapon.itemImageId = Random.Range(0, AxeImageAssetCount - 1);
+                weapon.ItemImageId = Random.Range(0, AxeImageAssetCount - 1);
                 break;
             case InventoryItemSubType.WeaponHammer:
-                weapon.itemImageId = Random.Range(0, HammerImageAssetCount - 1);
+                weapon.ItemImageId = Random.Range(0, HammerImageAssetCount - 1);
                 break;
         }
 

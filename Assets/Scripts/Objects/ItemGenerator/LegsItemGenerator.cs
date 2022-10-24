@@ -10,7 +10,7 @@ public class LegsItemGenerator : IitemGenerator
     public InventoryItem RollItem(InventoryItem legs)
     {
 
-        legs.itemImageId = Random.Range(0, ImageAssetCount - 1);
+        legs.ItemImageId = Random.Range(0, ImageAssetCount - 1);
 
         return legs;
     }

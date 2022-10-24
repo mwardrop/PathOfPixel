@@ -49,11 +49,11 @@ public class ItemGenerator
     public InventoryItem createInventoryItem(int itemLevel, InventoryItemType itemType, InventoryItemRarity itemRarity)
     {
         InventoryItem item = new InventoryItem();
-        item.itemLevel = Random.Range(itemLevel, itemLevel + 5);
-        item.itemType = itemType;
-        item.itemRarity = itemRarity;
+        item.ItemLevel = Random.Range(itemLevel, itemLevel + 5);
+        item.ItemType = itemType;
+        item.ItemRarity = itemRarity;
 
-        switch(item.itemType)
+        switch(item.ItemType)
         {
             case InventoryItemType.Chest:
                 return chestItemGenerator.RollItem(item);
