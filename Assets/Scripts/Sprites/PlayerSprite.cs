@@ -1,6 +1,4 @@
-using System;
 using System.Linq;
-using System.Runtime.InteropServices.WindowsRuntime;
 using UnityEngine;
 
 
@@ -12,7 +10,12 @@ public class PlayerSprite : CharacterSprite
     {
         get
         {
-            return ClientManager.Instance.ClientConnection.WorldState.Players.First(x => x.ClientId == NetworkClientId);
+            try
+            {
+                return ClientManager.Instance.ClientConnection.WorldState.Players.First(x => x.ClientId == NetworkClientId);
+            } catch {
+                return null;
+            }
         }
     }
 
@@ -41,6 +44,8 @@ public class PlayerSprite : CharacterSprite
 
     protected override void Update()
     {      
+        if(PlayerState == null) { Destroy(this.gameObject); }
+
         if (Vector3.Distance(transform.position, target) >= moveRadius)
         {
             if(canMove && Vector3.Distance(transform.position, target) > moveRadius) { shouldMove = true; }

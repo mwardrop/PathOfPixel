@@ -4,6 +4,8 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
+using UnityEditor.PackageManager;
 using UnityEngine;
 using UnityEngine.Diagnostics;
 using UnityEngine.SceneManagement;
@@ -34,17 +36,7 @@ public class ClientConnection
 
         WorldState = worldState;
 
-        SceneManager.LoadScene(PlayerState.Scene, LoadSceneMode.Single);
-        
-        foreach(PlayerState player in WorldState.Players)
-        {
-            if(player.Scene == PlayerState.Scene && player.ClientId != PlayerState.ClientId)
-            {
-                SpawnPlayer(new PlayerStateData(player));
-            }
-        }
-
-        RequestSpawn();
+        LoadScene(PlayerState.Scene);
     }
 
     public void OnNetworkMessage(object sender, MessageReceivedEventArgs e)
@@ -58,6 +50,9 @@ public class ClientConnection
                     break;
                 case NetworkTags.MovePlayer:
                     MovePlayer(message.Deserialize<MovePlayerData>());
+                    break;
+                case NetworkTags.PlayerDisconnect:
+                    PlayerDisconnect(message.Deserialize<IntegerData>());
                     break;
             }
         }
@@ -83,11 +78,9 @@ public class ClientConnection
             playerStateData.PlayerState.Location,
             Quaternion.identity);
 
-        if(playerState.ClientId == ClientId)
-        {
+        if(playerState.ClientId == ClientId) {
             newPlayer.tag = "LocalPlayer";
-        } else
-        {
+        } else {
             newPlayer.tag = "NetworkPlayer";
         }
 
@@ -105,4 +98,27 @@ public class ClientConnection
         WorldState.Players.First(x => x.ClientId == movePlayerData.ClientId).TargetLocation = movePlayerData.Target;
     }
 
+    private void PlayerDisconnect(IntegerData clientId)
+    {
+        WorldState.Players.RemoveAll(x => x.ClientId == clientId.Integer);
+    }
+
+    private void LoadScene(string scene)
+    {
+        SceneManager.sceneLoaded += LoadSceneCallback;
+        SceneManager.LoadScene(scene, LoadSceneMode.Single);
+
+        void LoadSceneCallback(Scene scene, LoadSceneMode mode)
+        {
+            foreach (PlayerState player in WorldState.Players)
+            {
+                if (player.Scene == scene.name && player.ClientId != PlayerState.ClientId)
+                {
+                    SpawnPlayer(new PlayerStateData(player));
+                }
+            }
+
+            RequestSpawn();
+        }
+    }
 }

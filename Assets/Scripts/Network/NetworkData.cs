@@ -12,7 +12,8 @@ public enum NetworkTags
     SpawnRequest = 3,
     SpawnPlayer = 4,
     MoveRequest = 5,
-    MovePlayer = 6
+    MovePlayer = 6,
+    PlayerDisconnect = 7
 }
 
 public struct LoginRequestData : IDarkRiftSerializable
@@ -100,6 +101,26 @@ public struct TargetData : IDarkRiftSerializable
     public void Serialize(SerializeEvent e)
     {
         e.Writer.WriteVector2(Target);
+    }
+}
+
+public struct IntegerData: IDarkRiftSerializable
+{
+    public int Integer;
+
+    public IntegerData(int integer)
+    {
+        Integer = integer;
+    }
+
+    public void Deserialize(DeserializeEvent e)
+    {
+        Integer = e.Reader.ReadInt32();
+    }
+
+    public void Serialize(SerializeEvent e)
+    {
+        e.Writer.Write(Integer);
     }
 }
 

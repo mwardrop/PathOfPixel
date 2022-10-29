@@ -3,6 +3,7 @@ using System.Linq;
 using DarkRift;
 using DarkRift.Server;
 using DarkRift.Server.Unity;
+using UnityEditor.PackageManager;
 using UnityEngine;
 
 public class ServerManager : MonoBehaviour
@@ -45,6 +46,13 @@ public class ServerManager : MonoBehaviour
     private void OnClientDisconnected(object sender, ClientDisconnectedEventArgs e)
     {
         e.Client.MessageReceived -= OnMessage;
+
+        ServerManager.Instance.WorldState.Players.RemoveAll(x => x.ClientId == e.Client.ID);
+        ServerManager.Instance.Connections.Remove(e.Client.ID);
+
+        BroadcastNetworkMessage(
+            NetworkTags.PlayerDisconnect,
+            new IntegerData(e.Client.ID));
     }
 
     private void OnClientConnected(object sender, ClientConnectedEventArgs e)
@@ -80,7 +88,17 @@ public class ServerManager : MonoBehaviour
         // In the future the ClientConnection will handle its messages
         client.MessageReceived -= OnMessage;
 
-        new ServerConnection(client, data);
+        ServerConnection newConnection = new ServerConnection(client, data);
+
+        Connections.Add(client.ID, newConnection);
+
+        WorldState.Players.Add(newConnection.PlayerState);
+
+        SendNetworkMessage(
+            client, 
+            NetworkTags.LoginRequestAccepted, 
+            new LoginResponseData(client.ID, ServerManager.Instance.WorldState));
+    
     }
 
     public static void SendNetworkMessage(IClient client, NetworkTags networkTag, IDarkRiftSerializable payload)

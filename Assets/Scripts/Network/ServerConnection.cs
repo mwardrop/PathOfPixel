@@ -1,5 +1,6 @@
 ﻿using DarkRift;
 using DarkRift.Server;
+using Unity.Collections.LowLevel.Unsafe;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
@@ -17,8 +18,6 @@ public class ServerConnection
         Username = data.Username;
 
         Client.MessageReceived += OnMessage;
-
-        ServerManager.Instance.Connections.Add(Client.ID, this);
 
         // TODO : User should be able to create new and load existing PlayerStates (Warrior, Mage / Load, New)
         PlayerState = new PlayerState()
@@ -42,9 +41,17 @@ public class ServerConnection
             ClientId = client.ID
         };
 
-        ServerManager.Instance.WorldState.Players.Add(PlayerState);
+    }
 
-        SendNetworkMessage(NetworkTags.LoginRequestAccepted, new LoginResponseData(client.ID, ServerManager.Instance.WorldState));
+    public void Disconnect()
+    {
+        BroadcastNetworkMessage(
+            NetworkTags.PlayerDisconnect,
+            new IntegerData(Client.ID));
+
+        ServerManager.Instance.WorldState.Players.RemoveAll(x => x.ClientId == Client.ID);
+        ServerManager.Instance.Connections.Remove(Client.ID);
+
     }
 
     private void OnMessage(object sender, MessageReceivedEventArgs e)
@@ -69,7 +76,7 @@ public class ServerConnection
         PlayerState.TargetLocation = PlayerState.Location = new Vector2(Random.Range(-3, 3), Random.Range(-3, 3));
 
         BroadcastNetworkMessage(
-            NetworkTags.SpawnPlayer, 
+            NetworkTags.SpawnPlayer,
             new PlayerStateData(PlayerState)
         );
     }
