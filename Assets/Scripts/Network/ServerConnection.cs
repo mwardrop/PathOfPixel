@@ -1,8 +1,5 @@
 ﻿using DarkRift;
 using DarkRift.Server;
-using System;
-using UnityEditor.EditorTools;
-using UnityEngine.SceneManagement;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
@@ -21,7 +18,7 @@ public class ServerConnection
 
         Client.MessageReceived += OnMessage;
 
-        ServerManager.Instance.Connections.Add(Username, this);
+        ServerManager.Instance.Connections.Add(Client.ID, this);
 
         // TODO : User should be able to create new and load existing PlayerStates (Warrior, Mage / Load, New)
         PlayerState = new PlayerState()
@@ -60,17 +57,30 @@ public class ServerConnection
                 case NetworkTags.SpawnRequest:
                     SpawnPlayer();
                     break;
+                case NetworkTags.MoveRequest:
+                    MovePlayer(message.Deserialize<TargetData>().Target);
+                    break;
             }
         }
     }
 
     private void SpawnPlayer()
     {
-        PlayerState.Location = new Vector2(Random.Range(-3, 3), Random.Range(-3, 3));
+        PlayerState.TargetLocation = PlayerState.Location = new Vector2(Random.Range(-3, 3), Random.Range(-3, 3));
 
         BroadcastNetworkMessage(
             NetworkTags.SpawnPlayer, 
-            new SpawnPlayerData(PlayerState.Scene, PlayerState.Name, PlayerState.Location)
+            new PlayerStateData(PlayerState)
+        );
+    }
+
+    private void MovePlayer(Vector2 target)
+    {
+        PlayerState.TargetLocation = target;
+
+        BroadcastNetworkMessage(
+            NetworkTags.MovePlayer,
+            new MovePlayerData(Client.ID, PlayerState.TargetLocation)
         );
     }
 

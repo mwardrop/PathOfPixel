@@ -1,8 +1,8 @@
 using System.Collections.Generic;
+using System.Linq;
 using DarkRift;
 using DarkRift.Server;
 using DarkRift.Server.Unity;
-using UnityEditor.PackageManager;
 using UnityEngine;
 
 public class ServerManager : MonoBehaviour
@@ -12,7 +12,7 @@ public class ServerManager : MonoBehaviour
     private XmlUnityServer XmlServer;
     private DarkRiftServer Server;
 
-    public Dictionary<string, ServerConnection> Connections = new Dictionary<string, ServerConnection>();
+    public Dictionary<int, ServerConnection> Connections = new Dictionary<int, ServerConnection>();
     public WorldState WorldState = new WorldState();
 
     public static bool isDedicated = false;
@@ -68,7 +68,7 @@ public class ServerManager : MonoBehaviour
 
     private void OnClientLogin(IClient client, LoginRequestData data)
     {
-        if (Connections.ContainsKey(data.Username))
+        if (Connections.Where(x => x.Value.Username == data.Username).Count() > 0)
         {
             using (Message message = Message.CreateEmpty((ushort)NetworkTags.LoginRequestDenied))
             {
@@ -93,7 +93,7 @@ public class ServerManager : MonoBehaviour
 
     public static void BroadcastNetworkMessage(NetworkTags networkTag, IDarkRiftSerializable payload)
     {
-        foreach(KeyValuePair<string,ServerConnection> connection in Instance.Connections)
+        foreach(KeyValuePair<int,ServerConnection> connection in Instance.Connections)
         {
             using (Message m = Message.Create((ushort)networkTag, payload))
             {

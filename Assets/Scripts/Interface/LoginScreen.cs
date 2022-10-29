@@ -1,14 +1,10 @@
-using DarkRift;
-using DarkRift.Client;
 using System;
 using System.Linq;
 using TMPro;
 using Unity.VisualScripting;
 using UnityEditor;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 using UnityEngine.UI;
-using Message = DarkRift.Message;
 
 public class LoginScreen : MonoBehaviour
 {
@@ -34,22 +30,26 @@ public class LoginScreen : MonoBehaviour
             String.IsNullOrWhiteSpace(UsernameField.text) || 
             String.IsNullOrWhiteSpace(PasswordField.text))
         {
-            EditorUtility.DisplayDialog("Missing Details", "Server, Username and Password are required to login.", "Ok");
+//EditorUtility.DisplayDialog("Missing Details", "Server, Username and Password are required to login.", "Ok");
             return;
         } 
 
-        host = ServerField.text.Split(":")[0];
-        port = int.Parse(ServerField.text.Split(":")[1]);
 
-        if (!localhosts.Contains(host.ToLower())){
+        if(ServerField.text.ToLower() == "debug")
+        {
             GameObject.FindWithTag("ServerManager").SetActive(false);
-        }
-
-        if(host.ToLower() == "debug")
-        {
             ClientManager.Instance.Connect("127.0.0.1", 4296, UsernameField.text, PasswordField.text, OnConnectFail);
-        } else
-        {
+
+        } else {
+
+            host = ServerField.text.Split(":")[0];
+            port = int.Parse(ServerField.text.Split(":")[1]);
+
+            if (!localhosts.Contains(host.ToLower()))
+            {
+                GameObject.FindWithTag("ServerManager").SetActive(false);
+            }
+
             ClientManager.Instance.Connect(host, port, UsernameField.text, PasswordField.text, OnConnectFail);
         }
 
@@ -57,20 +57,20 @@ public class LoginScreen : MonoBehaviour
 
     void HostClicked()
     {
-        EditorUtility.DisplayDialog("Not Implemented", "Dedicated Host is not yet implemented.", "Ok");
+        //EditorUtility.DisplayDialog("Not Implemented", "Dedicated Host is not yet implemented.", "Ok");
         //ServerManager.isDedicated = true;
         //SceneManager.LoadScene("OverworldScene", LoadSceneMode.Single);
     }
 
     void SettingsClicked()
     {
-        EditorUtility.DisplayDialog("Not Implemented", "Settings is not yet implemented.", "Ok");
+        //EditorUtility.DisplayDialog("Not Implemented", "Settings is not yet implemented.", "Ok");
     }
 
 
     private void OnConnectFail(Exception exception)
     {
-        EditorUtility.DisplayDialog("Could not connect to server.", exception.Message.ToString(), "Ok");
+        //EditorUtility.DisplayDialog("Could not connect to server.", exception.Message.ToString(), "Ok");
     }
 
 

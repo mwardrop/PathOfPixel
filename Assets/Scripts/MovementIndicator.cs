@@ -15,7 +15,6 @@ public class MovementIndicator : MonoBehaviour
 
     public Boolean enemyClicked = false;
     public Boolean interfaceClicked = false;
-    public GameObject playerSpriteObject;
 
     private IEnumerator coroutine;
     private bool coroutineRunning = false;
@@ -45,7 +44,11 @@ public class MovementIndicator : MonoBehaviour
 
             Vector3 target = Camera.main.ScreenToWorldPoint(Input.mousePosition);
             target.z = transform.position.z;
+
+            ClientManager.Instance.ClientConnection.RequestMove(target);
+
             transform.position = target;
+
             spriteRenderer.sortingOrder = playerSprite.spriteRenderer.sortingOrder + 1;
 
             showIndicator();

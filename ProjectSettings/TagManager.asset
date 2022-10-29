@@ -9,6 +9,7 @@ TagManager:
   - Enemy
   - ClientManager
   - ServerManager
+  - NetworkPlayer
   layers:
   - Default
   - TransparentFX

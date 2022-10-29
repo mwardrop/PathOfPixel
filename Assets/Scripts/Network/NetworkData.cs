@@ -12,7 +12,7 @@ public enum NetworkTags
     SpawnRequest = 3,
     SpawnPlayer = 4,
     MoveRequest = 5,
-    MoveRequestAccepted = 6
+    MovePlayer = 6
 }
 
 public struct LoginRequestData : IDarkRiftSerializable
@@ -63,31 +63,66 @@ public struct LoginResponseData : IDarkRiftSerializable
     }
 }
 
-public struct SpawnPlayerData : IDarkRiftSerializable
+public struct PlayerStateData : IDarkRiftSerializable
 {
-    public string Scene;
-    public string Username;
+    public PlayerState PlayerState;
+
+    public PlayerStateData(PlayerState playerState)
+    {
+        PlayerState = playerState;
+    }
+
+    public void Deserialize(DeserializeEvent e)
+    {
+        PlayerState = e.Reader.ReadSerializable<PlayerState>();
+    }
+
+    public void Serialize(SerializeEvent e)
+    {
+        e.Writer.Write(PlayerState);
+    }
+}
+
+public struct TargetData : IDarkRiftSerializable
+{
     public Vector2 Target;
 
-
-    public SpawnPlayerData(string scene, string username, Vector2 target)
+    public TargetData(Vector2 target)
     {
-        Scene = scene;
-        Username = username;
         Target = target;
     }
 
     public void Deserialize(DeserializeEvent e)
     {
-        Scene = e.Reader.ReadString();
-        Username = e.Reader.ReadString();
         Target = e.Reader.ReadVector2();
     }
 
     public void Serialize(SerializeEvent e)
     {
-        e.Writer.Write(Scene);
-        e.Writer.Write(Username);
+        e.Writer.WriteVector2(Target);
+    }
+}
+
+public struct MovePlayerData : IDarkRiftSerializable
+{
+    public int ClientId;
+    public Vector2 Target;
+
+    public MovePlayerData(int clientId, Vector2 target)
+    {
+        ClientId = clientId;
+        Target = target;
+    }
+
+    public void Deserialize(DeserializeEvent e)
+    {
+        ClientId = e.Reader.ReadInt32();
+        Target = e.Reader.ReadVector2();
+    }
+
+    public void Serialize(SerializeEvent e)
+    {
+        e.Writer.Write(ClientId);
         e.Writer.WriteVector2(Target);
     }
 }

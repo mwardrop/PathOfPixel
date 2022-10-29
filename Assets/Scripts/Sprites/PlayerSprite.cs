@@ -1,12 +1,27 @@
 using System;
+using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
 using UnityEngine;
 
 
 public class PlayerSprite : CharacterSprite
 {
-    private Vector3 target;
-    private MovementIndicator movementIndicator;
+    public int NetworkClientId;
+
+    public PlayerState PlayerState
+    {
+        get
+        {
+            return ClientManager.Instance.ClientConnection.WorldState.Players.First(x => x.ClientId == NetworkClientId);
+        }
+    }
+
+    public Vector3 target { get
+        {
+            return new Vector3(PlayerState.TargetLocation.x, PlayerState.TargetLocation.y);
+        } 
+    }
+    //private MovementIndicator movementIndicator;
     
     public SpriteState selectedAttack = SpriteState.Attack1;
     public float attackRadius = 1.2f;
@@ -17,8 +32,7 @@ public class PlayerSprite : CharacterSprite
 
     void Start()
     {
-        target = transform.position;
-        movementIndicator = GameObject.FindWithTag("MovementIndicator").GetComponent<MovementIndicator>();
+        //movementIndicator = GameObject.FindWithTag("MovementIndicator").GetComponent<MovementIndicator>();
 
         SetDirection(direction);
         SetState(state);
@@ -27,47 +41,45 @@ public class PlayerSprite : CharacterSprite
 
     protected override void Update()
     {      
-        if (Input.GetMouseButtonDown(0))
+        if (Vector3.Distance(transform.position, target) >= moveRadius)
         {
-            target = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-            target.z = transform.position.z;
             if(canMove && Vector3.Distance(transform.position, target) > moveRadius) { shouldMove = true; }
             SetDirection(target);
         }
 
         base.Update();
 
-        if (Input.GetButtonDown("Attack1"))
-        {
-            SetAttack(SpriteState.Attack1);
-        }
+        //if (Input.GetButtonDown("Attack1"))
+        //{
+        //    SetAttack(SpriteState.Attack1);
+        //}
 
-        if (Input.GetButtonDown("Attack2"))
-        {
-            SetAttack(SpriteState.Attack2);
-        }
+        //if (Input.GetButtonDown("Attack2"))
+        //{
+        //    SetAttack(SpriteState.Attack2);
+        //}
 
-        if (Input.GetButtonDown("Attack3"))
-        {
-            SetAttack(SpriteState.Attack3);
-        }
+        //if (Input.GetButtonDown("Attack3"))
+        //{
+        //    SetAttack(SpriteState.Attack3);
+        //}
 
         // Attack Enemy if in range
-        if (canAttack && 
-            movementIndicator.enemyClicked && 
-            Vector3.Distance(transform.position, enemy.transform.position) < attackRadius)
-        {
-            SetState(selectedAttack);
-            movementIndicator.enemyClicked = false;
-            return;
-        }
+        //if (canAttack && 
+        //    movementIndicator.enemyClicked && 
+        //    Vector3.Distance(transform.position, enemy.transform.position) < attackRadius)
+        //{
+        //    SetState(selectedAttack);
+        //    movementIndicator.enemyClicked = false;
+        //    return;
+        //}
 
         if(Vector3.Distance(transform.position, target) < moveRadius)
         {
             shouldMove = false;
         }
 
-        // Move to mouse click
+        // Move to target
         if (shouldMove)
         {      
             SetState(SpriteState.Walk);
