@@ -1,4 +1,5 @@
 using DarkRift;
+using DarkriftSerializationExtensions;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -49,6 +50,7 @@ public class InventoryItem: IDarkRiftSerializable
     public InventoryItemRarity ItemRarity = InventoryItemRarity.Common;
     public int ItemLevel = 1;
     public Guid ItemGuid;
+    public Vector2 ItemSceneLocation;
 
     //public List<ItemOffenseModifier> offenseModifiers;
     //public List<ItemDefenseModifier> defenseModifiers;
@@ -70,6 +72,7 @@ public class InventoryItem: IDarkRiftSerializable
         ItemLevel = e.Reader.ReadInt32();
         String tempGuid = e.Reader.ReadString();
         ItemGuid = Guid.Parse(tempGuid);
+        ItemSceneLocation = e.Reader.ReadVector2();
     }
 
     public void Serialize(SerializeEvent e)
@@ -82,5 +85,6 @@ public class InventoryItem: IDarkRiftSerializable
         e.Writer.Write((int)ItemRarity);
         e.Writer.Write(ItemLevel);
         e.Writer.Write(ItemGuid.ToString());
+        e.Writer.WriteVector2(ItemSceneLocation);
     }
 }

@@ -15,7 +15,7 @@ public class AttackCollider : MonoBehaviour
             if (this.CompareTag("Player") && other.CompareTag("Enemy"))
             {
 
-                PlayerSprite player = GameObject.FindWithTag("Player").GetComponent<PlayerSprite>();
+                PlayerSprite player = GameObject.FindWithTag("LocalPlayer").GetComponent<PlayerSprite>();
 
                 switch (player.selectedAttack)
                 {

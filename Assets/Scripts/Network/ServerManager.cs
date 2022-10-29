@@ -2,16 +2,17 @@ using System.Collections.Generic;
 using DarkRift;
 using DarkRift.Server;
 using DarkRift.Server.Unity;
+using UnityEditor.PackageManager;
 using UnityEngine;
 
 public class ServerManager : MonoBehaviour
 {
     public static ServerManager Instance;
 
-    private XmlUnityServer xmlServer;
-    private DarkRiftServer server;
+    private XmlUnityServer XmlServer;
+    private DarkRiftServer Server;
 
-    public Dictionary<string, ClientConnection> Connections = new Dictionary<string, ClientConnection>();
+    public Dictionary<string, ServerConnection> Connections = new Dictionary<string, ServerConnection>();
     public WorldState WorldState = new WorldState();
 
     public static bool isDedicated = false;
@@ -29,16 +30,16 @@ public class ServerManager : MonoBehaviour
 
     void Start()
     {
-        xmlServer = GetComponent<XmlUnityServer>();
-        server = xmlServer.Server;
-        server.ClientManager.ClientConnected += OnClientConnected;
-        server.ClientManager.ClientDisconnected += OnClientDisconnected;
+        XmlServer = GetComponent<XmlUnityServer>();
+        Server = XmlServer.Server;
+        Server.ClientManager.ClientConnected += OnClientConnected;
+        Server.ClientManager.ClientDisconnected += OnClientDisconnected;
     }
 
     void OnDestroy()
     {
-        server.ClientManager.ClientConnected -= OnClientConnected;
-        server.ClientManager.ClientDisconnected -= OnClientDisconnected;
+        Server.ClientManager.ClientConnected -= OnClientConnected;
+        Server.ClientManager.ClientDisconnected -= OnClientDisconnected;
     }
 
     private void OnClientDisconnected(object sender, ClientDisconnectedEventArgs e)
@@ -79,7 +80,27 @@ public class ServerManager : MonoBehaviour
         // In the future the ClientConnection will handle its messages
         client.MessageReceived -= OnMessage;
 
-        new ClientConnection(client, data);
+        new ServerConnection(client, data);
+    }
+
+    public static void SendNetworkMessage(IClient client, NetworkTags networkTag, IDarkRiftSerializable payload)
+    {
+        using (Message m = Message.Create((ushort)networkTag, payload))
+        {
+            client.SendMessage(m, SendMode.Reliable);
+        }
+    }
+
+    public static void BroadcastNetworkMessage(NetworkTags networkTag, IDarkRiftSerializable payload)
+    {
+        foreach(KeyValuePair<string,ServerConnection> connection in Instance.Connections)
+        {
+            using (Message m = Message.Create((ushort)networkTag, payload))
+            {
+                connection.Value.Client.SendMessage(m, SendMode.Reliable);
+            }
+        }
+ 
     }
 
 }

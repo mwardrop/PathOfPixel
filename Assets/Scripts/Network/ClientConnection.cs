@@ -1,49 +1,53 @@
-﻿using DarkRift;
-using DarkRift.Server;
-using UnityEditor.EditorTools;
+using DarkRift;
+using DarkRift.Client;
+using System;
+using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
+using UnityEngine;
+using UnityEngine.SceneManagement;
 
-public class ClientConnection
+public class ClientConnection 
 {
-    public string Username { get; }
-    public IClient Client { get; }
 
-    public PlayerState PlayerState;
-
-    public ClientConnection(IClient client, LoginRequestData data)
+    public WorldState WorldState = new WorldState();
+    public PlayerState PlayerState
     {
-        Client = client;
-        Username = data.Username;
-
-        ServerManager.Instance.Connections.Add(Username, this);
-
-        // TODO : User should be able to create new and load existing PlayerStates (Warrior, Mage / Load, New)
-        PlayerState = new PlayerState()
+        get
         {
-            Name = data.Username,
-            Health = 100,
-            HealthRegen = 1,
-            Mana = 100,
-            ManaRegen = 1,
-            PhysicalDamage = 5,
-            FireDamage = 0,
-            ColdDamage = 0,
-            FireResistance = 0,
-            ColdResistance = 0,
-            Armor = 0,
-            Dodge = 0,
-            Level = 1,
-            Experience = 0,
-            Type = PlayerType.Warrior,
-            Scene = "OverworldScene",
-            ClientId = client.ID
-        };
-
-        ServerManager.Instance.WorldState.Players.Add(PlayerState);
-
-        using (Message m = Message.Create((ushort)NetworkTags.LoginRequestAccepted, new LoginInfoData(client.ID, ServerManager.Instance.WorldState)))
-        {
-            client.SendMessage(m, SendMode.Reliable);
+            return WorldState.Players
+                .First(x => x.ClientId == ClientManager.Instance.Client.ID);
         }
     }
 
+    public ClientConnection(WorldState worldState)
+    {
+        ClientManager.Instance.Client.MessageReceived += OnNetworkMessage;
+
+        WorldState = worldState;
+        SceneManager.LoadScene(PlayerState.Scene, LoadSceneMode.Single);
+        RequestSpawn();
+    }
+
+    private void RequestSpawn()
+    {
+        ClientManager.SendNetworkMessage(NetworkTags.SpawnRequest);
+    }
+
+    public void OnNetworkMessage(object sender, MessageReceivedEventArgs e)
+    {
+        using (Message message = e.GetMessage())
+        {
+            switch ((NetworkTags)message.Tag)
+            {
+                case NetworkTags.SpawnPlayer:
+                    
+                    UnityEngine.Object.Instantiate(
+                        ClientManager.ClientPrefabs.WarriorSprite,
+                        message.Deserialize<SpawnPlayerData>().Target,
+                        Quaternion.identity).tag = "LocalPlayer";
+                    break;
+            }
+        }
+    }
 }

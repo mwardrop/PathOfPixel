@@ -25,8 +25,6 @@ public class LoginScreen : MonoBehaviour
         LoginButton.onClick.AddListener(LoginClicked);
         HostButton.onClick.AddListener(HostClicked);
         SettingsButton.onClick.AddListener(SettingsClicked);
-
-        ClientManager.Instance.Client.MessageReceived += OnNetworkMessage;
     }
 
 
@@ -49,18 +47,19 @@ public class LoginScreen : MonoBehaviour
 
         if(host.ToLower() == "debug")
         {
-            ClientManager.Instance.Connect("localhost", 666, Login);
+            ClientManager.Instance.Connect("127.0.0.1", 4296, UsernameField.text, PasswordField.text, OnConnectFail);
         } else
         {
-            ClientManager.Instance.Connect(host, port, Login);
+            ClientManager.Instance.Connect(host, port, UsernameField.text, PasswordField.text, OnConnectFail);
         }
 
     }
 
     void HostClicked()
     {
-        ServerManager.isDedicated = true;
-        SceneManager.LoadScene("OverworldScene", LoadSceneMode.Single);
+        EditorUtility.DisplayDialog("Not Implemented", "Dedicated Host is not yet implemented.", "Ok");
+        //ServerManager.isDedicated = true;
+        //SceneManager.LoadScene("OverworldScene", LoadSceneMode.Single);
     }
 
     void SettingsClicked()
@@ -68,47 +67,11 @@ public class LoginScreen : MonoBehaviour
         EditorUtility.DisplayDialog("Not Implemented", "Settings is not yet implemented.", "Ok");
     }
 
-    public void Login(Exception exception)
+
+    private void OnConnectFail(Exception exception)
     {
-        if (ClientManager.Instance.Client.ConnectionState == ConnectionState.Connected)
-        {
-            Debug.Log("Connected to server.");
-
-            ClientManager.SendMessage(
-                NetworkTags.LoginRequest, 
-                new LoginRequestData(UsernameField.text, PasswordField.text));
-        }
-        else
-        {
-            EditorUtility.DisplayDialog("Could not connect to server.", exception.Message.ToString(), "Ok");
-        }
-
+        EditorUtility.DisplayDialog("Could not connect to server.", exception.Message.ToString(), "Ok");
     }
 
-    public void OnNetworkMessage(object sender, MessageReceivedEventArgs e)
-    {
-        using (Message message = e.GetMessage())
-        {
-            switch ((NetworkTags)message.Tag)
-            {
-                case NetworkTags.LoginRequestDenied:
-                    OnLoginDecline();
-                    break;
-                case NetworkTags.LoginRequestAccepted:
-                    OnLoginAccept(message.Deserialize<LoginInfoData>());
-                    break;
-            }
-        }
-    }
 
-    private void OnLoginDecline()
-    {
-        EditorUtility.DisplayDialog("Login", "Failed Login.", "Ok");
-    }
-
-    private void OnLoginAccept(LoginInfoData data)
-    {
-        ClientManager.Instance.WorldState = data.State;
-        EditorUtility.DisplayDialog("Login", "World State Set.", "Ok");
-    }
 }

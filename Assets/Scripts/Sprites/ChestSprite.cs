@@ -35,7 +35,7 @@ public class ChestSprite : BaseSprite
 
     void Start()
     {
-        player = GameObject.FindWithTag("Player");
+        player = GameObject.FindWithTag("LocalPlayer");
     }
 
     protected override void Update()

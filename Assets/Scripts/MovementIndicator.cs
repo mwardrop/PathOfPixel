@@ -22,7 +22,6 @@ public class MovementIndicator : MonoBehaviour
 
     void Start()
     {
-        playerSprite = playerSpriteObject.GetComponent<PlayerSprite>();
         spriteRenderer = this.GetComponent<SpriteRenderer>();
         coroutine = hideIndicatorCoroutine();
     }
@@ -30,6 +29,16 @@ public class MovementIndicator : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if(playerSprite == null) {
+
+            GameObject localPlayer = GameObject.FindWithTag("LocalPlayer");
+            if(localPlayer != null)
+            {
+                playerSprite = localPlayer.GetComponent<PlayerSprite>();
+            }
+
+            return;
+        }
     
         if (Input.GetMouseButtonDown(0))
         {

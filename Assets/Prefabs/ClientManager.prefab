@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 4751158498489129596}
   - component: {fileID: 9053866651302712182}
   - component: {fileID: 5151820008875623849}
+  - component: {fileID: 36336637045893748}
   m_Layer: 0
   m_Name: ClientManager
   m_TagString: ClientManager
@@ -82,3 +83,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0f8cdfdb4e57dc34ebfe76f76fc2394b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &36336637045893748
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5606923846962014831}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1f5f7710e746e6546a91708952df6bec, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  WarriorSprite: {fileID: 7198830804527960167, guid: d797be9d1d464964f80edfdfe5df8904, type: 3}
+  PossessedSprite: {fileID: 1183764082010960867, guid: cdb2c2a91a72a5740bc5b7898b272f2e, type: 3}

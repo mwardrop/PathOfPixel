@@ -11,7 +11,6 @@ public class PlayerSprite : CharacterSprite
     public SpriteState selectedAttack = SpriteState.Attack1;
     public float attackRadius = 1.2f;
     public float moveRadius = 1;
-    public GameObject movementIndicatorObject;
     public EnemySprite enemy;
 
     private bool shouldMove = false;
@@ -19,7 +18,7 @@ public class PlayerSprite : CharacterSprite
     void Start()
     {
         target = transform.position;
-        movementIndicator = movementIndicatorObject.GetComponent<MovementIndicator>();
+        movementIndicator = GameObject.FindWithTag("MovementIndicator").GetComponent<MovementIndicator>();
 
         SetDirection(direction);
         SetState(state);

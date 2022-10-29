@@ -30,7 +30,7 @@ public class EnemySprite : CharacterSprite
 
     void Start()
     {
-        target = GameObject.FindWithTag("Player");
+        target = GameObject.FindWithTag("LocalPlayer");
         homePosition = new Vector3(transform.position.x, transform.position.y);
         
 

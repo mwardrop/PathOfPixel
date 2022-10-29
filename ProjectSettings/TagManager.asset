@@ -4,7 +4,7 @@
 TagManager:
   serializedVersion: 2
   tags:
-  - GameManager
+  - LocalPlayer
   - MovementIndicator
   - Enemy
   - ClientManager
@@ -16,8 +16,8 @@ TagManager:
   - 
   - Water
   - UI
-  - 
-  - 
+  - PlayerSpawn
+  - EnemySpawn
   - 
   - 
   - 
