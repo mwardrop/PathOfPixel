@@ -1,41 +1,66 @@
 using System;
+using System.Linq;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class EnemySprite : CharacterSprite
 {
-    private GameObject target;
-    private Vector3 homePosition;
+    public Guid StateGuid;
 
-    public string enemyName = "Enemy";
-    public int baseDamage = 1;
+    private ClickHandler ClickHandler;
+    private PlayerSprite LocalPlayer;
+
+    public EnemyState EnemyState
+    {
+        get
+        {
+            try
+            {
+                return ClientManager.Instance.StateManager.WorldState
+                    .Scenes.First(x => x.Name == SceneManager.GetActiveScene().name)
+                    .Enemies.First(x => x.EnemyGuid == StateGuid);
+            }
+            catch
+            {
+                return null;
+            }
+        }
+    }
+
     public float chaseRadius = 6;
     public float attackRadius = 1.2f;
     public float idleRadius = 2;
-    public int enemyLevel = 1;
-    public EnemyRarity enemyRarity;
-
-    public Guid StateGuid;
 
     void Start()
     {
-        target = GameObject.FindWithTag("LocalPlayer");
-        homePosition = new Vector3(transform.position.x, transform.position.y);
-        
-
         SetDirection(direction);
         SetState(state);
+
     }
 
     protected override void Update()
     {
+
+        if (EnemyState == null) { Destroy(this.gameObject); }
+
         base.Update();
+
+        if (LocalPlayer == null)
+        {
+            try { LocalPlayer = GameObject.FindWithTag("LocalPlayer").GetComponent<PlayerSprite>(); } catch { return; }
+        }
+
+        if (ClickHandler == null)
+        {
+            try { ClickHandler = GameObject.FindWithTag("ClickHandler").GetComponent<ClickHandler>(); } catch { return; }
+        }
 
         if (Input.GetMouseButtonDown(0))
         {
             if (state != SpriteState.Death && this.GetComponent<CapsuleCollider2D>().OverlapPoint(Camera.main.ScreenToWorldPoint(Input.mousePosition)))
             {
-                target.GetComponent<PlayerSprite>().enemy = this;
-                GameObject.FindWithTag("ClickHandler").GetComponent<ClickHandler>().enemyClicked = true;
+                LocalPlayer.TargetEnemy = this;
+                ClickHandler.enemyClicked = true;
             }
         } 
 

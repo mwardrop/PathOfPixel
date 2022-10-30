@@ -17,6 +17,14 @@ public class ServerManager : MonoBehaviour
 
     public static bool isDedicated = false;
 
+    public void Update()
+    {
+        if (StateManager != null)
+        {
+            StateManager.Update();
+        }
+    }
+
     void Awake()
     {
         if (Instance != null)
@@ -30,73 +38,30 @@ public class ServerManager : MonoBehaviour
 
     void Start()
     {
-        loadWorldState();
 
         XmlServer = GetComponent<XmlUnityServer>();
         Server = XmlServer.Server;
+
         Server.ClientManager.ClientConnected += OnClientConnected;
         Server.ClientManager.ClientDisconnected += OnClientDisconnected;
-    }
 
-    private void loadWorldState()
-    {
-        SceneState OverworldScene = new SceneState() { Name = "OverworldScene" };
-
-        OverworldScene.Enemies.Add(new EnemyState()
-        {
-            Name = "Possessed 1",
-            Health = 30,
-            HealthRegen = 1,
-            Mana = 100,
-            ManaRegen = 1,
-            PhysicalDamage = 5,
-            FireDamage = 0,
-            ColdDamage = 0,
-            FireResistance = 0,
-            ColdResistance = 0,
-            Armor = 0,
-            Dodge = 0,
-            Level = 1,
-            Experience = 0,
-            Type = EnemyType.Possessed,
-            Location = new Vector2(-2f, -4.5f)
-        });
-
-        OverworldScene.Enemies.Add(new EnemyState()
-        {
-            Name = "Possessed 2",
-            Health = 30,
-            HealthRegen = 1,
-            Mana = 100,
-            ManaRegen = 1,
-            PhysicalDamage = 5,
-            FireDamage = 0,
-            ColdDamage = 0,
-            FireResistance = 0,
-            ColdResistance = 0,
-            Armor = 0,
-            Dodge = 0,
-            Level = 1,
-            Experience = 0,
-            Type = EnemyType.Possessed,
-            Location = new Vector2(6f, -4.5f)
-        });
-
-        StateManager.WorldState.Scenes.Add(OverworldScene);
     }
 
     void OnDestroy()
     {
-        Server.ClientManager.ClientConnected -= OnClientConnected;
-        Server.ClientManager.ClientDisconnected -= OnClientDisconnected;
+        if (Server != null)
+        {
+            Server.ClientManager.ClientConnected -= OnClientConnected;
+            Server.ClientManager.ClientDisconnected -= OnClientDisconnected;
+        }
     }
 
     private void OnClientDisconnected(object sender, ClientDisconnectedEventArgs e)
     {
         e.Client.MessageReceived -= OnMessage;
 
-        ServerManager.Instance.StateManager.WorldState.Players.RemoveAll(x => x.ClientId == e.Client.ID);
-        ServerManager.Instance.Connections.Remove(e.Client.ID);
+        StateManager.WorldState.Players.RemoveAll(x => x.ClientId == e.Client.ID);
+        Connections.Remove(e.Client.ID);
 
         BroadcastNetworkMessage(
             NetworkTags.PlayerDisconnect,
@@ -124,11 +89,13 @@ public class ServerManager : MonoBehaviour
 
     private void OnClientLogin(IClient client, LoginRequestData data)
     {
+
         if (Connections.Where(x => x.Value.Username == data.Username).Count() > 0)
         {
             using (Message message = Message.CreateEmpty((ushort)NetworkTags.LoginRequestDenied))
             {
                 client.SendMessage(message, SendMode.Reliable);
+                client.Disconnect();
             }
             return;
         }

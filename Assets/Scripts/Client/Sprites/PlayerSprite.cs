@@ -12,30 +12,25 @@ public class PlayerSprite : CharacterSprite
         {
             try
             {
-                return ClientManager.Instance.ClientConnection.WorldState.Players.First(x => x.ClientId == NetworkClientId);
+                return ClientManager.Instance.StateManager.WorldState.Players.First(x => x.ClientId == NetworkClientId);
             } catch {
                 return null;
             }
         }
     }
 
-    public Vector3 target { get
-        {
-            return new Vector3(PlayerState.TargetLocation.x, PlayerState.TargetLocation.y);
-        } 
-    }
-    //private MovementIndicator movementIndicator;
+    private ClickHandler ClickHandler;
     
-    public SpriteState selectedAttack = SpriteState.Attack1;
-    public float attackRadius = 1.2f;
-    public float moveRadius = 1;
-    public EnemySprite enemy;
+    public SpriteState SelectedAttack = SpriteState.Attack1;
+    public float AttackRadius = 1.2f;
+    public float MoveRadius = 1;
+    public EnemySprite TargetEnemy;
 
     private bool shouldMove = false;
 
     void Start()
     {
-        //movementIndicator = GameObject.FindWithTag("ClickHandler").GetComponent<MovementIndicator>();
+        ClickHandler = GameObject.FindWithTag("ClickHandler").GetComponent<ClickHandler>();
 
         SetDirection(direction);
         SetState(state);
@@ -46,40 +41,27 @@ public class PlayerSprite : CharacterSprite
     {      
         if(PlayerState == null) { Destroy(this.gameObject); }
 
-        if (Vector3.Distance(transform.position, target) >= moveRadius)
+        if (Vector3.Distance(transform.position, Target) >= MoveRadius)
         {
-            if(canMove && Vector3.Distance(transform.position, target) > moveRadius) { shouldMove = true; }
-            SetDirection(target);
+            if(canMove && Vector3.Distance(transform.position, Target) > MoveRadius) { shouldMove = true; }
+            SetDirection(Target);
         }
 
         base.Update();
 
-        //if (Input.GetButtonDown("Attack1"))
-        //{
-        //    SetAttack(SpriteState.Attack1);
-        //}
-
-        //if (Input.GetButtonDown("Attack2"))
-        //{
-        //    SetAttack(SpriteState.Attack2);
-        //}
-
-        //if (Input.GetButtonDown("Attack3"))
-        //{
-        //    SetAttack(SpriteState.Attack3);
-        //}
-
         // Attack Enemy if in range
-        //if (canAttack && 
-        //    movementIndicator.enemyClicked && 
-        //    Vector3.Distance(transform.position, enemy.transform.position) < attackRadius)
-        //{
-        //    SetState(selectedAttack);
-        //    movementIndicator.enemyClicked = false;
-        //    return;
-        //}
+        if (this.CompareTag("LocalPlayer") &&
+            canAttack &&
+            TargetEnemy != null &&
+            ClickHandler.enemyClicked &&
+            Vector3.Distance(transform.position, TargetEnemy.transform.position) < AttackRadius)
+        {
+            SetState(SelectedAttack);
+            ClickHandler.enemyClicked = false;
+            return;
+        }
 
-        if(Vector3.Distance(transform.position, target) < moveRadius)
+        if (Vector3.Distance(transform.position, Target) < MoveRadius)
         {
             shouldMove = false;
         }
@@ -88,7 +70,7 @@ public class PlayerSprite : CharacterSprite
         if (shouldMove)
         {      
             SetState(SpriteState.Walk);
-            MoveToDestination(target);
+            MoveToDestination(Target);
             return;
         }
 
@@ -98,7 +80,7 @@ public class PlayerSprite : CharacterSprite
 
     private void SetAttack(SpriteState attack)
     {
-        selectedAttack = attack;
+        SelectedAttack = attack;
     }
 
 }

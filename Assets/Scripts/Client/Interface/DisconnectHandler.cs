@@ -15,10 +15,12 @@ public class DisconnectHandler : MonoBehaviour
         if(ClientManager.Instance == null)
         {
             SceneManager.LoadScene("LoginScene", LoadSceneMode.Single);
+            return;
         }
         if(ClientManager.Instance.Client.ConnectionState == DarkRift.ConnectionState.Disconnected)
         {
             SceneManager.LoadScene("LoginScene", LoadSceneMode.Single);
+            return;
         }
     }
 }

@@ -16,11 +16,19 @@ public class ClientManager : MonoBehaviour
 
     public UnityClient Client { get; private set; }
 
-    public ClientStateManager ClientConnection;
-    public static ClientPrefabs ClientPrefabs;
+    public ClientStateManager StateManager;
+    public static ClientPrefabs Prefabs;
 
     public delegate void ConnectFailedDelegate(Exception exception);
     ConnectFailedDelegate ConnectFailed;
+
+    public void Update()
+    {
+        if(StateManager != null)
+        {
+            StateManager.Update();
+        }
+    }
 
     void Awake()
     {
@@ -34,7 +42,7 @@ public class ClientManager : MonoBehaviour
         DontDestroyOnLoad(this);
 
         Client = GetComponent<UnityClient>();
-        ClientPrefabs = GetComponent<ClientPrefabs>();
+        Prefabs = GetComponent<ClientPrefabs>();
     }
 
     public void Connect(string host, int port, string username, string password, ConnectFailedDelegate connectFailed)
@@ -79,7 +87,7 @@ public class ClientManager : MonoBehaviour
                     ConnectFailed(new Exception("Failed Login."));
                     break;
                 case NetworkTags.LoginRequestAccepted:
-                    ClientConnection = new ClientStateManager(message.Deserialize<LoginResponseData>().State);
+                    StateManager = new ClientStateManager(message.Deserialize<LoginResponseData>().State);
                     break;
             }
         }
@@ -101,4 +109,10 @@ public class ClientManager : MonoBehaviour
         }
     }
 
+    public void OnDestroy()
+    {
+        Instance.Client.MessageReceived -= OnNetworkMessage;
+    }
+
 }
+ 

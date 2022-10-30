@@ -1,12 +1,14 @@
 using DarkRift;
 using DarkRift.Client;
+using System.Collections.Generic;
 using System.Linq;
-using System.Xml.Serialization;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
 public class ClientStateManager 
 {
+    public ClientActions Actions = new ClientActions();
 
     public WorldState WorldState = new WorldState();
     public PlayerState PlayerState
@@ -31,10 +33,39 @@ public class ClientStateManager
 
         WorldState = worldState;
 
-        LoadScene(PlayerState.Scene);
+        LoadScene(PlayerState.Scene, LoadSceneMode.Single);
     }
 
-    public void OnNetworkMessage(object sender, MessageReceivedEventArgs e)
+    public void Update()
+    {
+
+    }
+
+    private void LoadScene(string scene, LoadSceneMode mode)
+    {
+        SceneManager.sceneLoaded += LoadSceneCallback;
+        SceneManager.LoadScene(scene, mode);
+
+        void LoadSceneCallback(Scene scene, LoadSceneMode mode)
+        {
+            foreach (PlayerState player in ClientManager.Instance.StateManager.WorldState.Players)
+            {
+                if (player.Scene == scene.name && player.ClientId != ClientManager.Instance.StateManager.PlayerState.ClientId)
+                {
+                    SpawnPlayer(new PlayerStateData(player));
+                }
+            }
+
+            foreach (EnemyState enemy in ClientManager.Instance.StateManager.WorldState.Scenes.First(x => x.Name.ToLower() == scene.name.ToLower()).Enemies)
+            {
+                SpawnEnemy(new EnemyStateData(enemy));
+            }
+
+            ClientManager.Instance.StateManager.Actions.RequestSpawn();
+        }
+    }
+
+    private void OnNetworkMessage(object sender, MessageReceivedEventArgs e)
     {
         using (Message message = e.GetMessage())
         {
@@ -52,18 +83,17 @@ public class ClientStateManager
                 case NetworkTags.SpawnEnemy:
                     SpawnEnemy(message.Deserialize<EnemyStateData>());
                     break;
+                case NetworkTags.EnemyTakeDamage:
+                    EnemyTakeDamage(message.Deserialize<EnemyTakeDamageData>());
+                    break;
+                case NetworkTags.PlayerTakeDamage:
+                    PlayerTakeDamage(message.Deserialize<PlayerTakeDamageData>());
+                    break;
+                case NetworkTags.PlayerAttack:
+                    PlayerAttack(message.Deserialize<IntegerData>());
+                    break;
             }
         }
-    }
-
-    public void RequestSpawn()
-    {
-        ClientManager.SendNetworkMessage(NetworkTags.SpawnRequest);
-    }
-
-    public void RequestMove(Vector2 target)
-    {
-        ClientManager.SendNetworkMessage(NetworkTags.MoveRequest, new TargetData(target));
     }
 
     private void SpawnPlayer(PlayerStateData playerStateData)
@@ -77,7 +107,7 @@ public class ClientStateManager
         }
 
         GameObject newPlayer = UnityEngine.Object.Instantiate(
-            ClientManager.ClientPrefabs.WarriorSprite,
+            ClientManager.Prefabs.WarriorSprite,
             playerState.Location,
             Quaternion.identity);
 
@@ -95,12 +125,12 @@ public class ClientStateManager
     {
         EnemyState enemyState = enemyStateData.EnemyState;
 
-        GameObject prefab = ClientManager.ClientPrefabs.PossessedSprite;
+        GameObject prefab = ClientManager.Prefabs.PossessedSprite;
 
         switch (enemyState.Type)
         {
             case EnemyType.Possessed:
-                prefab = ClientManager.ClientPrefabs.PossessedSprite;
+                prefab = ClientManager.Prefabs.PossessedSprite;
                 break;
         }
         
@@ -123,27 +153,31 @@ public class ClientStateManager
         WorldState.Players.RemoveAll(x => x.ClientId == clientId.Integer);
     }
 
-    private void LoadScene(string scene, LoadSceneMode mode = LoadSceneMode.Single)
+    private void EnemyTakeDamage(EnemyTakeDamageData enemyTakeDamageData)
     {
-        SceneManager.sceneLoaded += LoadSceneCallback;
-        SceneManager.LoadScene(scene, mode);
+        WorldState
+            .Scenes.First(x => x.Name == PlayerState.Scene)
+            .Enemies.First(x => x.EnemyGuid == enemyTakeDamageData.EnemyGuid)
+            .IncomingDamage += enemyTakeDamageData.Damage;
+    }
 
-        void LoadSceneCallback(Scene scene, LoadSceneMode mode)
-        {
-            foreach (PlayerState player in WorldState.Players)
-            {
-                if (player.Scene == scene.name && player.ClientId != PlayerState.ClientId)
-                {
-                    SpawnPlayer(new PlayerStateData(player));
-                }
-            }
+    private void PlayerTakeDamage(PlayerTakeDamageData playerTakeDamageData)
+    {
+        WorldState
+            .Players.First(x => x.ClientId == playerTakeDamageData.ClientId)
+            .IncomingDamage += playerTakeDamageData.Damage;
+    }
 
-            foreach (EnemyState enemy in WorldState.Scenes.First(x => x.Name.ToLower() == scene.name.ToLower()).Enemies)
-            {
-                SpawnEnemy(new EnemyStateData(enemy));
-            }
+    private void PlayerAttack(IntegerData integerData)
+    {
+        int clientId = integerData.Integer;
 
-            RequestSpawn();
+        if (clientId != ClientId) {
+            List<GameObject> networkPlayers = GameObject.FindGameObjectsWithTag("NetworkPlayer").ToList();
+            GameObject attackingPlayer = networkPlayers.First(x => x.GetComponent<PlayerSprite>().NetworkClientId == integerData.Integer);
+            attackingPlayer.GetComponent<CharacterSprite>().SetState(SpriteState.Attack1);
         }
     }
+
+
 }

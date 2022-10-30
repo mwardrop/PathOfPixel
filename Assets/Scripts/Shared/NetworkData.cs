@@ -1,7 +1,5 @@
 using DarkRift;
 using DarkriftSerializationExtensions;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public enum NetworkTags
@@ -191,5 +189,54 @@ public struct GuidData : IDarkRiftSerializable
     public void Serialize(SerializeEvent e)
     {
         e.Writer.Write(Guid.ToString());
+    }
+}
+
+public struct EnemyTakeDamageData : IDarkRiftSerializable
+{
+    public System.Guid EnemyGuid;
+    public int Damage;
+
+    public EnemyTakeDamageData(System.Guid enemyGuid, int damage)
+    {
+        EnemyGuid = enemyGuid;
+        Damage = damage;
+    }
+
+    public void Deserialize(DeserializeEvent e)
+    {
+        string tempGuid = e.Reader.ReadString();
+        EnemyGuid = new System.Guid(tempGuid);
+        Damage = e.Reader.ReadInt32();
+    }
+
+    public void Serialize(SerializeEvent e)
+    {
+        e.Writer.Write(EnemyGuid.ToString());
+        e.Writer.Write(Damage);
+    }
+}
+
+public struct PlayerTakeDamageData : IDarkRiftSerializable
+{
+    public int ClientId;
+    public int Damage;
+
+    public PlayerTakeDamageData(int clientID, int damage)
+    {
+        ClientId = clientID;
+        Damage = damage;
+    }
+
+    public void Deserialize(DeserializeEvent e)
+    {;
+        ClientId = e.Reader.ReadInt32();
+        Damage = e.Reader.ReadInt32();
+    }
+
+    public void Serialize(SerializeEvent e)
+    {
+        e.Writer.Write(ClientId);
+        e.Writer.Write(Damage);
     }
 }

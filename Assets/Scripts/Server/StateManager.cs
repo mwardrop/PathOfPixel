@@ -1,3 +1,4 @@
+using DarkRift.Server;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -7,6 +8,96 @@ public class StateManager
 
     private ItemGenerator itemGenerator = new ItemGenerator();
 
+    public StateManager()
+    {
+        SceneState OverworldScene = new SceneState() { Name = "OverworldScene" };
+
+        OverworldScene.Enemies.Add(new EnemyState()
+        {
+            Name = "Possessed 1",
+            Health = 30,
+            HealthRegen = 1,
+            Mana = 100,
+            ManaRegen = 1,
+            PhysicalDamage = 5,
+            FireDamage = 0,
+            ColdDamage = 0,
+            FireResistance = 0,
+            ColdResistance = 0,
+            Armor = 0,
+            Dodge = 0,
+            Level = 1,
+            Experience = 0,
+            Type = EnemyType.Possessed,
+            Location = new Vector2(-2f, -4.5f),
+            MoveSpeed = 2.0f
+        });
+
+        OverworldScene.Enemies.Add(new EnemyState()
+        {
+            Name = "Possessed 2",
+            Health = 30,
+            HealthRegen = 1,
+            Mana = 100,
+            ManaRegen = 1,
+            PhysicalDamage = 5,
+            FireDamage = 0,
+            ColdDamage = 0,
+            FireResistance = 0,
+            ColdResistance = 0,
+            Armor = 0,
+            Dodge = 0,
+            Level = 1,
+            Experience = 0,
+            Type = EnemyType.Possessed,
+            Location = new Vector2(6f, -4.5f),
+            MoveSpeed = 2.0f
+        });
+
+        WorldState.Scenes.Add(OverworldScene);
+    }
+
+    public void Update()
+    {
+        foreach(PlayerState player in WorldState.Players)
+        {
+            UpdatePlayer(player);
+        }
+        foreach (SceneState scene in WorldState.Scenes)
+        {
+            UpdateScene(scene);
+        }
+    }
+
+    private void UpdateScene(SceneState scene)
+    {
+        foreach (EnemyState enemy in scene.Enemies)
+        {
+            UpdateEnemy(enemy);
+        }
+    }
+
+    private void UpdatePlayer(PlayerState player)
+    {
+        player.Health -= player.IncomingDamage;
+        player.IncomingDamage = 0;
+    }
+
+    private void UpdateEnemy(EnemyState enemy)
+    {
+        enemy.Health -= enemy.IncomingDamage;
+        enemy.IncomingDamage = 0;
+    }
+
+    public int CalculateEnemyDamageTaken(EnemyState enemy, PlayerState player)
+    {
+        return 5;
+    }
+
+    public int CalculatePlayerDamageTaken(PlayerState player, EnemyState enemy)
+    {
+        return 5;
+    }
     //public GameObject generateWorldDrop(GameObject dropObject, int itemLevel)
     //{
 

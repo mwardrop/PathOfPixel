@@ -35,14 +35,20 @@ public class ClickHandler : MonoBehaviour
 
             return;
         }
-    
+
+        if (enemyClicked) {
+            spriteRenderer.sprite = attack;
+        } else {
+            spriteRenderer.sprite = move;
+        }
+
         if (Input.GetMouseButtonDown(0))
         {
 
             Vector3 target = Camera.main.ScreenToWorldPoint(Input.mousePosition);
             target.z = transform.position.z;
 
-            ClientManager.Instance.ClientConnection.RequestMove(target);
+            ClientManager.Instance.StateManager.Actions.RequestMove(target);
 
             transform.position = target;
 
@@ -50,20 +56,7 @@ public class ClickHandler : MonoBehaviour
 
             showIndicator();
 
-            if (enemyClicked)
-            {
-                if(Vector3.Distance(playerSprite.transform.position, transform.position) < playerSprite.attackRadius)
-                {
-                    spriteRenderer.sprite = attack;
-                } else
-                {
-                    //enemyClicked = false;
-                }
-            }
-            else
-            {
-                spriteRenderer.sprite = move;
-            }
+            enemyClicked = false;
         }      
 
         if (spriteRenderer.enabled)
@@ -77,10 +70,6 @@ public class ClickHandler : MonoBehaviour
             }
         }
 
-        if(enemyClicked)
-        {
-            spriteRenderer.sprite = attack;
-        }
     }
 
     private void hideIndicator()

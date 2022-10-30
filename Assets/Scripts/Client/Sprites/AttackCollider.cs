@@ -14,24 +14,20 @@ public class AttackCollider : MonoBehaviour
             // A Player is hitting an Enemy
             if (this.CompareTag("Player") && other.CompareTag("Enemy"))
             {
-
-                PlayerSprite player = GameObject.FindWithTag("LocalPlayer").GetComponent<PlayerSprite>();
-
-                switch (player.selectedAttack)
+                if(this.transform.parent.parent.CompareTag("LocalPlayer"))
                 {
-                    case SpriteState.Attack1:
-                        other.GetComponent<EnemySprite>().Damage(5, 0);
-                        break;
-                    case SpriteState.Attack2:
-                        other.GetComponent<EnemySprite>().Damage(1, 150);
-                        break;
+                    ClientManager.Instance.StateManager.Actions.PlayerAttack(other.gameObject);
                 }
+                
             }
 
             // A Enemy is hitting a player
             if (this.CompareTag("Enemy") && other.CompareTag("Player"))
             {
-                other.GetComponent<PlayerSprite>().Damage(3, 0);
+                if (this.transform.parent.parent.CompareTag("LocalPlayer"))
+                {
+                    ClientManager.Instance.StateManager.Actions.EnemyAttack(other.gameObject);
+                }
             }
 
         }

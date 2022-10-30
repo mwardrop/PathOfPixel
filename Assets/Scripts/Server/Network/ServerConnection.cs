@@ -1,5 +1,6 @@
 ﻿using DarkRift;
 using DarkRift.Server;
+using System.Linq;
 using Unity.Collections.LowLevel.Unsafe;
 using UnityEngine;
 using Random = UnityEngine.Random;
@@ -38,7 +39,8 @@ public class ServerConnection
             Experience = 0,
             Type = PlayerType.Warrior,
             Scene = "OverworldScene",
-            ClientId = client.ID
+            ClientId = client.ID,
+            MoveSpeed = 2.5f
         };
 
     }
@@ -67,8 +69,47 @@ public class ServerConnection
                 case NetworkTags.MoveRequest:
                     MovePlayer(message.Deserialize<TargetData>().Target);
                     break;
+                case NetworkTags.PlayerAttack:
+                    PlayerAttack(message.Deserialize<GuidData>().Guid);
+                    break;
+                case NetworkTags.EnemyAttack:
+                    EnemyAttack(message.Deserialize<GuidData>().Guid);
+                    break;
             }
         }
+    }
+
+    private void PlayerAttack(System.Guid enemyGuid)
+    {
+        EnemyState enemy = ServerManager.Instance.StateManager.WorldState
+            .Scenes.First(x => x.Name.ToLower() == PlayerState.Scene.ToLower())
+            .Enemies.First(x => x.EnemyGuid == enemyGuid);
+
+        enemy.IncomingDamage = ServerManager.Instance.StateManager.CalculateEnemyDamageTaken(enemy, PlayerState);
+
+        BroadcastNetworkMessage(
+            NetworkTags.EnemyTakeDamage,
+            new EnemyTakeDamageData(enemyGuid, enemy.IncomingDamage)
+        );
+
+        BroadcastNetworkMessage(
+            NetworkTags.PlayerAttack,
+            new IntegerData(Client.ID)
+        );
+    }
+
+    private void EnemyAttack(System.Guid enemyGuid)
+    {
+        EnemyState enemy = ServerManager.Instance.StateManager.WorldState
+            .Scenes.First(x => x.Name.ToLower() == PlayerState.Scene.ToLower())
+            .Enemies.First(x => x.EnemyGuid == enemyGuid);
+
+        PlayerState.IncomingDamage = ServerManager.Instance.StateManager.CalculatePlayerDamageTaken(PlayerState, enemy);
+
+        BroadcastNetworkMessage(
+            NetworkTags.PlayerTakeDamage,
+            new PlayerTakeDamageData(Client.ID, PlayerState.IncomingDamage)
+        );
     }
 
     private void SpawnPlayer()

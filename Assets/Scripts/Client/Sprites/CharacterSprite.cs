@@ -24,20 +24,39 @@ public enum SpriteDirection
 
 public abstract class CharacterSprite : BaseSprite
 {
-
-    protected float incomingDamage = 0;
     protected Boolean hurt = false;
 
-    public float moveSpeed = (float)2.5;
     public SpriteDirection direction = SpriteDirection.Down;
     public SpriteState state = SpriteState.Idle;
-    public float health = 100f;
+
+    public CharacterState CharacterState
+    {
+        get
+        {
+            if (this.GetType() == typeof(PlayerSprite))
+            {
+                return ((PlayerSprite)this).PlayerState;
+            }
+            else
+            {
+                return ((EnemySprite)this).EnemyState;
+            }
+        }
+    }
+
+    public Vector3 Target
+    {
+        get
+        {
+            return new Vector3(CharacterState.TargetLocation.x, CharacterState.TargetLocation.y);
+        }
+    }
 
     public bool canAttack = true;
     public bool canMove = true;
     public bool canTakeDamage = true;
 
-    public StateManager gameState;
+    //public StateManager gameState;
 
     // Update is called once per frame
     protected override void Update()
@@ -53,7 +72,7 @@ public abstract class CharacterSprite : BaseSprite
             return;
         }
         // Die
-        if (health <= 0)
+        if (CharacterState.Health <= 0)
         {
             SetState(SpriteState.Death);
             this.GetComponent<BoxCollider2D>().enabled = false;
@@ -62,17 +81,17 @@ public abstract class CharacterSprite : BaseSprite
 
         }
         // Take Damage
-        if (incomingDamage > 0)
+        if (CharacterState.IncomingDamage > 0)
         {
-            health -= incomingDamage;
-            incomingDamage = 0;
+            CharacterState.Health -= CharacterState.IncomingDamage;
+            CharacterState.IncomingDamage = 0;
             hurt = true;
             return;
 
         }
     }
 
-    protected void SetState(SpriteState _state)
+    public void SetState(SpriteState _state)
     {
 
         if (!IsStateLocked && this.state != _state)
@@ -179,41 +198,41 @@ public abstract class CharacterSprite : BaseSprite
 
     protected void MoveToDestination(Vector3 destination, float speed = 0)
     {
-        if (speed == 0) { speed = moveSpeed; }
+        if (speed == 0) { speed = CharacterState.MoveSpeed; }
         rigidBody2D.MovePosition(Vector3.MoveTowards(transform.position, destination, speed * Time.fixedDeltaTime));
     }
 
-    public void Damage(float damageAmount, float knockback = 0)
-    {
-        if (canTakeDamage)
-        {
-            incomingDamage += damageAmount;
+    //public void Damage(float damageAmount, float knockback = 0)
+    //{
+        //if (canTakeDamage)
+        //{
+        //    incomingDamage += damageAmount;
 
-            if (knockback > 0)
-            {
-                float x = transform.position.x;
-                float y = transform.position.y;
-                float z = transform.position.z;
-                switch (direction)
-                {
-                    case SpriteDirection.Up:
-                        y -= knockback;
-                        break;
-                    case SpriteDirection.Down:
-                        y += knockback;
-                        break;
-                    case SpriteDirection.Right:
-                        x -= knockback;
-                        break;
-                    case SpriteDirection.Left:
-                        x += knockback;
-                        break;
-                }
+        //    if (knockback > 0)
+        //    {
+        //        float x = transform.position.x;
+        //        float y = transform.position.y;
+        //        float z = transform.position.z;
+        //        switch (direction)
+        //        {
+        //            case SpriteDirection.Up:
+        //                y -= knockback;
+        //                break;
+        //            case SpriteDirection.Down:
+        //                y += knockback;
+        //                break;
+        //            case SpriteDirection.Right:
+        //                x -= knockback;
+        //                break;
+        //            case SpriteDirection.Left:
+        //                x += knockback;
+        //                break;
+        //        }
 
-                MoveToDestination(new Vector3(x, y, z), knockback);
-            }
-        }
-    }
+        //        MoveToDestination(new Vector3(x, y, z), knockback);
+        //    }
+        //}
+    //}
 
     public void Destroy(int seconds = 60)
     {
@@ -224,7 +243,7 @@ public abstract class CharacterSprite : BaseSprite
         {
             yield return new WaitForSeconds(seconds);
             spriteRenderer.enabled = false;
-            Destroy(this);
+            Destroy(this.gameObject);
         }
     }
 }
