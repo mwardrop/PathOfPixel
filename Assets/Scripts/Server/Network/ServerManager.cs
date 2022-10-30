@@ -79,7 +79,7 @@ public class ServerManager : MonoBehaviour
             Level = 1,
             Experience = 0,
             Type = EnemyType.Possessed,
-            Location = new Vector2(-6f, -4.5f)
+            Location = new Vector2(6f, -4.5f)
         });
 
         StateManager.WorldState.Scenes.Add(OverworldScene);
