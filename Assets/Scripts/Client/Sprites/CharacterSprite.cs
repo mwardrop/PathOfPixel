@@ -80,11 +80,9 @@ public abstract class CharacterSprite : BaseSprite
             return;
 
         }
-        // Take Damage
+        //Take Damage
         if (CharacterState.IncomingDamage > 0)
         {
-            CharacterState.Health -= CharacterState.IncomingDamage;
-            CharacterState.IncomingDamage = 0;
             hurt = true;
             return;
 
@@ -141,7 +139,7 @@ public abstract class CharacterSprite : BaseSprite
         Debug.Log("Character Death.");
     }
 
-    protected SpriteDirection SetDirection(Vector3 target)
+    private SpriteDirection SetDirection(Vector3 target)
     {
         SpriteDirection _direction;
 

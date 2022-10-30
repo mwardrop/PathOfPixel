@@ -59,34 +59,7 @@ public class StateManager
 
     public void Update()
     {
-        foreach(PlayerState player in WorldState.Players)
-        {
-            UpdatePlayer(player);
-        }
-        foreach (SceneState scene in WorldState.Scenes)
-        {
-            UpdateScene(scene);
-        }
-    }
-
-    private void UpdateScene(SceneState scene)
-    {
-        foreach (EnemyState enemy in scene.Enemies)
-        {
-            UpdateEnemy(enemy);
-        }
-    }
-
-    private void UpdatePlayer(PlayerState player)
-    {
-        player.Health -= player.IncomingDamage;
-        player.IncomingDamage = 0;
-    }
-
-    private void UpdateEnemy(EnemyState enemy)
-    {
-        enemy.Health -= enemy.IncomingDamage;
-        enemy.IncomingDamage = 0;
+        StateUpdater.Update(WorldState);
     }
 
     public int CalculateEnemyDamageTaken(EnemyState enemy, PlayerState player)

@@ -38,7 +38,7 @@ public class ClientStateManager
 
     public void Update()
     {
-
+        StateUpdater.Update(WorldState);
     }
 
     private void LoadScene(string scene, LoadSceneMode mode)

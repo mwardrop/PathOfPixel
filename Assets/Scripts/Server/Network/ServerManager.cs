@@ -92,15 +92,14 @@ public class ServerManager : MonoBehaviour
 
         if (Connections.Where(x => x.Value.Username == data.Username).Count() > 0)
         {
-            using (Message message = Message.CreateEmpty((ushort)NetworkTags.LoginRequestDenied))
-            {
-                client.SendMessage(message, SendMode.Reliable);
-                client.Disconnect();
-            }
+            SendNetworkMessage(
+                client,
+                NetworkTags.LoginRequestDenied);
+
             return;
+  
         }
 
-        // In the future the ClientConnection will handle its messages
         client.MessageReceived -= OnMessage;
 
         ServerConnection newConnection = new ServerConnection(client, data);
@@ -116,24 +115,39 @@ public class ServerManager : MonoBehaviour
     
     }
 
-    public static void SendNetworkMessage(IClient client, NetworkTags networkTag, IDarkRiftSerializable payload)
+    public static void SendNetworkMessage(IClient client, NetworkTags networkTag, IDarkRiftSerializable payload = null)
     {
-        using (Message m = Message.Create((ushort)networkTag, payload))
-        {
-            client.SendMessage(m, SendMode.Reliable);
+
+        if (payload == null) {
+            using (Message m = Message.CreateEmpty((ushort)networkTag))
+            {
+                client.SendMessage(m, SendMode.Reliable);
+            }
+        } else {
+            using (Message m = Message.Create((ushort)networkTag, payload))
+            {
+                client.SendMessage(m, SendMode.Reliable);
+            }
         }
     }
 
-    public static void BroadcastNetworkMessage(NetworkTags networkTag, IDarkRiftSerializable payload)
+    public static void BroadcastNetworkMessage(NetworkTags networkTag, IDarkRiftSerializable payload = null )
     {
         foreach(KeyValuePair<int,ServerConnection> connection in Instance.Connections)
         {
-            using (Message m = Message.Create((ushort)networkTag, payload))
-            {
-                connection.Value.Client.SendMessage(m, SendMode.Reliable);
+            if(payload == null) {
+                using (Message m = Message.CreateEmpty((ushort)networkTag))
+                {
+                    connection.Value.Client.SendMessage(m, SendMode.Reliable);
+                }
+            } else {
+                using (Message m = Message.Create((ushort)networkTag, payload))
+                {
+                    connection.Value.Client.SendMessage(m, SendMode.Reliable);
+                }
             }
         }
- 
+
     }
 
 }

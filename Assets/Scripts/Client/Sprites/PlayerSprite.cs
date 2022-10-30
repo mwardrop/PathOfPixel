@@ -1,6 +1,6 @@
 using System.Linq;
 using UnityEngine;
-
+using UnityEngine.Android;
 
 public class PlayerSprite : CharacterSprite
 {
@@ -57,14 +57,15 @@ public class PlayerSprite : CharacterSprite
             Vector3.Distance(transform.position, TargetEnemy.transform.position) < AttackRadius)
         {
             SetState(SelectedAttack);
+            // TODO : resetting the click handler is needed so you can repeated click attack but messes up the attack indicator
             ClickHandler.enemyClicked = false;
             return;
         }
 
-        if (Vector3.Distance(transform.position, Target) < MoveRadius)
+        if (Vector3.Distance(transform.position, Target) < 0.001)
         {
             shouldMove = false;
-        }
+        } 
 
         // Move to target
         if (shouldMove)

@@ -43,12 +43,12 @@ public class ClientManager : MonoBehaviour
 
         Client = GetComponent<UnityClient>();
         Prefabs = GetComponent<ClientPrefabs>();
+
+        Instance.Client.MessageReceived += OnNetworkMessage;
     }
 
     public void Connect(string host, int port, string username, string password, ConnectFailedDelegate connectFailed)
     {
-        Instance.Client.MessageReceived += OnNetworkMessage;
-
         Host = host;
         Port = port;
         Username = username;

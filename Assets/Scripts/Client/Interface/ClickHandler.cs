@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using UnityEngine;
+using static UnityEngine.GraphicsBuffer;
 
 public class ClickHandler : MonoBehaviour
 {
@@ -36,6 +37,8 @@ public class ClickHandler : MonoBehaviour
             return;
         }
 
+        
+
         if (enemyClicked) {
             spriteRenderer.sprite = attack;
         } else {
@@ -48,7 +51,9 @@ public class ClickHandler : MonoBehaviour
             Vector3 target = Camera.main.ScreenToWorldPoint(Input.mousePosition);
             target.z = transform.position.z;
 
-            ClientManager.Instance.StateManager.Actions.RequestMove(target);
+            if(Vector3.Distance(playerSprite.transform.position, target) > playerSprite.MoveRadius) {
+                ClientManager.Instance.StateManager.Actions.RequestMove(target);
+            }
 
             transform.position = target;
 
@@ -63,7 +68,7 @@ public class ClickHandler : MonoBehaviour
         {
             if (!coroutineRunning)
             {
-                if (Vector3.Distance(playerSprite.transform.position, transform.position) < 1)
+                if (Vector3.Distance(playerSprite.transform.position, transform.position) < 1.5)
                 {
                     hideIndicator();
                 }
