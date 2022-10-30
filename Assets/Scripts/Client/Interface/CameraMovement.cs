@@ -1,22 +1,26 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class CameraMovement : MonoBehaviour
 {
 
-    public Transform target;
-    public float smoothing;
-
-    // Start is called before the first frame update
-    void Start()
-    {
-        
+    public Transform target {  get
+        {
+            GameObject localPlayer = GameObject.FindWithTag("LocalPlayer");
+            if(localPlayer != null)
+            {
+                return GameObject.FindWithTag("LocalPlayer").transform;
+            }
+            return null;
+            
+        } 
     }
+    public float smoothing;
 
     // Update is called once per frame
     void LateUpdate()
     {
+        if(target == null) { return;  }
+
         if(transform.position != target.position)
         {
             Vector3 targetPosition = new Vector3(
