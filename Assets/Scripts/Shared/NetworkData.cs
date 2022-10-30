@@ -15,6 +15,10 @@ public enum NetworkTags
     MovePlayer = 6,
     PlayerDisconnect = 7,
     SpawnEnemy = 8,
+    PlayerAttack = 9,
+    EnemyAttack = 10,
+    PlayerTakeDamage = 11,
+    EnemyTakeDamage = 12
 }
 
 public struct LoginRequestData : IDarkRiftSerializable
@@ -166,5 +170,26 @@ public struct MovePlayerData : IDarkRiftSerializable
     {
         e.Writer.Write(ClientId);
         e.Writer.WriteVector2(Target);
+    }
+}
+
+public struct GuidData : IDarkRiftSerializable
+{
+    public System.Guid Guid;
+
+    public GuidData(System.Guid guid)
+    {
+        Guid = guid;
+    }
+
+    public void Deserialize(DeserializeEvent e)
+    {
+        string tempGuid = e.Reader.ReadString();
+        Guid = new System.Guid(tempGuid);
+    }
+
+    public void Serialize(SerializeEvent e)
+    {
+        e.Writer.Write(Guid.ToString());
     }
 }
