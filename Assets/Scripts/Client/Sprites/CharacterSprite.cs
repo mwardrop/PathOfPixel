@@ -139,7 +139,7 @@ public abstract class CharacterSprite : BaseSprite
         Debug.Log("Character Death.");
     }
 
-    private SpriteDirection SetDirection(Vector3 target)
+    protected SpriteDirection SetDirection(Vector3 target)
     {
         SpriteDirection _direction;
 
