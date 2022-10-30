@@ -317,6 +317,7 @@ MonoBehaviour:
   ServerField: {fileID: 1338967985}
   UsernameField: {fileID: 332665493}
   PasswordField: {fileID: 1479440178}
+  autoLogin: 1
 --- !u!1 &254851705
 GameObject:
   m_ObjectHideFlags: 0
