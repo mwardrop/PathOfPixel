@@ -12,6 +12,8 @@ public class ServerConnection
 
     public PlayerState PlayerState;
 
+    public ServerStateManager StateManager = ServerManager.Instance.StateManager;
+
     public ServerConnection(IClient client, LoginRequestData data)
     {
 
@@ -51,7 +53,7 @@ public class ServerConnection
             NetworkTags.PlayerDisconnect,
             new IntegerData(Client.ID));
 
-        ServerManager.Instance.StateManager.WorldState.Players.RemoveAll(x => x.ClientId == Client.ID);
+        StateManager.WorldState.Players.RemoveAll(x => x.ClientId == Client.ID);
         ServerManager.Instance.Connections.Remove(Client.ID);
 
     }
@@ -81,16 +83,13 @@ public class ServerConnection
 
     private void PlayerAttack(System.Guid enemyGuid)
     {
-        EnemyState enemy = ServerManager.Instance.StateManager.WorldState
+        EnemyState enemy = StateManager.WorldState
             .Scenes.First(x => x.Name.ToLower() == PlayerState.Scene.ToLower())
             .Enemies.First(x => x.EnemyGuid == enemyGuid);
 
-        enemy.IncomingDamage = ServerManager.Instance.StateManager.CalculateEnemyDamageTaken(enemy, PlayerState);
-
-        BroadcastNetworkMessage(
-            NetworkTags.EnemyTakeDamage,
-            new EnemyTakeDamageData(enemyGuid, enemy.IncomingDamage)
-        );
+        enemy.IncomingPhysicalDamage += StateManager.GetPlayerPhysicalDamage(PlayerState);
+        enemy.IncomingFireDamage += StateManager.GetPlayerFireDamage(PlayerState);
+        enemy.IncomingColdDamage += StateManager.GetPlayerColdDamage(PlayerState);
 
         BroadcastNetworkMessage(
             NetworkTags.PlayerAttack,
@@ -100,16 +99,16 @@ public class ServerConnection
 
     private void EnemyAttack(System.Guid enemyGuid)
     {
-        EnemyState enemy = ServerManager.Instance.StateManager.WorldState
+        EnemyState enemy = StateManager.WorldState
             .Scenes.First(x => x.Name.ToLower() == PlayerState.Scene.ToLower())
             .Enemies.First(x => x.EnemyGuid == enemyGuid);
 
-        PlayerState.IncomingDamage = ServerManager.Instance.StateManager.CalculatePlayerDamageTaken(PlayerState, enemy);
+        PlayerState.IncomingPhysicalDamage += 5;
 
-        BroadcastNetworkMessage(
-            NetworkTags.PlayerTakeDamage,
-            new PlayerTakeDamageData(Client.ID, PlayerState.IncomingDamage)
-        );
+        //BroadcastNetworkMessage(
+        //    NetworkTags.PlayerTakeDamage,
+        //    new PlayerTakeDamageData(Client.ID, PlayerState.IncomingDamage)
+        //);
     }
 
     private void SpawnPlayer()
@@ -124,7 +123,7 @@ public class ServerConnection
 
     private void MovePlayer(Vector2 target)
     {
-        PlayerState.TargetLocation = target;
+        PlayerState.TargetLocation = PlayerState.Location = target;
 
         BroadcastNetworkMessage(
             NetworkTags.MovePlayer,

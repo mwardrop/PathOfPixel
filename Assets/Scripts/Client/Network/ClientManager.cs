@@ -88,6 +88,7 @@ public class ClientManager : MonoBehaviour
                     break;
                 case NetworkTags.LoginRequestAccepted:
                     StateManager = new ClientStateManager(message.Deserialize<LoginResponseData>().State);
+                    Instance.Client.MessageReceived -= OnNetworkMessage;
                     break;
             }
         }

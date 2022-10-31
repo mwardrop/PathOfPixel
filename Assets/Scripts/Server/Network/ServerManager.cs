@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using DarkRift;
 using DarkRift.Server;
 using DarkRift.Server.Unity;
@@ -13,7 +14,7 @@ public class ServerManager : MonoBehaviour
     private DarkRiftServer Server;
 
     public Dictionary<int, ServerConnection> Connections = new Dictionary<int, ServerConnection>();
-    public StateManager StateManager = new StateManager();
+    public ServerStateManager StateManager;
 
     public static bool isDedicated = false;
 
@@ -38,13 +39,16 @@ public class ServerManager : MonoBehaviour
 
     void Start()
     {
+        try
+        {
+            StateManager = new ServerStateManager();
 
-        XmlServer = GetComponent<XmlUnityServer>();
-        Server = XmlServer.Server;
+            XmlServer = GetComponent<XmlUnityServer>();
+            Server = XmlServer.Server;
 
-        Server.ClientManager.ClientConnected += OnClientConnected;
-        Server.ClientManager.ClientDisconnected += OnClientDisconnected;
-
+            Server.ClientManager.ClientConnected += OnClientConnected;
+            Server.ClientManager.ClientDisconnected += OnClientDisconnected;
+        }  catch { }
     }
 
     void OnDestroy()

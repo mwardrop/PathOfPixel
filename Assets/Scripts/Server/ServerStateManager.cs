@@ -2,14 +2,17 @@ using DarkRift.Server;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class StateManager
+public class ServerStateManager
 {
     public WorldState WorldState = new WorldState();
+    public StateUpdater StateUpdater;
 
     private ItemGenerator itemGenerator = new ItemGenerator();
 
-    public StateManager()
+    public ServerStateManager()
     {
+
+        StateUpdater = new StateUpdater();
         SceneState OverworldScene = new SceneState() { Name = "OverworldScene" };
 
         OverworldScene.Enemies.Add(new EnemyState()
@@ -30,7 +33,8 @@ public class StateManager
             Experience = 0,
             Type = EnemyType.Possessed,
             Location = new Vector2(-2f, -4.5f),
-            MoveSpeed = 2.0f
+            MoveSpeed = 2.0f,
+            TargetPlayerId = -1
         });
 
         OverworldScene.Enemies.Add(new EnemyState()
@@ -51,7 +55,8 @@ public class StateManager
             Experience = 0,
             Type = EnemyType.Possessed,
             Location = new Vector2(6f, -4.5f),
-            MoveSpeed = 2.0f
+            MoveSpeed = 2.0f,
+            TargetPlayerId = -1
         });
 
         WorldState.Scenes.Add(OverworldScene);
@@ -62,15 +67,21 @@ public class StateManager
         StateUpdater.Update(WorldState);
     }
 
-    public int CalculateEnemyDamageTaken(EnemyState enemy, PlayerState player)
+    public float GetPlayerPhysicalDamage(PlayerState player)
     {
-        return 5;
+        return 5; // TODO: Calculate Player Base Damage when hitting an enemy
     }
 
-    public int CalculatePlayerDamageTaken(PlayerState player, EnemyState enemy)
+    public float GetPlayerFireDamage(PlayerState player)
     {
-        return 5;
+        return 0; // TODO: Calculate Player Base Damage when hitting an enemy
     }
+
+    public float GetPlayerColdDamage(PlayerState player)
+    {
+        return 0; // TODO: Calculate Player Base Damage when hitting an enemy
+    }
+
     //public GameObject generateWorldDrop(GameObject dropObject, int itemLevel)
     //{
 

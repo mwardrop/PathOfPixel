@@ -21,8 +21,11 @@ public class CharacterState: ICharacterState, IDarkRiftSerializable
     public Vector2 Location { get; set; }
     public Vector2 TargetLocation { get; set; }
     public float MoveSpeed { get; set; }
+    public bool IsDead { get; set; }
 
-    public int IncomingDamage { get; set; }
+    public float IncomingPhysicalDamage { get; set; }
+    public float IncomingFireDamage { get; set; }
+    public float IncomingColdDamage { get; set; }
 
     // TODO: MOVE TO STATEMANAGER
     //public DamageTransfer TakeDamage(DamageTransfer damage)
@@ -81,6 +84,7 @@ public class CharacterState: ICharacterState, IDarkRiftSerializable
         Location = e.Reader.ReadVector2();
         TargetLocation = e.Reader.ReadVector2();
         MoveSpeed = e.Reader.ReadSingle();
+        IsDead = e.Reader.ReadBoolean();
     }
 
     public virtual void Serialize(SerializeEvent e)
@@ -102,6 +106,7 @@ public class CharacterState: ICharacterState, IDarkRiftSerializable
         e.Writer.WriteVector2(Location);
         e.Writer.WriteVector2(TargetLocation);
         e.Writer.Write(MoveSpeed);
+        e.Writer.Write(IsDead);
     }
 }
 
@@ -123,9 +128,11 @@ public interface ICharacterState
     public Vector2 Location { get; set; }
     public Vector2 TargetLocation { get; set; }
     public float MoveSpeed { get; set; }
+    public bool IsDead { get; set; }
 
-    public int IncomingDamage { get; set; }
-
+    public float IncomingPhysicalDamage { get; set; }
+    public float IncomingFireDamage { get; set; }
+    public float IncomingColdDamage { get; set; }
     //public DamageTransfer TakeDamage(DamageTransfer damage);
     //public float ApplyIncomingDamage();
 }

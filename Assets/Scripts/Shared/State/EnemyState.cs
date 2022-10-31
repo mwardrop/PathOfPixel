@@ -21,7 +21,8 @@ public class EnemyState : CharacterState, ICharacterState, IDarkRiftSerializable
 {
     public EnemyType Type;
     public EnemyRarity Rarity;
-    public Guid EnemyGuid;  
+    public Guid EnemyGuid;
+    public int TargetPlayerId;
 
     public EnemyState()
     {
@@ -35,6 +36,7 @@ public class EnemyState : CharacterState, ICharacterState, IDarkRiftSerializable
         Rarity = (EnemyRarity)e.Reader.ReadInt32();
         String tempGuid = e.Reader.ReadString();
         EnemyGuid = Guid.Parse(tempGuid);
+        TargetPlayerId = e.Reader.ReadInt32();
     }
 
     public override void Serialize(SerializeEvent e)
@@ -43,6 +45,7 @@ public class EnemyState : CharacterState, ICharacterState, IDarkRiftSerializable
         e.Writer.Write((int)Type);
         e.Writer.Write((int)Rarity);
         e.Writer.Write(EnemyGuid.ToString());
+        e.Writer.Write(TargetPlayerId);
     }
 
 }

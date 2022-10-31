@@ -24,7 +24,7 @@ public class ChestSprite : BaseSprite
     private ChestState chestState = ChestState.Idle;
     private bool clicked = false;
     private GameObject player;
-    public StateManager gameState;
+    public ServerStateManager gameState;
     public int chestLevel = 1;
     public ChestRarity chestRarity = ChestRarity.Common;
 

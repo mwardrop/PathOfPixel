@@ -16,7 +16,8 @@ public enum NetworkTags
     PlayerAttack = 9,
     EnemyAttack = 10,
     PlayerTakeDamage = 11,
-    EnemyTakeDamage = 12
+    EnemyTakeDamage = 12,
+    EnemyNewTarget = 13
 }
 
 public struct LoginRequestData : IDarkRiftSerializable
@@ -195,48 +196,85 @@ public struct GuidData : IDarkRiftSerializable
 public struct EnemyTakeDamageData : IDarkRiftSerializable
 {
     public System.Guid EnemyGuid;
-    public int Damage;
+    public float Health;
+    public bool IsDead;
 
-    public EnemyTakeDamageData(System.Guid enemyGuid, int damage)
+    public EnemyTakeDamageData(System.Guid enemyGuid, float health, bool isDead = false)
     {
         EnemyGuid = enemyGuid;
-        Damage = damage;
+        Health = health;
+        IsDead = isDead;
     }
 
     public void Deserialize(DeserializeEvent e)
     {
         string tempGuid = e.Reader.ReadString();
         EnemyGuid = new System.Guid(tempGuid);
-        Damage = e.Reader.ReadInt32();
+        Health = e.Reader.ReadSingle();
+        IsDead = e.Reader.ReadBoolean();
     }
 
     public void Serialize(SerializeEvent e)
     {
         e.Writer.Write(EnemyGuid.ToString());
-        e.Writer.Write(Damage);
+        e.Writer.Write(Health);
+        e.Writer.Write(IsDead);
     }
 }
 
 public struct PlayerTakeDamageData : IDarkRiftSerializable
 {
     public int ClientId;
-    public int Damage;
+    public int Health;
+    public bool IsDead;
 
-    public PlayerTakeDamageData(int clientID, int damage)
+    public PlayerTakeDamageData(int clientId, int health, bool isDead = false)
     {
-        ClientId = clientID;
-        Damage = damage;
+        ClientId = clientId;
+        Health = health;
+        IsDead = isDead;
     }
 
     public void Deserialize(DeserializeEvent e)
     {;
         ClientId = e.Reader.ReadInt32();
-        Damage = e.Reader.ReadInt32();
+        Health = e.Reader.ReadInt32();
+        IsDead = e.Reader.ReadBoolean();
     }
 
     public void Serialize(SerializeEvent e)
     {
         e.Writer.Write(ClientId);
-        e.Writer.Write(Damage);
+        e.Writer.Write(Health);
+        e.Writer.Write(IsDead);
+    }
+}
+
+public struct EnemyNewTargetData : IDarkRiftSerializable
+{
+    public System.Guid EnemyGuid;
+    public int ClientId;
+    public string SceneName;
+
+    public EnemyNewTargetData(System.Guid enemyGuid, int clientId, string sceneName)
+    {
+        EnemyGuid = enemyGuid;
+        ClientId = clientId;
+        SceneName = sceneName;
+    }
+
+    public void Deserialize(DeserializeEvent e)
+    {
+        string tempGuid = e.Reader.ReadString();
+        EnemyGuid = new System.Guid(tempGuid);
+        ClientId = e.Reader.ReadInt32();
+        SceneName = e.Reader.ReadString();
+    }
+
+    public void Serialize(SerializeEvent e)
+    {
+        e.Writer.Write(EnemyGuid.ToString());
+        e.Writer.Write(ClientId);
+        e.Writer.Write(SceneName);
     }
 }

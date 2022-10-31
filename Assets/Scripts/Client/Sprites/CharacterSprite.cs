@@ -24,7 +24,7 @@ public enum SpriteDirection
 
 public abstract class CharacterSprite : BaseSprite
 {
-    protected Boolean hurt = false;
+    public Boolean hurt = false;
 
     public SpriteDirection direction = SpriteDirection.Down;
     public SpriteState state = SpriteState.Idle;
@@ -65,14 +65,14 @@ public abstract class CharacterSprite : BaseSprite
         base.Update();
 
         // Show hurt interruption if State is not locked
-        if (hurt && !IsStateLocked)
-        {
-            SetState(SpriteState.Hurt);
-            hurt = false;
-            return;
-        }
+        //if (hurt && !IsStateLocked)
+        //{
+        //    SetState(SpriteState.Hurt);
+        //    hurt = false;
+        //    return;
+        //}
         // Die
-        if (CharacterState.Health <= 0)
+        if (CharacterState.IsDead)
         {
             SetState(SpriteState.Death);
             this.GetComponent<BoxCollider2D>().enabled = false;
@@ -81,12 +81,12 @@ public abstract class CharacterSprite : BaseSprite
 
         }
         //Take Damage
-        if (CharacterState.IncomingDamage > 0)
-        {
-            hurt = true;
-            return;
+        //if (CharacterState.IncomingDamage > 0)
+        //{
+        //    hurt = true;
+        //    return;
 
-        }
+        //}
     }
 
     public void SetState(SpriteState _state)
