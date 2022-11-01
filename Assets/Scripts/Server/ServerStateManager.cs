@@ -33,7 +33,7 @@ public class ServerStateManager
             Experience = 0,
             Type = EnemyType.Possessed,
             Location = new Vector2(-2f, -4.5f),
-            MoveSpeed = 2.0f,
+            MoveSpeed = 1f,
             TargetPlayerId = -1
         });
 
@@ -78,6 +78,21 @@ public class ServerStateManager
     }
 
     public float GetPlayerColdDamage(PlayerState player)
+    {
+        return 0; // TODO: Calculate Player Base Damage when hitting an enemy
+    }
+
+    public float GetEnemyPhysicalDamage(EnemyState player)
+    {
+        return 5; // TODO: Calculate Player Base Damage when hitting an enemy
+    }
+
+    public float GetEnemyFireDamage(EnemyState player)
+    {
+        return 0; // TODO: Calculate Player Base Damage when hitting an enemy
+    }
+
+    public float GetEnemyColdDamage(EnemyState player)
     {
         return 0; // TODO: Calculate Player Base Damage when hitting an enemy
     }

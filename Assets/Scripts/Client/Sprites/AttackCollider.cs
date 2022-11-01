@@ -14,20 +14,14 @@ public class AttackCollider : MonoBehaviour
             // A Player is hitting an Enemy
             if (this.CompareTag("Player") && other.CompareTag("Enemy"))
             {
-                if(this.transform.parent.parent.CompareTag("LocalPlayer"))
-                {
-                    ClientManager.Instance.StateManager.Actions.PlayerAttack(other.gameObject);
-                }
-                
+                ClientManager.Instance.StateManager.Actions.PlayerHitEnemy(this.gameObject.transform.parent.parent.gameObject, other.gameObject);
+
             }
 
             // A Enemy is hitting a player
-            if (this.CompareTag("Enemy") && other.CompareTag("Player"))
+            if (this.CompareTag("Enemy") && (other.CompareTag("LocalPlayer") || other.CompareTag("NetworkPlayer")))
             {
-                if (this.transform.parent.parent.CompareTag("LocalPlayer"))
-                {
-                    ClientManager.Instance.StateManager.Actions.EnemyAttack(other.gameObject);
-                }
+                ClientManager.Instance.StateManager.Actions.EnemyHitPlayer(other.gameObject, this.gameObject.transform.parent.parent.gameObject);
             }
 
         }

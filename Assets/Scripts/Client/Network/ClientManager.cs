@@ -22,6 +22,14 @@ public class ClientManager : MonoBehaviour
     public delegate void ConnectFailedDelegate(Exception exception);
     ConnectFailedDelegate ConnectFailed;
 
+    public static bool IsHost {
+        get {
+            return ClientManager.Instance.Client.ID == 0;
+        } 
+    }
+    public bool IsDedicated = false;
+
+
     public void Update()
     {
         if(StateManager != null)

@@ -47,13 +47,14 @@ public class ClickHandler : MonoBehaviour
 
         if (Input.GetMouseButtonDown(0))
         {
-
             Vector3 target = Camera.main.ScreenToWorldPoint(Input.mousePosition);
             target.z = transform.position.z;
 
             if(Vector3.Distance(playerSprite.transform.position, target) > playerSprite.MoveRadius) {
-                ClientManager.Instance.StateManager.Actions.RequestMove(target);
+                ClientManager.Instance.StateManager.Actions.Move(target);
             }
+
+            playerSprite.SetDirection(target);
 
             transform.position = target;
 

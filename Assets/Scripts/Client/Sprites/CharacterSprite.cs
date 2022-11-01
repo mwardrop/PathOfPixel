@@ -65,12 +65,12 @@ public abstract class CharacterSprite : BaseSprite
         base.Update();
 
         // Show hurt interruption if State is not locked
-        //if (hurt && !IsStateLocked)
-        //{
-        //    SetState(SpriteState.Hurt);
-        //    hurt = false;
-        //    return;
-        //}
+        if (hurt && !IsStateLocked)
+        {
+            SetState(SpriteState.Hurt);
+            hurt = false;
+            return;
+        }
         // Die
         if (CharacterState.IsDead)
         {
@@ -139,7 +139,7 @@ public abstract class CharacterSprite : BaseSprite
         Debug.Log("Character Death.");
     }
 
-    protected SpriteDirection SetDirection(Vector3 target)
+    public SpriteDirection SetDirection(Vector3 target)
     {
         SpriteDirection _direction;
 
@@ -194,8 +194,9 @@ public abstract class CharacterSprite : BaseSprite
         }
     }
 
-    protected void MoveToDestination(Vector3 destination, float speed = 0)
+    public void MoveToDestination(Vector3 destination, float speed = 0)
     {
+        SetDirection(destination);
         if (speed == 0) { speed = CharacterState.MoveSpeed; }
         rigidBody2D.MovePosition(Vector3.MoveTowards(transform.position, destination, speed * Time.fixedDeltaTime));
     }

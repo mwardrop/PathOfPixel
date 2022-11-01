@@ -61,7 +61,6 @@ public class LoginScene : MonoBehaviour
     void HostClicked()
     {
         //EditorUtility.DisplayDialog("Not Implemented", "Dedicated Host is not yet implemented.", "Ok");
-        //ServerManager.isDedicated = true;
         //SceneManager.LoadScene("OverworldScene", LoadSceneMode.Single);
     }
 

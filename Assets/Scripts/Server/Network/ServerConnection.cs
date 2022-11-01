@@ -1,8 +1,9 @@
 ﻿using DarkRift;
 using DarkRift.Server;
+using System.Collections;
 using System.Linq;
-using Unity.Collections.LowLevel.Unsafe;
 using UnityEngine;
+using static UnityEngine.GraphicsBuffer;
 using Random = UnityEngine.Random;
 
 public class ServerConnection
@@ -42,7 +43,8 @@ public class ServerConnection
             Type = PlayerType.Warrior,
             Scene = "OverworldScene",
             ClientId = client.ID,
-            MoveSpeed = 2.5f
+            MoveSpeed = 3f,
+            isTargetable = false
         };
 
     }
@@ -69,61 +71,103 @@ public class ServerConnection
                     SpawnPlayer();
                     break;
                 case NetworkTags.MoveRequest:
-                    MovePlayer(message.Deserialize<TargetData>().Target);
+                    MovePlayer(message.Deserialize<TargetData>());
                     break;
                 case NetworkTags.PlayerAttack:
-                    PlayerAttack(message.Deserialize<GuidData>().Guid);
+                    PlayerAttack();
+                    break;
+                case NetworkTags.PlayerHitEnemy:
+                    PlayerHitEnemy(message.Deserialize<EnemyPlayerPairData>());
                     break;
                 case NetworkTags.EnemyAttack:
-                    EnemyAttack(message.Deserialize<GuidData>().Guid);
+                    EnemyAttack(message.Deserialize<GuidData>());
+                    break;
+                case NetworkTags.EnemyHitPlayer:
+                    EnemyHitPlayer(message.Deserialize<EnemyPlayerPairData>());
+                    break;
+                case NetworkTags.UpdateEnemyLocation:
+                    UpdateEnemyLocation(message.Deserialize<UpdateEnemyLocationData>());
                     break;
             }
         }
     }
 
-    private void PlayerAttack(System.Guid enemyGuid)
+    private void PlayerAttack()
+    {
+        BroadcastNetworkMessage(
+            NetworkTags.PlayerAttack,
+            new IntegerData(Client.ID)
+        );    
+    }
+
+    private void PlayerHitEnemy(EnemyPlayerPairData enemyPlayerPairData)
     {
         EnemyState enemy = StateManager.WorldState
-            .Scenes.First(x => x.Name.ToLower() == PlayerState.Scene.ToLower())
-            .Enemies.First(x => x.EnemyGuid == enemyGuid);
+            .Scenes.First(x => x.Name.ToLower() == enemyPlayerPairData.SceneName.ToLower())
+            .Enemies.First(x => x.EnemyGuid == enemyPlayerPairData.EnemyGuid);
+
+        PlayerState player = StateManager.WorldState.Players.First(x => x.ClientId == enemyPlayerPairData.ClientId);
 
         enemy.IncomingPhysicalDamage += StateManager.GetPlayerPhysicalDamage(PlayerState);
         enemy.IncomingFireDamage += StateManager.GetPlayerFireDamage(PlayerState);
         enemy.IncomingColdDamage += StateManager.GetPlayerColdDamage(PlayerState);
-
-        BroadcastNetworkMessage(
-            NetworkTags.PlayerAttack,
-            new IntegerData(Client.ID)
-        );
     }
 
-    private void EnemyAttack(System.Guid enemyGuid)
+    private void EnemyAttack(GuidData guidData)
+    {
+        BroadcastNetworkMessage(
+            NetworkTags.EnemyAttack,
+            guidData
+        );
+
+    }
+
+    private void EnemyHitPlayer(EnemyPlayerPairData enemyPlayerPairData)
     {
         EnemyState enemy = StateManager.WorldState
-            .Scenes.First(x => x.Name.ToLower() == PlayerState.Scene.ToLower())
-            .Enemies.First(x => x.EnemyGuid == enemyGuid);
+            .Scenes.First(x => x.Name.ToLower() == enemyPlayerPairData.SceneName.ToLower())
+            .Enemies.First(x => x.EnemyGuid == enemyPlayerPairData.EnemyGuid);
 
-        PlayerState.IncomingPhysicalDamage += 5;
+        PlayerState player = StateManager.WorldState
+            .Players.First(x => x.ClientId == enemyPlayerPairData.ClientId);
 
-        //BroadcastNetworkMessage(
-        //    NetworkTags.PlayerTakeDamage,
-        //    new PlayerTakeDamageData(Client.ID, PlayerState.IncomingDamage)
-        //);
+        player.IncomingPhysicalDamage += StateManager.GetEnemyPhysicalDamage(enemy);
+        player.IncomingFireDamage += StateManager.GetEnemyFireDamage(enemy);
+        player.IncomingColdDamage += StateManager.GetEnemyColdDamage(enemy);
+
     }
 
     private void SpawnPlayer()
     {
         PlayerState.TargetLocation = PlayerState.Location = new Vector2(Random.Range(-3, 3), Random.Range(-3, 3));
+        PlayerState.isTargetable = false;
 
         BroadcastNetworkMessage(
             NetworkTags.SpawnPlayer,
             new PlayerStateData(PlayerState)
         );
+
+        if (StateManager.WorldState.Players.Count(x => x.ClientId == PlayerState.ClientId) == 0)
+        {
+            StateManager.WorldState.Players.Add(PlayerState);
+        }
+
+        ServerManager.Instance.StartCoroutine(TargetableCoroutine(PlayerState));
+        IEnumerator TargetableCoroutine(PlayerState playerState)
+        {
+            yield return new WaitForSeconds(30);
+            playerState.isTargetable = true;
+        }
+
     }
 
-    private void MovePlayer(Vector2 target)
+    private void MovePlayer(TargetData targetData)
     {
+
+        Vector2 target = targetData.Target;
+
         PlayerState.TargetLocation = PlayerState.Location = target;
+        PlayerState.isTargetable = true;
 
         BroadcastNetworkMessage(
             NetworkTags.MovePlayer,
@@ -141,4 +185,19 @@ public class ServerConnection
         ServerManager.BroadcastNetworkMessage(networkTag, payload);
     }
 
+    private void UpdateEnemyLocation(UpdateEnemyLocationData updateEnemyLocationData)
+    {
+        var sceneName = updateEnemyLocationData.SceneName;
+        var enemyGuid = updateEnemyLocationData.EnemyGuid;
+        var location = updateEnemyLocationData.Location;
+
+        StateManager.WorldState.Scenes
+            .First(x => x.Name.ToLower() == sceneName.ToLower()).Enemies
+            .First(x=> x.EnemyGuid == enemyGuid).Location = location;
+
+        //BroadcastNetworkMessage(
+        //    NetworkTags.UpdateEnemyLocation,
+        //    new UpdateEnemyLocationData(enemyGuid, location, sceneName)
+        //);
+    }
 }

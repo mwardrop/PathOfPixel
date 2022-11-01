@@ -19,6 +19,7 @@ public class PlayerState: CharacterState, ICharacterState, IDarkRiftSerializable
 
     public string Scene;
     public int ClientId;
+    public bool isTargetable;
 
     public PlayerState()
     {
@@ -33,6 +34,7 @@ public class PlayerState: CharacterState, ICharacterState, IDarkRiftSerializable
         ClientId = e.Reader.ReadInt32();
         ItemState[] tempInventory = e.Reader.ReadSerializables<ItemState>();
         Inventory = tempInventory.ToList();
+        isTargetable = e.Reader.ReadBoolean();
 
     }
 
@@ -43,6 +45,7 @@ public class PlayerState: CharacterState, ICharacterState, IDarkRiftSerializable
         e.Writer.Write(Scene);
         e.Writer.Write(ClientId);
         e.Writer.Write(Inventory.ToArray());
+        e.Writer.Write(isTargetable);
     }
 
 }

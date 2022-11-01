@@ -9,13 +9,19 @@ public class StateUpdater
 {
     public StateUpdater()
     {
-        //managerInstance.InvokeRepeating("Tick", 0, 1);
+        //ServerManager.Instance.InvokeRepeating("StateManager.StateUpdater.OneSecondTick", 0, 1);
+        //ServerManager.Instance.InvokeRepeating("StateManager.StateUpdater.ThirtySecondTick", 0, 30);
     }
 
-    public void Tick()
-    {
+    //public void OneSecondTick()
+    //{
 
-    }
+    //}
+
+    //public void ThirtySecondTick()
+    //{
+
+    //}
 
     public void Update(WorldState worldstate)
     {
@@ -39,7 +45,7 @@ public class StateUpdater
 
     private void UpdatePlayer(PlayerState player, WorldState world)
     {
-        //ApplyIncomingDamageToPlayer(player);
+        ApplyIncomingDamageToPlayer(player);
     }
 
     private void UpdateEnemy(EnemyState enemy, SceneState scene, WorldState world)
@@ -71,6 +77,28 @@ public class StateUpdater
 
     }
 
+    private void ApplyIncomingDamageToPlayer(PlayerState player)
+    {
+        if (player.IncomingPhysicalDamage > 0 || player.IncomingFireDamage > 0 || player.IncomingColdDamage > 0)
+        {
+
+            player.Health -= player.IncomingPhysicalDamage;
+            player.Health -= player.IncomingFireDamage;
+            player.Health -= player.IncomingColdDamage;
+
+            player.IsDead = player.Health <= 0 ? true : false;
+
+            player.IncomingPhysicalDamage = 0;
+            player.IncomingFireDamage = 0;
+            player.IncomingColdDamage = 0;
+
+            ServerManager.BroadcastNetworkMessage(
+                NetworkTags.PlayerTakeDamage,
+                new PlayerTakeDamageData(player.ClientId, player.Health, player.IsDead));
+        }
+
+    }
+
     private void SetEnemyTarget(EnemyState enemy, List<PlayerState> players, SceneState scene)
     {
         if (players.Count > 0)
@@ -79,21 +107,24 @@ public class StateUpdater
 
             foreach (PlayerState player in players)
             {
-                if (player.Scene.ToLower() == scene.Name.ToLower())
+                if (player.Scene.ToLower() == scene.Name.ToLower() && player.isTargetable)
                 {
                     distanceFromPlayers.Add(player.ClientId, Vector2.Distance(player.Location, enemy.Location));
                 }
             }
 
-            int targetId = distanceFromPlayers.OrderByDescending(x => x.Value).Last().Key;
+            if (distanceFromPlayers.Count > 0) { 
 
-            if (enemy.TargetPlayerId != targetId)
-            {
-                enemy.TargetPlayerId = targetId;
+                int targetId = distanceFromPlayers.OrderByDescending(x => x.Value).Last().Key;
 
-                ServerManager.BroadcastNetworkMessage(
-                    NetworkTags.EnemyNewTarget,
-                    new EnemyNewTargetData(enemy.EnemyGuid, targetId, scene.Name));
+                if (enemy.TargetPlayerId != targetId)
+                {
+                    enemy.TargetPlayerId = targetId;
+
+                    ServerManager.BroadcastNetworkMessage(
+                        NetworkTags.EnemyNewTarget,
+                        new EnemyPlayerPairData(enemy.EnemyGuid, targetId, scene.Name));
+                }
             }
         }
 

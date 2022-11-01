@@ -43,8 +43,7 @@ public class PlayerSprite : CharacterSprite
 
         if (Vector3.Distance(transform.position, Target) >= MoveRadius)
         {
-            if(canMove && Vector3.Distance(transform.position, Target) > MoveRadius) { shouldMove = true; }
-            SetDirection(Target);
+            if(canMove && !PlayerState.IsDead && Vector3.Distance(transform.position, Target) > MoveRadius) { shouldMove = true; }
         }
 
         base.Update();
@@ -56,7 +55,7 @@ public class PlayerSprite : CharacterSprite
             ClickHandler.enemyClicked &&
             Vector3.Distance(transform.position, TargetEnemy.transform.position) < AttackRadius)
         {
-            SetState(SelectedAttack);
+            ClientManager.Instance.StateManager.Actions.PlayerAttack();
             // TODO : resetting the click handler is needed so you can repeated click attack but messes up the attack indicator
             ClickHandler.enemyClicked = false;
             return;

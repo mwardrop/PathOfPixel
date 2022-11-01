@@ -16,8 +16,6 @@ public class ServerManager : MonoBehaviour
     public Dictionary<int, ServerConnection> Connections = new Dictionary<int, ServerConnection>();
     public ServerStateManager StateManager;
 
-    public static bool isDedicated = false;
-
     public void Update()
     {
         if (StateManager != null)

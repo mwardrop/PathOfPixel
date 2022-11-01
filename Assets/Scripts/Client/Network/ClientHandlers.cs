@@ -1,9 +1,8 @@
 ﻿using DarkRift;
 using DarkRift.Client;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using System.Runtime.InteropServices.WindowsRuntime;
-using TMPro;
 using UnityEngine;
 
 public class ClientHandlers
@@ -36,18 +35,25 @@ public class ClientHandlers
                 case NetworkTags.SpawnEnemy:
                     SpawnEnemy(message.Deserialize<EnemyStateData>());
                     break;
-                case NetworkTags.EnemyTakeDamage:
-                    EnemyTakeDamage(message.Deserialize<EnemyTakeDamageData>());
-                    break;
                 case NetworkTags.PlayerTakeDamage:
                     PlayerTakeDamage(message.Deserialize<PlayerTakeDamageData>());
                     break;
                 case NetworkTags.PlayerAttack:
                     PlayerAttack(message.Deserialize<IntegerData>());
                     break;
-                case NetworkTags.EnemyNewTarget:
-                    EnemyNewTarget(message.Deserialize<EnemyNewTargetData>());
+                case NetworkTags.EnemyAttack:
+                    EnemyAttack(message.Deserialize<GuidData>());
                     break;
+                case NetworkTags.EnemyNewTarget:
+                    EnemyNewTarget(message.Deserialize<EnemyPlayerPairData>());
+                    break;
+                case NetworkTags.EnemyTakeDamage:
+                    EnemyTakeDamage(message.Deserialize<EnemyTakeDamageData>());
+                    break;
+                case NetworkTags.UpdateEnemyLocation:
+                    UpdateEnemyLocation(message.Deserialize<UpdateEnemyLocationData>());
+                    break;
+
             }
         }
     }
@@ -83,6 +89,13 @@ public class ClientHandlers
 
         newPlayer.GetComponent<PlayerSprite>().NetworkClientId = playerState.ClientId;
 
+        ServerManager.Instance.StartCoroutine(TargetableCoroutine(PlayerState));
+        IEnumerator TargetableCoroutine(PlayerState playerState)
+        {
+            yield return new WaitForSeconds(30);
+            playerState.isTargetable = true;
+        }
+
     }
 
     public void SpawnEnemy(EnemyStateData enemyStateData)
@@ -109,7 +122,11 @@ public class ClientHandlers
 
     public void MovePlayer(MovePlayerData movePlayerData)
     {
-        WorldState.Players.First(x => x.ClientId == movePlayerData.ClientId).TargetLocation = movePlayerData.Target;
+        var playerState = WorldState.Players.First(x => x.ClientId == movePlayerData.ClientId);
+
+        playerState.TargetLocation = movePlayerData.Target;
+        playerState.isTargetable = true;
+
     }
 
     public void PlayerDisconnect(IntegerData clientId)
@@ -131,18 +148,40 @@ public class ClientHandlers
             .GetComponent<EnemySprite>().SetState(SpriteState.Hurt);
     }
 
+    public void EnemyAttack(GuidData guidData)
+    {
+        GameObject.FindGameObjectsWithTag("Enemy").ToList()
+            .First(x => x.GetComponent<EnemySprite>().StateGuid == guidData.Guid)
+            .GetComponent<EnemySprite>().SetState(SpriteState.Attack1);
+
+    }
+
     public void PlayerTakeDamage(PlayerTakeDamageData playerTakeDamageData)
     {
-        WorldState
-            .Players.First(x => x.ClientId == playerTakeDamageData.ClientId)
-            .Health += playerTakeDamageData.Health;
+        PlayerState player = ClientManager.Instance.StateManager.WorldState.Players.First(x => x.ClientId == playerTakeDamageData.ClientId);
+
+        player.Health = playerTakeDamageData.Health;
+        player.IsDead = playerTakeDamageData.IsDead;
+
+        if(player.ClientId == ClientManager.Instance.Client.ID){
+            GameObject.FindWithTag("LocalPlayer").GetComponent<PlayerSprite>().SetState(SpriteState.Hurt);
+
+        } else{
+            GameObject.FindGameObjectsWithTag("NetworkPlayer").ToList()
+                .First(x => x.GetComponent<PlayerSprite>().NetworkClientId == playerTakeDamageData.ClientId)
+                .GetComponent<PlayerSprite>().SetState(SpriteState.Hurt);
+        }
     }
 
     public void PlayerAttack(IntegerData integerData)
     {
         int clientId = integerData.Integer;
 
-        if (clientId != PlayerState.ClientId)
+        if (clientId == PlayerState.ClientId)
+        {
+            GameObject attackingPlayer = GameObject.FindWithTag("LocalPlayer");
+            attackingPlayer.GetComponent<CharacterSprite>().SetState(SpriteState.Attack1);
+        } else
         {
             List<GameObject> networkPlayers = GameObject.FindGameObjectsWithTag("NetworkPlayer").ToList();
             GameObject attackingPlayer = networkPlayers.First(x => x.GetComponent<PlayerSprite>().NetworkClientId == integerData.Integer);
@@ -150,7 +189,9 @@ public class ClientHandlers
         }
     }
 
-    public void EnemyNewTarget(EnemyNewTargetData enemyNewTargetData)
+
+
+    public void EnemyNewTarget(EnemyPlayerPairData enemyNewTargetData)
     {
         var enemyGuid = enemyNewTargetData.EnemyGuid;
         var clientId = enemyNewTargetData.ClientId;
@@ -159,11 +200,29 @@ public class ClientHandlers
         WorldState.Scenes.First(x => x.Name.ToLower() == sceneName.ToLower()).Enemies
             .First(x => x.EnemyGuid == enemyGuid).TargetPlayerId = clientId;
 
-        EnemySprite temp = GameObject.FindGameObjectsWithTag("Enemy").ToList().
+        GameObject.FindGameObjectsWithTag("Enemy").ToList().
+            First(x => x.GetComponent<EnemySprite>().StateGuid == enemyGuid)
+            .GetComponent<EnemySprite>().TargetPlayerId = clientId;
+    }
+
+    public void UpdateEnemyLocation(UpdateEnemyLocationData updateEnemyLocationData)
+    {
+        var enemyGuid = updateEnemyLocationData.EnemyGuid;
+        var location = updateEnemyLocationData.Location;
+        var sceneName = updateEnemyLocationData.SceneName;
+
+        var enemySprite = GameObject.FindGameObjectsWithTag("Enemy").ToList().
             First(x => x.GetComponent<EnemySprite>().StateGuid == enemyGuid)
             .GetComponent<EnemySprite>();
-        temp.TargetPlayerId = clientId;
 
+        if (enemySprite.TargetPlayerId != ClientManager.Instance.Client.ID)
+        {
+
+            WorldState.Scenes.First(x => x.Name.ToLower() == sceneName.ToLower()).Enemies
+               .First(x => x.EnemyGuid == enemyGuid).Location = location;
+
+            enemySprite.MoveToDestination(location);
+        }
     }
 
 }

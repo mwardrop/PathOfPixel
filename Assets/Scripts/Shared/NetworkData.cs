@@ -14,10 +14,13 @@ public enum NetworkTags
     PlayerDisconnect = 7,
     SpawnEnemy = 8,
     PlayerAttack = 9,
-    EnemyAttack = 10,
+    EnemyHitPlayer = 10,
     PlayerTakeDamage = 11,
     EnemyTakeDamage = 12,
-    EnemyNewTarget = 13
+    EnemyNewTarget = 13,
+    UpdateEnemyLocation = 14,
+    PlayerHitEnemy = 15,
+    EnemyAttack = 16
 }
 
 public struct LoginRequestData : IDarkRiftSerializable
@@ -225,10 +228,10 @@ public struct EnemyTakeDamageData : IDarkRiftSerializable
 public struct PlayerTakeDamageData : IDarkRiftSerializable
 {
     public int ClientId;
-    public int Health;
+    public float Health;
     public bool IsDead;
 
-    public PlayerTakeDamageData(int clientId, int health, bool isDead = false)
+    public PlayerTakeDamageData(int clientId, float health, bool isDead = false)
     {
         ClientId = clientId;
         Health = health;
@@ -238,7 +241,7 @@ public struct PlayerTakeDamageData : IDarkRiftSerializable
     public void Deserialize(DeserializeEvent e)
     {;
         ClientId = e.Reader.ReadInt32();
-        Health = e.Reader.ReadInt32();
+        Health = e.Reader.ReadSingle();
         IsDead = e.Reader.ReadBoolean();
     }
 
@@ -250,13 +253,13 @@ public struct PlayerTakeDamageData : IDarkRiftSerializable
     }
 }
 
-public struct EnemyNewTargetData : IDarkRiftSerializable
+public struct EnemyPlayerPairData : IDarkRiftSerializable
 {
     public System.Guid EnemyGuid;
     public int ClientId;
     public string SceneName;
 
-    public EnemyNewTargetData(System.Guid enemyGuid, int clientId, string sceneName)
+    public EnemyPlayerPairData(System.Guid enemyGuid, int clientId, string sceneName)
     {
         EnemyGuid = enemyGuid;
         ClientId = clientId;
@@ -275,6 +278,36 @@ public struct EnemyNewTargetData : IDarkRiftSerializable
     {
         e.Writer.Write(EnemyGuid.ToString());
         e.Writer.Write(ClientId);
+        e.Writer.Write(SceneName);
+    }
+}
+
+
+public struct UpdateEnemyLocationData : IDarkRiftSerializable
+{
+    public System.Guid EnemyGuid;
+    public Vector2 Location;
+    public string SceneName;
+
+    public UpdateEnemyLocationData(System.Guid enemyGuid, Vector2 location , string sceneName)
+    {
+        EnemyGuid = enemyGuid;
+        Location = location;
+        SceneName = sceneName;
+    }
+
+    public void Deserialize(DeserializeEvent e)
+    {
+        string tempGuid = e.Reader.ReadString();
+        EnemyGuid = new System.Guid(tempGuid);
+        Location = e.Reader.ReadVector2();
+        SceneName = e.Reader.ReadString();
+    }
+
+    public void Serialize(SerializeEvent e)
+    {
+        e.Writer.Write(EnemyGuid.ToString());
+        e.Writer.WriteVector2(Location);
         e.Writer.Write(SceneName);
     }
 }

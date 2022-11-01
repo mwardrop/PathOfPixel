@@ -60,7 +60,7 @@ public class ClientStateManager
                 Handlers.SpawnEnemy(new EnemyStateData(enemy));
             }
 
-            ClientManager.Instance.StateManager.Actions.RequestSpawn();
+            ClientManager.Instance.StateManager.Actions.Spawn();
         }
     }
 

@@ -1,6 +1,6 @@
 using System;
 using System.Linq;
-using UnityEditor.PackageManager;
+using System.Runtime.InteropServices.WindowsRuntime;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -10,6 +10,8 @@ public class EnemySprite : CharacterSprite
 
     public GameObject TargetPlayer { get
         {          
+            if(TargetPlayerId == -1) { return null;  }
+
             GameObject targetPlayer;
             if (ClientManager.Instance.Client.ID == TargetPlayerId)
             {
@@ -54,6 +56,7 @@ public class EnemySprite : CharacterSprite
     {
         SetDirection(direction);
         SetState(state);
+        InvokeRepeating("UpdateState", 0, 1);
 
     }
 
@@ -84,44 +87,47 @@ public class EnemySprite : CharacterSprite
         }
 
         // Chase Player
-        //if (TargetPlayer != null)
+        if (TargetPlayer != null)
+        {
+
+            if (canMove &&
+                state != SpriteState.Death &&
+                Vector3.Distance(TargetPlayer.transform.position, transform.position) <= chaseRadius &&
+                Vector3.Distance(TargetPlayer.transform.position, transform.position) > attackRadius)
+            {
+                SetState(SpriteState.Walk);
+                MoveToDestination(TargetPlayer.transform.position);
+                return;
+
+            }
+
+            // Attack Player
+            if (canAttack &&
+                state != SpriteState.Death &&
+                state != SpriteState.Attack1 &&
+                Vector3.Distance(TargetPlayer.transform.position, transform.position) < attackRadius)
+            {
+                ClientManager.Instance.StateManager.Actions.EnemyAttack(this);
+                //SetState(SpriteState.Attack1);
+                return;
+
+            }
+
+        }
+
+        //// Stop Chasing Player and return home
+        //if (canMove &&
+        //    state != SpriteState.Death &&
+        //    Vector3.Distance(target.transform.position, transform.position) > chaseRadius + 2 && 
+        //    Vector3.Distance(homePosition, transform.position) > 0)
         //{
+        //    SetDirection(homePosition);
+        //    SetState(SpriteState.Walk);
+        //    MoveToDestination(homePosition);
+        //    return;
+        //}
 
-
-            //if (canMove &&
-            //    state != SpriteState.Death &&
-            //    Vector3.Distance(TargetPlayer.transform.position, transform.position) <= chaseRadius &&
-            //    Vector3.Distance(TargetPlayer.transform.position, transform.position) > attackRadius)
-            //{
-            //    SetDirection(TargetPlayer.transform.position);
-            //    SetState(SpriteState.Walk);
-            //    MoveToDestination(TargetPlayer.transform.position);
-            //    return;
-
-            //}
-                //// Attack Player
-                //if (canAttack &&
-                //    state != SpriteState.Death && 
-                //    state != SpriteState.Attack1 && 
-                //    Vector3.Distance(target.transform.position, transform.position) < attackRadius)
-                //{
-                //    SetState(SpriteState.Attack1);
-                //    return;
-
-                //}
-                //// Stop Chasing Player and return home
-                //if (canMove &&
-                //    state != SpriteState.Death &&
-                //    Vector3.Distance(target.transform.position, transform.position) > chaseRadius + 2 && 
-                //    Vector3.Distance(homePosition, transform.position) > 0)
-                //{
-                //    SetDirection(homePosition);
-                //    SetState(SpriteState.Walk);
-                //    MoveToDestination(homePosition);
-                //    return;
-                //}
-
-            //}
+        //}
         //}
 
         SetState(SpriteState.Idle);
@@ -130,6 +136,15 @@ public class EnemySprite : CharacterSprite
     protected override void OnDeath()
     {
         //gameState.generateEnemyDrops(this.gameObject);
+    }
+
+    private void UpdateState()
+    {
+        ClientManager.Instance.StateManager.Actions.UpdateEnemyLocation(
+            StateGuid,
+            new Vector2(transform.position.x, transform.position.y),
+            SceneManager.GetActiveScene().name);
+      
     }
 
 }
