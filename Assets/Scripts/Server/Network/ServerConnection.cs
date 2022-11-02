@@ -102,11 +102,10 @@ public class ServerConnection
 
     private void PlayerHitEnemy(EnemyPlayerPairData enemyPlayerPairData)
     {
-        EnemyState enemy = StateManager.WorldState
-            .Scenes.First(x => x.Name.ToLower() == enemyPlayerPairData.SceneName.ToLower())
-            .Enemies.First(x => x.EnemyGuid == enemyPlayerPairData.EnemyGuid);
-
-        PlayerState player = StateManager.WorldState.Players.First(x => x.ClientId == enemyPlayerPairData.ClientId);
+        EnemyState enemy = StateManager.WorldState.GetEnemyState(
+            enemyPlayerPairData.EnemyGuid, 
+            enemyPlayerPairData.SceneName);
+        PlayerState player = StateManager.WorldState.GetPlayerState(enemyPlayerPairData.ClientId);
 
         enemy.IncomingPhysicalDamage += StateManager.GetPlayerPhysicalDamage(PlayerState);
         enemy.IncomingFireDamage += StateManager.GetPlayerFireDamage(PlayerState);
@@ -124,12 +123,10 @@ public class ServerConnection
 
     private void EnemyHitPlayer(EnemyPlayerPairData enemyPlayerPairData)
     {
-        EnemyState enemy = StateManager.WorldState
-            .Scenes.First(x => x.Name.ToLower() == enemyPlayerPairData.SceneName.ToLower())
-            .Enemies.First(x => x.EnemyGuid == enemyPlayerPairData.EnemyGuid);
-
-        PlayerState player = StateManager.WorldState
-            .Players.First(x => x.ClientId == enemyPlayerPairData.ClientId);
+        EnemyState enemy = StateManager.WorldState.GetEnemyState(
+            enemyPlayerPairData.EnemyGuid, 
+            enemyPlayerPairData.SceneName);
+        PlayerState player = StateManager.WorldState.GetPlayerState(enemyPlayerPairData.ClientId);
 
         player.IncomingPhysicalDamage += StateManager.GetEnemyPhysicalDamage(enemy);
         player.IncomingFireDamage += StateManager.GetEnemyFireDamage(enemy);
@@ -187,17 +184,9 @@ public class ServerConnection
 
     private void UpdateEnemyLocation(UpdateEnemyLocationData updateEnemyLocationData)
     {
-        var sceneName = updateEnemyLocationData.SceneName;
-        var enemyGuid = updateEnemyLocationData.EnemyGuid;
-        var location = updateEnemyLocationData.Location;
+        StateManager.WorldState.GetEnemyState(
+            updateEnemyLocationData.EnemyGuid,
+            updateEnemyLocationData.SceneName).Location = updateEnemyLocationData.Location;
 
-        StateManager.WorldState.Scenes
-            .First(x => x.Name.ToLower() == sceneName.ToLower()).Enemies
-            .First(x=> x.EnemyGuid == enemyGuid).Location = location;
-
-        //BroadcastNetworkMessage(
-        //    NetworkTags.UpdateEnemyLocation,
-        //    new UpdateEnemyLocationData(enemyGuid, location, sceneName)
-        //);
     }
 }

@@ -24,10 +24,11 @@ public class ClientManager : MonoBehaviour
 
     public static bool IsHost {
         get {
+            if(IsDedicated) { return true; }
             return ClientManager.Instance.Client.ID == 0;
         } 
     }
-    public bool IsDedicated = false;
+    public static bool IsDedicated = false;
 
 
     public void Update()

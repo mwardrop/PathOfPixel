@@ -11,18 +11,7 @@ public class EnemySprite : CharacterSprite
     public GameObject TargetPlayer { get
         {          
             if(TargetPlayerId == -1) { return null;  }
-
-            GameObject targetPlayer;
-            if (ClientManager.Instance.Client.ID == TargetPlayerId)
-            {
-                targetPlayer = GameObject.FindWithTag("LocalPlayer");
-            }
-            else
-            {
-                targetPlayer = GameObject.FindGameObjectsWithTag("NetworkPlayer").ToList()
-                    .First(x => x.GetComponent<PlayerSprite>().NetworkClientId == TargetPlayerId);
-            }
-            return targetPlayer;
+            return ClientManager.Instance.StateManager.GetPlayerGameObject(TargetPlayerId);
         }
     }
 
@@ -38,8 +27,7 @@ public class EnemySprite : CharacterSprite
             try
             {
                 return ClientManager.Instance.StateManager.WorldState
-                    .Scenes.First(x => x.Name == SceneManager.GetActiveScene().name)
-                    .Enemies.First(x => x.EnemyGuid == StateGuid);
+                    .GetEnemyState(StateGuid, SceneManager.GetActiveScene().name);
             }
             catch
             {

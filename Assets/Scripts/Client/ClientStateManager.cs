@@ -1,5 +1,5 @@
 using System.Linq;
-using Unity.VisualScripting;
+using UnityEngine;
 using UnityEngine.SceneManagement;
 
 public class ClientStateManager 
@@ -29,7 +29,7 @@ public class ClientStateManager
         WorldState = worldState;
 
         Actions = new ClientActions();
-        Handlers = new ClientHandlers(WorldState, PlayerState);
+        Handlers = new ClientHandlers(this);
         ClientManager.Instance.Client.MessageReceived += Handlers.OnNetworkMessage;
 
         LoadScene(PlayerState.Scene, LoadSceneMode.Single);
@@ -39,6 +39,35 @@ public class ClientStateManager
     {
 
     }
+
+    public GameObject GetPlayerGameObject(int clientId)
+    {
+        try
+        {
+            if (ClientManager.Instance.Client.ID == clientId)
+            {
+                return GameObject.FindWithTag("LocalPlayer");
+            }
+            else
+            {
+                return GameObject.FindGameObjectsWithTag("NetworkPlayer").ToList()
+                    .First(x => x.GetComponent<PlayerSprite>().NetworkClientId == clientId);
+            }
+        }
+        catch { return null; }
+    }
+
+    public GameObject GetEnemyGameObject(System.Guid enemyGuid)
+    {
+        try
+        {
+            return GameObject.FindGameObjectsWithTag("Enemy").ToList().
+                First(x => x.GetComponent<EnemySprite>().StateGuid == enemyGuid);
+        }
+        catch { return null; }
+    }
+
+
 
     private void LoadScene(string scene, LoadSceneMode mode)
     {

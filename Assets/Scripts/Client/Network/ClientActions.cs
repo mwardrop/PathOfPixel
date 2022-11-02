@@ -52,9 +52,8 @@ public class ClientActions {
 
     public void UpdateEnemyLocation(System.Guid enemyGuid, Vector2 location, string scene)
     {
-        ClientManager.Instance.StateManager.WorldState.Scenes
-            .First(X => X.Name.ToLower() == SceneManager.GetActiveScene().name.ToLower())
-            .Enemies.First(x => x.EnemyGuid == enemyGuid).Location = location;
+        ClientManager.Instance.StateManager.WorldState
+            .GetEnemyState(enemyGuid, scene).Location = location;
 
         if (ClientManager.IsHost)
         {

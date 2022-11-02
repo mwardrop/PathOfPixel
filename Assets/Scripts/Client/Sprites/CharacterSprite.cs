@@ -47,7 +47,8 @@ public abstract class CharacterSprite : BaseSprite
     public Vector3 Target
     {
         get
-        {
+        { 
+            if(CharacterState == null) { return transform.position; }
             return new Vector3(CharacterState.TargetLocation.x, CharacterState.TargetLocation.y);
         }
     }
@@ -61,6 +62,7 @@ public abstract class CharacterSprite : BaseSprite
     // Update is called once per frame
     protected override void Update()
     {
+        if (CharacterState == null) { Destroy(this.gameObject); }
 
         base.Update();
 

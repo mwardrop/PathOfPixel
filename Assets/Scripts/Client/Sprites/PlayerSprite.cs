@@ -10,12 +10,7 @@ public class PlayerSprite : CharacterSprite
     {
         get
         {
-            try
-            {
-                return ClientManager.Instance.StateManager.WorldState.Players.First(x => x.ClientId == NetworkClientId);
-            } catch {
-                return null;
-            }
+            return ClientManager.Instance.StateManager.WorldState.GetPlayerState(NetworkClientId);
         }
     }
 
@@ -38,15 +33,15 @@ public class PlayerSprite : CharacterSprite
     }
 
     protected override void Update()
-    {      
-        if(PlayerState == null) { Destroy(this.gameObject); }
+    {
+        base.Update();
+
+        if (PlayerState == null) { Destroy(this.gameObject); }
 
         if (Vector3.Distance(transform.position, Target) >= MoveRadius)
         {
             if(canMove && !PlayerState.IsDead && Vector3.Distance(transform.position, Target) > MoveRadius) { shouldMove = true; }
         }
-
-        base.Update();
 
         // Attack Enemy if in range
         if (this.CompareTag("LocalPlayer") &&

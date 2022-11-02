@@ -3,6 +3,7 @@ using DarkRift.Client;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using UnityEditor.PackageManager;
 using UnityEngine;
 
 public class ClientHandlers
@@ -10,11 +11,13 @@ public class ClientHandlers
 
     private WorldState WorldState;
     private PlayerState PlayerState;
+    private ClientStateManager StateManager;
 
-    public ClientHandlers(WorldState worldState, PlayerState playerState)
+    public ClientHandlers(ClientStateManager stateManager)
     {
-        WorldState = worldState;
-        PlayerState = playerState;
+        StateManager = stateManager;
+        WorldState = stateManager.WorldState;
+        PlayerState = stateManager.PlayerState;
     }
 
     public void OnNetworkMessage(object sender, MessageReceivedEventArgs e)
@@ -67,7 +70,7 @@ public class ClientHandlers
         {
             PropertyCopier<PlayerState, PlayerState>.Copy(
                 playerState, 
-                WorldState.Players.First(x => x.ClientId == playerState.ClientId));
+                WorldState.GetPlayerState(playerState.ClientId));
 
         } else { 
             WorldState.Players.Add(playerState);
@@ -122,7 +125,7 @@ public class ClientHandlers
 
     public void MovePlayer(MovePlayerData movePlayerData)
     {
-        var playerState = WorldState.Players.First(x => x.ClientId == movePlayerData.ClientId);
+        var playerState = WorldState.GetPlayerState(movePlayerData.ClientId);
 
         playerState.TargetLocation = movePlayerData.Target;
         playerState.isTargetable = true;
@@ -136,57 +139,39 @@ public class ClientHandlers
 
     public void EnemyTakeDamage(EnemyTakeDamageData enemyTakeDamageData)
     {
-        EnemyState enemy = WorldState
-            .Scenes.First(x => x.Name == PlayerState.Scene)
-            .Enemies.First(x => x.EnemyGuid == enemyTakeDamageData.EnemyGuid);
+        EnemyState enemy = WorldState.GetEnemyState(enemyTakeDamageData.EnemyGuid, PlayerState.Scene);
 
         enemy.Health = enemyTakeDamageData.Health;
         enemy.IsDead = enemyTakeDamageData.IsDead;
 
-        GameObject.FindGameObjectsWithTag("Enemy").ToList().
-            First(x => x.GetComponent<EnemySprite>().StateGuid == enemyTakeDamageData.EnemyGuid)
+        StateManager.GetEnemyGameObject(enemyTakeDamageData.EnemyGuid)
             .GetComponent<EnemySprite>().SetState(SpriteState.Hurt);
     }
 
     public void EnemyAttack(GuidData guidData)
     {
-        GameObject.FindGameObjectsWithTag("Enemy").ToList()
-            .First(x => x.GetComponent<EnemySprite>().StateGuid == guidData.Guid)
+        StateManager.GetEnemyGameObject(guidData.Guid)
             .GetComponent<EnemySprite>().SetState(SpriteState.Attack1);
 
     }
 
     public void PlayerTakeDamage(PlayerTakeDamageData playerTakeDamageData)
     {
-        PlayerState player = ClientManager.Instance.StateManager.WorldState.Players.First(x => x.ClientId == playerTakeDamageData.ClientId);
+        PlayerState player = WorldState.GetPlayerState(playerTakeDamageData.ClientId);
 
         player.Health = playerTakeDamageData.Health;
         player.IsDead = playerTakeDamageData.IsDead;
 
-        if(player.ClientId == ClientManager.Instance.Client.ID){
-            GameObject.FindWithTag("LocalPlayer").GetComponent<PlayerSprite>().SetState(SpriteState.Hurt);
-
-        } else{
-            GameObject.FindGameObjectsWithTag("NetworkPlayer").ToList()
-                .First(x => x.GetComponent<PlayerSprite>().NetworkClientId == playerTakeDamageData.ClientId)
-                .GetComponent<PlayerSprite>().SetState(SpriteState.Hurt);
-        }
+        StateManager.GetPlayerGameObject(player.ClientId)
+            .GetComponent<PlayerSprite>().SetState(SpriteState.Hurt);
     }
 
     public void PlayerAttack(IntegerData integerData)
     {
         int clientId = integerData.Integer;
 
-        if (clientId == PlayerState.ClientId)
-        {
-            GameObject attackingPlayer = GameObject.FindWithTag("LocalPlayer");
-            attackingPlayer.GetComponent<CharacterSprite>().SetState(SpriteState.Attack1);
-        } else
-        {
-            List<GameObject> networkPlayers = GameObject.FindGameObjectsWithTag("NetworkPlayer").ToList();
-            GameObject attackingPlayer = networkPlayers.First(x => x.GetComponent<PlayerSprite>().NetworkClientId == integerData.Integer);
-            attackingPlayer.GetComponent<CharacterSprite>().SetState(SpriteState.Attack1);
-        }
+        StateManager.GetPlayerGameObject(clientId)
+            .GetComponent<PlayerSprite>().SetState(SpriteState.Attack1);
     }
 
 
@@ -197,11 +182,9 @@ public class ClientHandlers
         var clientId = enemyNewTargetData.ClientId;
         var sceneName = enemyNewTargetData.SceneName;
 
-        WorldState.Scenes.First(x => x.Name.ToLower() == sceneName.ToLower()).Enemies
-            .First(x => x.EnemyGuid == enemyGuid).TargetPlayerId = clientId;
+        WorldState.GetEnemyState(enemyGuid, sceneName).TargetPlayerId = clientId;
 
-        GameObject.FindGameObjectsWithTag("Enemy").ToList().
-            First(x => x.GetComponent<EnemySprite>().StateGuid == enemyGuid)
+        StateManager.GetEnemyGameObject(enemyGuid)
             .GetComponent<EnemySprite>().TargetPlayerId = clientId;
     }
 
@@ -211,15 +194,12 @@ public class ClientHandlers
         var location = updateEnemyLocationData.Location;
         var sceneName = updateEnemyLocationData.SceneName;
 
-        var enemySprite = GameObject.FindGameObjectsWithTag("Enemy").ToList().
-            First(x => x.GetComponent<EnemySprite>().StateGuid == enemyGuid)
+        var enemySprite = StateManager.GetEnemyGameObject(enemyGuid)
             .GetComponent<EnemySprite>();
 
         if (enemySprite.TargetPlayerId != ClientManager.Instance.Client.ID)
         {
-
-            WorldState.Scenes.First(x => x.Name.ToLower() == sceneName.ToLower()).Enemies
-               .First(x => x.EnemyGuid == enemyGuid).Location = location;
+            WorldState.GetEnemyState(enemyGuid, sceneName).Location = location;
 
             enemySprite.MoveToDestination(location);
         }
