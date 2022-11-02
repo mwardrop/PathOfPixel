@@ -40,12 +40,11 @@ public class PlayerSprite : CharacterSprite
 
         if (Vector3.Distance(transform.position, Target) >= MoveRadius)
         {
-            if(canMove && !PlayerState.IsDead) { shouldMove = true; }
+            if(!PlayerState.IsDead) { shouldMove = true; }
         }
 
         // Attack Enemy if in range
         if (this.CompareTag("LocalPlayer") &&
-            canAttack &&
             TargetEnemy != null &&
             ClickHandler.enemyClicked &&
             Vector3.Distance(transform.position, TargetEnemy.transform.position) < AttackRadius)

@@ -1,9 +1,7 @@
 ﻿using DarkRift;
 using DarkRift.Client;
 using System.Collections;
-using System.Collections.Generic;
 using System.Linq;
-using UnityEditor.PackageManager;
 using UnityEngine;
 
 public class ClientHandlers
@@ -119,7 +117,9 @@ public class ClientHandlers
             enemyState.Location,
             Quaternion.identity);
 
-        newEnemy.GetComponent<EnemySprite>().StateGuid = enemyState.EnemyGuid;
+        EnemySprite newEnemySprite = newEnemy.GetComponent<EnemySprite>();
+        newEnemySprite.StateGuid = enemyState.EnemyGuid;
+        newEnemySprite.TargetPlayerId = enemyState.TargetPlayerId;
 
     }
 
@@ -174,8 +174,6 @@ public class ClientHandlers
             .GetComponent<PlayerSprite>().SetState(SpriteState.Attack1);
     }
 
-
-
     public void EnemyNewTarget(EnemyPlayerPairData enemyNewTargetData)
     {
         var enemyGuid = enemyNewTargetData.EnemyGuid;
@@ -199,9 +197,13 @@ public class ClientHandlers
 
         if (enemySprite.TargetPlayerId != ClientManager.Instance.Client.ID)
         {
-            WorldState.GetEnemyState(enemyGuid, sceneName).Location = location;
+            // Correct the enemies position if client is too far out of sync with server
+            if (Vector2.Distance(new Vector2(enemySprite.transform.position.x, enemySprite.transform.position.y), location) > 1)
+            {
+                var enemyState = WorldState.GetEnemyState(enemyGuid, sceneName);
 
-            enemySprite.MoveToDestination(location);
+                enemyState.Location = location;
+            }
         }
     }
 

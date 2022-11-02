@@ -1,5 +1,6 @@
 ﻿using DarkRift;
 using System;
+using System.Numerics;
 
 public enum EnemyType
 {
@@ -23,6 +24,7 @@ public class EnemyState : CharacterState, ICharacterState, IDarkRiftSerializable
     public EnemyRarity Rarity;
     public Guid EnemyGuid;
     public int TargetPlayerId;
+    public Vector2 HomeLocation;
 
     public EnemyState()
     {

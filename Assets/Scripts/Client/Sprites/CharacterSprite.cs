@@ -53,12 +53,6 @@ public abstract class CharacterSprite : BaseSprite
         }
     }
 
-    public bool canAttack = true;
-    public bool canMove = true;
-    public bool canTakeDamage = true;
-
-    //public StateManager gameState;
-
     // Update is called once per frame
     protected override void Update()
     {
@@ -82,13 +76,6 @@ public abstract class CharacterSprite : BaseSprite
             return;
 
         }
-        //Take Damage
-        //if (CharacterState.IncomingDamage > 0)
-        //{
-        //    hurt = true;
-        //    return;
-
-        //}
     }
 
     public void SetState(SpriteState _state)

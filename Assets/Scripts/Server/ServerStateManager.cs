@@ -18,7 +18,7 @@ public class ServerStateManager
         OverworldScene.Enemies.Add(new EnemyState()
         {
             Name = "Possessed 1",
-            Health = 30,
+            Health = 3000,
             HealthRegen = 1,
             Mana = 100,
             ManaRegen = 1,

@@ -28,7 +28,7 @@ public class ServerConnection
         PlayerState = new PlayerState()
         {
             Name = data.Username,
-            Health = 100,
+            Health = 10000,
             HealthRegen = 1,
             Mana = 100,
             ManaRegen = 1,
@@ -189,6 +189,10 @@ public class ServerConnection
         StateManager.WorldState.GetEnemyState(
             updateEnemyLocationData.EnemyGuid,
             updateEnemyLocationData.SceneName).Location = updateEnemyLocationData.Location;
+
+        //ServerManager.BroadcastNetworkMessage(
+        //    NetworkTags.UpdateEnemyLocation, 
+        //    updateEnemyLocationData);
 
     }
 }

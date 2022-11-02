@@ -1,6 +1,5 @@
 using System;
-using System.Linq;
-using System.Runtime.InteropServices.WindowsRuntime;
+using System.Collections;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -33,6 +32,8 @@ public class EnemySprite : CharacterSprite
     public float chaseRadius = 6;
     public float attackRadius = 1.2f;
     public float idleRadius = 2;
+
+    private bool attackPending = false;
 
     void Start()
     {
@@ -72,8 +73,7 @@ public class EnemySprite : CharacterSprite
         if (TargetPlayer != null)
         {
 
-            if (canMove &&
-                state != SpriteState.Death &&
+            if (state != SpriteState.Death &&
                 Vector3.Distance(TargetPlayer.transform.position, transform.position) <= chaseRadius &&
                 Vector3.Distance(TargetPlayer.transform.position, transform.position) > attackRadius)
             {
@@ -84,23 +84,37 @@ public class EnemySprite : CharacterSprite
             }
 
             // Attack Player
-            //if (canAttack &&
-            //    state != SpriteState.Death &&
-            //    state != SpriteState.Attack1 &&
-            //    Vector3.Distance(TargetPlayer.transform.position, transform.position) < attackRadius)
-            //{
-            //    ClientManager.Instance.StateManager.Actions.EnemyAttack(this);
-            //    //SetState(SpriteState.Attack1);
-            //    return;
+            if (state != SpriteState.Death &&
+                state != SpriteState.Attack1 &&
+                !attackPending &&
+                Vector3.Distance(TargetPlayer.transform.position, transform.position) < attackRadius)
+            {
+                attackPending = true;
 
+                StartCoroutine(EnemyAttackCoroutine());
+                IEnumerator EnemyAttackCoroutine()
+                {
+                    // Attack delay so the enemy doesnt simply spam attack without interuption
+                    yield return new WaitForSeconds(0.5f);
+                    ClientManager.Instance.StateManager.Actions.EnemyAttack(this);
+                    attackPending = false;
+                }
+                return;
+            }
+
+            //// Move to location?? Return Home ?? See UpdateEnemyLocation
+            //if (Vector2.Distance(transform.position, CharacterState.Location) > 0.001)
+            //{
+            //    SetState(SpriteState.Walk);
+            //    MoveToDestination(CharacterState.Location);
+            //    return;
             //}
 
         }
 
-        //// Stop Chasing Player and return home
-        //if (canMove &&
-        //    state != SpriteState.Death &&
-        //    Vector3.Distance(target.transform.position, transform.position) > chaseRadius + 2 && 
+        // Stop Chasing Player and return home
+        //if (state != SpriteState.Death &&
+        //    Vector3.Distance(TargetPlayer.transform.position, transform.position) > chaseRadius + 2 &&
         //    Vector3.Distance(homePosition, transform.position) > 0)
         //{
         //    SetDirection(homePosition);
