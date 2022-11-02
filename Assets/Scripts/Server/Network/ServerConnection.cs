@@ -13,13 +13,14 @@ public class ServerConnection
 
     public PlayerState PlayerState;
 
-    public ServerStateManager StateManager = ServerManager.Instance.StateManager;
+    public ServerStateManager StateManager;
 
-    public ServerConnection(IClient client, LoginRequestData data)
+    public ServerConnection(IClient client, LoginRequestData data, ServerStateManager stateManager)
     {
 
         Client = client;
         Username = data.Username;
+        StateManager = stateManager;
 
         Client.MessageReceived += OnMessage;
 
@@ -103,8 +104,9 @@ public class ServerConnection
     private void PlayerHitEnemy(EnemyPlayerPairData enemyPlayerPairData)
     {
         EnemyState enemy = StateManager.WorldState.GetEnemyState(
-            enemyPlayerPairData.EnemyGuid, 
+            enemyPlayerPairData.EnemyGuid,
             enemyPlayerPairData.SceneName);
+
         PlayerState player = StateManager.WorldState.GetPlayerState(enemyPlayerPairData.ClientId);
 
         enemy.IncomingPhysicalDamage += StateManager.GetPlayerPhysicalDamage(PlayerState);

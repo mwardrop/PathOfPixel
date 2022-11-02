@@ -37,27 +37,27 @@ public class ServerStateManager
             TargetPlayerId = -1
         });
 
-        OverworldScene.Enemies.Add(new EnemyState()
-        {
-            Name = "Possessed 2",
-            Health = 30,
-            HealthRegen = 1,
-            Mana = 100,
-            ManaRegen = 1,
-            PhysicalDamage = 5,
-            FireDamage = 0,
-            ColdDamage = 0,
-            FireResistance = 0,
-            ColdResistance = 0,
-            Armor = 0,
-            Dodge = 0,
-            Level = 1,
-            Experience = 0,
-            Type = EnemyType.Possessed,
-            Location = new Vector2(6f, -4.5f),
-            MoveSpeed = 2.0f,
-            TargetPlayerId = -1
-        });
+        //OverworldScene.Enemies.Add(new EnemyState()
+        //{
+        //    Name = "Possessed 2",
+        //    Health = 30,
+        //    HealthRegen = 1,
+        //    Mana = 100,
+        //    ManaRegen = 1,
+        //    PhysicalDamage = 5,
+        //    FireDamage = 0,
+        //    ColdDamage = 0,
+        //    FireResistance = 0,
+        //    ColdResistance = 0,
+        //    Armor = 0,
+        //    Dodge = 0,
+        //    Level = 1,
+        //    Experience = 0,
+        //    Type = EnemyType.Possessed,
+        //    Location = new Vector2(6f, -4.5f),
+        //    MoveSpeed = 2.0f,
+        //    TargetPlayerId = -1
+        //});
 
         WorldState.Scenes.Add(OverworldScene);
     }

@@ -19,8 +19,7 @@ public class WorldState: IDarkRiftSerializable
     {
         try
         {
-            return ClientManager.Instance.StateManager.WorldState
-                                .Players.First(x => x.ClientId == clientId);
+            return Players.First(x => x.ClientId == clientId);
         }
         catch { return null; }
     }
@@ -29,8 +28,7 @@ public class WorldState: IDarkRiftSerializable
     {
         try
         {
-            return ClientManager.Instance.StateManager.WorldState
-                        .Scenes.First(x => x.Name.ToLower() == scene.ToLower())
+            return Scenes.First(x => x.Name.ToLower() == scene.ToLower())
                         .Enemies.First(x => x.EnemyGuid == enemyGuid);
         } 
         catch { return null; }

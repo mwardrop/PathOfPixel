@@ -10,6 +10,8 @@ TagManager:
   - ClientManager
   - ServerManager
   - NetworkPlayer
+  - PlayerAttackCollider
+  - EnemyAttackCollider
   layers:
   - Default
   - TransparentFX

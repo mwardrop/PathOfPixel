@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 7198830803653399995}
   m_Layer: 0
   m_Name: rightAttack2
-  m_TagString: Player
+  m_TagString: PlayerAttackCollider
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -93,7 +93,7 @@ GameObject:
   - component: {fileID: 7198830803727008758}
   m_Layer: 0
   m_Name: downAttack1
-  m_TagString: Player
+  m_TagString: PlayerAttackCollider
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -170,7 +170,7 @@ GameObject:
   - component: {fileID: 7198830803771255650}
   m_Layer: 0
   m_Name: leftAttack2
-  m_TagString: Player
+  m_TagString: PlayerAttackCollider
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -249,7 +249,7 @@ GameObject:
   - component: {fileID: 7198830803827070290}
   m_Layer: 0
   m_Name: rightAttack1
-  m_TagString: Player
+  m_TagString: PlayerAttackCollider
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -325,7 +325,7 @@ GameObject:
   - component: {fileID: 7198830804088469999}
   m_Layer: 0
   m_Name: leftAttack1
-  m_TagString: Player
+  m_TagString: PlayerAttackCollider
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -401,7 +401,7 @@ GameObject:
   - component: {fileID: 7198830804260493874}
   m_Layer: 0
   m_Name: downAttack2
-  m_TagString: Player
+  m_TagString: PlayerAttackCollider
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -516,19 +516,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3093b2c4b40224d47859057898e6e659, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moveSpeed: 2.5
+  hurt: 0
   direction: 0
   state: 0
-  health: 3000
   canAttack: 1
   canMove: 1
   canTakeDamage: 1
-  gameState: {fileID: 11400000, guid: 01fd06731074b2a4286bafdbd3fd1f0b, type: 2}
-  selectedAttack: 0
-  attackRadius: 1.5
-  moveRadius: 0.75
-  movementIndicatorObject: {fileID: 0}
-  enemy: {fileID: 0}
+  NetworkClientId: 0
+  SelectedAttack: 2
+  AttackRadius: 1.2
+  MoveRadius: 1
+  TargetEnemy: {fileID: 0}
 --- !u!212 &7198830804527960162
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -716,7 +714,7 @@ GameObject:
   - component: {fileID: 7198830804829300755}
   m_Layer: 0
   m_Name: upAttack2
-  m_TagString: Player
+  m_TagString: PlayerAttackCollider
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -793,7 +791,7 @@ GameObject:
   - component: {fileID: 7198830804882560695}
   m_Layer: 0
   m_Name: upAttack1
-  m_TagString: Player
+  m_TagString: PlayerAttackCollider
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

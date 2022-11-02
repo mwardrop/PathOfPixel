@@ -24,15 +24,9 @@ public class EnemySprite : CharacterSprite
     {
         get
         {
-            try
-            {
-                return ClientManager.Instance.StateManager.WorldState
-                    .GetEnemyState(StateGuid, SceneManager.GetActiveScene().name);
-            }
-            catch
-            {
-                return null;
-            }
+            return ClientManager.Instance.StateManager.WorldState
+                .GetEnemyState(StateGuid, SceneManager.GetActiveScene().name);
+
         }
     }
 
@@ -90,16 +84,16 @@ public class EnemySprite : CharacterSprite
             }
 
             // Attack Player
-            if (canAttack &&
-                state != SpriteState.Death &&
-                state != SpriteState.Attack1 &&
-                Vector3.Distance(TargetPlayer.transform.position, transform.position) < attackRadius)
-            {
-                ClientManager.Instance.StateManager.Actions.EnemyAttack(this);
-                //SetState(SpriteState.Attack1);
-                return;
+            //if (canAttack &&
+            //    state != SpriteState.Death &&
+            //    state != SpriteState.Attack1 &&
+            //    Vector3.Distance(TargetPlayer.transform.position, transform.position) < attackRadius)
+            //{
+            //    ClientManager.Instance.StateManager.Actions.EnemyAttack(this);
+            //    //SetState(SpriteState.Attack1);
+            //    return;
 
-            }
+            //}
 
         }
 
