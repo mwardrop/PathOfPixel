@@ -1,6 +1,5 @@
-using DarkRift.Server;
-using System.Collections.Generic;
 using UnityEngine;
+using Data.Characters;
 
 public class ServerStateManager
 {
@@ -15,29 +14,22 @@ public class ServerStateManager
         StateUpdater = new StateUpdater();
         SceneState OverworldScene = new SceneState() { Name = "OverworldScene" };
 
-        OverworldScene.Enemies.Add(new EnemyState()
-        {
-            Name = "Possessed 1",
-            Health = 3000,
-            HealthRegen = 1,
-            Mana = 100,
-            ManaRegen = 1,
-            PhysicalDamage = 5,
-            FireDamage = 0,
-            ColdDamage = 0,
-            FireResistance = 0,
-            ColdResistance = 0,
-            Armor = 0,
-            Dodge = 0,
-            Level = 1,
-            Experience = 0,
-            Type = EnemyType.Possessed,
-            Location = new Vector2(-2f, -4.5f),
-            HomeLocation = new Vector2(-2f, -4.5f),
-            MoveSpeed = 1f,
-            TargetPlayerId = -1
+        var enemyState = new EnemyState();
 
-        });
+        PropertyCopier<ICharacter, PlayerState>.Copy(
+            new Possessed(),
+            enemyState);
+
+        enemyState.Name = "Possessed 1";
+        enemyState.Level = 1;
+        enemyState.Experience = 0;
+        enemyState.Type = EnemyType.Possessed;
+        enemyState.Scene = "OverworldScene";
+        enemyState.Location = new Vector2(-2f, -4.5f);
+        enemyState.HomeLocation = new Vector2(-2f, -4.5f);
+        enemyState.TargetPlayerId = -1;
+
+        OverworldScene.Enemies.Add(enemyState);
 
         //OverworldScene.Enemies.Add(new EnemyState()
         //{
@@ -69,35 +61,35 @@ public class ServerStateManager
         StateUpdater.Update(WorldState);
     }
 
-    public float GetPlayerPhysicalDamage(PlayerState player)
+    public float[] GetCharacterDamage(CharacterState characterState)
     {
-        return 5; // TODO: Calculate Player Base Damage when hitting an enemy
+        ICharacter character = new BaseCharacter();
+
+        if(characterState.GetType() == typeof(PlayerState))
+        {
+            switch (((PlayerState)characterState).Type)
+            {
+                case PlayerType.Warrior:
+                    character =  new Warrior().ApplyCharacterState(characterState);
+                    break;
+
+            }
+        } else
+        {
+            switch (((EnemyState)characterState).Type)
+            {
+                case EnemyType.Possessed:
+                    character = new Possessed().ApplyCharacterState(characterState);
+                    break;
+            }
+        }
+
+        return new float[3] { 
+            character.PhysicalDamage, 
+            character.FireDamage, 
+            character.ColdDamage };
     }
 
-    public float GetPlayerFireDamage(PlayerState player)
-    {
-        return 0; // TODO: Calculate Player Base Damage when hitting an enemy
-    }
-
-    public float GetPlayerColdDamage(PlayerState player)
-    {
-        return 0; // TODO: Calculate Player Base Damage when hitting an enemy
-    }
-
-    public float GetEnemyPhysicalDamage(EnemyState player)
-    {
-        return 5; // TODO: Calculate Player Base Damage when hitting an enemy
-    }
-
-    public float GetEnemyFireDamage(EnemyState player)
-    {
-        return 0; // TODO: Calculate Player Base Damage when hitting an enemy
-    }
-
-    public float GetEnemyColdDamage(EnemyState player)
-    {
-        return 0; // TODO: Calculate Player Base Damage when hitting an enemy
-    }
 
     //public GameObject generateWorldDrop(GameObject dropObject, int itemLevel)
     //{

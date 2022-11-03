@@ -1,9 +1,9 @@
 ﻿using DarkRift;
 using DarkRift.Server;
+using Data.Characters;
 using System.Collections;
 using System.Linq;
 using UnityEngine;
-using static UnityEngine.GraphicsBuffer;
 using Random = UnityEngine.Random;
 
 public class ServerConnection
@@ -25,28 +25,19 @@ public class ServerConnection
         Client.MessageReceived += OnMessage;
 
         // TODO : User should be able to create new and load existing PlayerStates (Warrior, Mage / Load, New)
-        PlayerState = new PlayerState()
-        {
-            Name = data.Username,
-            Health = 10000,
-            HealthRegen = 1,
-            Mana = 100,
-            ManaRegen = 1,
-            PhysicalDamage = 5,
-            FireDamage = 0,
-            ColdDamage = 0,
-            FireResistance = 0,
-            ColdResistance = 0,
-            Armor = 0,
-            Dodge = 0,
-            Level = 1,
-            Experience = 0,
-            Type = PlayerType.Warrior,
-            Scene = "OverworldScene",
-            ClientId = client.ID,
-            MoveSpeed = 3f,
-            isTargetable = false
-        };
+        PlayerState = new PlayerState();
+
+        PropertyCopier<ICharacter, PlayerState>.Copy(
+            new Warrior(),
+            PlayerState);
+
+        PlayerState.Name = data.Username;
+        PlayerState.Level = 1;
+        PlayerState.Experience = 0;
+        PlayerState.Type = PlayerType.Warrior;
+        PlayerState.Scene = "OverworldScene";
+        PlayerState.ClientId = client.ID;
+        PlayerState.isTargetable = false;
 
     }
 
@@ -109,9 +100,11 @@ public class ServerConnection
 
         PlayerState player = StateManager.WorldState.GetPlayerState(enemyPlayerPairData.ClientId);
 
-        enemy.IncomingPhysicalDamage += StateManager.GetPlayerPhysicalDamage(PlayerState);
-        enemy.IncomingFireDamage += StateManager.GetPlayerFireDamage(PlayerState);
-        enemy.IncomingColdDamage += StateManager.GetPlayerColdDamage(PlayerState);
+        float[] damage = StateManager.GetCharacterDamage(PlayerState);
+
+        enemy.IncomingPhysicalDamage += damage[0];
+        enemy.IncomingFireDamage += damage[1];
+        enemy.IncomingColdDamage += damage[2];
     }
 
     private void EnemyAttack(GuidData guidData)
@@ -130,9 +123,11 @@ public class ServerConnection
             enemyPlayerPairData.SceneName);
         PlayerState player = StateManager.WorldState.GetPlayerState(enemyPlayerPairData.ClientId);
 
-        player.IncomingPhysicalDamage += StateManager.GetEnemyPhysicalDamage(enemy);
-        player.IncomingFireDamage += StateManager.GetEnemyFireDamage(enemy);
-        player.IncomingColdDamage += StateManager.GetEnemyColdDamage(enemy);
+        float[] damage = StateManager.GetCharacterDamage(enemy);
+
+        player.IncomingPhysicalDamage += damage[0];
+        player.IncomingFireDamage += damage[1];
+        player.IncomingColdDamage += damage[2];
 
     }
 

@@ -19,7 +19,7 @@ public enum EnemyRarity
 }
 
 [Serializable]
-public class EnemyState : CharacterState, ICharacterState, IDarkRiftSerializable
+public class EnemyState : PlayerState, ICharacterState, IDarkRiftSerializable
 {
     public EnemyType Type;
     public EnemyRarity Rarity;

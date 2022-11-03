@@ -1,6 +1,4 @@
-using System.Linq;
 using UnityEngine;
-using UnityEngine.Android;
 
 public class PlayerSprite : CharacterSprite
 {

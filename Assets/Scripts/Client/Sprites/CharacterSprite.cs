@@ -23,12 +23,10 @@ public enum SpriteDirection
 
 public abstract class CharacterSprite : BaseSprite
 {
-    public Boolean hurt = false;
-
     public SpriteDirection direction = SpriteDirection.Down;
     public SpriteState state = SpriteState.Idle;
 
-    public CharacterState CharacterState
+    public PlayerState CharacterState
     {
         get
         {
@@ -59,20 +57,9 @@ public abstract class CharacterSprite : BaseSprite
 
         base.Update();
 
-        if(Hurt()) { return; }
         if(Death()) { return; }
     }
 
-    protected virtual bool Hurt()
-    {
-        if (hurt && !IsStateLocked)
-        {
-            SetState(SpriteState.Hurt);
-            hurt = false;
-            return true;
-        }
-        return false;
-    }
 
     protected virtual bool Death()
     {
