@@ -191,7 +191,7 @@ public class ServerConnection
             updateEnemyLocationData.SceneName).Location = updateEnemyLocationData.Location;
 
         //ServerManager.BroadcastNetworkMessage(
-        //    NetworkTags.UpdateEnemyLocation, 
+        //    NetworkTags.UpdateEnemyLocation,
         //    updateEnemyLocationData);
 
     }

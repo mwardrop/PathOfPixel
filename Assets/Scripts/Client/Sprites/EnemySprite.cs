@@ -69,69 +69,62 @@ public class EnemySprite : CharacterSprite
             }
         }
 
-        // Chase Player
         if (TargetPlayer != null)
         {
-
-            if (state != SpriteState.Death &&
-                Vector3.Distance(TargetPlayer.transform.position, transform.position) <= chaseRadius &&
-                Vector3.Distance(TargetPlayer.transform.position, transform.position) > attackRadius)
-            {
-                SetState(SpriteState.Walk);
-                MoveToDestination(TargetPlayer.transform.position);
-                return;
-
-            }
-
-            // Attack Player
-            if (state != SpriteState.Death &&
-                state != SpriteState.Attack1 &&
-                !attackPending &&
-                Vector3.Distance(TargetPlayer.transform.position, transform.position) < attackRadius)
-            {
-                attackPending = true;
-
-                StartCoroutine(EnemyAttackCoroutine());
-                IEnumerator EnemyAttackCoroutine()
-                {
-                    // Attack delay so the enemy doesnt simply spam attack without interuption
-                    yield return new WaitForSeconds(0.5f);
-                    ClientManager.Instance.StateManager.Actions.EnemyAttack(this);
-                    attackPending = false;
-                }
-                return;
-            }
-
-            //// Move to location?? Return Home ?? See UpdateEnemyLocation
-            //if (Vector2.Distance(transform.position, CharacterState.Location) > 0.001)
-            //{
-            //    SetState(SpriteState.Walk);
-            //    MoveToDestination(CharacterState.Location);
-            //    return;
-            //}
-
+            if(Attack()) { return; }            
+            if(Chase()) { return; }
+            if (ReturnHome()) { return; }         
         }
-
-        // Stop Chasing Player and return home
-        //if (state != SpriteState.Death &&
-        //    Vector3.Distance(TargetPlayer.transform.position, transform.position) > chaseRadius + 2 &&
-        //    Vector3.Distance(homePosition, transform.position) > 0)
-        //{
-        //    SetDirection(homePosition);
-        //    SetState(SpriteState.Walk);
-        //    MoveToDestination(homePosition);
-        //    return;
-        //}
-
-        //}
-        //}
 
         SetState(SpriteState.Idle);
     }
 
-    protected override void OnDeath()
+    private bool Attack()
     {
-        //gameState.generateEnemyDrops(this.gameObject);
+        if (state != SpriteState.Death &&
+            state != SpriteState.Attack1 &&
+            !attackPending &&
+            Vector3.Distance(TargetPlayer.transform.position, transform.position) < attackRadius)
+        {
+            attackPending = true;
+
+            StartCoroutine(EnemyAttackCoroutine());
+            IEnumerator EnemyAttackCoroutine()
+            {
+                // Attack delay so the enemy doesnt simply spam attack without interuption
+                yield return new WaitForSeconds(0.5f);
+                ClientManager.Instance.StateManager.Actions.EnemyAttack(this);
+                attackPending = false;
+            }
+            return true;
+        }
+        return false;
+    }
+
+    private bool Chase()
+    {
+        if (state != SpriteState.Death &&
+            Vector3.Distance(TargetPlayer.transform.position, transform.position) <= chaseRadius &&
+            Vector3.Distance(TargetPlayer.transform.position, transform.position) > attackRadius)
+        {
+            SetState(SpriteState.Walk);
+            MoveToDestination(TargetPlayer.transform.position);
+            return true;
+        }
+        return false;
+    }
+
+    private bool ReturnHome()
+    {
+        if (state != SpriteState.Death &&
+            Vector3.Distance(TargetPlayer.transform.position, transform.position) > chaseRadius + 2 &&
+            Vector3.Distance(EnemyState.HomeLocation, transform.position) > 0)
+        {
+            SetState(SpriteState.Walk);
+            MoveToDestination(EnemyState.HomeLocation);
+            return true;
+        }
+        return false;
     }
 
     private void UpdateState()

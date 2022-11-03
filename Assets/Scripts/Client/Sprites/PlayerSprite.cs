@@ -38,12 +38,14 @@ public class PlayerSprite : CharacterSprite
 
         if (PlayerState == null) { Destroy(this.gameObject); }
 
-        if (Vector3.Distance(transform.position, Target) >= MoveRadius)
-        {
-            if(!PlayerState.IsDead) { shouldMove = true; }
-        }
+        if(Attack()) { return; }
+        if(Move()) { return; }
 
-        // Attack Enemy if in range
+        SetState(SpriteState.Idle);
+    }
+
+    private bool Attack()
+    {
         if (this.CompareTag("LocalPlayer") &&
             TargetEnemy != null &&
             ClickHandler.enemyClicked &&
@@ -51,25 +53,23 @@ public class PlayerSprite : CharacterSprite
         {
             ClientManager.Instance.StateManager.Actions.PlayerAttack();
             ClickHandler.enemyClicked = false;
-            return;
+            return true;
         }
-
-        if (Vector3.Distance(transform.position, Target) < 0.001)
-        {
-            shouldMove = false;
-        } 
-
-        // Move to target
-        if (shouldMove)
-        {      
-            SetState(SpriteState.Walk);
-            MoveToDestination(Target);
-            return;
-        }
-
-        SetState(SpriteState.Idle);
+        return false;
     }
 
+    private bool Move()
+    {
+        if (!PlayerState.IsDead &&
+            Vector3.Distance(transform.position, Target) >= MoveRadius &&
+            Vector3.Distance(transform.position, Target) > 0.001)
+        {
+            SetState(SpriteState.Walk);
+            MoveToDestination(Target);
+            return true;
+        }
+        return false;
+    }
 
     private void SetAttack(SpriteState attack)
     {

@@ -1,6 +1,5 @@
 using System;
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public enum SpriteState
@@ -60,22 +59,38 @@ public abstract class CharacterSprite : BaseSprite
 
         base.Update();
 
-        // Show hurt interruption if State is not locked
+        if(Hurt()) { return; }
+        if(Death()) { return; }
+    }
+
+    protected virtual bool Hurt()
+    {
         if (hurt && !IsStateLocked)
         {
             SetState(SpriteState.Hurt);
             hurt = false;
-            return;
+            return true;
         }
-        // Die
+        return false;
+    }
+
+    protected virtual bool Death()
+    {
         if (CharacterState.IsDead)
         {
             SetState(SpriteState.Death);
             this.GetComponent<BoxCollider2D>().enabled = false;
-            this.Destroy();
-            return;
 
+            StartCoroutine(DestroyCoroutine());
+            IEnumerator DestroyCoroutine()
+            {
+                yield return new WaitForSeconds(60);
+                spriteRenderer.enabled = false;
+                Destroy(this.gameObject);
+            }
+            return true;
         }
+        return false;
     }
 
     public void SetState(SpriteState _state)
@@ -113,7 +128,6 @@ public abstract class CharacterSprite : BaseSprite
                     break;
                 // Stopping Animations
                 case SpriteState.Death:
-                    OnDeath();
                     LockState(
                         state.ToString(),
                         direction.ToString().ToLower() + this.state, true);
@@ -121,11 +135,6 @@ public abstract class CharacterSprite : BaseSprite
             }
 
         }
-    }
-
-    protected virtual void OnDeath()
-    {
-        Debug.Log("Character Death.");
     }
 
     public SpriteDirection SetDirection(Vector3 target)

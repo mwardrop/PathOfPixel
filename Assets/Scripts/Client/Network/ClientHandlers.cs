@@ -51,9 +51,9 @@ public class ClientHandlers
                 case NetworkTags.EnemyTakeDamage:
                     EnemyTakeDamage(message.Deserialize<EnemyTakeDamageData>());
                     break;
-                case NetworkTags.UpdateEnemyLocation:
-                    UpdateEnemyLocation(message.Deserialize<UpdateEnemyLocationData>());
-                    break;
+                //case NetworkTags.UpdateEnemyLocation:
+                //    UpdateEnemyLocation(message.Deserialize<UpdateEnemyLocationData>());
+                //    break;
 
             }
         }
@@ -186,25 +186,25 @@ public class ClientHandlers
             .GetComponent<EnemySprite>().TargetPlayerId = clientId;
     }
 
-    public void UpdateEnemyLocation(UpdateEnemyLocationData updateEnemyLocationData)
-    {
-        var enemyGuid = updateEnemyLocationData.EnemyGuid;
-        var location = updateEnemyLocationData.Location;
-        var sceneName = updateEnemyLocationData.SceneName;
+    //public void UpdateEnemyLocation(UpdateEnemyLocationData updateEnemyLocationData)
+    //{
+    //    var enemyGuid = updateEnemyLocationData.EnemyGuid;
+    //    var location = updateEnemyLocationData.Location;
+    //    var sceneName = updateEnemyLocationData.SceneName;
 
-        var enemySprite = StateManager.GetEnemyGameObject(enemyGuid)
-            .GetComponent<EnemySprite>();
+    //    var enemySprite = StateManager.GetEnemyGameObject(enemyGuid)
+    //        .GetComponent<EnemySprite>();
 
-        if (enemySprite.TargetPlayerId != ClientManager.Instance.Client.ID)
-        {
-            // Correct the enemies position if client is too far out of sync with server
-            if (Vector2.Distance(new Vector2(enemySprite.transform.position.x, enemySprite.transform.position.y), location) > 1)
-            {
-                var enemyState = WorldState.GetEnemyState(enemyGuid, sceneName);
+    //    if (enemySprite.TargetPlayerId != ClientManager.Instance.Client.ID)
+    //    {
+    //        // Correct the enemies position if client is too far out of sync with server
+    //        if (Vector2.Distance(new Vector2(enemySprite.transform.position.x, enemySprite.transform.position.y), location) > 1)
+    //        {
+    //            var enemyState = WorldState.GetEnemyState(enemyGuid, sceneName);
 
-                enemyState.Location = location;
-            }
-        }
-    }
+    //            enemyState.Location = location;
+    //        }
+    //    }
+    //}
 
 }

@@ -33,8 +33,10 @@ public class ServerStateManager
             Experience = 0,
             Type = EnemyType.Possessed,
             Location = new Vector2(-2f, -4.5f),
+            HomeLocation = new Vector2(-2f, -4.5f),
             MoveSpeed = 1f,
             TargetPlayerId = -1
+
         });
 
         //OverworldScene.Enemies.Add(new EnemyState()
