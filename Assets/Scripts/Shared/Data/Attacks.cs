@@ -4,7 +4,7 @@ namespace Data.Attacks
 {
     public interface IAttack
     {
-        public int Id { get; set; }
+        public int Level { get; set; }
         public string Name { get; set; }
         public string Description { get; set; }
         public int AnimationId { get; set; }
@@ -18,13 +18,12 @@ namespace Data.Attacks
         public int Cooldown { get; set; }
         public int ManaCost { get; set; }
 
-        public IAttack ApplyCharacterState(CharacterState character);
-
+        public string GetName();
     }
 
     public class BaseAttack : IAttack
     {
-        public int Id { get; set; }
+        public int Level { get; set; }
         public string Name { get; set; }
         public string Description { get; set; }
         public int AnimationId { get; set; }
@@ -38,20 +37,22 @@ namespace Data.Attacks
         public int Cooldown { get; set; }
         public int ManaCost { get; set; }
 
-        public virtual IAttack ApplyCharacterState(CharacterState character) { return this; }
-
-        public int GetAttackLevel(CharacterState character)
+        public string GetName()
         {
-            return character.Attacks.First(x => x.ObjectId == Id).Level;
+            return this.GetType().ToString().Split(".").Last();
+        }
+
+        public BaseAttack(int level)
+        {
+            Level = level;
         }
     }
 
     public class SweepAttack: BaseAttack, IAttack
     {
     
-        public SweepAttack()
+        public SweepAttack(int level = 0) : base(level)
         {
-            Id = 1;
             Name = "Sweep";
             Description = "Sweep your weapon across enemies.";
             AnimationId = 1;
@@ -65,22 +66,13 @@ namespace Data.Attacks
             Cooldown = 0;
             ManaCost = 1;
         }
-
-        public override IAttack ApplyCharacterState(CharacterState character)
-        {
-            return new SweepAttack()
-            {
-                PhysicalDamage = PhysicalDamage + character.Level + (GetAttackLevel(character) * 5)
-            };
-        }
     }
 
     public class SlamAttack : BaseAttack, IAttack
     { 
 
-        public SlamAttack()
+        public SlamAttack(int level = 0) : base(level)
         {
-            Id = 2;
             Name = "Slam";
             Description = "Slam your weapon into the ground, knocking back enemies.";
             AnimationId = 2;
@@ -93,14 +85,6 @@ namespace Data.Attacks
             Knockback = 5;
             Cooldown = 5;
             ManaCost = 5;
-        }
-
-        public override IAttack ApplyCharacterState(CharacterState character)
-        {
-            return new SweepAttack()
-            {
-                PhysicalDamage = PhysicalDamage + character.Level + (GetAttackLevel(character) * 1)
-            };
         }
     }
 }

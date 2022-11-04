@@ -20,7 +20,12 @@ public enum NetworkTags
     EnemyNewTarget = 13,
     UpdateEnemyLocation = 14,
     PlayerHitEnemy = 15,
-    EnemyAttack = 16
+    EnemyAttack = 16,
+
+    UpdatePlayerState = 17,
+    SetPlayerActiveAttack = 18
+
+
 }
 
 public struct LoginRequestData : IDarkRiftSerializable
@@ -148,6 +153,30 @@ public struct IntegerData: IDarkRiftSerializable
     public void Serialize(SerializeEvent e)
     {
         e.Writer.Write(Integer);
+    }
+}
+
+public struct IntegerPairData : IDarkRiftSerializable
+{
+    public int Integer1;
+    public int Integer2;
+
+    public IntegerPairData(int integer1, int integer2)
+    {
+        Integer1 = integer1;
+        Integer2 = integer2;
+    }
+
+    public void Deserialize(DeserializeEvent e)
+    {
+        Integer1 = e.Reader.ReadInt32();
+        Integer2 = e.Reader.ReadInt32();
+    }
+
+    public void Serialize(SerializeEvent e)
+    {
+        e.Writer.Write(Integer1);
+        e.Writer.Write(Integer2);
     }
 }
 

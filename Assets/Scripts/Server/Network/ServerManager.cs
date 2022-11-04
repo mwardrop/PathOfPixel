@@ -104,7 +104,7 @@ public class ServerManager : MonoBehaviour
 
         client.MessageReceived -= OnMessage;
 
-        ServerConnection newConnection = new ServerConnection(client, data, StateManager);
+        ServerConnection newConnection = new ServerConnection(client, data.Username, StateManager);
 
         Connections.Add(client.ID, newConnection);
 

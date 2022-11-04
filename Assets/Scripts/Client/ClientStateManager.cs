@@ -4,7 +4,8 @@ using UnityEngine.SceneManagement;
 
 public class ClientStateManager 
 {
-    public WorldState WorldState = new WorldState();
+    public StateCalculator StateCalculator;
+    public WorldState WorldState; // = new WorldState();
     public PlayerState PlayerState
     {
         get
@@ -27,9 +28,10 @@ public class ClientStateManager
     public ClientStateManager(WorldState worldState)
     {       
         WorldState = worldState;
-
+        StateCalculator = new StateCalculator();
         Actions = new ClientActions();
         Handlers = new ClientHandlers(this);
+
         ClientManager.Instance.Client.MessageReceived += Handlers.OnNetworkMessage;
 
         LoadScene(PlayerState.Scene, LoadSceneMode.Single);

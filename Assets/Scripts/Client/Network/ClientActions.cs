@@ -63,4 +63,6 @@ public class ClientActions {
         }
     }
 
+    public void SetActiveAttack(string key) { }
+
 }

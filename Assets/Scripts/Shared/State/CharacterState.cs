@@ -1,12 +1,22 @@
 ﻿using DarkRift;
 using DarkriftSerializationExtensions;
+using Data;
+using Data.Characters;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
+public enum CharacterType
+{
+    Warrior,
+    Mage,
+    Possessed
+}
+
 public class CharacterState : ICharacterState, IDarkRiftSerializable
 {
+    public CharacterType Type { get; set; }
     public string Name { get; set; }
     public float Health { get; set; }
     public float MaxHealth { get; set; }
@@ -15,21 +25,27 @@ public class CharacterState : ICharacterState, IDarkRiftSerializable
     public float MaxMana { get; set; }
     public float ManaRegen { get; set; }
     public float PhysicalDamage { get; set; }
+    public float BleedChance { get; set; }
     public float FireDamage { get; set; }
+    public float BurnChance { get; set; }
     public float ColdDamage { get; set; }
+    public float FreezeChance { get; set; }
     public float FireResistance { get; set; }
     public float ColdResistance { get; set; }
     public float Armor { get; set; }
     public float Dodge { get; set; }
+    public float Accuracy { get; set; }
+    public float CritChance { get; set; }
     public int Level { get; set; }
     public int Experience { get; set; }
     public Vector2 Location { get; set; }
     public Vector2 TargetLocation { get; set; }
     public float MoveSpeed { get; set; }
     public bool IsDead { get; set; }
-    public List<ObjectLevelState> Attacks { get; set; }
-    public List<ObjectLevelState> Effects { get; set; }
-    public List<ObjectLevelState> Passives { get; set; }
+    public List<KeyValueState> Attacks { get; set; }
+    public List<KeyValueState> Skills { get; set; }
+    public List<KeyValueState> Passives { get; set; }
+    public string ActiveAttack { get; set; }
 
     public float IncomingPhysicalDamage { get; set; }
     public float IncomingFireDamage { get; set; }
@@ -37,9 +53,30 @@ public class CharacterState : ICharacterState, IDarkRiftSerializable
 
     public CharacterState()
     {
-        Attacks = new List<ObjectLevelState>();
-        Effects = new List<ObjectLevelState>();
-        Passives = new List<ObjectLevelState>();
+        Initialize();
+    }
+
+    public CharacterState(ICharacter character)
+    {
+        Initialize();
+
+        PropertyCopier<ICharacter, CharacterState>.Copy(
+            character,
+            this);
+
+        character.Attacks.ForEach(x => Attacks.Add(new KeyValueState() { Key = x.GetName(), Value = 0 }));
+        character.Skills.ForEach(x => Skills.Add(new KeyValueState() { Key = x.GetName(), Value = 0 }));
+        character.Passives.ForEach(x => Passives.Add(new KeyValueState() { Key = x.GetName(), Value = 0 }));
+
+        Type = (CharacterType)Enum.Parse(typeof(CharacterType), character.GetName());
+        Level = character.Level;
+    }
+
+    private void Initialize()
+    {
+        Attacks = new List<KeyValueState>();
+        Skills = new List<KeyValueState>();
+        Passives = new List<KeyValueState>();
     }
 
     // TODO: MOVE TO STATEMANAGER
@@ -82,6 +119,7 @@ public class CharacterState : ICharacterState, IDarkRiftSerializable
 
     public virtual void Deserialize(DeserializeEvent e)
     {
+        Type = (CharacterType)e.Reader.ReadInt32();
         Name = e.Reader.ReadString();
         Health = e.Reader.ReadSingle();
         MaxHealth = e.Reader.ReadSingle();
@@ -90,28 +128,35 @@ public class CharacterState : ICharacterState, IDarkRiftSerializable
         MaxMana = e.Reader.ReadSingle();
         ManaRegen = e.Reader.ReadSingle();
         PhysicalDamage = e.Reader.ReadSingle();
+        BleedChance = e.Reader.ReadSingle();
         FireDamage = e.Reader.ReadSingle();
+        BurnChance = e.Reader.ReadSingle();
         ColdDamage = e.Reader.ReadSingle();
+        FreezeChance = e.Reader.ReadSingle();
         FireResistance = e.Reader.ReadSingle();
         ColdResistance = e.Reader.ReadSingle();
         Armor = e.Reader.ReadSingle();
         Dodge = e.Reader.ReadSingle();
+        Accuracy = e.Reader.ReadSingle();
+        CritChance = e.Reader.ReadSingle();
         Level = e.Reader.ReadInt32();
         Experience = e.Reader.ReadInt32();
         Location = e.Reader.ReadVector2();
         TargetLocation = e.Reader.ReadVector2();
         MoveSpeed = e.Reader.ReadSingle();
         IsDead = e.Reader.ReadBoolean();
-        ObjectLevelState[] tempAttacks = e.Reader.ReadSerializables<ObjectLevelState>();
+        KeyValueState[] tempAttacks = e.Reader.ReadSerializables<KeyValueState>();
         Attacks = tempAttacks.ToList();
-        ObjectLevelState[] tempEffects = e.Reader.ReadSerializables<ObjectLevelState>();
-        Effects = tempEffects.ToList();
-        ObjectLevelState[] tempPassives = e.Reader.ReadSerializables<ObjectLevelState>();
+        KeyValueState[] tempSkills = e.Reader.ReadSerializables<KeyValueState>();
+        Skills = tempSkills.ToList();
+        KeyValueState[] tempPassives = e.Reader.ReadSerializables<KeyValueState>();
         Passives = tempPassives.ToList();
+        ActiveAttack = e.Reader.ReadString();
     }
 
     public virtual void Serialize(SerializeEvent e)
     {
+        e.Writer.Write((int)Type);
         e.Writer.Write(Name);
         e.Writer.Write(Health);
         e.Writer.Write(MaxHealth);
@@ -120,12 +165,17 @@ public class CharacterState : ICharacterState, IDarkRiftSerializable
         e.Writer.Write(MaxMana);
         e.Writer.Write(ManaRegen);
         e.Writer.Write(PhysicalDamage);
+        e.Writer.Write(BleedChance);
         e.Writer.Write(FireDamage);
+        e.Writer.Write(BurnChance);
         e.Writer.Write(ColdDamage);
+        e.Writer.Write(FreezeChance);
         e.Writer.Write(FireResistance);
         e.Writer.Write(ColdResistance);
         e.Writer.Write(Armor);
         e.Writer.Write(Dodge);
+        e.Writer.Write(Accuracy);
+        e.Writer.Write(CritChance);
         e.Writer.Write(Level);
         e.Writer.Write(Experience);
         e.Writer.WriteVector2(Location);
@@ -133,13 +183,15 @@ public class CharacterState : ICharacterState, IDarkRiftSerializable
         e.Writer.Write(MoveSpeed);
         e.Writer.Write(IsDead);
         e.Writer.Write(Attacks.ToArray());
-        e.Writer.Write(Effects.ToArray());
+        e.Writer.Write(Skills.ToArray());
         e.Writer.Write(Passives.ToArray());
+        e.Writer.Write(ActiveAttack);
     }
 }
 
 public interface ICharacterState
 {
+    public CharacterType Type { get; set; }
     public string Name { get; set; }
     public float Health { get; set; }
     public float MaxHealth { get; set; }
@@ -148,21 +200,27 @@ public interface ICharacterState
     public float MaxMana { get; set; }
     public float ManaRegen { get; set; }
     public float PhysicalDamage { get; set; }
+    public float BleedChance { get; set; }
     public float FireDamage { get; set; }
+    public float BurnChance { get; set; }
     public float ColdDamage { get; set; }
+    public float FreezeChance { get; set; }
     public float FireResistance { get; set; }
     public float ColdResistance { get; set; }
     public float Armor { get; set; }
     public float Dodge { get; set; }
+    public float Accuracy { get; set; }
+    public float CritChance { get; set; }
     public int Level { get; set; }
     public int Experience { get; set; }
     public Vector2 Location { get; set; }
     public Vector2 TargetLocation { get; set; }
     public float MoveSpeed { get; set; }
     public bool IsDead { get; set; }
-    public List<ObjectLevelState> Attacks { get; set; }
-    public List<ObjectLevelState> Effects { get; set; }
-    public List<ObjectLevelState> Passives { get; set; }
+    public List<KeyValueState> Attacks { get; set; }
+    public List<KeyValueState> Skills { get; set; }
+    public List<KeyValueState> Passives { get; set; }
+    public string ActiveAttack { get; set; }
 
     public float IncomingPhysicalDamage { get; set; }
     public float IncomingFireDamage { get; set; }

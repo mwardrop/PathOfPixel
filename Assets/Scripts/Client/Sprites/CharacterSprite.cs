@@ -26,7 +26,7 @@ public abstract class CharacterSprite : BaseSprite
     public SpriteDirection direction = SpriteDirection.Down;
     public SpriteState state = SpriteState.Idle;
 
-    public PlayerState CharacterState
+    public CharacterState CharacterState
     {
         get
         {

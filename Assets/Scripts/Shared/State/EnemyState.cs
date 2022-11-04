@@ -1,12 +1,9 @@
 ﻿using DarkRift;
 using DarkriftSerializationExtensions;
+using Data.Characters;
 using System;
 using UnityEngine;
 
-public enum EnemyType
-{
-    Possessed
-}
 
 public enum EnemyRarity
 {
@@ -19,23 +16,37 @@ public enum EnemyRarity
 }
 
 [Serializable]
-public class EnemyState : PlayerState, ICharacterState, IDarkRiftSerializable
+public class EnemyState : CharacterState, ICharacterState, IDarkRiftSerializable
 {
-    public EnemyType Type;
     public EnemyRarity Rarity;
     public Guid EnemyGuid;
     public int TargetPlayerId;
     public Vector2 HomeLocation;
 
-    public EnemyState()
+    public EnemyState():base()
+    {
+        Initialize();
+    }
+
+    public EnemyState(string name, Vector2 location, ICharacter character) : base(character)
+    {
+        Initialize();
+
+        Name = name;
+        Location = new Vector2(location.x, location.y);
+        HomeLocation = new Vector2(location.x, location.y);
+
+    }
+
+    private void Initialize()
     {
         EnemyGuid = Guid.NewGuid();
+        TargetPlayerId = -1;
     }
 
     public override void Deserialize(DeserializeEvent e)
     {
         base.Deserialize(e);
-        Type = (EnemyType)e.Reader.ReadInt32();
         Rarity = (EnemyRarity)e.Reader.ReadInt32();
         String tempGuid = e.Reader.ReadString();
         EnemyGuid = Guid.Parse(tempGuid);
@@ -46,7 +57,6 @@ public class EnemyState : PlayerState, ICharacterState, IDarkRiftSerializable
     public override void Serialize(SerializeEvent e)
     {
         base.Serialize(e);
-        e.Writer.Write((int)Type);
         e.Writer.Write((int)Rarity);
         e.Writer.Write(EnemyGuid.ToString());
         e.Writer.Write(TargetPlayerId);

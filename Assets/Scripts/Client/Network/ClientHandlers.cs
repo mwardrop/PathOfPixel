@@ -3,6 +3,7 @@ using DarkRift.Client;
 using System.Collections;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.Playables;
 
 public class ClientHandlers
 {
@@ -51,9 +52,12 @@ public class ClientHandlers
                 case NetworkTags.EnemyTakeDamage:
                     EnemyTakeDamage(message.Deserialize<EnemyTakeDamageData>());
                     break;
-                //case NetworkTags.UpdateEnemyLocation:
-                //    UpdateEnemyLocation(message.Deserialize<UpdateEnemyLocationData>());
-                //    break;
+                case NetworkTags.UpdatePlayerState:
+                    UpdatePlayerState(message.Deserialize<IntegerData>());
+                    break;
+                    //case NetworkTags.UpdateEnemyLocation:
+                    //    UpdateEnemyLocation(message.Deserialize<UpdateEnemyLocationData>());
+                    //    break;
 
             }
         }
@@ -107,7 +111,7 @@ public class ClientHandlers
 
         switch (enemyState.Type)
         {
-            case EnemyType.Possessed:
+            case CharacterType.Possessed:
                 prefab = ClientManager.Prefabs.PossessedSprite;
                 break;
         }
@@ -184,6 +188,17 @@ public class ClientHandlers
 
         StateManager.GetEnemyGameObject(enemyGuid)
             .GetComponent<EnemySprite>().TargetPlayerId = clientId;
+    }
+
+    public void UpdatePlayerState(PlayerStateData playerState)
+    {
+        StateManager.PlayerState
+    }
+
+    public void SetPlayerActiveAttack(IntegerData integerData)
+    { 
+        PlayerState playerState = StateManager.WorldState.GetPlayerState(integerData.Integer));
+        StateManager.StateCalculator.CalculateCharacterState(StateManager.WorldState.GetPlayerState(integerData.Integer));
     }
 
     //public void UpdateEnemyLocation(UpdateEnemyLocationData updateEnemyLocationData)

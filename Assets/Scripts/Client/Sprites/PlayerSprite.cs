@@ -19,8 +19,6 @@ public class PlayerSprite : CharacterSprite
     public float MoveRadius = 1;
     public EnemySprite TargetEnemy;
 
-    private bool shouldMove = false;
-
     void Start()
     {
         ClickHandler = GameObject.FindWithTag("ClickHandler").GetComponent<ClickHandler>();

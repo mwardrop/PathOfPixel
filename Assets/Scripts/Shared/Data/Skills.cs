@@ -1,26 +1,39 @@
 ﻿
 
+using System.Linq;
+
 namespace Data
 {
     public interface ISkill
     {
-        public int Id { get; set; }
+        public int Level { get; set; }
         public string Name { get; set; }
         public string Description { get; set; }
+
+        public string GetName();
     }
 
     public class BaseSkill: ISkill
     {
-        public int Id { get; set; }
+        public int Level { get; set; }
         public string Name { get; set; }
         public string Description { get; set; }
+
+        public string GetName()
+        {
+            return this.GetType().ToString().Split(".").Last();
+        }
+
+        public BaseSkill(int level)
+        {
+            Level = level;
+        }
     } 
 
     public class SummerSolsticeSkill: BaseSkill, ISkill
     {
-        public SummerSolsticeSkill()
+        public SummerSolsticeSkill(int level = 1) : base(level)
         {
-            Id = 1;
             Name = "Summer Solstice";
             Description = "Add +1 Fire Damage to Attacks per Level.";
         }
@@ -28,9 +41,8 @@ namespace Data
 
     public class WinterSolsticeSkill : BaseSkill, ISkill
     {
-        public WinterSolsticeSkill()
+        public WinterSolsticeSkill(int level = 1) : base(level)
         {
-            Id = 2;
             Name = "Winter Solstice";
             Description = "Add +1 Cold Damage to Attacks per Level.";
         }
@@ -38,9 +50,9 @@ namespace Data
 
     public class FrenzySkill : BaseSkill, ISkill
     {
-        public FrenzySkill()
+        public FrenzySkill(int level = 1) : base(level)
         {
-            Id = 3;
+            ;
             Name = "Frenzy";
             Description = "Add +1 Physical Damage to Attacks per Level.";
         }
@@ -49,9 +61,8 @@ namespace Data
 
     public class FreezingWinterSkill : BaseSkill, ISkill
     {
-        public FreezingWinterSkill()
+        public FreezingWinterSkill(int level = 1) : base(level)
         {
-            Id = 4;
             Name = "Freezing Winter";
             Description = "1% Chance to Freeze on Attack per Level.";
         }
@@ -59,9 +70,8 @@ namespace Data
 
     public class BurningSummerSkill : BaseSkill, ISkill
     {
-        public BurningSummerSkill()
+        public BurningSummerSkill(int level = 1) : base(level)
         {
-            Id = 5;
             Name = "Burning Summer";
             Description = "1% Chance to Burn on Attack per Level.";
         }
@@ -69,9 +79,8 @@ namespace Data
 
     public class BleedingFurySkill : BaseSkill, ISkill
     {
-        public BleedingFurySkill()
+        public BleedingFurySkill(int level = 1) : base(level)
         {
-            Id = 6;
             Name = "Bleeding Fury";
             Description = "1% Chance to Bleed on Attack per Level.";
         }

@@ -1,57 +1,31 @@
 using UnityEngine;
 using Data.Characters;
+using System;
 
 public class ServerStateManager
 {
-    public WorldState WorldState = new WorldState();
+    public WorldState WorldState;
     public StateUpdater StateUpdater;
+    public StateCalculator StateCalculator;
 
-    private ItemGenerator itemGenerator = new ItemGenerator();
+    private ItemGenerator ItemGenerator;
 
     public ServerStateManager()
     {
-
+        WorldState = new WorldState();
         StateUpdater = new StateUpdater();
+        ItemGenerator = new ItemGenerator();
+
+
         SceneState OverworldScene = new SceneState() { Name = "OverworldScene" };
 
-        var enemyState = new EnemyState();
-
-        PropertyCopier<ICharacter, PlayerState>.Copy(
-            new Possessed(),
-            enemyState);
-
-        enemyState.Name = "Possessed 1";
-        enemyState.Level = 1;
-        enemyState.Experience = 0;
-        enemyState.Type = EnemyType.Possessed;
-        enemyState.Scene = "OverworldScene";
-        enemyState.Location = new Vector2(-2f, -4.5f);
-        enemyState.HomeLocation = new Vector2(-2f, -4.5f);
-        enemyState.TargetPlayerId = -1;
-
-        OverworldScene.Enemies.Add(enemyState);
-
-        //OverworldScene.Enemies.Add(new EnemyState()
-        //{
-        //    Name = "Possessed 2",
-        //    Health = 30,
-        //    HealthRegen = 1,
-        //    Mana = 100,
-        //    ManaRegen = 1,
-        //    PhysicalDamage = 5,
-        //    FireDamage = 0,
-        //    ColdDamage = 0,
-        //    FireResistance = 0,
-        //    ColdResistance = 0,
-        //    Armor = 0,
-        //    Dodge = 0,
-        //    Level = 1,
-        //    Experience = 0,
-        //    Type = EnemyType.Possessed,
-        //    Location = new Vector2(6f, -4.5f),
-        //    MoveSpeed = 2.0f,
-        //    TargetPlayerId = -1
-        //});
+        OverworldScene.Enemies.Add(
+            new EnemyState(
+                "Possessed 1", 
+                new Vector2(-2f, -4.5f), 
+                new Possessed()
+                )
+            );
 
         WorldState.Scenes.Add(OverworldScene);
     }
@@ -60,36 +34,6 @@ public class ServerStateManager
     {
         StateUpdater.Update(WorldState);
     }
-
-    public float[] GetCharacterDamage(CharacterState characterState)
-    {
-        ICharacter character = new BaseCharacter();
-
-        if(characterState.GetType() == typeof(PlayerState))
-        {
-            switch (((PlayerState)characterState).Type)
-            {
-                case PlayerType.Warrior:
-                    character =  new Warrior().ApplyCharacterState(characterState);
-                    break;
-
-            }
-        } else
-        {
-            switch (((EnemyState)characterState).Type)
-            {
-                case EnemyType.Possessed:
-                    character = new Possessed().ApplyCharacterState(characterState);
-                    break;
-            }
-        }
-
-        return new float[3] { 
-            character.PhysicalDamage, 
-            character.FireDamage, 
-            character.ColdDamage };
-    }
-
 
     //public GameObject generateWorldDrop(GameObject dropObject, int itemLevel)
     //{
