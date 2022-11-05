@@ -29,6 +29,14 @@ public class ServerStateManager
                 ))
             );
 
+        OverworldScene.Enemies.Add(
+         (EnemyState)StateCalculator.CalcCharacterState(new EnemyState(
+             "Possessed 2",
+             new Vector2(-6f, -6f),
+             new Possessed()
+             ))
+         );
+
         WorldState.Scenes.Add(OverworldScene);
     }
 

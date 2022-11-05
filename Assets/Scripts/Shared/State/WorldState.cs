@@ -6,8 +6,8 @@ using UnityEngine.SceneManagement;
 
 public class WorldState: IDarkRiftSerializable
 {
-    public List<PlayerState> Players;
-    public List<SceneState> Scenes;
+    public List<PlayerState> Players { get; set; }
+    public List<SceneState> Scenes { get; set; }
 
     public WorldState()
     {

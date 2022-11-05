@@ -9,9 +9,9 @@ public class PlayerState: CharacterState, ICharacterState, IDarkRiftSerializable
 {
     public List<ItemState> Inventory;
 
-    public string Scene;
-    public int ClientId;
-    public bool isTargetable;
+    public string Scene { get; set; }
+    public int ClientId { get; set; }
+    public bool isTargetable { get; set; }
 
     public PlayerState(): base()
     {

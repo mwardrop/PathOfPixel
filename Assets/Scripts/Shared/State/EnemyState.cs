@@ -18,10 +18,10 @@ public enum EnemyRarity
 [Serializable]
 public class EnemyState : CharacterState, ICharacterState, IDarkRiftSerializable
 {
-    public EnemyRarity Rarity;
-    public Guid EnemyGuid;
-    public int TargetPlayerId;
-    public Vector2 HomeLocation;
+    public EnemyRarity Rarity { get; set; }
+    public Guid EnemyGuid { get; set; }
+    public int TargetPlayerId { get; set; }
+    public Vector2 HomeLocation { get; set; }
 
     public EnemyState():base()
     {
