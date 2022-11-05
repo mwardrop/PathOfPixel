@@ -64,12 +64,12 @@ public class CharacterState : ICharacterState, IDarkRiftSerializable
             character,
             this);
 
-        character.Attacks.ForEach(x => Attacks.Add(new KeyValueState() { Key = x.GetName(), Value = 0 }));
-        character.Skills.ForEach(x => Skills.Add(new KeyValueState() { Key = x.GetName(), Value = 0 }));
-        character.Passives.ForEach(x => Passives.Add(new KeyValueState() { Key = x.GetName(), Value = 0 }));
+        character.Attacks.ForEach(x => Attacks.Add(new KeyValueState() { Key = x.GetName(), Value = x.Level }));
+        character.Skills.ForEach(x => Skills.Add(new KeyValueState() { Key = x.GetName(), Value = x.Level }));
+        character.Passives.ForEach(x => Passives.Add(new KeyValueState() { Key = x.GetName(), Value = x.Level }));
 
         Type = (CharacterType)Enum.Parse(typeof(CharacterType), character.GetName());
-        Level = character.Level;
+        ActiveAttack = Attacks.First().Key;
     }
 
     private void Initialize()
@@ -78,44 +78,6 @@ public class CharacterState : ICharacterState, IDarkRiftSerializable
         Skills = new List<KeyValueState>();
         Passives = new List<KeyValueState>();
     }
-
-    // TODO: MOVE TO STATEMANAGER
-    //public DamageTransfer TakeDamage(DamageTransfer damage)
-    //{
-    //    if (damage.physicalDamage > 0)
-    //    {
-    //        damage.physicalDamage -= ((Armor / 1000) / 100 * damage.physicalDamage);
-    //    }
-    //    if (damage.fireDamage > 0)
-    //    {
-    //        damage.fireDamage -= ((FireResistance / 100) * damage.fireDamage);
-    //    }
-    //    if (damage.coldDamage > 0)
-    //    {
-    //        damage.coldDamage -= ((ColdResistance / 100) * damage.coldDamage);
-    //    }
-    //    if (damage.knockback > 0)
-    //    {
-    //        damage.knockback -= ((Armor / 1000) / 100 * damage.knockback);
-    //    }
-
-    //    IncomingDamage += (damage.physicalDamage + damage.fireDamage + damage.coldDamage);
-
-    //    return damage;
-    //}
-
-    //// TODO: MOVE TO STATEMANAGER
-    //public float ApplyIncomingDamage()
-    //{
-    //    if (IncomingDamage > 0)
-    //    {
-    //        float _incomingDamage = IncomingDamage;
-    //        Health -= IncomingDamage;
-    //        IncomingDamage = 0;
-    //        return _incomingDamage;
-    //    }
-    //    return IncomingDamage;
-    //}
 
     public virtual void Deserialize(DeserializeEvent e)
     {

@@ -1,6 +1,8 @@
 using UnityEngine;
 using Data.Characters;
 using System;
+using UnityEngine.TextCore.Text;
+using Random = UnityEngine.Random;
 
 public class ServerStateManager
 {
@@ -15,16 +17,16 @@ public class ServerStateManager
         WorldState = new WorldState();
         StateUpdater = new StateUpdater();
         ItemGenerator = new ItemGenerator();
-
+        StateCalculator = new StateCalculator();
 
         SceneState OverworldScene = new SceneState() { Name = "OverworldScene" };
 
         OverworldScene.Enemies.Add(
-            new EnemyState(
+            (EnemyState)StateCalculator.CalcCharacterState(new EnemyState(
                 "Possessed 1", 
                 new Vector2(-2f, -4.5f), 
                 new Possessed()
-                )
+                ))
             );
 
         WorldState.Scenes.Add(OverworldScene);
@@ -33,6 +35,22 @@ public class ServerStateManager
     public void Update()
     {
         StateUpdater.Update(WorldState);
+    }
+
+    public float[] GetAttackDamage(ICharacterState characterState)
+    {
+        return new float[]
+        {
+            Random.Range(
+                characterState.PhysicalDamage - (characterState.PhysicalDamage / 100) * (100 - characterState.Accuracy),
+                characterState.PhysicalDamage),
+            Random.Range(
+                characterState.FireDamage - (characterState.FireDamage / 100) * (100 - characterState.Accuracy),
+                characterState.FireDamage),
+            Random.Range(
+                characterState.ColdDamage - (characterState.ColdDamage / 100) * (100 - characterState.Accuracy),
+                characterState.ColdDamage)
+        };
     }
 
     //public GameObject generateWorldDrop(GameObject dropObject, int itemLevel)

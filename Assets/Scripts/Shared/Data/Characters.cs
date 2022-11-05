@@ -1,6 +1,8 @@
 ﻿using Data.Attacks;
+using JetBrains.Annotations;
 using System.Collections.Generic;
 using System.Linq;
+using UnityEngine;
 
 namespace Data.Characters
 { 
@@ -81,6 +83,8 @@ namespace Data.Characters
             Armor = 100 + (level * 10);
             MoveSpeed = 3f;
             BleedChance = 1;
+            Accuracy = 20;
+            
 
             Attacks = new List<IAttack>() {
                 new SweepAttack(1),
@@ -110,11 +114,11 @@ namespace Data.Characters
     {
         public Possessed(int level = 1) : base(level)
         {
-            Health = 10 + (level * 5);
+            Health = 10000; //10 + (level * 5);
             HealthRegen = 1;
             Mana = 100;
             ManaRegen = 1;
-            PhysicalDamage = 5 + (level * 2);
+            PhysicalDamage = 0; // 5 + (level * 2);
             MoveSpeed = 1f;
 
             Attacks = new List<IAttack>() {

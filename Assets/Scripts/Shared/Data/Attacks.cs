@@ -56,7 +56,7 @@ namespace Data.Attacks
             Name = "Sweep";
             Description = "Sweep your weapon across enemies.";
             AnimationId = 1;
-            PhysicalDamage = 5;
+            PhysicalDamage = 5 * level;
             FireDamage = 0;
             ColdDamage = 0;
             Bleed = false;

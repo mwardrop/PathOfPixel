@@ -23,7 +23,9 @@ public enum NetworkTags
     EnemyAttack = 16,
 
     UpdatePlayerState = 17,
-    SetPlayerActiveAttack = 18
+    CalculatePlayerState = 18,
+    SetPlayerActiveAttack = 19,
+
 
 
 }
@@ -116,11 +118,11 @@ public struct EnemyStateData : IDarkRiftSerializable
     }
 }
 
-public struct TargetData : IDarkRiftSerializable
+public struct Vector2Data : IDarkRiftSerializable
 {
     public Vector2 Target;
 
-    public TargetData(Vector2 target)
+    public Vector2Data(Vector2 target)
     {
         Target = target;
     }
@@ -152,6 +154,50 @@ public struct IntegerData: IDarkRiftSerializable
 
     public void Serialize(SerializeEvent e)
     {
+        e.Writer.Write(Integer);
+    }
+}
+
+public struct StringData : IDarkRiftSerializable
+{
+    public string String;
+
+    public StringData(string _string)
+    {
+        String = _string;
+    }
+
+    public void Deserialize(DeserializeEvent e)
+    {
+        String = e.Reader.ReadString();
+    }
+
+    public void Serialize(SerializeEvent e)
+    {
+        e.Writer.Write(String);
+    }
+}
+
+public struct StringIntegerData : IDarkRiftSerializable
+{
+    public string String;
+    public int Integer;
+
+    public StringIntegerData(string _string, int integer)
+    {
+        String = _string;
+        Integer = integer;
+    }
+
+    public void Deserialize(DeserializeEvent e)
+    {
+        String = e.Reader.ReadString();
+        Integer = e.Reader.ReadInt32();
+    }
+
+    public void Serialize(SerializeEvent e)
+    {
+        e.Writer.Write(String);
         e.Writer.Write(Integer);
     }
 }
@@ -310,7 +356,6 @@ public struct EnemyPlayerPairData : IDarkRiftSerializable
         e.Writer.Write(SceneName);
     }
 }
-
 
 public struct UpdateEnemyLocationData : IDarkRiftSerializable
 {

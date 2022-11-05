@@ -1,6 +1,4 @@
-﻿using System.Linq;
-using UnityEngine;
-using UnityEngine.SceneManagement;
+﻿using UnityEngine;
 
 public class ClientActions {
 
@@ -11,7 +9,7 @@ public class ClientActions {
 
     public void Move(Vector2 target)
     {
-        ClientManager.SendNetworkMessage(NetworkTags.MoveRequest, new TargetData(target));
+        ClientManager.SendNetworkMessage(NetworkTags.MoveRequest, new Vector2Data(target));
     }
 
     public void PlayerAttack()
@@ -34,7 +32,10 @@ public class ClientActions {
 
     public void EnemyAttack(EnemySprite enemy)
     {
-        ClientManager.SendNetworkMessage(NetworkTags.EnemyAttack, new GuidData(enemy.StateGuid));
+        if (ClientManager.IsHost)
+        {
+            ClientManager.SendNetworkMessage(NetworkTags.EnemyAttack, new GuidData(enemy.StateGuid));
+        }
     }
 
     public void EnemyHitPlayer(GameObject player, GameObject enemy)
@@ -63,6 +64,23 @@ public class ClientActions {
         }
     }
 
-    public void SetActiveAttack(string key) { }
+    public void UpdatePlayerState()
+    {
+        ClientManager.SendNetworkMessage(
+            NetworkTags.UpdatePlayerState);
+    }
+
+    public void CalculatePlayerState()
+    {
+        ClientManager.SendNetworkMessage(
+            NetworkTags.CalculatePlayerState);
+    }
+
+    public void SetPlayerActiveAttack(string key) 
+    {
+        ClientManager.SendNetworkMessage(
+            NetworkTags.SetPlayerActiveAttack,
+            new StringData(key));
+    }
 
 }

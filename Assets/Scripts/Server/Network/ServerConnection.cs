@@ -25,12 +25,14 @@ public class ServerConnection
         Client.MessageReceived += OnMessage;
 
         // TODO : User should be able to create new and load existing PlayerStates (Warrior, Mage / Load, New)
-        PlayerState = new PlayerState(
-            Client.ID, 
-            username, 
-            "overworldScene",
-            new Warrior());
-
+        PlayerState = (PlayerState)StateManager.StateCalculator.CalcCharacterState(
+            new PlayerState(
+                Client.ID, 
+                username, 
+                "OverworldScene",
+                new Warrior()
+            )
+        );
     }
 
     public void Disconnect()
@@ -55,7 +57,7 @@ public class ServerConnection
                     SpawnPlayer();
                     break;
                 case NetworkTags.MoveRequest:
-                    MovePlayer(message.Deserialize<TargetData>());
+                    MovePlayer(message.Deserialize<Vector2Data>());
                     break;
                 case NetworkTags.PlayerAttack:
                     PlayerAttack();
@@ -73,7 +75,10 @@ public class ServerConnection
                     UpdateEnemyLocation(message.Deserialize<UpdateEnemyLocationData>());
                     break;
                 case NetworkTags.UpdatePlayerState:
-                    CalculatePlayerState(message.Deserialize<IntegerData>());
+                    CalculatePlayerState();
+                    break;
+                case NetworkTags.SetPlayerActiveAttack:
+                    SetPlayerActiveAttack(message.Deserialize<StringData>());
                     break;
             }
         }
@@ -93,11 +98,11 @@ public class ServerConnection
             enemyPlayerPairData.EnemyGuid,
             enemyPlayerPairData.SceneName);
 
-        PlayerState player = StateManager.WorldState.GetPlayerState(enemyPlayerPairData.ClientId);
+        var damage = StateManager.GetAttackDamage(PlayerState);
 
-        enemy.IncomingPhysicalDamage += PlayerState.PhysicalDamage;
-        enemy.IncomingFireDamage += PlayerState.FireDamage;
-        enemy.IncomingColdDamage += PlayerState.ColdDamage;
+        enemy.IncomingPhysicalDamage += damage[0];
+        enemy.IncomingFireDamage += damage[1];
+        enemy.IncomingColdDamage += damage[2];
     }
 
     private void EnemyAttack(GuidData guidData)
@@ -116,9 +121,11 @@ public class ServerConnection
             enemyPlayerPairData.SceneName);
         PlayerState player = StateManager.WorldState.GetPlayerState(enemyPlayerPairData.ClientId);
 
-        player.IncomingPhysicalDamage += enemy.PhysicalDamage;
-        player.IncomingFireDamage += enemy.FireDamage;
-        player.IncomingColdDamage += enemy.ColdDamage;
+        var damage = StateManager.GetAttackDamage(enemy);
+
+        player.IncomingPhysicalDamage += damage[0];
+        player.IncomingFireDamage += damage[1];
+        player.IncomingColdDamage += damage[2];
 
     }
 
@@ -146,7 +153,7 @@ public class ServerConnection
 
     }
 
-    private void MovePlayer(TargetData targetData)
+    private void MovePlayer(Vector2Data targetData)
     {
 
         Vector2 target = targetData.Target;
@@ -172,16 +179,41 @@ public class ServerConnection
 
     }
 
-    private void CalculatePlayerState(IntegerData integerData)
+    private void UpdatePlayerState(IntegerData integerData)
     {
         PlayerState playerState = StateManager.WorldState.GetPlayerState(integerData.Integer);
 
-        StateManager.StateCalculator.CalculateCharacterState(playerState);
+        StateManager.StateCalculator.CalcCharacterState(playerState);
 
         BroadcastNetworkMessage(
             NetworkTags.UpdatePlayerState,
             new PlayerStateData(playerState)
         );
+    }
+
+    private void CalculatePlayerState()
+    {
+
+        StateManager.StateCalculator.CalcCharacterState(PlayerState);
+
+        BroadcastNetworkMessage(
+            NetworkTags.CalculatePlayerState,
+            new IntegerData(PlayerState.ClientId)
+        );
+    }
+
+    private void SetPlayerActiveAttack(StringData stringData)
+    {
+
+        PlayerState.ActiveAttack = stringData.String;
+
+        StateManager.StateCalculator.CalcCharacterState(PlayerState);
+
+        BroadcastNetworkMessage(
+            NetworkTags.SetPlayerActiveAttack,
+            new StringIntegerData(stringData.String, PlayerState.ClientId)
+        ); ;
+
     }
 
     private void SendNetworkMessage(NetworkTags networkTag, IDarkRiftSerializable payload)

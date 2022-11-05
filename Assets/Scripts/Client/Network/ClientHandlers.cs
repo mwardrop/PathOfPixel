@@ -53,7 +53,13 @@ public class ClientHandlers
                     EnemyTakeDamage(message.Deserialize<EnemyTakeDamageData>());
                     break;
                 case NetworkTags.UpdatePlayerState:
-                    UpdatePlayerState(message.Deserialize<IntegerData>());
+                    UpdatePlayerState(message.Deserialize<PlayerStateData>());
+                    break;
+                case NetworkTags.CalculatePlayerState:
+                    CalculatePlayerState(message.Deserialize<IntegerData>());
+                    break;
+                case NetworkTags.SetPlayerActiveAttack:
+                    SetPlayerActiveAttack(message.Deserialize<StringIntegerData>());
                     break;
                     //case NetworkTags.UpdateEnemyLocation:
                     //    UpdateEnemyLocation(message.Deserialize<UpdateEnemyLocationData>());
@@ -192,13 +198,21 @@ public class ClientHandlers
 
     public void UpdatePlayerState(PlayerStateData playerState)
     {
-        StateManager.PlayerState
+        throw new System.Exception("UpdatePlayerState Client Handler Not Implemented.");
     }
 
-    public void SetPlayerActiveAttack(IntegerData integerData)
+    public void CalculatePlayerState(IntegerData integerData)
+    {
+        PlayerState playerState = StateManager.WorldState.GetPlayerState(integerData.Integer);
+        StateManager.StateCalculator.CalcCharacterState(playerState);
+    }
+
+    public void SetPlayerActiveAttack(StringIntegerData stringIntegerData)
     { 
-        PlayerState playerState = StateManager.WorldState.GetPlayerState(integerData.Integer));
-        StateManager.StateCalculator.CalculateCharacterState(StateManager.WorldState.GetPlayerState(integerData.Integer));
+        PlayerState playerState = StateManager.WorldState.GetPlayerState(stringIntegerData.Integer);
+
+        playerState.ActiveAttack = stringIntegerData.String;
+        StateManager.StateCalculator.CalcCharacterState(playerState);
     }
 
     //public void UpdateEnemyLocation(UpdateEnemyLocationData updateEnemyLocationData)

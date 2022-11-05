@@ -80,7 +80,7 @@ public class ClientStateManager
         {
             foreach (PlayerState player in ClientManager.Instance.StateManager.WorldState.Players)
             {
-                if (player.Scene == scene.name && player.ClientId != ClientManager.Instance.StateManager.PlayerState.ClientId)
+                if (player.Scene.ToLower() == scene.name.ToLower() && player.ClientId != ClientManager.Instance.StateManager.PlayerState.ClientId)
                 {
                     Handlers.SpawnPlayer(new PlayerStateData(player));
                 }
