@@ -9,6 +9,7 @@ namespace Data
         public int Level { get; set; }
         public string Name { get; set; }
         public string Description { get; set; }
+        public int IconId { get; set; }
 
         public string GetName();
     }
@@ -18,6 +19,7 @@ namespace Data
         public int Level { get; set; }
         public string Name { get; set; }
         public string Description { get; set; }
+        public int IconId { get; set; }
 
         public string GetName()
         {

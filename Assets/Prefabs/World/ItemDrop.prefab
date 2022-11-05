@@ -98,17 +98,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   inventoryItem:
-    itemName: Generic Item
-    itemDescription: Generic Description
-    itemImageId: 0
-    itemType: 4
-    itemSubType: 0
-    itemRarity: 0
-    itemLevel: 1
-    identifier: 7b8e6b3d-093c-44ec-aef1-c5d7c47fa965
-    offenseModifiers: []
-    defenseModifiers: []
-    customModifiers: []
+    ItemName: Generic Item
+    ItemDescription: Generic Description
+    ItemImageId: 0
+    ItemType: 4
+    ItemSubType: 0
+    ItemRarity: 0
+    ItemLevel: 1
+    ItemSceneLocation: {x: 0, y: 0}
   ChestSprite1: {fileID: 21300000, guid: 689700df49ac0744ba6c2acd99e7f626, type: 3}
   ChestSprite2: {fileID: 21300000, guid: 30e69fe0222d6854ab69671f651149b7, type: 3}
   ChestSprite3: {fileID: 21300000, guid: bffab7f829743e94bb507d593b9452b9, type: 3}
@@ -137,7 +134,7 @@ MonoBehaviour:
   OtherRingSprite1: {fileID: 21300000, guid: 32e69ace666e37d468312d9eb5304664, type: 3}
   OtherRingSprite2: {fileID: 21300000, guid: bb4369c012a377b4a9acd6c7979cf593, type: 3}
   OtherRingSprite3: {fileID: 21300000, guid: 150ec20eeeae1a64ba639e9d87720c1c, type: 3}
-  OtherGloveSprite1: {fileID: 21300000, guid: bfe7507e4d738ff44a9217e0a0d9acf7, type: 3}
+  OtherGlovesSprite1: {fileID: 21300000, guid: bfe7507e4d738ff44a9217e0a0d9acf7, type: 3}
   WeaponSwordSprite1: {fileID: 21300000, guid: a1feecaf4542ebc4b98e02a301c4d9d7, type: 3}
   WeaponSwordSprite2: {fileID: 21300000, guid: e84974b65b3ef8e46b19c6c5a5487389, type: 3}
   WeaponSwordSprite3: {fileID: 21300000, guid: e761a6d6f901350438b3b97c04e0376e, type: 3}

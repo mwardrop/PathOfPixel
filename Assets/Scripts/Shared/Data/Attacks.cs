@@ -8,6 +8,7 @@ namespace Data.Attacks
         public string Name { get; set; }
         public string Description { get; set; }
         public int AnimationId { get; set; }
+        public int IconId { get; set; }
         public float PhysicalDamage { get; set; }
         public float FireDamage { get; set; }
         public float ColdDamage { get; set; }
@@ -27,6 +28,7 @@ namespace Data.Attacks
         public string Name { get; set; }
         public string Description { get; set; }
         public int AnimationId { get; set; }
+        public int IconId { get; set; }
         public float PhysicalDamage { get; set; }
         public float FireDamage { get; set; }
         public float ColdDamage { get; set; }
