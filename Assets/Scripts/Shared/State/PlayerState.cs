@@ -12,6 +12,9 @@ public class PlayerState: CharacterState, ICharacterState, IDarkRiftSerializable
     public string Scene { get; set; }
     public int ClientId { get; set; }
     public bool isTargetable { get; set; }
+    public int AttackPoints { get; set; }
+    public int SkillPoints { get; set; }
+    public int PassivePoints { get; set; }
 
     public PlayerState(): base()
     {
@@ -41,6 +44,9 @@ public class PlayerState: CharacterState, ICharacterState, IDarkRiftSerializable
         ItemState[] tempInventory = e.Reader.ReadSerializables<ItemState>();
         Inventory = tempInventory.ToList();
         isTargetable = e.Reader.ReadBoolean();
+        AttackPoints = e.Reader.ReadInt32();
+        SkillPoints = e.Reader.ReadInt32();
+        PassivePoints = e.Reader.ReadInt32();
 
     }
 
@@ -51,6 +57,9 @@ public class PlayerState: CharacterState, ICharacterState, IDarkRiftSerializable
         e.Writer.Write(ClientId);
         e.Writer.Write(Inventory.ToArray());
         e.Writer.Write(isTargetable);
+        e.Writer.Write(AttackPoints);
+        e.Writer.Write(SkillPoints);
+        e.Writer.Write(PassivePoints);
     }
 
 }

@@ -84,10 +84,16 @@ public class ClientHandlers
             WorldState.Players.Add(playerState);
         }
 
-        GameObject newPlayer = UnityEngine.Object.Instantiate(
-            ClientManager.Prefabs.WarriorSprite,
-            playerState.Location,
-            Quaternion.identity);
+        GameObject prefab = ClientManager.Prefabs.PossessedSprite;
+
+        switch (playerState.Type)
+        {
+            case CharacterType.Warrior:
+                prefab = ClientManager.Prefabs.WarriorSprite;
+                break;
+        }
+
+        GameObject newPlayer = CreateInstance.Prefab(prefab, playerState.Location);          
 
         if (playerState.ClientId == PlayerState.ClientId)
         {
@@ -122,10 +128,7 @@ public class ClientHandlers
                 break;
         }
 
-        GameObject newEnemy = UnityEngine.Object.Instantiate(
-            prefab,
-            enemyState.Location,
-            Quaternion.identity);
+        GameObject newEnemy = CreateInstance.Prefab(prefab, enemyState.Location);
 
         EnemySprite newEnemySprite = newEnemy.GetComponent<EnemySprite>();
         newEnemySprite.StateGuid = enemyState.EnemyGuid;

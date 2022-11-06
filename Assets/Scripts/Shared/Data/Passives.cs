@@ -36,6 +36,7 @@ namespace Data
         {
             Name = "Aggression";
             Description = "Increases Physical Damage by 1% per Level.";
+            IconId = 1;
         }
     }
 
@@ -45,6 +46,7 @@ namespace Data
         {
             Name = "Immolation";
             Description = "Increases Fire Damage by 1% per Level.";
+            IconId = 2;
         }
     }
 
@@ -54,6 +56,7 @@ namespace Data
         {
             Name = "Hypothermia";
             Description = "Increases Cold Damage by 1% per Level.";
+            IconId = 3;
         }
     }
 
@@ -63,6 +66,7 @@ namespace Data
         {
             Name = "Stamina";
             Description = "Increases Dodge Chance and Movement Speed by 1% per Level.";
+            IconId = 4;
         }
     }
 
@@ -72,6 +76,7 @@ namespace Data
         {
             Name = "Intelligence";
             Description = "Increases Maximum Mana and Mana Regeneration by 1% per Level.";
+            IconId = 5;
         }
     }
 
@@ -81,6 +86,7 @@ namespace Data
         {
             Name = "Strength";
             Description = "Increases Maximum Health and Health Regeneration by 1% per Level.";
+            IconId = 6;
         }
     }
 

@@ -1,6 +1,8 @@
 using System;
 using System.Collections;
+using UnityEditor.TextCore.Text;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using static UnityEngine.GraphicsBuffer;
 
 public class ClickHandler : MonoBehaviour
@@ -16,6 +18,8 @@ public class ClickHandler : MonoBehaviour
 
     private IEnumerator coroutine;
     private bool coroutineRunning = false;
+
+    public bool HUDClicked = false;
 
     void Start()
     {
@@ -45,7 +49,7 @@ public class ClickHandler : MonoBehaviour
             spriteRenderer.sprite = move;
         }
 
-        if (Input.GetMouseButtonDown(0))
+        if (Input.GetMouseButtonDown(0) && !EventSystem.current.IsPointerOverGameObject())
         {
             Vector3 target = Camera.main.ScreenToWorldPoint(Input.mousePosition);
             target.z = transform.position.z;

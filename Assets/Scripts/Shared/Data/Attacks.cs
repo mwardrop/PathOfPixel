@@ -58,6 +58,7 @@ namespace Data.Attacks
             Name = "Sweep";
             Description = "Sweep your weapon across enemies.";
             AnimationId = 1;
+            IconId = 1;
             PhysicalDamage = 5 * level;
             FireDamage = 0;
             ColdDamage = 0;
@@ -78,6 +79,7 @@ namespace Data.Attacks
             Name = "Slam";
             Description = "Slam your weapon into the ground, knocking back enemies.";
             AnimationId = 2;
+            IconId = 1;
             PhysicalDamage = 2;
             FireDamage = 0;
             ColdDamage = 0;
@@ -87,6 +89,7 @@ namespace Data.Attacks
             Knockback = 5;
             Cooldown = 5;
             ManaCost = 5;
+            IconId = 2;
         }
     }
 }

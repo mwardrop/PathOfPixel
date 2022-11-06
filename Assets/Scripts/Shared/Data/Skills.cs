@@ -38,6 +38,7 @@ namespace Data
         {
             Name = "Summer Solstice";
             Description = "Add +1 Fire Damage to Attacks per Level.";
+            IconId = 1;
         }
     }
 
@@ -47,6 +48,7 @@ namespace Data
         {
             Name = "Winter Solstice";
             Description = "Add +1 Cold Damage to Attacks per Level.";
+            IconId = 2;
         }
     }
 
@@ -57,6 +59,7 @@ namespace Data
             ;
             Name = "Frenzy";
             Description = "Add +1 Physical Damage to Attacks per Level.";
+            IconId = 3;
         }
     }
 
@@ -67,6 +70,7 @@ namespace Data
         {
             Name = "Freezing Winter";
             Description = "1% Chance to Freeze on Attack per Level.";
+            IconId = 4;
         }
     }
 
@@ -76,6 +80,7 @@ namespace Data
         {
             Name = "Burning Summer";
             Description = "1% Chance to Burn on Attack per Level.";
+            IconId = 5;
         }
     }
 
@@ -85,6 +90,7 @@ namespace Data
         {
             Name = "Bleeding Fury";
             Description = "1% Chance to Bleed on Attack per Level.";
+            IconId = 6;
         }
     }
 

@@ -5,6 +5,7 @@ using System.Reflection;
 using UnityEditor;
 using UnityEditor.EditorTools;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using static Codice.Client.BaseCommands.Import.Commit;
 using static UnityEngine.EventSystems.EventTrigger;
 
@@ -58,18 +59,27 @@ namespace Client.Editor
 
             if (ClientManager.Instance == null || ServerManager.Instance == null)
             {
-                ShowError(new Exception("Game not running."));
+                ShowError("Game not running.");
                 return;
             }
 
             if (!ClientManager.Instance.Client.Connected)
             {
-                ShowError(new Exception("Client not connected."));
+                ShowError("Client not connected.");
                 return;
             }
 
-            try
+            if (ClientManager.Instance.StateManager == null || ServerManager.Instance.StateManager == null)
             {
+                ShowError("State Managers not loaded.");
+                return;
+            }
+
+            if(ClientManager.Instance.StateManager.PlayerState == null)
+            {
+                ShowError("Player State not loaded.");
+            }
+
 
                 GUILayout.BeginHorizontal(); //side by side columns
 
@@ -95,12 +105,7 @@ namespace Client.Editor
 
                 GUILayout.EndHorizontal();
 
-            }
-            catch (System.Exception ex)
-            {
-                ShowError(ex);
 
-            }
         }
 
         private void RenderPlayerViewer()
@@ -144,7 +149,18 @@ namespace Client.Editor
 
                 foreach (PropertyInfo propertyInfo in ServerManager.Instance.Connections[SelectedPlayer].PlayerState.GetType().GetProperties())
                 {
-                    EditorGUILayout.LabelField(propertyInfo.Name, propertyInfo.GetValue(ServerManager.Instance.Connections[SelectedPlayer].PlayerState).ToString());
+                    if (!(propertyInfo.PropertyType == typeof(List<KeyValueState>))){
+                        EditorGUILayout.LabelField(propertyInfo.Name, propertyInfo.GetValue(ServerManager.Instance.Connections[SelectedPlayer].PlayerState).ToString());
+                    } else
+                    {
+                        List<KeyValueState>list = (List<KeyValueState>)propertyInfo.GetValue(
+                            ServerManager.Instance.Connections[SelectedPlayer].PlayerState);
+
+                        foreach (KeyValueState kv in list)
+                        {
+                            EditorGUILayout.LabelField($"{kv.Key}", kv.Value.ToString());
+                        }
+                    }
                 }
             }
             EditorGUILayout.LabelField("---------------------------------");
@@ -154,9 +170,21 @@ namespace Client.Editor
             {
                 foreach (PropertyInfo propertyInfo in ClientManager.Instance.StateManager.WorldState.GetPlayerState(SelectedPlayer).GetType().GetProperties())
                 {
-                    EditorGUILayout.LabelField(propertyInfo.Name, propertyInfo.GetValue(ClientManager.Instance.StateManager.PlayerState).ToString());
-                }
+                    if (!(propertyInfo.PropertyType == typeof(List<KeyValueState>)))
+                    {
+                        EditorGUILayout.LabelField(propertyInfo.Name, propertyInfo.GetValue(ClientManager.Instance.StateManager.PlayerState).ToString());
+                    } else
+                    {
+                        List<KeyValueState> list = (List<KeyValueState>)propertyInfo.GetValue(
+                            ClientManager.Instance.StateManager.WorldState.GetPlayerState(SelectedPlayer));
 
+                        foreach (KeyValueState kv in list)
+                        {
+                            EditorGUILayout.LabelField($"{kv.Key}", kv.Value.ToString());
+                        }
+                    }
+
+                }
             }
             EditorGUILayout.LabelField("---------------------------------");
         }
@@ -211,7 +239,20 @@ namespace Client.Editor
                         {
                             foreach (PropertyInfo propertyInfo in enemy.GetType().GetProperties())
                             {
-                                EditorGUILayout.LabelField(propertyInfo.Name, propertyInfo.GetValue(enemy).ToString());
+                                if (!(propertyInfo.PropertyType == typeof(List<KeyValueState>)))
+                                {
+                                    EditorGUILayout.LabelField(propertyInfo.Name, propertyInfo.GetValue(enemy).ToString());
+                                }
+                                else
+                                {
+                                    List<KeyValueState> list = (List<KeyValueState>)propertyInfo.GetValue(
+                                        enemy);
+
+                                    foreach (KeyValueState kv in list)
+                                    {
+                                        EditorGUILayout.LabelField($"{kv.Key}", kv.Value.ToString());
+                                    }
+                                }
                             }
                         }
                     }
@@ -230,7 +271,20 @@ namespace Client.Editor
                         {
                             foreach (PropertyInfo propertyInfo in enemy.GetType().GetProperties())
                             {
-                                EditorGUILayout.LabelField(propertyInfo.Name, propertyInfo.GetValue(enemy).ToString());
+                                if (!(propertyInfo.PropertyType == typeof(List<KeyValueState>)))
+                                {
+                                    EditorGUILayout.LabelField(propertyInfo.Name, propertyInfo.GetValue(enemy).ToString());
+                                }
+                                else
+                                {
+                                    List<KeyValueState> list = (List<KeyValueState>)propertyInfo.GetValue(
+                                        enemy);
+
+                                    foreach (KeyValueState kv in list)
+                                    {
+                                        EditorGUILayout.LabelField($"{kv.Key}", kv.Value.ToString());
+                                    }
+                                }
                             }
                         }
                     }
@@ -244,7 +298,7 @@ namespace Client.Editor
             Repaint();
         }
 
-        private void ShowError(Exception ex)
+        private void ShowError(string ex)
         {
             EditorGUILayout.LabelField("Could not connect to Game State.", new GUIStyle() { normal = new GUIStyleState() { textColor = Color.yellow } });
             EditorGUILayout.LabelField(ex.ToString(), new GUIStyle() { normal = new GUIStyleState() { textColor = Color.grey } });

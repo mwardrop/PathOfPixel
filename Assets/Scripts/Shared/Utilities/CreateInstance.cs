@@ -2,6 +2,8 @@
 using Data.Attacks;
 using Data.Characters;
 using System;
+using UnityEngine;
+using UnityEngine.Playables;
 
 public static class CreateInstance
 {
@@ -18,6 +20,14 @@ public static class CreateInstance
         return (IAttack)Activator.CreateInstance(
             Type.GetType($"Data.Attacks.{name}"),
             level);
+    }
+
+    public static GameObject Prefab(GameObject prefab, Vector2 location)
+    {
+        return UnityEngine.Object.Instantiate(
+            prefab,
+            location,
+            Quaternion.identity);
     }
 }
 

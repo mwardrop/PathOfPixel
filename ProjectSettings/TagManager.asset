@@ -12,6 +12,7 @@ TagManager:
   - NetworkPlayer
   - PlayerAttackCollider
   - EnemyAttackCollider
+  - HUD
   layers:
   - Default
   - TransparentFX

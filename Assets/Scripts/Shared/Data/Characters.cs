@@ -114,11 +114,11 @@ namespace Data.Characters
     {
         public Possessed(int level = 1) : base(level)
         {
-            Health = 10000; //10 + (level * 5);
+            Health = 10 + (level * 5);
             HealthRegen = 1;
             Mana = 100;
             ManaRegen = 1;
-            PhysicalDamage = 0; // 5 + (level * 2);
+            PhysicalDamage = 5 + (level * 2);
             MoveSpeed = 1f;
 
             Attacks = new List<IAttack>() {
