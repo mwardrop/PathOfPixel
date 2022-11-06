@@ -75,6 +75,9 @@ public class ServerConnection
                     UpdateEnemyLocation(message.Deserialize<UpdateEnemyLocationData>());
                     break;
                 case NetworkTags.UpdatePlayerState:
+                    UpdatePlayerState();
+                    break;
+                case NetworkTags.CalculatePlayerState:
                     CalculatePlayerState();
                     break;
                 case NetworkTags.SetPlayerActiveAttack:
@@ -174,15 +177,13 @@ public class ServerConnection
             updateEnemyLocationData.SceneName).Location = updateEnemyLocationData.Location;
     }
 
-    private void UpdatePlayerState(IntegerData integerData)
+    private void UpdatePlayerState()
     {
-        PlayerState playerState = StateManager.WorldState.GetPlayerState(integerData.Integer);
-
-        StateManager.StateCalculator.CalcCharacterState(playerState);
+        StateManager.StateCalculator.CalcCharacterState(PlayerState);
 
         BroadcastNetworkMessage(
             NetworkTags.UpdatePlayerState,
-            new PlayerStateData(playerState)
+            new PlayerStateData(PlayerState)
         );
     }
 

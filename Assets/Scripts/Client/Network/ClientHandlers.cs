@@ -1,5 +1,6 @@
 ﻿using DarkRift;
 using DarkRift.Client;
+using System;
 using System.Collections;
 using System.Linq;
 using UnityEngine;
@@ -180,8 +181,11 @@ public class ClientHandlers
     {
         int clientId = integerData.Integer;
 
+        var attack = CreateInstance.Attack(PlayerState.ActiveAttack);
+
         StateManager.GetPlayerGameObject(clientId)
-            .GetComponent<PlayerSprite>().SetState(SpriteState.Attack1);
+            .GetComponent<PlayerSprite>().SetState(
+            (SpriteState)Enum.Parse(typeof(SpriteState), $"Attack{attack.AnimationId}"));
     }
 
     public void EnemyNewTarget(EnemyPlayerPairData enemyNewTargetData)

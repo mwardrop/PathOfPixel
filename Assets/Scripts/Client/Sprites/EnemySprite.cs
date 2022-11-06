@@ -1,5 +1,6 @@
 using System;
 using System.Collections;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -81,8 +82,10 @@ public class EnemySprite : CharacterSprite
 
     private bool Attack()
     {
+        SpriteState[] attackStates = { SpriteState.Attack1, SpriteState.Attack2 };
+        
         if (state != SpriteState.Death &&
-            state != SpriteState.Attack1 &&
+            !attackStates.Contains(state) &&
             !attackPending &&
             Vector3.Distance(TargetPlayer.transform.position, transform.position) < attackRadius)
         {

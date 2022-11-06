@@ -19,6 +19,17 @@ public class HotbarSkill : MonoBehaviour, IDropHandler, IPointerClickHandler
     private GameObject HotbarIconObject;
     private Icon HotbarIcon;
 
+    private UnityEngine.UI.Image _image;
+    public UnityEngine.UI.Image image
+    {
+        get
+        {
+            if (!_image) { _image = GetComponent<UnityEngine.UI.Image>(); }
+            return _image;
+        }
+        set { _image = value; }
+    }
+
     public void Awake()
     {
         HotbarIndex = string.Concat(name.Where(char.IsNumber));
@@ -39,7 +50,36 @@ public class HotbarSkill : MonoBehaviour, IDropHandler, IPointerClickHandler
 
     public void OnPointerClick(PointerEventData eventData)
     {
-        throw new System.NotImplementedException();
+        Activate();
+    }
+
+    public void Activate()
+    {
+        if (IconTypeKey == null) { return; }
+        switch (IconType)
+        {
+            case IconType.Attack:
+                ClientManager.Instance.StateManager.Actions.SetPlayerActiveAttack(IconTypeKey);
+                for (var i = 0; i < 6; i++)
+                {
+                    var skill = gameObject.transform.parent.Find($"Skill{i + 1}").gameObject.GetComponent<HotbarSkill>();
+                    if (skill.image.sprite == HotbarSkillAttack) { 
+                        skill.image.sprite = HotbarSkillNormal; 
+                    }
+                }
+                image.sprite = HotbarSkillAttack;
+                break;
+            case IconType.Skill:
+                //ClientManager.Instance.StateManager.Actions.SetPlayerActiveAttack(IconTypeKey);
+                //for (var i = 0; i < 6; i++)
+                //{
+                //    var skill = gameObject.transform.parent.Find($"Skill{i + 1}").gameObject.GetComponent<HotbarSkill>();
+                //    if (skill.image.sprite = HotbarSkillAttack) { skill.image.sprite = HotbarSkillNormal; }
+                //}
+                image.sprite = HotbarSkillActive;
+                break;
+
+        }
     }
 
     void Start()

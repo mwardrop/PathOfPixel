@@ -21,10 +21,13 @@ public enum NetworkTags
     UpdateEnemyLocation = 14,
     PlayerHitEnemy = 15,
     EnemyAttack = 16,
-
     UpdatePlayerState = 17,
     CalculatePlayerState = 18,
+
     SetPlayerActiveAttack = 19,
+    SetPlayerHotbarItem = 20,
+    PlayerActivateSkill = 21,
+
 
 
 
