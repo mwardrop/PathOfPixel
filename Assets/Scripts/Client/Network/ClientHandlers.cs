@@ -61,9 +61,6 @@ public class ClientHandlers
                 case NetworkTags.SetPlayerActiveAttack:
                     SetPlayerActiveAttack(message.Deserialize<StringIntegerData>());
                     break;
-                    //case NetworkTags.UpdateEnemyLocation:
-                    //    UpdateEnemyLocation(message.Deserialize<UpdateEnemyLocationData>());
-                    //    break;
 
             }
         }
@@ -217,26 +214,5 @@ public class ClientHandlers
         playerState.ActiveAttack = stringIntegerData.String;
         StateManager.StateCalculator.CalcCharacterState(playerState);
     }
-
-    //public void UpdateEnemyLocation(UpdateEnemyLocationData updateEnemyLocationData)
-    //{
-    //    var enemyGuid = updateEnemyLocationData.EnemyGuid;
-    //    var location = updateEnemyLocationData.Location;
-    //    var sceneName = updateEnemyLocationData.SceneName;
-
-    //    var enemySprite = StateManager.GetEnemyGameObject(enemyGuid)
-    //        .GetComponent<EnemySprite>();
-
-    //    if (enemySprite.TargetPlayerId != ClientManager.Instance.Client.ID)
-    //    {
-    //        // Correct the enemies position if client is too far out of sync with server
-    //        if (Vector2.Distance(new Vector2(enemySprite.transform.position.x, enemySprite.transform.position.y), location) > 1)
-    //        {
-    //            var enemyState = WorldState.GetEnemyState(enemyGuid, sceneName);
-
-    //            enemyState.Location = location;
-    //        }
-    //    }
-    //}
 
 }

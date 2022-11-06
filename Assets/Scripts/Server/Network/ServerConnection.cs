@@ -172,11 +172,6 @@ public class ServerConnection
         StateManager.WorldState.GetEnemyState(
             updateEnemyLocationData.EnemyGuid,
             updateEnemyLocationData.SceneName).Location = updateEnemyLocationData.Location;
-
-        //ServerManager.BroadcastNetworkMessage(
-        //    NetworkTags.UpdateEnemyLocation,
-        //    updateEnemyLocationData);
-
     }
 
     private void UpdatePlayerState(IntegerData integerData)
@@ -212,8 +207,7 @@ public class ServerConnection
         BroadcastNetworkMessage(
             NetworkTags.SetPlayerActiveAttack,
             new StringIntegerData(stringData.String, PlayerState.ClientId)
-        ); ;
-
+        );
     }
 
     private void SendNetworkMessage(NetworkTags networkTag, IDarkRiftSerializable payload)
