@@ -7,7 +7,15 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UIElements;
 
-public class Icon : MonoBehaviour, IDragHandler
+public enum IconType
+{
+    Attack,
+    Skill,
+    Passive,
+    Item
+}
+
+public class Icon : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDragHandler
 {
 
     public Sprite AttackIcon1;
@@ -126,8 +134,11 @@ public class Icon : MonoBehaviour, IDragHandler
 
     public Sprite CurrentIcon;
 
-    private GameObject DragIcon;
+    private GameObject DragIconObject;
     private bool IsDragging = false;
+    public bool IsDraggable = false;
+    public IconType Type;
+    public string TypeKey;
 
     private UnityEngine.UI.Image _image;
     public UnityEngine.UI.Image image
@@ -143,27 +154,58 @@ public class Icon : MonoBehaviour, IDragHandler
     public void Update()
     {
         image.sprite = CurrentIcon;
-        if(Input.GetMouseButtonUp(0) && IsDragging)
+
+        if(IsDraggable && IsDragging && Input.GetMouseButtonUp(0))
         {
             GameObject.Destroy(this.gameObject);
         }
     }
 
+    private CanvasGroup canvasGroup;
+
+    public void Awake()
+    {
+        canvasGroup = GetComponent<CanvasGroup>();
+    }
+
     public void OnDrag(PointerEventData eventData)
     {
-        print("Icon being dragged!");
-        if(DragIcon == null)
+        if (IsDraggable)
         {
-            DragIcon = CreateInstance.Prefab(this.gameObject, transform.position);
-            DragIcon.GetComponent<Icon>().CurrentIcon = CurrentIcon;
-            DragIcon.GetComponent<Icon>().IsDragging = true;
-            DragIcon.transform.parent = GameObject.FindWithTag("HUD").transform;
+            if (DragIconObject == null)
+            {             
+                DragIconObject = CreateInstance.Prefab(this.gameObject, transform.position);
+                DragIconObject.transform.SetParent(GameObject.FindWithTag("HUD").transform);
+                DragIconObject.GetComponent<CanvasGroup>().alpha = 0.6f;
+                DragIconObject.transform.localScale = Vector3.one * 0.2f;
+
+                Icon dragIcon = DragIconObject.GetComponent<Icon>();
+                dragIcon.CurrentIcon = CurrentIcon;
+                dragIcon.IsDragging = true;
+                dragIcon.Type = Type;
+                dragIcon.TypeKey = TypeKey;
+            }
+            
+            DragIconObject.transform.position = eventData.position;           
         }
-        
-        DragIcon.transform.position = eventData.position;
-        DragIcon.transform.localScale = Vector3.one * 0.2f;
 
     }
 
+    public void OnBeginDrag(PointerEventData eventData)
+    {
+        if (IsDraggable)
+        {
+            canvasGroup.blocksRaycasts = false;
+        }
+
+    }
+
+    public void OnEndDrag(PointerEventData eventData)
+    {
+        if (IsDraggable)
+        {
+            canvasGroup.blocksRaycasts = true;
+        }
+    }
 }
 

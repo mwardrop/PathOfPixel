@@ -71,6 +71,9 @@ public class SkillsPanel : BasePanel
 
                         level.text = ClientManager.Instance.StateManager.PlayerState.Attacks.First(x => x.Key == attack.GetName()).Value.ToString();
                         icon.CurrentIcon = (Sprite)icon.GetType().GetField($"AttackIcon{attack.IconId}").GetValue(icon);
+                        icon.IsDraggable = true;
+                        icon.Type = IconType.Attack;
+                        icon.TypeKey = playerType.Attacks[i].GetName();
                         frame.gameObject.SetActive(true);
                     }
                     break;
@@ -81,6 +84,9 @@ public class SkillsPanel : BasePanel
 
                         level.text = ClientManager.Instance.StateManager.PlayerState.Passives.First(x => x.Key == passive.GetName()).Value.ToString();
                         icon.CurrentIcon = (Sprite)icon.GetType().GetField($"PassiveIcon{passive.IconId}").GetValue(icon);
+                        icon.IsDraggable = false;
+                        icon.Type = IconType.Passive;
+                        icon.TypeKey = playerType.Passives[i].GetName();
                         frame.gameObject.SetActive(true);
                     }
                     break;
@@ -91,6 +97,9 @@ public class SkillsPanel : BasePanel
 
                         level.text = ClientManager.Instance.StateManager.PlayerState.Skills.First(x => x.Key == skill.GetName()).Value.ToString();
                         icon.CurrentIcon = (Sprite)icon.GetType().GetField($"SkillIcon{skill.IconId}").GetValue(icon);
+                        icon.IsDraggable = true;
+                        icon.Type = IconType.Skill;
+                        icon.TypeKey = playerType.Skills[i].GetName();
                         frame.gameObject.SetActive(true);
                     }
                     break;

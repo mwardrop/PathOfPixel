@@ -46,6 +46,8 @@ public class CharacterState : ICharacterState, IDarkRiftSerializable
     public List<KeyValueState> Skills { get; set; }
     public List<KeyValueState> Passives { get; set; }
     public string ActiveAttack { get; set; }
+    public List<String> ActiveSkills { get; set; }
+    public List<String> HotbarItems { get; set; }
 
     public float IncomingPhysicalDamage { get; set; }
     public float IncomingFireDamage { get; set; }
@@ -77,6 +79,8 @@ public class CharacterState : ICharacterState, IDarkRiftSerializable
         Attacks = new List<KeyValueState>();
         Skills = new List<KeyValueState>();
         Passives = new List<KeyValueState>();
+        ActiveSkills = new List<String>();
+        HotbarItems = new List<String>();
     }
 
     public virtual void Deserialize(DeserializeEvent e)
@@ -114,6 +118,11 @@ public class CharacterState : ICharacterState, IDarkRiftSerializable
         KeyValueState[] tempPassives = e.Reader.ReadSerializables<KeyValueState>();
         Passives = tempPassives.ToList();
         ActiveAttack = e.Reader.ReadString();
+        String[] tempActiveSkills = e.Reader.ReadStrings();
+        ActiveSkills = tempActiveSkills.ToList();
+        String[] tempHotbarItems = e.Reader.ReadStrings();
+        HotbarItems = tempHotbarItems.ToList();
+
     }
 
     public virtual void Serialize(SerializeEvent e)
@@ -148,6 +157,8 @@ public class CharacterState : ICharacterState, IDarkRiftSerializable
         e.Writer.Write(Skills.ToArray());
         e.Writer.Write(Passives.ToArray());
         e.Writer.Write(ActiveAttack);
+        e.Writer.Write(ActiveSkills.ToArray());
+        e.Writer.Write(HotbarItems.ToArray());
     }
 }
 
@@ -183,6 +194,8 @@ public interface ICharacterState
     public List<KeyValueState> Skills { get; set; }
     public List<KeyValueState> Passives { get; set; }
     public string ActiveAttack { get; set; }
+    public List<String> ActiveSkills { get; set; }
+    public List<String> HotbarItems { get; set; }
 
     public float IncomingPhysicalDamage { get; set; }
     public float IncomingFireDamage { get; set; }

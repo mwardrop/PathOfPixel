@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 379357087797554629}
   - component: {fileID: 6274600048141902339}
   - component: {fileID: 1677420755768151897}
+  - component: {fileID: 2068367260165742957}
   m_Layer: 5
   m_Name: Icon
   m_TagString: Untagged
@@ -201,3 +202,15 @@ MonoBehaviour:
   PassiveIcon37: {fileID: 303201345, guid: fad9bb5a9d94dbe489c892c5ecacf13b, type: 3}
   PassiveIcon38: {fileID: 1734727999, guid: fad9bb5a9d94dbe489c892c5ecacf13b, type: 3}
   CurrentIcon: {fileID: 0}
+--- !u!225 &2068367260165742957
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4813095452274947168}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
