@@ -1,6 +1,7 @@
 ﻿using DarkRift;
 using DarkRift.Server;
 using Data.Characters;
+using System;
 using System.Collections;
 using System.Linq;
 using UnityEngine;
@@ -102,6 +103,15 @@ public class ServerConnection
             enemyPlayerPairData.SceneName);
 
         var damage = StateManager.GetAttackDamage(PlayerState);
+
+        // Track damage per player for exp reward
+        if(enemy.DamageTracker.Count(x => x.Key == PlayerState.ClientId.ToString()) == 1) {
+            enemy.DamageTracker
+                .First(x => x.Key == PlayerState.ClientId.ToString()).Value += (int)Math.Round(damage.Sum());
+        } else {
+            enemy.DamageTracker
+                .Add(new KeyValueState(PlayerState.ClientId.ToString(), (int)Math.Round(damage.Sum())));
+        }
 
         enemy.IncomingPhysicalDamage += damage[0];
         enemy.IncomingFireDamage += damage[1];

@@ -2,6 +2,7 @@
 using DarkriftSerializationExtensions;
 using Data.Characters;
 using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 
@@ -22,6 +23,7 @@ public class EnemyState : CharacterState, ICharacterState, IDarkRiftSerializable
     public Guid EnemyGuid { get; set; }
     public int TargetPlayerId { get; set; }
     public Vector2 HomeLocation { get; set; }
+    public List<KeyValueState> DamageTracker {get; set;}
 
     public EnemyState():base()
     {
@@ -42,6 +44,7 @@ public class EnemyState : CharacterState, ICharacterState, IDarkRiftSerializable
     {
         EnemyGuid = Guid.NewGuid();
         TargetPlayerId = -1;
+        DamageTracker = new List<KeyValueState>();
     }
 
     public override void Deserialize(DeserializeEvent e)

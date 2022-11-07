@@ -26,6 +26,7 @@ namespace Data.Characters
         public float Accuracy { get; set; }
         public float CritChance { get; set; }
         public float MoveSpeed { get; set; }
+        public int Experience { get; set; }
 
         public List<IAttack> Attacks { get; set; }
         public List<ISkill> Skills { get; set; }
@@ -54,6 +55,7 @@ namespace Data.Characters
         public float Accuracy { get; set; }
         public float CritChance { get; set; }
         public float MoveSpeed { get; set; }
+        public int Experience { get; set; }
 
         public List<IAttack> Attacks { get; set; }
         public List<ISkill> Skills { get; set; }
@@ -84,8 +86,8 @@ namespace Data.Characters
             MoveSpeed = 3f;
             BleedChance = 1;
             Accuracy = 20;
+            Experience = (1000 * level) * level;
             
-
             Attacks = new List<IAttack>() {
                 new SweepAttack(1),
                 new SlamAttack()
@@ -120,6 +122,7 @@ namespace Data.Characters
             ManaRegen = 1;
             PhysicalDamage = 5 + (level * 2);
             MoveSpeed = 1f;
+            Experience = 10 * level;
 
             Attacks = new List<IAttack>() {
                 new SweepAttack(){Level = 1}

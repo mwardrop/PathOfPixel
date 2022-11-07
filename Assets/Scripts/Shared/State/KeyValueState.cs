@@ -11,6 +11,12 @@ public class KeyValueState : IDarkRiftSerializable
 
     }
 
+    public KeyValueState(string key, int value)
+    {
+        Key = key;
+        Value = value;
+    }
+
     public void Deserialize(DeserializeEvent e)
     {
 

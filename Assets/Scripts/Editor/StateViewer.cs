@@ -3,11 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using UnityEditor;
-using UnityEditor.EditorTools;
 using UnityEngine;
-using UnityEngine.SceneManagement;
-using static Codice.Client.BaseCommands.Import.Commit;
-using static UnityEngine.EventSystems.EventTrigger;
 
 namespace Client.Editor
 {
@@ -250,7 +246,10 @@ namespace Client.Editor
 
                                     foreach (KeyValueState kv in list)
                                     {
-                                        EditorGUILayout.LabelField($"{kv.Key}", kv.Value.ToString());
+                                        var displayKey = kv.Key;
+                                        if (displayKey.All(char.IsNumber)) { displayKey = $"{propertyInfo.Name} {displayKey}"; }
+
+                                        EditorGUILayout.LabelField($"{displayKey}", kv.Value.ToString());
                                     }
                                 }
                             }
