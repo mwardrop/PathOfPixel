@@ -53,7 +53,7 @@ namespace Data.Attacks
     public class SweepAttack: BaseAttack, IAttack
     {
     
-        public SweepAttack(int level = 0) : base(level)
+        public SweepAttack(int level = 1) : base(level)
         {
             Name = "Sweep";
             Description = "Sweep your weapon across enemies.";
@@ -74,7 +74,7 @@ namespace Data.Attacks
     public class SlamAttack : BaseAttack, IAttack
     { 
 
-        public SlamAttack(int level = 0) : base(level)
+        public SlamAttack(int level = 1) : base(level)
         {
             Name = "Slam";
             Description = "Slam your weapon into the ground, knocking back enemies.";

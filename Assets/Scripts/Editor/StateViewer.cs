@@ -1,9 +1,12 @@
-﻿using System;
+﻿using DarkRift;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using UnityEditor;
 using UnityEngine;
+using UnityEngine.Rendering;
+using static UnityEngine.EventSystems.EventTrigger;
 
 namespace Client.Editor
 {
@@ -40,7 +43,6 @@ namespace Client.Editor
 
         protected static Vector2 Column1Scroll;
         protected static Vector2 Column2Scroll;
-        protected static Vector2 Column3Scroll;
 
         // Add menu item named "My Window" to the Window menu
         [MenuItem("Window/Game State Viewer")]
@@ -59,7 +61,7 @@ namespace Client.Editor
                 return;
             }
 
-            if (!ClientManager.Instance.Client.Connected)
+            if (ClientManager.Instance.Client.ConnectionState != ConnectionState.Connected)
             {
                 ShowError("Client not connected.");
                 return;
@@ -83,7 +85,7 @@ namespace Client.Editor
 
                 Column1Scroll = EditorGUILayout.BeginScrollView(Column1Scroll);
 
-                RenderPlayerViewer();
+                RenderPlayerUIColumn();
 
                 EditorGUILayout.EndScrollView();
 
@@ -93,18 +95,16 @@ namespace Client.Editor
 
                 Column2Scroll = EditorGUILayout.BeginScrollView(Column2Scroll);
 
-                RenderEnemyViewer();
+                RenderEnemyUIColumn();
 
                 EditorGUILayout.EndScrollView();
 
                 GUILayout.EndVertical();
 
                 GUILayout.EndHorizontal();
-
-
         }
 
-        private void RenderPlayerViewer()
+        private void RenderPlayerUIColumn()
         {
   
             ShowSelectPlayer = EditorGUILayout.Foldout(ShowSelectPlayer, "Select Player");
@@ -141,51 +141,54 @@ namespace Client.Editor
             ShowServerPlayer = EditorGUILayout.Foldout(ShowServerPlayer, "Server Player State");
             if (ShowServerPlayer)
             {
-                var serverPlayerState = ServerManager.Instance.Connections[SelectedPlayer].PlayerState;
-
-                foreach (PropertyInfo propertyInfo in ServerManager.Instance.Connections[SelectedPlayer].PlayerState.GetType().GetProperties())
-                {
-                    if (!(propertyInfo.PropertyType == typeof(List<KeyValueState>))){
-                        EditorGUILayout.LabelField(propertyInfo.Name, propertyInfo.GetValue(ServerManager.Instance.Connections[SelectedPlayer].PlayerState).ToString());
-                    } else
-                    {
-                        List<KeyValueState>list = (List<KeyValueState>)propertyInfo.GetValue(
-                            ServerManager.Instance.Connections[SelectedPlayer].PlayerState);
-
-                        foreach (KeyValueState kv in list)
-                        {
-                            EditorGUILayout.LabelField($"{kv.Key}", kv.Value.ToString());
-                        }
-                    }
-                }
+                RenderPlayerView(ServerManager.Instance.Connections[SelectedPlayer].PlayerState);
             }
             EditorGUILayout.LabelField("---------------------------------");
 
             ShowLocalPlayer = EditorGUILayout.Foldout(ShowLocalPlayer, "Local Player State");
             if (ShowLocalPlayer)
             {
-                foreach (PropertyInfo propertyInfo in ClientManager.Instance.StateManager.WorldState.GetPlayerState(SelectedPlayer).GetType().GetProperties())
-                {
-                    if (!(propertyInfo.PropertyType == typeof(List<KeyValueState>)))
-                    {
-                        EditorGUILayout.LabelField(propertyInfo.Name, propertyInfo.GetValue(ClientManager.Instance.StateManager.PlayerState).ToString());
-                    } else
-                    {
-                        List<KeyValueState> list = (List<KeyValueState>)propertyInfo.GetValue(
-                            ClientManager.Instance.StateManager.WorldState.GetPlayerState(SelectedPlayer));
-
-                        foreach (KeyValueState kv in list)
-                        {
-                            EditorGUILayout.LabelField($"{kv.Key}", kv.Value.ToString());
-                        }
-                    }
-
-                }
+                RenderPlayerView(ClientManager.Instance.StateManager.WorldState.GetPlayerState(SelectedPlayer));               
             }
             EditorGUILayout.LabelField("---------------------------------");
         }
 
-        private void RenderEnemyViewer()
+        private void RenderPlayerView(PlayerState playerState)
+        {
+
+            foreach (PropertyInfo propertyInfo in playerState.GetType().GetProperties())
+            {
+                if (propertyInfo.PropertyType == typeof(List<KeyValueState>))
+                {
+                    List<KeyValueState> list = (List<KeyValueState>)propertyInfo.GetValue(
+                        playerState);
+
+                    foreach (KeyValueState kv in list)
+                    {
+                        var displayKey = kv.Key;
+                        if (displayKey.All(char.IsNumber)) { displayKey = $"{propertyInfo.Name} {displayKey}"; }
+
+                        EditorGUILayout.LabelField($"{displayKey}", kv.Value.ToString());
+                    }
+                }
+                else if (propertyInfo.PropertyType == typeof(List<string>))
+                {
+                    List<string> list = (List<string>)propertyInfo.GetValue(
+                       playerState);
+
+                    foreach (string s in list)
+                    {
+                        EditorGUILayout.LabelField($"{propertyInfo.Name}", s);
+                    }
+                }
+                else
+                {
+                    EditorGUILayout.LabelField(propertyInfo.Name, propertyInfo.GetValue(playerState).ToString());
+                }
+            }
+        }
+
+        private void RenderEnemyUIColumn()
         {
             ShowSelectEnemy = EditorGUILayout.Foldout(ShowSelectEnemy, "Select Enemy");
             if (ShowSelectEnemy)
@@ -233,26 +236,7 @@ namespace Client.Editor
                     {
                         if (enemy.EnemyGuid == SelectedEnemy)
                         {
-                            foreach (PropertyInfo propertyInfo in enemy.GetType().GetProperties())
-                            {
-                                if (!(propertyInfo.PropertyType == typeof(List<KeyValueState>)))
-                                {
-                                    EditorGUILayout.LabelField(propertyInfo.Name, propertyInfo.GetValue(enemy).ToString());
-                                }
-                                else
-                                {
-                                    List<KeyValueState> list = (List<KeyValueState>)propertyInfo.GetValue(
-                                        enemy);
-
-                                    foreach (KeyValueState kv in list)
-                                    {
-                                        var displayKey = kv.Key;
-                                        if (displayKey.All(char.IsNumber)) { displayKey = $"{propertyInfo.Name} {displayKey}"; }
-
-                                        EditorGUILayout.LabelField($"{displayKey}", kv.Value.ToString());
-                                    }
-                                }
-                            }
+                            RenderEnemyView(enemy);
                         }
                     }
                 }
@@ -268,28 +252,56 @@ namespace Client.Editor
                     {
                         if (enemy.EnemyGuid == SelectedEnemy)
                         {
-                            foreach (PropertyInfo propertyInfo in enemy.GetType().GetProperties())
-                            {
-                                if (!(propertyInfo.PropertyType == typeof(List<KeyValueState>)))
-                                {
-                                    EditorGUILayout.LabelField(propertyInfo.Name, propertyInfo.GetValue(enemy).ToString());
-                                }
-                                else
-                                {
-                                    List<KeyValueState> list = (List<KeyValueState>)propertyInfo.GetValue(
-                                        enemy);
-
-                                    foreach (KeyValueState kv in list)
-                                    {
-                                        EditorGUILayout.LabelField($"{kv.Key}", kv.Value.ToString());
-                                    }
-                                }
-                            }
+                            RenderEnemyView(enemy);
                         }
                     }
                 }
             }
             EditorGUILayout.LabelField("---------------------------------");
+        }
+
+        private void RenderEnemyView(EnemyState enemyState)
+        {
+            foreach (PropertyInfo propertyInfo in enemyState.GetType().GetProperties())
+            {
+
+                if (propertyInfo.PropertyType == typeof(List<KeyValueState>))
+                {
+                    List<KeyValueState> list = (List<KeyValueState>)propertyInfo.GetValue(
+                        enemyState);
+
+                    foreach (KeyValueState kv in list)
+                    {
+                        var displayKey = kv.Key;
+                        if (displayKey.All(char.IsNumber)) { displayKey = $"{propertyInfo.Name} {displayKey}"; }
+
+                        EditorGUILayout.LabelField($"{displayKey}", kv.Value.ToString());
+                    }
+                }
+                else if(propertyInfo.PropertyType == typeof(List<string>))
+                {
+                    List<string> list = (List<string>)propertyInfo.GetValue(
+                       enemyState);
+
+                    foreach (string s in list)
+                    {
+                        EditorGUILayout.LabelField($"{propertyInfo.Name}", s);
+                    }
+                } else
+                {
+                    EditorGUILayout.LabelField(propertyInfo.Name, propertyInfo.GetValue(enemyState).ToString());
+                }
+            }
+        }
+
+        private void RenderListKeyValueState(List<KeyValueState> list)
+        {
+
+        }
+
+        private void RenderListString(List<String> list)
+        {
+
         }
 
         private void OnInspectorUpdate()

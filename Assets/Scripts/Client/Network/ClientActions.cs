@@ -1,4 +1,6 @@
-﻿using UnityEngine;
+﻿using System.Linq;
+using UnityEngine;
+using UnityEngine.Playables;
 
 public class ClientActions {
 
@@ -53,6 +55,8 @@ public class ClientActions {
 
     public void UpdateEnemyLocation(System.Guid enemyGuid, Vector2 location, string scene)
     {
+        // TODO : Probably shouldnt have state management here. Can this be removed, I dont think
+        //        we check anything client side against the enemies current state location
         ClientManager.Instance.StateManager.WorldState
             .GetEnemyState(enemyGuid, scene).Location = location;
 
@@ -81,6 +85,27 @@ public class ClientActions {
         ClientManager.SendNetworkMessage(
             NetworkTags.SetPlayerActiveAttack,
             new StringData(key));
+    }
+
+    public void SpendAttackPoint(string name)
+    {
+        ClientManager.SendNetworkMessage(
+            NetworkTags.SpendAttackPoint,
+            new StringData(name));
+    }
+
+    public void SpendSkillPoint(string name)
+    {
+        ClientManager.SendNetworkMessage(
+            NetworkTags.SpendSkillPoint,
+            new StringData(name));      
+    }
+
+    public void SpendPassivePoint(string name)
+    {
+        ClientManager.SendNetworkMessage(
+            NetworkTags.SpendPassivePoint,
+            new StringData(name));
     }
 
 }

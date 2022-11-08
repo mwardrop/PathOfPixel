@@ -90,24 +90,24 @@ namespace Data.Characters
             
             Attacks = new List<IAttack>() {
                 new SweepAttack(1),
-                new SlamAttack()
+                new SlamAttack(0)
             };
 
             Skills = new List<ISkill>()
             {
-                new SummerSolsticeSkill(),
-                new WinterSolsticeSkill(),
-                new FrenzySkill(),
-                new BurningSummerSkill(),
-                new FreezingWinterSkill(),
-                new BleedingFurySkill()
+                new SummerSolsticeSkill(0),
+                new WinterSolsticeSkill(0),
+                new FrenzySkill(0),
+                new BurningSummerSkill(0),
+                new FreezingWinterSkill(0),
+                new BleedingFurySkill(0)
             };
 
             Passives = new List<IPassive>()
             {
-                new AggressionPassive(),
-                new ImmolationPassive(),
-                new HypothermiaPassive()          
+                new AggressionPassive(0),
+                new ImmolationPassive(0),
+                new HypothermiaPassive(0)          
             };
         }
     }
@@ -125,7 +125,7 @@ namespace Data.Characters
             Experience = 10 * level;
 
             Attacks = new List<IAttack>() {
-                new SweepAttack(){Level = 1}
+                new SweepAttack(1)
             };
 
             Skills = new List<ISkill>();

@@ -15,6 +15,7 @@ public class PlayerState: CharacterState, ICharacterState, IDarkRiftSerializable
     public int AttackPoints { get; set; }
     public int SkillPoints { get; set; }
     public int PassivePoints { get; set; }
+    public List<String> HotbarItems { get; set; }
 
     public PlayerState(): base()
     {
@@ -34,6 +35,7 @@ public class PlayerState: CharacterState, ICharacterState, IDarkRiftSerializable
     private void Initialize()
     {
         Inventory = new List<ItemState>();
+        HotbarItems = new List<String>();
     }
 
     public override void Deserialize(DeserializeEvent e)
@@ -47,7 +49,8 @@ public class PlayerState: CharacterState, ICharacterState, IDarkRiftSerializable
         AttackPoints = e.Reader.ReadInt32();
         SkillPoints = e.Reader.ReadInt32();
         PassivePoints = e.Reader.ReadInt32();
-
+        String[] tempHotbarItems = e.Reader.ReadStrings();
+        HotbarItems = tempHotbarItems.ToList();
     }
 
     public override void Serialize(SerializeEvent e)
@@ -60,6 +63,7 @@ public class PlayerState: CharacterState, ICharacterState, IDarkRiftSerializable
         e.Writer.Write(AttackPoints);
         e.Writer.Write(SkillPoints);
         e.Writer.Write(PassivePoints);
+        e.Writer.Write(HotbarItems.ToArray());
     }
 
 }

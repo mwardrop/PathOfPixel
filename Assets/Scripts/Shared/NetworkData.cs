@@ -24,6 +24,9 @@ public enum NetworkTags
     UpdatePlayerState = 17,
     CalculatePlayerState = 18,
     SetPlayerActiveAttack = 19,
+    SpendAttackPoint = 20,
+    SpendSkillPoint = 21,
+    SpendPassivePoint = 22,
 }
 
 public struct LoginRequestData : IDarkRiftSerializable

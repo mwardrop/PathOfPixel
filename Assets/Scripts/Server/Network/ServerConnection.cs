@@ -34,6 +34,7 @@ public class ServerConnection
                 new Warrior()
             )
         );
+        PlayerState.AttackPoints = PlayerState.SkillPoints = PlayerState.PassivePoints = 50;
     }
 
     public void Disconnect()
@@ -84,6 +85,16 @@ public class ServerConnection
                 case NetworkTags.SetPlayerActiveAttack:
                     SetPlayerActiveAttack(message.Deserialize<StringData>());
                     break;
+                case NetworkTags.SpendAttackPoint:
+                    SpendAttackPoint(message.Deserialize<StringData>());
+                    break;
+                case NetworkTags.SpendSkillPoint:
+                    SpendSkillPoint(message.Deserialize<StringData>());
+                    break;
+                case NetworkTags.SpendPassivePoint:
+                    SpendPassivePoint(message.Deserialize<StringData>());
+                    break;
+
             }
         }
     }
@@ -219,6 +230,39 @@ public class ServerConnection
             NetworkTags.SetPlayerActiveAttack,
             new StringIntegerData(stringData.String, PlayerState.ClientId)
         );
+    }
+
+    private void SpendAttackPoint(StringData stringData)
+    {
+        if (PlayerState.AttackPoints > 0)
+        {
+            PlayerState.AttackPoints -= 1;
+            PlayerState.Attacks
+                .First(x => x.Key == stringData.String).Value += 1;
+
+        }
+    }
+
+    private void SpendSkillPoint(StringData stringData)
+    {
+        if (PlayerState.SkillPoints > 0)
+        {
+            PlayerState.SkillPoints -= 1;
+            PlayerState.Skills
+                .First(x => x.Key == stringData.String).Value += 1;
+
+        }
+    }
+
+    private void SpendPassivePoint(StringData stringData)
+    {
+        if (PlayerState.PassivePoints > 0)
+        {
+            PlayerState.PassivePoints -= 1;
+            PlayerState.Passives
+                .First(x => x.Key == stringData.String).Value += 1;
+
+        }
     }
 
     private void SendNetworkMessage(NetworkTags networkTag, IDarkRiftSerializable payload)
