@@ -27,6 +27,7 @@ public enum NetworkTags
     SpendAttackPoint = 20,
     SpendSkillPoint = 21,
     SpendPassivePoint = 22,
+    SetPlayerDirection = 23,
 }
 
 public struct LoginRequestData : IDarkRiftSerializable

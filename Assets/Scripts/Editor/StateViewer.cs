@@ -79,18 +79,20 @@ namespace Client.Editor
             }
 
 
-                GUILayout.BeginHorizontal(); //side by side columns
+            GUILayout.BeginHorizontal(); //side by side columns
 
-                GUILayout.BeginVertical(); //Layout objects vertically in each column
+            GUILayout.BeginVertical(); //Layout objects vertically in each column
 
-                Column1Scroll = EditorGUILayout.BeginScrollView(Column1Scroll);
+            Column1Scroll = EditorGUILayout.BeginScrollView(Column1Scroll);
 
-                RenderPlayerUIColumn();
+            RenderPlayerUIColumn();
 
-                EditorGUILayout.EndScrollView();
+            EditorGUILayout.EndScrollView();
 
-                GUILayout.EndVertical();
+            GUILayout.EndVertical();
 
+            if (ClientManager.IsHost)
+            {
                 GUILayout.BeginVertical();
 
                 Column2Scroll = EditorGUILayout.BeginScrollView(Column2Scroll);
@@ -100,50 +102,54 @@ namespace Client.Editor
                 EditorGUILayout.EndScrollView();
 
                 GUILayout.EndVertical();
+            }
 
-                GUILayout.EndHorizontal();
+            GUILayout.EndHorizontal();
         }
 
         private void RenderPlayerUIColumn()
         {
-  
-            ShowSelectPlayer = EditorGUILayout.Foldout(ShowSelectPlayer, "Select Player");
-            if (ShowSelectPlayer)
-            {
-                foreach (PlayerState player in ServerManager.Instance.StateManager.WorldState.Players)
+
+            if (ClientManager.IsHost) { 
+            
+                ShowSelectPlayer = EditorGUILayout.Foldout(ShowSelectPlayer, "Select Player");
+                if (ShowSelectPlayer)
                 {
-                    if (Players.Count(x => x.id == player.ClientId) == 0)
+                    foreach (PlayerState player in ServerManager.Instance.StateManager.WorldState.Players)
                     {
-                        if (Players.Count() == 0)
+                        if (Players.Count(x => x.id == player.ClientId) == 0)
                         {
-                            Players.Add(new PlayersItem() { id = player.ClientId, selected = true });
+                            if (Players.Count() == 0)
+                            {
+                                Players.Add(new PlayersItem() { id = player.ClientId, selected = true });
+                            }
+                            else
+                            {
+                                Players.Add(new PlayersItem() { id = player.ClientId, selected = false });
+
+                            }
                         }
-                        else
+                        Players.First(x => x.id == player.ClientId).selected =
+                            EditorGUILayout.Toggle(player.Name, Players.First(x => x.id == player.ClientId).selected);
+
+                        if (Players.First(x => x.id == player.ClientId).selected == true &&
+                            Players.First(x => x.id == player.ClientId).id != SelectedPlayer)
                         {
-                            Players.Add(new PlayersItem() { id = player.ClientId, selected = false });
+                            Players.First(x => x.selected == true).selected = false;
+                            SelectedPlayer = Players.First(x => x.id == player.ClientId).id;
 
                         }
-                    }
-                    Players.First(x => x.id == player.ClientId).selected =
-                        EditorGUILayout.Toggle(player.Name, Players.First(x => x.id == player.ClientId).selected);
-
-                    if (Players.First(x => x.id == player.ClientId).selected == true &&
-                        Players.First(x => x.id == player.ClientId).id != SelectedPlayer)
-                    {
-                        Players.First(x => x.selected == true).selected = false;
-                        SelectedPlayer = Players.First(x => x.id == player.ClientId).id;
-
                     }
                 }
-            }
-            EditorGUILayout.LabelField("---------------------------------");
+                EditorGUILayout.LabelField("---------------------------------");
 
-            ShowServerPlayer = EditorGUILayout.Foldout(ShowServerPlayer, "Server Player State");
-            if (ShowServerPlayer)
-            {
-                RenderPlayerView(ServerManager.Instance.Connections[SelectedPlayer].PlayerState);
+                ShowServerPlayer = EditorGUILayout.Foldout(ShowServerPlayer, "Server Player State");
+                if (ShowServerPlayer)
+                {
+                    RenderPlayerView(ServerManager.Instance.Connections[SelectedPlayer].PlayerState);
+                }
+                EditorGUILayout.LabelField("---------------------------------");
             }
-            EditorGUILayout.LabelField("---------------------------------");
 
             ShowLocalPlayer = EditorGUILayout.Foldout(ShowLocalPlayer, "Local Player State");
             if (ShowLocalPlayer)

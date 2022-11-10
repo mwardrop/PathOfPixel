@@ -124,7 +124,7 @@ public abstract class CharacterSprite : BaseSprite
         }
     }
 
-    public SpriteDirection SetDirection(Vector3 target)
+    public SpriteDirection DirectionToTaget(Vector3 target)
     {
         SpriteDirection _direction;
 
@@ -149,11 +149,15 @@ public abstract class CharacterSprite : BaseSprite
             }
         }
 
-        this.SetDirection(_direction);
         return _direction;
     }
 
-    protected void SetDirection(SpriteDirection _direction)
+    public SpriteDirection SetDirection(Vector3 target)
+    {
+        return this.SetDirection(DirectionToTaget(target));
+    }
+
+    public SpriteDirection SetDirection(SpriteDirection _direction)
     {
 
         this.direction = _direction;
@@ -177,6 +181,8 @@ public abstract class CharacterSprite : BaseSprite
                 animator.SetFloat("MoveY", 1);
                 break;
         }
+
+        return this.direction;
     }
 
     public void MoveToDestination(Vector3 destination, float speed = 0)

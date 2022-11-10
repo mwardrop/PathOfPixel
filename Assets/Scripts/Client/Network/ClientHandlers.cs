@@ -62,6 +62,9 @@ public class ClientHandlers
                 case NetworkTags.SetPlayerActiveAttack:
                     SetPlayerActiveAttack(message.Deserialize<StringIntegerData>());
                     break;
+                case NetworkTags.SetPlayerDirection:
+                    SetPlayerDirection(message.Deserialize<IntegerPairData>());
+                    break;
 
             }
         }
@@ -181,7 +184,9 @@ public class ClientHandlers
     {
         int clientId = integerData.Integer;
 
-        var attack = CreateInstance.Attack(PlayerState.ActiveAttack);
+        PlayerState playerState = StateManager.WorldState.GetPlayerState(clientId);
+
+        var attack = CreateInstance.Attack(playerState.ActiveAttack);
 
         StateManager.GetPlayerGameObject(clientId)
             .GetComponent<PlayerSprite>().SetState(
@@ -217,6 +222,11 @@ public class ClientHandlers
 
         playerState.ActiveAttack = stringIntegerData.String;
         StateManager.StateCalculator.CalcCharacterState(playerState);
+    }
+
+    public void SetPlayerDirection(IntegerPairData integerData)
+    {
+        StateManager.GetPlayerGameObject(integerData.Integer1).GetComponent<CharacterSprite>().SetDirection((SpriteDirection)integerData.Integer2);
     }
 
 }

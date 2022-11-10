@@ -94,6 +94,9 @@ public class ServerConnection
                 case NetworkTags.SpendPassivePoint:
                     SpendPassivePoint(message.Deserialize<StringData>());
                     break;
+                case NetworkTags.SetPlayerDirection:
+                    SetPlayerDirection(message.Deserialize<IntegerData>());
+                    break;
 
             }
         }
@@ -265,6 +268,15 @@ public class ServerConnection
         }
     }
 
+    private void SetPlayerDirection(IntegerData integerData)
+    {
+        // TODO : Probably need to track this in State if we want to do server side combat hit detection
+        BroadcastNetworkMessage(
+             NetworkTags.SetPlayerDirection,
+             new IntegerPairData(Client.ID, integerData.Integer)
+         );
+    }
+
     private void SendNetworkMessage(NetworkTags networkTag, IDarkRiftSerializable payload)
     {
         ServerManager.SendNetworkMessage(Client, networkTag, payload);
@@ -274,4 +286,5 @@ public class ServerConnection
     {
         ServerManager.BroadcastNetworkMessage(networkTag, payload);
     }
+
 }

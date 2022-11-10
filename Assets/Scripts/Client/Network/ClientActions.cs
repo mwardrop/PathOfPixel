@@ -108,4 +108,11 @@ public class ClientActions {
             new StringData(name));
     }
 
+    public void SetPlayerDirection(SpriteDirection direction)
+    {
+        ClientManager.SendNetworkMessage(
+            NetworkTags.SetPlayerDirection,
+            new IntegerData((int)direction));
+    }
+
 }

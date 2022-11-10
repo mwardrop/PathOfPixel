@@ -1,9 +1,7 @@
 using System;
 using System.Collections;
-using UnityEditor.TextCore.Text;
 using UnityEngine;
 using UnityEngine.EventSystems;
-using static UnityEngine.GraphicsBuffer;
 
 public class ClickHandler : MonoBehaviour
 {
@@ -70,7 +68,8 @@ public class ClickHandler : MonoBehaviour
                 }
             }
 
-            playerSprite.SetDirection(target);
+            //playerSprite.SetDirection(target);
+            ClientManager.Instance.StateManager.Actions.SetPlayerDirection(playerSprite.DirectionToTaget(target));
 
             transform.position = target;
 
