@@ -28,6 +28,9 @@ public enum NetworkTags
     SpendSkillPoint = 21,
     SpendPassivePoint = 22,
     SetPlayerDirection = 23,
+    SetPlayerHotbarItem = 24,
+    ActivatePlayerSkill = 25,
+    DeactivatePlayerSkill = 26
 }
 
 public struct LoginRequestData : IDarkRiftSerializable
@@ -383,5 +386,25 @@ public struct UpdateEnemyLocationData : IDarkRiftSerializable
         e.Writer.Write(EnemyGuid.ToString());
         e.Writer.WriteVector2(Location);
         e.Writer.Write(SceneName);
+    }
+}
+
+public struct KeyValueStateData : IDarkRiftSerializable
+{
+    public KeyValueState KeyValueState;
+
+    public KeyValueStateData(KeyValueState keyValueState)
+    {
+        KeyValueState = keyValueState;
+    }
+
+    public void Deserialize(DeserializeEvent e)
+    {
+        KeyValueState = e.Reader.ReadSerializable<KeyValueState>();
+    }
+
+    public void Serialize(SerializeEvent e)
+    {
+        e.Writer.Write(KeyValueState);
     }
 }

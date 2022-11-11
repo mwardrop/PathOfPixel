@@ -3,12 +3,15 @@ using Data.Characters;
 using System;
 using UnityEngine.TextCore.Text;
 using Random = UnityEngine.Random;
+using System.Collections.Generic;
+using System.Linq;
 
 public class ServerStateManager
 {
     public WorldState WorldState;
     public StateUpdater StateUpdater;
     public StateCalculator StateCalculator;
+    public List<ActivatedPlayerSkill> ActivatedPlayerSkills;
 
     private ItemGenerator ItemGenerator;
 
@@ -18,6 +21,7 @@ public class ServerStateManager
         StateUpdater = new StateUpdater();
         ItemGenerator = new ItemGenerator();
         StateCalculator = new StateCalculator();
+        ActivatedPlayerSkills = new List<ActivatedPlayerSkill>();
 
         SceneState OverworldScene = new SceneState() { Name = "OverworldScene" };
 
@@ -59,6 +63,19 @@ public class ServerStateManager
                 characterState.ColdDamage - (characterState.ColdDamage / 100) * (100 - characterState.Accuracy),
                 characterState.ColdDamage)
         };
+    }
+
+    public void ActivatePlayerSkill(PlayerState playerState, string skill)
+    {
+        if (ActivatedPlayerSkills.Count(x => x.PlayerState == playerState && x.Skill.GetName() == skill) == 0)
+        {
+            ActivatedPlayerSkills.Add(new ActivatedPlayerSkill(
+                playerState.Scene,
+                playerState,
+                CreateInstance.Skill(skill, playerState.Skills.First(x => x.Key == skill).Value),
+                ActivatedPlayerSkills
+                ).Activate());
+        }
     }
 
     //public GameObject generateWorldDrop(GameObject dropObject, int itemLevel)

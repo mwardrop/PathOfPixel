@@ -1,6 +1,6 @@
 ﻿using System.Linq;
 
-namespace Data
+namespace Data.Passives
 {
     public interface IPassive
     {

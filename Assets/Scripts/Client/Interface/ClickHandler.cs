@@ -68,7 +68,6 @@ public class ClickHandler : MonoBehaviour
                 }
             }
 
-            //playerSprite.SetDirection(target);
             ClientManager.Instance.StateManager.Actions.SetPlayerDirection(playerSprite.DirectionToTaget(target));
 
             transform.position = target;

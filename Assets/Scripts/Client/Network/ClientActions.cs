@@ -4,6 +4,13 @@ using UnityEngine.Playables;
 
 public class ClientActions {
 
+    public ClientStateManager StateManager;
+
+    public ClientActions(ClientStateManager stateManager)
+    {
+        StateManager = stateManager;
+    }
+
     public void Spawn()
     {
         ClientManager.SendNetworkMessage(NetworkTags.SpawnRequest);
@@ -28,7 +35,7 @@ public class ClientActions {
                 new EnemyPlayerPairData(
                     enemy.GetComponent<EnemySprite>().StateGuid,
                     player.GetComponent<PlayerSprite>().NetworkClientId,
-                    ClientManager.Instance.StateManager.PlayerState.Scene));
+                    StateManager.PlayerState.Scene));
         }
     }
 
@@ -49,7 +56,7 @@ public class ClientActions {
                 new EnemyPlayerPairData(
                     enemy.GetComponent<EnemySprite>().StateGuid,
                     player.GetComponent<PlayerSprite>().NetworkClientId,
-                    ClientManager.Instance.StateManager.PlayerState.Scene));
+                    StateManager.PlayerState.Scene));
         }
     }
 
@@ -57,7 +64,7 @@ public class ClientActions {
     {
         // TODO : Probably shouldnt have state management here. Can this be removed, I dont think
         //        we check anything client side against the enemies current state location
-        ClientManager.Instance.StateManager.WorldState
+        StateManager.WorldState
             .GetEnemyState(enemyGuid, scene).Location = location;
 
         if (ClientManager.IsHost)
@@ -89,23 +96,44 @@ public class ClientActions {
 
     public void SpendAttackPoint(string name)
     {
-        ClientManager.SendNetworkMessage(
-            NetworkTags.SpendAttackPoint,
-            new StringData(name));
+        if (StateManager.PlayerState.AttackPoints > 0)
+        {
+            StateManager.PlayerState.AttackPoints -= 1;
+            StateManager.PlayerState.Attacks
+                .First(x => x.Key == name).Value += 1;
+
+            ClientManager.SendNetworkMessage(
+                NetworkTags.SpendAttackPoint,
+                new StringData(name));
+        }
     }
 
     public void SpendSkillPoint(string name)
     {
-        ClientManager.SendNetworkMessage(
-            NetworkTags.SpendSkillPoint,
-            new StringData(name));      
+        if (StateManager.PlayerState.SkillPoints > 0)
+        {
+            StateManager.PlayerState.SkillPoints -= 1;
+            StateManager.PlayerState.Skills
+                .First(x => x.Key == name).Value += 1;
+
+            ClientManager.SendNetworkMessage(
+                NetworkTags.SpendSkillPoint,
+                new StringData(name));
+        }
     }
 
     public void SpendPassivePoint(string name)
     {
-        ClientManager.SendNetworkMessage(
-            NetworkTags.SpendPassivePoint,
-            new StringData(name));
+        if (StateManager.PlayerState.PassivePoints > 0)
+        {
+            StateManager.PlayerState.PassivePoints -= 1;
+            StateManager.PlayerState.Passives
+                .First(x => x.Key == name).Value += 1;
+
+            ClientManager.SendNetworkMessage(
+                NetworkTags.SpendPassivePoint,
+                new StringData(name));
+        }
     }
 
     public void SetPlayerDirection(SpriteDirection direction)
@@ -115,4 +143,30 @@ public class ClientActions {
             new IntegerData((int)direction));
     }
 
+    public void SetPlayerHotbarItem(string typeKey, IconType type, int index)
+    {
+
+        if (StateManager.PlayerState.HotbarItems.Count(x => x.Index == index) > 0)
+        {
+            StateManager.PlayerState.HotbarItems.RemoveAll(x => x.Index == index);
+        }
+
+        var keyValueState = new KeyValueState(typeKey, (int)type) { Index = index };
+        StateManager.PlayerState.HotbarItems.Add(keyValueState);
+
+        ClientManager.SendNetworkMessage(
+            NetworkTags.SetPlayerHotbarItem,
+            new KeyValueStateData(
+                keyValueState
+            ));
+    }
+
+    public void ActivatePlayerSkill(string name)
+    {
+        ClientManager.SendNetworkMessage(
+            NetworkTags.ActivatePlayerSkill,
+            new StringData(
+               name
+            ));
+    }
 }

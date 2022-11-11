@@ -57,35 +57,13 @@ public class IconFrame : MonoBehaviour, IPointerClickHandler
         switch(icon.Type)
         {
             case IconType.Attack:
-                
-                if (ClientManager.Instance.StateManager.PlayerState.AttackPoints > 0)
-                {
-                    ClientManager.Instance.StateManager.PlayerState.AttackPoints -= 1;
-                    ClientManager.Instance.StateManager.PlayerState.Attacks
-                        .First(x => x.Key == icon.TypeKey).Value += 1;
-
-                    ClientManager.Instance.StateManager.Actions.SpendAttackPoint(icon.TypeKey);
-                }
+                ClientManager.Instance.StateManager.Actions.SpendAttackPoint(icon.TypeKey);
                 break;
             case IconType.Skill:
-                if (ClientManager.Instance.StateManager.PlayerState.SkillPoints > 0)
-                {
-                    ClientManager.Instance.StateManager.PlayerState.SkillPoints -= 1;
-                    ClientManager.Instance.StateManager.PlayerState.Skills
-                        .First(x => x.Key == icon.TypeKey).Value += 1;
-
-                    ClientManager.Instance.StateManager.Actions.SpendSkillPoint(icon.TypeKey);
-                }
+                ClientManager.Instance.StateManager.Actions.SpendSkillPoint(icon.TypeKey);
                 break;
             case IconType.Passive:
-                if (ClientManager.Instance.StateManager.PlayerState.PassivePoints > 0)
-                {
-                    ClientManager.Instance.StateManager.PlayerState.PassivePoints -= 1;
-                    ClientManager.Instance.StateManager.PlayerState.Passives
-                        .First(x => x.Key == icon.TypeKey).Value += 1;
-
-                    ClientManager.Instance.StateManager.Actions.SpendPassivePoint(icon.TypeKey);
-                }
+                ClientManager.Instance.StateManager.Actions.SpendPassivePoint(icon.TypeKey);
                 break;
         }
         

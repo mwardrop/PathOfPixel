@@ -1,5 +1,6 @@
 ﻿
 using Data.Attacks;
+using Data.Skills;
 using Data.Characters;
 using System;
 using UnityEngine;
@@ -19,6 +20,13 @@ public static class CreateInstance
     {
         return (IAttack)Activator.CreateInstance(
             Type.GetType($"Data.Attacks.{name}"),
+            level);
+    }
+
+    public static ISkill Skill(string name, int level = 1)
+    {
+        return (ISkill)Activator.CreateInstance(
+            Type.GetType($"Data.Skills.{name}"),
             level);
     }
 

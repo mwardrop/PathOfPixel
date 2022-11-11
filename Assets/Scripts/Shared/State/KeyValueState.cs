@@ -6,6 +6,8 @@ public class KeyValueState : IDarkRiftSerializable
     public string Key { get; set; }
     public int Value { get; set; }
 
+    public int Index { get; set; }
+
     public KeyValueState()
     {
 
@@ -22,6 +24,7 @@ public class KeyValueState : IDarkRiftSerializable
 
         Key = e.Reader.ReadString();
         Value = e.Reader.ReadInt32();
+        Index = e.Reader.ReadInt32();
 
     }
 
@@ -29,6 +32,7 @@ public class KeyValueState : IDarkRiftSerializable
     {
         e.Writer.Write(Key);
         e.Writer.Write(Value);
+        e.Writer.Write(Index);
 
     }
 }

@@ -29,7 +29,7 @@ public class ClientStateManager
     {       
         WorldState = worldState;
         StateCalculator = new StateCalculator();
-        Actions = new ClientActions();
+        Actions = new ClientActions(this);
         Handlers = new ClientHandlers(this);
 
         ClientManager.Instance.Client.MessageReceived += Handlers.OnNetworkMessage;

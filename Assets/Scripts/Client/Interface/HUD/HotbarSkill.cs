@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,7 +16,7 @@ public class HotbarSkill : MonoBehaviour, IDropHandler, IPointerClickHandler
 
     private IconType IconType;
     private string IconTypeKey;
-    private string HotbarIndex;
+    private int HotbarIndex;
     private GameObject HotbarIconObject;
     private Icon HotbarIcon;
 
@@ -32,7 +33,7 @@ public class HotbarSkill : MonoBehaviour, IDropHandler, IPointerClickHandler
 
     public void Awake()
     {
-        HotbarIndex = string.Concat(name.Where(char.IsNumber));
+        HotbarIndex = Int32.Parse(string.Concat(name.Where(char.IsNumber)));
         HotbarIconObject = gameObject.transform.parent.Find($"IconSkill{HotbarIndex}").gameObject;
         HotbarIcon = HotbarIconObject.GetComponent<Icon>();
     }
@@ -46,6 +47,8 @@ public class HotbarSkill : MonoBehaviour, IDropHandler, IPointerClickHandler
 
         HotbarIcon.CurrentIcon = dropIcon.CurrentIcon;
         HotbarIconObject.SetActive(true);
+
+        ClientManager.Instance.StateManager.Actions.SetPlayerHotbarItem(IconTypeKey, IconType, HotbarIndex);
     }
 
     public void OnPointerClick(PointerEventData eventData)
@@ -70,15 +73,25 @@ public class HotbarSkill : MonoBehaviour, IDropHandler, IPointerClickHandler
                 image.sprite = HotbarSkillAttack;
                 break;
             case IconType.Skill:
-                //ClientManager.Instance.StateManager.Actions.SetPlayerActiveAttack(IconTypeKey);
-                //for (var i = 0; i < 6; i++)
-                //{
-                //    var skill = gameObject.transform.parent.Find($"Skill{i + 1}").gameObject.GetComponent<HotbarSkill>();
-                //    if (skill.image.sprite = HotbarSkillAttack) { skill.image.sprite = HotbarSkillNormal; }
-                //}
-                image.sprite = HotbarSkillActive;
+                ClientManager.Instance.StateManager.Actions.ActivatePlayerSkill(IconTypeKey);
                 break;
 
+        }
+    }
+
+    public void Update()
+    {
+        if(IconType == IconType.Skill)
+        {
+            var playerState = ClientManager.Instance.StateManager.PlayerState;
+            if (playerState.ActiveSkills.Count(x => x.Key == IconTypeKey && x.Value == playerState.ClientId) == 1)
+            {
+                image.sprite = HotbarSkillActive;
+            }
+            else
+            {
+                image.sprite = HotbarSkillNormal;
+            }
         }
     }
 

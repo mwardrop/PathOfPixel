@@ -1,3 +1,4 @@
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
@@ -15,6 +16,17 @@ public class ServerManager : MonoBehaviour
 
     public Dictionary<int, ServerConnection> Connections = new Dictionary<int, ServerConnection>();
     public ServerStateManager StateManager;
+
+    //public new void StartCoroutine(IEnumerator coroutine)
+    //{
+    //    base.StartCoroutine(coroutine);
+
+    //    IEnumerator DeactivateSkillCoroutine()
+    //    {
+    //        yield return WaitForSeconds(3);
+
+    //    }
+    //}
 
     public void Update()
     {
@@ -117,6 +129,16 @@ public class ServerManager : MonoBehaviour
     
     }
 
+    public static void SendNetworkMessage(int clientId, NetworkTags networkTag, IDarkRiftSerializable payload = null)
+    {
+        SendNetworkMessage(
+            Instance.Connections.First(X => X.Key == clientId).Value.Client,
+            networkTag,
+            payload);
+
+    }
+
+
     public static void SendNetworkMessage(IClient client, NetworkTags networkTag, IDarkRiftSerializable payload = null)
     {
 
@@ -133,16 +155,19 @@ public class ServerManager : MonoBehaviour
         }
     }
 
-    public static void BroadcastNetworkMessage(NetworkTags networkTag, IDarkRiftSerializable payload = null )
+    public static void BroadcastNetworkMessage(NetworkTags networkTag, IDarkRiftSerializable payload = null)
     {
-        foreach(KeyValuePair<int,ServerConnection> connection in Instance.Connections)
+        foreach (KeyValuePair<int, ServerConnection> connection in Instance.Connections)
         {
-            if(payload == null) {
+            if (payload == null)
+            {
                 using (Message m = Message.CreateEmpty((ushort)networkTag))
                 {
                     connection.Value.Client.SendMessage(m, SendMode.Reliable);
                 }
-            } else {
+            }
+            else
+            {
                 using (Message m = Message.Create((ushort)networkTag, payload))
                 {
                     connection.Value.Client.SendMessage(m, SendMode.Reliable);

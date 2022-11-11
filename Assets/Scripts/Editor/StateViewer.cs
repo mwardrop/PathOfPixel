@@ -5,6 +5,7 @@ using System.Linq;
 using System.Reflection;
 using UnityEditor;
 using UnityEngine;
+using UnityEngine.Playables;
 using UnityEngine.Rendering;
 using static UnityEngine.EventSystems.EventTrigger;
 
@@ -36,6 +37,8 @@ namespace Client.Editor
         protected static bool ShowSelectEnemy = true;
         protected static bool ShowSelectPlayer = true;
 
+        protected static bool ShowActivatedPlayerSkills = true;
+
         protected static List<EnemiesItem> Enemies = new List<EnemiesItem>();
         protected static Guid SelectedEnemy;
         protected static List<PlayersItem> Players = new List<PlayersItem>();
@@ -43,6 +46,7 @@ namespace Client.Editor
 
         protected static Vector2 Column1Scroll;
         protected static Vector2 Column2Scroll;
+        protected static Vector2 Column3Scroll;
 
         // Add menu item named "My Window" to the Window menu
         [MenuItem("Window/Game State Viewer")]
@@ -102,9 +106,31 @@ namespace Client.Editor
                 EditorGUILayout.EndScrollView();
 
                 GUILayout.EndVertical();
+
+                GUILayout.BeginVertical();
+
+                Column3Scroll = EditorGUILayout.BeginScrollView(Column3Scroll);
+
+                RenderServerUIColumn();
+
+                EditorGUILayout.EndScrollView();
+
+                GUILayout.EndVertical();
             }
 
             GUILayout.EndHorizontal();
+        }
+
+        private void RenderServerUIColumn()
+        {
+            ShowActivatedPlayerSkills = EditorGUILayout.Foldout(ShowActivatedPlayerSkills, "Activated Player Skills");
+            if (ShowActivatedPlayerSkills)
+            {
+                foreach(ActivatedPlayerSkill activatedSkill in ServerManager.Instance.StateManager.ActivatedPlayerSkills)
+                {
+                    EditorGUILayout.LabelField(activatedSkill.Skill.Name, activatedSkill.PlayerState.Name);
+                }
+            }
         }
 
         private void RenderPlayerUIColumn()
@@ -171,8 +197,7 @@ namespace Client.Editor
 
                     foreach (KeyValueState kv in list)
                     {
-                        var displayKey = kv.Key;
-                        if (displayKey.All(char.IsNumber)) { displayKey = $"{propertyInfo.Name} {displayKey}"; }
+                        var displayKey = $"{propertyInfo.Name} {kv.Key}";
 
                         EditorGUILayout.LabelField($"{displayKey}", kv.Value.ToString());
                     }
@@ -278,8 +303,7 @@ namespace Client.Editor
 
                     foreach (KeyValueState kv in list)
                     {
-                        var displayKey = kv.Key;
-                        if (displayKey.All(char.IsNumber)) { displayKey = $"{propertyInfo.Name} {displayKey}"; }
+                        var displayKey = $"{propertyInfo.Name} {kv.Key}";
 
                         EditorGUILayout.LabelField($"{displayKey}", kv.Value.ToString());
                     }

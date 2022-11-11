@@ -97,6 +97,12 @@ public class ServerConnection
                 case NetworkTags.SetPlayerDirection:
                     SetPlayerDirection(message.Deserialize<IntegerData>());
                     break;
+                case NetworkTags.SetPlayerHotbarItem:
+                    SetPlayerHotbarItem(message.Deserialize<KeyValueStateData>());
+                    break;
+                case NetworkTags.ActivatePlayerSkill:
+                    ActivatePlayerSkill(message.Deserialize<StringData>());
+                    break;
 
             }
         }
@@ -275,6 +281,24 @@ public class ServerConnection
              NetworkTags.SetPlayerDirection,
              new IntegerPairData(Client.ID, integerData.Integer)
          );
+    }
+
+    private void SetPlayerHotbarItem(KeyValueStateData keyValueStateData) 
+    {
+
+        if(PlayerState.HotbarItems.Count(x => x.Index == keyValueStateData.KeyValueState.Index) > 0)
+        {
+            PlayerState.HotbarItems.RemoveAll(x => x.Index == keyValueStateData.KeyValueState.Index);
+        }
+        PlayerState.HotbarItems.Add(keyValueStateData.KeyValueState);
+    }
+
+    public void ActivatePlayerSkill(StringData stringData)
+    {
+        if(PlayerState.HotbarItems.Count(x => x.Key == stringData.String) > 0)
+        {
+            StateManager.ActivatePlayerSkill(PlayerState, stringData.String);
+        }
     }
 
     private void SendNetworkMessage(NetworkTags networkTag, IDarkRiftSerializable payload)

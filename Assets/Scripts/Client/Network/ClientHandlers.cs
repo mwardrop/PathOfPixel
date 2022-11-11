@@ -65,6 +65,12 @@ public class ClientHandlers
                 case NetworkTags.SetPlayerDirection:
                     SetPlayerDirection(message.Deserialize<IntegerPairData>());
                     break;
+                case NetworkTags.ActivatePlayerSkill:
+                    ActivatePlayerSkill(message.Deserialize<StringIntegerData>());
+                    break;
+                case NetworkTags.DeactivatePlayerSkill:
+                    DeactivatePlayerSkill(message.Deserialize<StringIntegerData>());
+                    break;
 
             }
         }
@@ -226,7 +232,24 @@ public class ClientHandlers
 
     public void SetPlayerDirection(IntegerPairData integerData)
     {
-        StateManager.GetPlayerGameObject(integerData.Integer1).GetComponent<CharacterSprite>().SetDirection((SpriteDirection)integerData.Integer2);
+        StateManager.GetPlayerGameObject(integerData.Integer1)
+            .GetComponent<CharacterSprite>()
+            .SetDirection((SpriteDirection)integerData.Integer2);
+    }
+
+    public void ActivatePlayerSkill(StringIntegerData stringIntegerData)
+    {
+        if (PlayerState.ActiveSkills.Count(x => x.Key == stringIntegerData.String && x.Value == stringIntegerData.Integer) == 0)
+        {
+            PlayerState.ActiveSkills.Add(new KeyValueState (
+                stringIntegerData.String,
+                stringIntegerData.Integer));
+        }
+    }
+
+    public void DeactivatePlayerSkill(StringIntegerData stringIntegerData)
+    {
+        PlayerState.ActiveSkills.RemoveAll(x => x.Key == stringIntegerData.String && x.Value == stringIntegerData.Integer);
     }
 
 }

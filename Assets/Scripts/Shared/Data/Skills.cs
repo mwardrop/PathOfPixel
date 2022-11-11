@@ -1,8 +1,9 @@
 ﻿
 
 using System.Linq;
+using Unity.VisualScripting;
 
-namespace Data
+namespace Data.Skills
 {
     public interface ISkill
     {
@@ -10,6 +11,8 @@ namespace Data
         public string Name { get; set; }
         public string Description { get; set; }
         public int IconId { get; set; }
+        public float Duration { get; set; }
+        public float Radius { get; set; }
 
         public string GetName();
     }
@@ -20,6 +23,8 @@ namespace Data
         public string Name { get; set; }
         public string Description { get; set; }
         public int IconId { get; set; }
+        public float Duration { get; set; }
+        public float Radius { get; set; }
 
         public string GetName()
         {
@@ -37,8 +42,10 @@ namespace Data
         public SummerSolsticeSkill(int level = 1) : base(level)
         {
             Name = "Summer Solstice";
-            Description = "Add +1 Fire Damage to Attacks per Level.";
+            Description = "Add +1 Fire Damage to Attacks per Level for you and Allies within 5 Radius.";
             IconId = 1;
+            Radius = 5;
+            Duration = 60;
         }
     }
 
@@ -47,8 +54,10 @@ namespace Data
         public WinterSolsticeSkill(int level = 1) : base(level)
         {
             Name = "Winter Solstice";
-            Description = "Add +1 Cold Damage to Attacks per Level.";
+            Description = "Add +1 Cold Damage to Attacks per Level for you and Allies within 5 Radius.";
             IconId = 2;
+            Radius = 5;
+            Duration = 60;
         }
     }
 
@@ -58,8 +67,10 @@ namespace Data
         {
             ;
             Name = "Frenzy";
-            Description = "Add +1 Physical Damage to Attacks per Level.";
+            Description = "Add +1 Physical Damage to Attacks per Level for you and Allies within 5 Radius.";
             IconId = 3;
+            Radius = 5;
+            Duration = 60;
         }
     }
 
@@ -69,8 +80,10 @@ namespace Data
         public FreezingWinterSkill(int level = 1) : base(level)
         {
             Name = "Freezing Winter";
-            Description = "1% Chance to Freeze on Attack per Level.";
+            Description = "1% Chance to Freeze on Attack per Level for you and Allies within 5 Radius.";
             IconId = 4;
+            Radius = 5;
+            Duration = 30;
         }
     }
 
@@ -79,8 +92,10 @@ namespace Data
         public BurningSummerSkill(int level = 1) : base(level)
         {
             Name = "Burning Summer";
-            Description = "1% Chance to Burn on Attack per Level.";
+            Description = "1% Chance to Burn on Attack per Level for you and Allies within 5 Radius.";
             IconId = 5;
+            Radius = 5;
+            Duration = 30;
         }
     }
 
@@ -89,8 +104,10 @@ namespace Data
         public BleedingFurySkill(int level = 1) : base(level)
         {
             Name = "Bleeding Fury";
-            Description = "1% Chance to Bleed on Attack per Level.";
+            Description = "1% Chance to Bleed on Attack per Level for you and Allies within 5 Radius.";
             IconId = 6;
+            Radius = 5;
+            Duration = 30;
         }
     }
 
