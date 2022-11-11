@@ -28,6 +28,48 @@ public class ActivatedPlayerSkill
         Activate();
     }
 
+    public void Update()
+    {
+        if(PlayerState == null) { Deactivate(); }
+        if(PlayerState.IsDead) { Deactivate(); }
+
+        foreach(PlayerState otherPlayer in ServerManager.Instance.StateManager.WorldState.Players)
+        {
+            if (otherPlayer.ClientId == PlayerState.ClientId) { continue; }
+
+            if (Vector2.Distance(PlayerState.Location, otherPlayer.Location) < Skill.Radius)
+            {
+                if (otherPlayer.ActiveSkills.Count(x => x.Key == Skill.GetName() && x.Value == PlayerState.ClientId) == 0)
+                {
+                    otherPlayer.ActiveSkills.Add(new KeyValueState(
+                        Skill.GetName(),
+                        PlayerState.ClientId));
+
+                    PlayersInRadius.Add(otherPlayer.ClientId);
+     
+                    ServerManager.SendNetworkMessage(
+                        otherPlayer.ClientId,
+                        NetworkTags.ActivatePlayerSkill,
+                        new StringIntegerData(Skill.GetName(), PlayerState.ClientId));
+                }
+            }
+            else
+            {
+                if (otherPlayer.ActiveSkills.Count(x => x.Key == Skill.GetName() && x.Value == PlayerState.ClientId) > 0)
+                {
+                    otherPlayer.ActiveSkills.RemoveAll(x => x.Key == Skill.GetName() && x.Value == PlayerState.ClientId);
+
+                    PlayersInRadius.Remove(otherPlayer.ClientId);
+
+                    ServerManager.SendNetworkMessage(
+                        otherPlayer.ClientId,
+                        NetworkTags.DeactivatePlayerSkill,
+                        new StringIntegerData(Skill.GetName(), PlayerState.ClientId));
+                }
+            }
+        }
+    }
+
     public ActivatedPlayerSkill Activate()
     {
 
