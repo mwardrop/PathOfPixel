@@ -138,7 +138,8 @@ namespace Data.Characters
 
             Skills = new List<ISkill>()
             {
-                new WarmEmbraceSkill(level)
+                new WarmEmbraceSkill(level),
+                new FrenzySkill(level)
             };
 
             Passives = new List<IPassive>();

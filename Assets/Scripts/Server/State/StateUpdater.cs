@@ -26,7 +26,12 @@ public class StateUpdater
     public void Update(WorldState worldstate)
     {
 
-        foreach(ActivatedPlayerSkill skill in ServerManager.Instance.StateManager.ActivatedPlayerSkills)
+        foreach(ActivatedPlayerSkill skill in ServerManager.Instance.StateManager.ActivatedPlayerSkills.ToList())
+        {
+            skill.Update();
+        }
+
+        foreach (ActivatedEnemySkill skill in ServerManager.Instance.StateManager.ActivatedEnemySkills.ToList())
         {
             skill.Update();
         }

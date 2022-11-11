@@ -65,17 +65,17 @@ public class ClientHandlers
                 case NetworkTags.SetPlayerDirection:
                     SetPlayerDirection(message.Deserialize<IntegerPairData>());
                     break;
-                //case NetworkTags.ActivatePlayerSkill:
-                //    ActivatePlayerSkill(message.Deserialize<StringIntegerData>());
-                //    break;
-                //case NetworkTags.DeactivatePlayerSkill:
-                //    DeactivatePlayerSkill(message.Deserialize<StringIntegerData>());
-                //    break;
                 case NetworkTags.ActivatePlayerSkill:
                     ActivatePlayerSkill(message.Deserialize<SkillActivationData>());
                     break;
                 case NetworkTags.DeactivatePlayerSkill:
                     DeactivatePlayerSkill(message.Deserialize<SkillActivationData>());
+                    break;
+                case NetworkTags.ActivateEnemySkill:
+                    ActivateEnemySkill(message.Deserialize<SkillActivationData>());
+                    break;
+                case NetworkTags.DeactivateEnemySkill:
+                    DeactivateEnemySkill(message.Deserialize<SkillActivationData>());
                     break;
 
             }
@@ -165,7 +165,7 @@ public class ClientHandlers
 
     public void EnemyTakeDamage(EnemyTakeDamageData enemyTakeDamageData)
     {
-        EnemyState enemy = WorldState.GetEnemyState(enemyTakeDamageData.EnemyGuid, PlayerState.Scene);
+        EnemyState enemy = WorldState.GetEnemyStateByGuid(enemyTakeDamageData.EnemyGuid, PlayerState.Scene);
 
         enemy.Health = enemyTakeDamageData.Health;
         enemy.IsDead = enemyTakeDamageData.IsDead;
@@ -211,7 +211,7 @@ public class ClientHandlers
         var clientId = enemyNewTargetData.ClientId;
         var sceneName = enemyNewTargetData.SceneName;
 
-        WorldState.GetEnemyState(enemyGuid, sceneName).TargetPlayerId = clientId;
+        WorldState.GetEnemyStateByGuid(enemyGuid, sceneName).TargetPlayerId = clientId;
 
         StateManager.GetEnemyGameObject(enemyGuid)
             .GetComponent<EnemySprite>().TargetPlayerId = clientId;
@@ -243,16 +243,6 @@ public class ClientHandlers
             .SetDirection((SpriteDirection)integerData.Integer2);
     }
 
-    //public void ActivatePlayerSkill(StringIntegerData stringIntegerData)
-    //{
-    //    if (PlayerState.ActiveSkills.Count(x => x.Key == stringIntegerData.String && x.Value == stringIntegerData.Integer) == 0)
-    //    {
-    //        PlayerState.ActiveSkills.Add(new KeyValueState (
-    //            stringIntegerData.String,
-    //            stringIntegerData.Integer));
-    //    }
-    //}
-
     public void ActivatePlayerSkill(SkillActivationData skillActivationData)
     {
         var playerState = StateManager.WorldState.GetPlayerState(skillActivationData.Receivingharacter);
@@ -279,9 +269,31 @@ public class ClientHandlers
        
     }
 
-    //public void DeactivatePlayerSkill(StringIntegerData stringIntegerData)
-    //{
-    //    PlayerState.ActiveSkills.RemoveAll(x => x.Key == stringIntegerData.String && x.Value == stringIntegerData.Integer);
-    //}
+    public void ActivateEnemySkill(SkillActivationData skillActivationData)
+    {
+        var enemyState = StateManager.WorldState.GetEnemyStateByHashCode(skillActivationData.Receivingharacter, skillActivationData.Scene);
+
+        if (enemyState.ActiveSkills.Count(x => x.Key == skillActivationData.Name && x.Value == skillActivationData.ActivatingCharacter) == 0)
+        {
+            enemyState.ActiveSkills.Add(new KeyValueState(
+                skillActivationData.Name,
+                skillActivationData.ActivatingCharacter)
+            {
+                Index = skillActivationData.Level
+            });
+
+            StateManager.StateCalculator.CalcCharacterState(enemyState);
+        }
+    }
+
+    public void DeactivateEnemySkill(SkillActivationData skillActivationData)
+    {
+        var enemyState = StateManager.WorldState.GetEnemyStateByHashCode(skillActivationData.Receivingharacter, skillActivationData.Scene);
+
+        enemyState.ActiveSkills.RemoveAll(x => x.Key == skillActivationData.Name && x.Value == skillActivationData.ActivatingCharacter);
+
+        StateManager.StateCalculator.CalcCharacterState(enemyState);
+
+    }
 
 }

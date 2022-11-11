@@ -30,7 +30,10 @@ public enum NetworkTags
     SetPlayerDirection = 23,
     SetPlayerHotbarItem = 24,
     ActivatePlayerSkill = 25,
-    DeactivatePlayerSkill = 26
+    DeactivatePlayerSkill = 26,
+
+    ActivateEnemySkill = 27,
+    DeactivateEnemySkill = 28
 }
 
 public struct LoginRequestData : IDarkRiftSerializable
@@ -415,13 +418,15 @@ public struct SkillActivationData : IDarkRiftSerializable
     public int Receivingharacter;
     public string Name;
     public int Level;
+    public string Scene;
 
-    public SkillActivationData(int activatingCharacter, int receivingCharacter, string name, int level )
+    public SkillActivationData(int activatingCharacter, int receivingCharacter, string name, int level, string scene)
     {
         ActivatingCharacter = activatingCharacter;
         Receivingharacter = receivingCharacter;
         Name = name;
         Level = level;
+        Scene = scene;
     }
 
     public void Deserialize(DeserializeEvent e)
@@ -430,6 +435,7 @@ public struct SkillActivationData : IDarkRiftSerializable
         Receivingharacter = e.Reader.ReadInt32();
         Name = e.Reader.ReadString();
         Level = e.Reader.ReadInt32();
+        Scene = e.Reader.ReadString();
     }
 
     public void Serialize(SerializeEvent e)
@@ -438,5 +444,6 @@ public struct SkillActivationData : IDarkRiftSerializable
         e.Writer.Write(Receivingharacter);
         e.Writer.Write(Name);
         e.Writer.Write(Level);
+        e.Writer.Write(Scene);
     }
 }

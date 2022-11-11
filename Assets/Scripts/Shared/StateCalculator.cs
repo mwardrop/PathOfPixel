@@ -13,6 +13,15 @@ public class StateCalculator
         characterState.PhysicalDamage =
         characterState.FireDamage =
         characterState.ColdDamage =
+        characterState.Dodge =
+        characterState.MoveSpeed =
+        characterState.MaxMana =
+        characterState.ManaRegen =
+        characterState.MaxHealth =
+        characterState.HealthRegen =
+        characterState.IncreasedPhysicalDamage =
+        characterState.IncreasedFireDamage =
+        characterState.IncreasedColdDamage =
         characterState.IncreasedDodge =
         characterState.IncreasedMoveSpeed =
         characterState.IncreasedMaxMana =
@@ -45,12 +54,12 @@ public class StateCalculator
         characterState.PhysicalDamage += ((characterState.PhysicalDamage / 100) * characterState.IncreasedPhysicalDamage);
         characterState.FireDamage += ((characterState.FireDamage / 100) * characterState.IncreasedFireDamage);
         characterState.ColdDamage += ((characterState.ColdDamage / 100) * characterState.IncreasedColdDamage);
-        characterState.IncreasedDodge += ((characterState.Dodge / 100) * characterState.IncreasedDodge);
-        characterState.IncreasedMoveSpeed += ((characterState.MoveSpeed / 100) * characterState.IncreasedMoveSpeed);
-        characterState.IncreasedMaxMana += ((characterState.MaxMana / 100) * characterState.IncreasedMaxMana);
-        characterState.IncreasedManaRegen += ((characterState.ManaRegen / 100) * characterState.IncreasedManaRegen);
-        characterState.IncreasedMaxHealth += ((characterState.MaxHealth / 100) * characterState.IncreasedMaxHealth);
-        characterState.IncreasedHealthRegen += ((characterState.HealthRegen / 100) * characterState.IncreasedHealthRegen);
+        characterState.Dodge += ((characterState.Dodge / 100) * characterState.IncreasedDodge);
+        characterState.MoveSpeed += ((characterState.MoveSpeed / 100) * characterState.IncreasedMoveSpeed);
+        characterState.MaxMana += ((characterState.MaxMana / 100) * characterState.IncreasedMaxMana);
+        characterState.ManaRegen += ((characterState.ManaRegen / 100) * characterState.IncreasedManaRegen);
+        characterState.MaxHealth += ((characterState.MaxHealth / 100) * characterState.IncreasedMaxHealth);
+        characterState.HealthRegen += ((characterState.HealthRegen / 100) * characterState.IncreasedHealthRegen);
         characterState.ReservedMana = ((characterState.MaxMana / 100) * characterState.ReservedMana);
 
         return characterState;

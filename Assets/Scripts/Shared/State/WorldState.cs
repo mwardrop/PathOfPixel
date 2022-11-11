@@ -24,13 +24,23 @@ public class WorldState: IDarkRiftSerializable
         catch { return null; }
     }
 
-    public EnemyState GetEnemyState(System.Guid enemyGuid, string scene)
+    public EnemyState GetEnemyStateByGuid(System.Guid enemyGuid, string scene)
     {
         try
         {
             return Scenes.First(x => x.Name.ToLower() == scene.ToLower())
                         .Enemies.First(x => x.EnemyGuid == enemyGuid);
         } 
+        catch { return null; }
+    }
+
+    public EnemyState GetEnemyStateByHashCode(int enemyHashCode, string scene)
+    {
+        try
+        {
+            return Scenes.First(x => x.Name.ToLower() == scene.ToLower())
+                        .Enemies.First(x => x.EnemyGuid.GetHashCode() == enemyHashCode);
+        }
         catch { return null; }
     }
 

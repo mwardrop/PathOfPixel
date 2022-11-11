@@ -118,7 +118,7 @@ public class ServerConnection
 
     private void PlayerHitEnemy(EnemyPlayerPairData enemyPlayerPairData)
     {
-        EnemyState enemy = StateManager.WorldState.GetEnemyState(
+        EnemyState enemy = StateManager.WorldState.GetEnemyStateByGuid(
             enemyPlayerPairData.EnemyGuid,
             enemyPlayerPairData.SceneName);
 
@@ -149,7 +149,7 @@ public class ServerConnection
 
     private void EnemyHitPlayer(EnemyPlayerPairData enemyPlayerPairData)
     {
-        EnemyState enemy = StateManager.WorldState.GetEnemyState(
+        EnemyState enemy = StateManager.WorldState.GetEnemyStateByGuid(
             enemyPlayerPairData.EnemyGuid, 
             enemyPlayerPairData.SceneName);
         PlayerState player = StateManager.WorldState.GetPlayerState(enemyPlayerPairData.ClientId);
@@ -202,7 +202,7 @@ public class ServerConnection
 
     private void UpdateEnemyLocation(UpdateEnemyLocationData updateEnemyLocationData)
     {
-        StateManager.WorldState.GetEnemyState(
+        StateManager.WorldState.GetEnemyStateByGuid(
             updateEnemyLocationData.EnemyGuid,
             updateEnemyLocationData.SceneName).Location = updateEnemyLocationData.Location;
     }

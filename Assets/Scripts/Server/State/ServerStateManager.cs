@@ -12,6 +12,7 @@ public class ServerStateManager
     public StateUpdater StateUpdater;
     public StateCalculator StateCalculator;
     public List<ActivatedPlayerSkill> ActivatedPlayerSkills;
+    public List<ActivatedEnemySkill> ActivatedEnemySkills;
 
     private ItemGenerator ItemGenerator;
 
@@ -22,16 +23,32 @@ public class ServerStateManager
         ItemGenerator = new ItemGenerator();
         StateCalculator = new StateCalculator();
         ActivatedPlayerSkills = new List<ActivatedPlayerSkill>();
+        ActivatedEnemySkills = new List<ActivatedEnemySkill>();
+    }
 
-        SceneState OverworldScene = new SceneState() { Name = "OverworldScene" };
+    public void Update()
+    {
+        StateUpdater.Update(WorldState);
+    }
+
+    public void LoadScene(string scene)
+    {
+        SceneState OverworldScene = new SceneState() { Name = scene };
 
         OverworldScene.Enemies.Add(
             (EnemyState)StateCalculator.CalcCharacterState(new EnemyState(
-                "Possessed 1", 
-                new Vector2(-2f, -4.5f), 
+                "Possessed 1",
+                new Vector2(-2f, -4.5f),
                 new Possessed()
                 ))
             );
+        ActivateEnemySkill(OverworldScene.Enemies[0], OverworldScene.Enemies[0].Skills[0].Key, "OverworldScene");
+        ActivateEnemySkill(OverworldScene.Enemies[0], OverworldScene.Enemies[0].Skills[1].Key, "OverworldScene");
+        //OverworldScene.Enemies[0].ActiveSkills.Add(
+        //    new KeyValueState(
+        //        OverworldScene.Enemies[0].Skills[0].Key,
+        //        OverworldScene.Enemies[0].EnemyGuid.GetHashCode())
+        //    { Index = OverworldScene.Enemies[0].Skills[0].Value });
 
         OverworldScene.Enemies.Add(
          (EnemyState)StateCalculator.CalcCharacterState(new EnemyState(
@@ -42,11 +59,6 @@ public class ServerStateManager
          );
 
         WorldState.Scenes.Add(OverworldScene);
-    }
-
-    public void Update()
-    {
-        StateUpdater.Update(WorldState);
     }
 
     public float[] GetAttackDamage(ICharacterState characterState)
@@ -74,6 +86,19 @@ public class ServerStateManager
                 playerState,
                 CreateInstance.Skill(skill, playerState.Skills.First(x => x.Key == skill).Value),
                 ActivatedPlayerSkills
+                ).Activate());
+        }
+    }
+
+    public void ActivateEnemySkill(EnemyState enemyState, string skill, string scene)
+    {
+        if (ActivatedEnemySkills.Count(x => x.EnemyState == enemyState && x.Skill.GetName() == skill) == 0)
+        {
+            ActivatedEnemySkills.Add(new ActivatedEnemySkill(
+                scene,
+                enemyState,
+                CreateInstance.Skill(skill, enemyState.Skills.First(x => x.Key == skill).Value),
+                ActivatedEnemySkills
                 ).Activate());
         }
     }

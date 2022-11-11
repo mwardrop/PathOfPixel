@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -52,13 +53,16 @@ public class ServerManager : MonoBehaviour
         try
         {
             StateManager = new ServerStateManager();
+            StateManager.LoadScene("OverworldScene");
 
             XmlServer = GetComponent<XmlUnityServer>();
             Server = XmlServer.Server;
 
             Server.ClientManager.ClientConnected += OnClientConnected;
             Server.ClientManager.ClientDisconnected += OnClientDisconnected;
-        }  catch { }
+        }  catch(Exception ex) {
+            Debug.LogException(ex);
+        }
     }
 
     void OnDestroy()

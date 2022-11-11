@@ -65,7 +65,7 @@ public class ClientActions {
         // TODO : Probably shouldnt have state management here. Can this be removed, I dont think
         //        we check anything client side against the enemies current state location
         StateManager.WorldState
-            .GetEnemyState(enemyGuid, scene).Location = location;
+            .GetEnemyStateByGuid(enemyGuid, scene).Location = location;
 
         if (ClientManager.IsHost)
         {

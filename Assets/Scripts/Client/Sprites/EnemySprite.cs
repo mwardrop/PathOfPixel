@@ -25,7 +25,7 @@ public class EnemySprite : CharacterSprite
         get
         {
             return ClientManager.Instance.StateManager.WorldState
-                .GetEnemyState(StateGuid, SceneManager.GetActiveScene().name);
+                .GetEnemyStateByGuid(StateGuid, SceneManager.GetActiveScene().name);
 
         }
     }

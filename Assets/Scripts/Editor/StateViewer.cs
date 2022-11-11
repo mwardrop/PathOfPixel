@@ -38,6 +38,7 @@ namespace Client.Editor
         protected static bool ShowSelectPlayer = true;
 
         protected static bool ShowActivatedPlayerSkills = true;
+        protected static bool ShowActivatedEnemySkills = true;
 
         protected static List<EnemiesItem> Enemies = new List<EnemiesItem>();
         protected static Guid SelectedEnemy;
@@ -129,6 +130,15 @@ namespace Client.Editor
                 foreach(ActivatedPlayerSkill activatedSkill in ServerManager.Instance.StateManager.ActivatedPlayerSkills)
                 {
                     EditorGUILayout.LabelField(activatedSkill.Skill.Name, activatedSkill.PlayerState.Name);
+                }
+            }
+
+            ShowActivatedEnemySkills = EditorGUILayout.Foldout(ShowActivatedEnemySkills, "Activated Enemy Skills");
+            if (ShowActivatedEnemySkills)
+            {
+                foreach (ActivatedEnemySkill activatedSkill in ServerManager.Instance.StateManager.ActivatedEnemySkills)
+                {
+                    EditorGUILayout.LabelField(activatedSkill.Skill.Name, activatedSkill.EnemyState.Name);
                 }
             }
         }
@@ -322,16 +332,6 @@ namespace Client.Editor
                     EditorGUILayout.LabelField(propertyInfo.Name, propertyInfo.GetValue(enemyState).ToString());
                 }
             }
-        }
-
-        private void RenderListKeyValueState(List<KeyValueState> list)
-        {
-
-        }
-
-        private void RenderListString(List<String> list)
-        {
-
         }
 
         private void OnInspectorUpdate()
