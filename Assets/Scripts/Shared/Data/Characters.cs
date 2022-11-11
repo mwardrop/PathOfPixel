@@ -8,10 +8,10 @@ namespace Data.Characters
 { 
     public interface ICharacter
     {
-        public float Health { get; set; }
+        public float MaxHealth { get; set; }
         public int Level { get; set; }
         public float HealthRegen { get; set; }
-        public float Mana { get; set; }
+        public float MaxMana { get; set; }
         public float ManaRegen { get; set; }
         public float PhysicalDamage { get; set; }
         public float BleedChance { get; set; }
@@ -37,10 +37,10 @@ namespace Data.Characters
 
     public class BaseCharacter : ICharacter
     {
-        public float Health { get; set; }
+        public float MaxHealth { get; set; }
         public int Level { get; set; }
         public float HealthRegen { get; set; }
-        public float Mana { get; set; }
+        public float MaxMana { get; set; }
         public float ManaRegen { get; set; }
         public float PhysicalDamage { get; set; }
         public float BleedChance { get; set; }
@@ -77,16 +77,16 @@ namespace Data.Characters
     {
         public Warrior(int level = 1) : base(level)
         {
-            Health = 100 + (level * 10);
+            MaxHealth = 100 + (level * 10);
             HealthRegen = 1 + (level * 2);
-            Mana = 20 + level;
+            MaxMana = 20 + level;
             ManaRegen = 1 + level;
             PhysicalDamage = 5 + (level * 5);
             Armor = 100 + (level * 10);
             MoveSpeed = 3f;
             BleedChance = 1;
             Accuracy = 20;
-            Experience = (1000 * level) * level;
+            Experience = 0;// (1000 * level) * level;
             
             Attacks = new List<IAttack>() {
                 new SweepAttack(1),
@@ -97,17 +97,25 @@ namespace Data.Characters
             {
                 new SummerSolsticeSkill(0),
                 new WinterSolsticeSkill(0),
-                new FrenzySkill(0),
+                new FrenzySkill(1),
                 new BurningSummerSkill(0),
                 new FreezingWinterSkill(0),
-                new BleedingFurySkill(0)
+                new BleedingFurySkill(0),
+                new WarmEmbraceSkill(0),
+                new ColdEmbraceSkill(0)
             };
 
             Passives = new List<IPassive>()
             {
                 new AggressionPassive(0),
                 new ImmolationPassive(0),
-                new HypothermiaPassive(0)          
+                new HypothermiaPassive(0),
+                new StaminaPassive(0),
+                new IntelligencePassive(0),
+                new StrengthPassive(0),
+                new HealthPassive(0),
+                new ManaPassive(0)
+
             };
         }
     }
@@ -116,19 +124,22 @@ namespace Data.Characters
     {
         public Possessed(int level = 1) : base(level)
         {
-            Health = 10 + (level * 5);
+            MaxHealth = 10 + (level * 5);
             HealthRegen = 1;
-            Mana = 100;
+            MaxMana = 100;
             ManaRegen = 1;
             PhysicalDamage = 5 + (level * 2);
             MoveSpeed = 1f;
             Experience = 10 * level;
 
             Attacks = new List<IAttack>() {
-                new SweepAttack(1)
+                new SweepAttack(level)
             };
 
-            Skills = new List<ISkill>();
+            Skills = new List<ISkill>()
+            {
+                new WarmEmbraceSkill(level)
+            };
 
             Passives = new List<IPassive>();
         }

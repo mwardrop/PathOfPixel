@@ -1,6 +1,7 @@
 ﻿using DarkRift;
 using DarkriftSerializationExtensions;
 using Data.Characters;
+using Data.Skills;
 using System;
 using System.Collections.Generic;
 using UnityEngine;
@@ -37,7 +38,6 @@ public class EnemyState : CharacterState, ICharacterState, IDarkRiftSerializable
         Name = name;
         Location = new Vector2(location.x, location.y);
         HomeLocation = new Vector2(location.x, location.y);
-
     }
 
     private void Initialize()

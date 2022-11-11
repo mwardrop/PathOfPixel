@@ -10,6 +10,7 @@ namespace Data.Passives
         public int IconId { get; set; }
 
         public string GetName();
+        public ICharacterState UpdateCharacterState(ICharacterState characterState);
     }
 
     public class BasePassive : IPassive
@@ -28,6 +29,9 @@ namespace Data.Passives
         {
             Level = level;
         }
+
+        public virtual ICharacterState UpdateCharacterState(ICharacterState characterState) { return characterState; }
+
     }
 
     public class AggressionPassive : BasePassive, IPassive
@@ -37,6 +41,11 @@ namespace Data.Passives
             Name = "Aggression";
             Description = "Increases Physical Damage by 1% per Level.";
             IconId = 1;
+        }
+        public override ICharacterState UpdateCharacterState(ICharacterState characterState)
+        {
+            characterState.IncreasedPhysicalDamage += 1;
+            return characterState;
         }
     }
 
@@ -48,6 +57,11 @@ namespace Data.Passives
             Description = "Increases Fire Damage by 1% per Level.";
             IconId = 2;
         }
+        public override ICharacterState UpdateCharacterState(ICharacterState characterState)
+        {
+            characterState.IncreasedFireDamage += 1;
+            return characterState;
+        }
     }
 
     public class HypothermiaPassive : BasePassive, IPassive
@@ -57,6 +71,11 @@ namespace Data.Passives
             Name = "Hypothermia";
             Description = "Increases Cold Damage by 1% per Level.";
             IconId = 3;
+        }
+        public override ICharacterState UpdateCharacterState(ICharacterState characterState)
+        {
+            characterState.IncreasedColdDamage += 1;
+            return characterState;
         }
     }
 
@@ -68,6 +87,12 @@ namespace Data.Passives
             Description = "Increases Dodge Chance and Movement Speed by 1% per Level.";
             IconId = 4;
         }
+        public override ICharacterState UpdateCharacterState(ICharacterState characterState)
+        {
+            characterState.IncreasedDodge += 1;
+            characterState.IncreasedMoveSpeed += 1;
+            return characterState;
+        }
     }
 
     public class IntelligencePassive : BasePassive, IPassive
@@ -78,6 +103,12 @@ namespace Data.Passives
             Description = "Increases Maximum Mana and Mana Regeneration by 1% per Level.";
             IconId = 5;
         }
+        public override ICharacterState UpdateCharacterState(ICharacterState characterState)
+        {
+            characterState.IncreasedMaxMana += 1;
+            characterState.IncreasedManaRegen += 1;
+            return characterState;
+        }
     }
 
     public class StrengthPassive : BasePassive, IPassive
@@ -87,6 +118,42 @@ namespace Data.Passives
             Name = "Strength";
             Description = "Increases Maximum Health and Health Regeneration by 1% per Level.";
             IconId = 6;
+        }
+        public override ICharacterState UpdateCharacterState(ICharacterState characterState)
+        {
+            characterState.IncreasedMaxHealth += 1;
+            characterState.IncreasedHealthRegen += 1;
+            return characterState;
+        }
+    }
+
+    public class HealthPassive : BasePassive, IPassive
+    {
+        public HealthPassive(int level = 1) : base(level)
+        {
+            Name = "Health";
+            Description = "Adds +5 health per Level.";
+            IconId = 7;
+        }
+        public override ICharacterState UpdateCharacterState(ICharacterState characterState)
+        {
+            characterState.MaxHealth += 1;
+            return characterState;
+        }
+    }
+
+    public class ManaPassive : BasePassive, IPassive
+    {
+        public ManaPassive(int level = 1) : base(level)
+        {
+            Name = "Health";
+            Description = "Adds +5 health per Level.";
+            IconId = 8;
+        }
+        public override ICharacterState UpdateCharacterState(ICharacterState characterState)
+        {
+            characterState.MaxHealth += 1;
+            return characterState;
         }
     }
 

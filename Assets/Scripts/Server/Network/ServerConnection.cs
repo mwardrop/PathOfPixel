@@ -248,6 +248,7 @@ public class ServerConnection
             PlayerState.AttackPoints -= 1;
             PlayerState.Attacks
                 .First(x => x.Key == stringData.String).Value += 1;
+            StateManager.StateCalculator.CalcCharacterState(PlayerState);
 
         }
     }
@@ -259,6 +260,7 @@ public class ServerConnection
             PlayerState.SkillPoints -= 1;
             PlayerState.Skills
                 .First(x => x.Key == stringData.String).Value += 1;
+            StateManager.StateCalculator.CalcCharacterState(PlayerState);
 
         }
     }
@@ -270,6 +272,7 @@ public class ServerConnection
             PlayerState.PassivePoints -= 1;
             PlayerState.Passives
                 .First(x => x.Key == stringData.String).Value += 1;
+            StateManager.StateCalculator.CalcCharacterState(PlayerState);
 
         }
     }

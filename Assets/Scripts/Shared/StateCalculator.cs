@@ -9,60 +9,53 @@ public class StateCalculator
 
     public ICharacterState CalcCharacterState(ICharacterState characterState)
     {
-        // Get Initial Character Type Details for given level
-        ICharacter character = CreateInstance.Character(characterState.Type.ToString(), characterState.Level);
+        // Reset Calculated fields
+        characterState.PhysicalDamage =
+        characterState.FireDamage =
+        characterState.ColdDamage =
+        characterState.IncreasedDodge =
+        characterState.IncreasedMoveSpeed =
+        characterState.IncreasedMaxMana =
+        characterState.IncreasedManaRegen =
+        characterState.IncreasedMaxHealth =
+        characterState.IncreasedHealthRegen =
+        characterState.ReservedMana = 0;
 
-        // Apply State to Character Details
-        CalcMaxHealth(characterState, character);
-        CalcHealthRegen(characterState, character);
-        CalcMaxMana(characterState, character);
-        CalcManaRegen(characterState, character);
-        CalcPhysicalDamage(characterState, character);
-        CalcBleedChance(characterState, character);
-        CalcFireDamage(characterState, character);
-        CalcBurnChance(characterState, character);
-        CalcColdDamage(characterState, character);
-        CalcFreezeChance(characterState, character);
-        CalcFireResistance(characterState, character);
-        CalcColdResistance(characterState, character);
-        CalcArmor(characterState, character);
-        CalcDodge(characterState, character);
-        CalcAccuracy(characterState, character);
-        CalcCritChance(characterState, character);
-
-        // Map Character to State Object
+        // Reset Character State
         PropertyCopier<ICharacter, ICharacterState>.Copy(
-            character,
+            CreateInstance.Character(characterState.Type.ToString(), characterState.Level),
             characterState);
+
+        var activeAttack = CreateInstance.Attack(characterState.ActiveAttack,
+            characterState.Attacks.First(x => x.Key == characterState.ActiveAttack).Value);
+
+        foreach (KeyValueState _skill in characterState.ActiveSkills)
+        {
+            var skill = CreateInstance.Skill(_skill.Key, _skill.Index);
+            skill.UpdateCharacterState(characterState);
+        }
+
+        foreach (KeyValueState _passive in characterState.Passives)
+        {
+            var passive = CreateInstance.Passive(_passive.Key, _passive.Value);
+            passive.UpdateCharacterState(characterState);
+        }
+
+        // Apply % increases to base values
+        characterState.PhysicalDamage += ((characterState.PhysicalDamage / 100) * characterState.IncreasedPhysicalDamage);
+        characterState.FireDamage += ((characterState.FireDamage / 100) * characterState.IncreasedFireDamage);
+        characterState.ColdDamage += ((characterState.ColdDamage / 100) * characterState.IncreasedColdDamage);
+        characterState.IncreasedDodge += ((characterState.Dodge / 100) * characterState.IncreasedDodge);
+        characterState.IncreasedMoveSpeed += ((characterState.MoveSpeed / 100) * characterState.IncreasedMoveSpeed);
+        characterState.IncreasedMaxMana += ((characterState.MaxMana / 100) * characterState.IncreasedMaxMana);
+        characterState.IncreasedManaRegen += ((characterState.ManaRegen / 100) * characterState.IncreasedManaRegen);
+        characterState.IncreasedMaxHealth += ((characterState.MaxHealth / 100) * characterState.IncreasedMaxHealth);
+        characterState.IncreasedHealthRegen += ((characterState.HealthRegen / 100) * characterState.IncreasedHealthRegen);
+        characterState.ReservedMana = ((characterState.MaxMana / 100) * characterState.ReservedMana);
 
         return characterState;
 
     }
-
-    private void CalcMaxHealth(ICharacterState characterState, ICharacter character) { }
-    private void CalcHealthRegen(ICharacterState characterState, ICharacter character) { }
-    private void CalcMaxMana(ICharacterState characterState, ICharacter character) { }
-    private void CalcManaRegen(ICharacterState characterState, ICharacter character) { }
-    private void CalcPhysicalDamage(ICharacterState characterState, ICharacter character) 
-    {
-        var activeAttack = CreateInstance.Attack(characterState.ActiveAttack, 
-            characterState.Attacks.First(x => x.Key == characterState.ActiveAttack).Value);
-
-        character.PhysicalDamage += activeAttack.PhysicalDamage;
-
-    }
-    private void CalcBleedChance(ICharacterState characterState, ICharacter character) { }
-    private void CalcFireDamage(ICharacterState characterState, ICharacter character) { }
-    private void CalcBurnChance(ICharacterState characterState, ICharacter character) { }
-    private void CalcColdDamage(ICharacterState characterState, ICharacter character) { }
-    private void CalcFreezeChance(ICharacterState characterState, ICharacter character) { }
-    private void CalcFireResistance(ICharacterState characterState, ICharacter character) { }
-    private void CalcColdResistance(ICharacterState characterState, ICharacter character) { }
-    private void CalcArmor(ICharacterState characterState, ICharacter character) { }
-    private void CalcDodge(ICharacterState characterState, ICharacter character) { }
-    private void CalcAccuracy(ICharacterState characterState, ICharacter character) { }
-    private void CalcCritChance(ICharacterState characterState, ICharacter character) { }
-
 
 
 }

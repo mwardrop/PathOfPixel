@@ -5,6 +5,7 @@ using Data.Characters;
 using System;
 using UnityEngine;
 using UnityEngine.Playables;
+using Data.Passives;
 
 public static class CreateInstance
 {
@@ -27,6 +28,13 @@ public static class CreateInstance
     {
         return (ISkill)Activator.CreateInstance(
             Type.GetType($"Data.Skills.{name}"),
+            level);
+    }
+
+    public static IPassive Passive(string name, int level = 1)
+    {
+        return (IPassive)Activator.CreateInstance(
+            Type.GetType($"Data.Passives.{name}"),
             level);
     }
 

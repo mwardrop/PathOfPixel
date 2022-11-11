@@ -52,8 +52,6 @@ public class StateUpdater
     private void UpdatePlayer(PlayerState player, WorldState world)
     {
         ApplyIncomingDamageToPlayer(player);
-
-        //ApplySkillsToPlayersWithinRadius(player);
     }
 
     private void UpdateEnemy(EnemyState enemy, SceneState scene, WorldState world)
@@ -63,56 +61,6 @@ public class StateUpdater
         SetEnemyTarget(enemy, world.Players, scene);
 
     }
-
-    //private void ApplySkillsToPlayersWithinRadius(PlayerState player)
-    //{
-    //    var activeSkills = player.ActiveSkills.Where(x => x.Value == player.ClientId).Select(x => x.Key);
-
-    //    foreach(string skillName in activeSkills)
-    //    {
-    //        var skill = CreateInstance.Skill(skillName, player.Skills.First(x => x.Key == skillName).Value);
-
-    //        foreach(PlayerState otherPlayer in ServerManager.Instance.StateManager.WorldState.Players)
-    //        {
-            
-    //            if(otherPlayer.ClientId == player.ClientId) { continue; }
-
-    //            if(Vector2.Distance(player.Location, otherPlayer.Location) < skill.Radius)
-    //            {
-    //                if (otherPlayer.ActiveSkills.Count(x => x.Key == skillName && x.Value == player.ClientId) == 0)
-    //                {
-    //                    otherPlayer.ActiveSkills.Add(new KeyValueState(
-    //                        skillName,
-    //                        player.ClientId));
-
-    //                    ServerManager.Instance.StateManager.ActivatedPlayerSkills
-    //                        .First(x => x.Skill.GetName() == skillName && x.PlayerState.ClientId == player.ClientId)
-    //                        .PlayersInRadius.Add(otherPlayer.ClientId);
-
-    //                    ServerManager.SendNetworkMessage(
-    //                        otherPlayer.ClientId,
-    //                        NetworkTags.ActivatePlayerSkill,
-    //                        new StringIntegerData(skillName, player.ClientId));
-    //                }
-    //            } else
-    //            {
-    //                if (otherPlayer.ActiveSkills.Count(x => x.Key == skillName && x.Value == player.ClientId) > 0)
-    //                {
-    //                    otherPlayer.ActiveSkills.RemoveAll(x => x.Key == skillName && x.Value == player.ClientId);
-
-    //                    ServerManager.Instance.StateManager.ActivatedPlayerSkills
-    //                        .First(x => x.Skill.GetName() == skillName && x.PlayerState.ClientId == player.ClientId)
-    //                        .PlayersInRadius.Remove(otherPlayer.ClientId);
-
-    //                    ServerManager.SendNetworkMessage(
-    //                        otherPlayer.ClientId,
-    //                        NetworkTags.DeactivatePlayerSkill,
-    //                        new StringIntegerData(skillName, player.ClientId));
-    //                }
-    //            }
-    //        }
-    //    }
-    //}
 
     private void ApplyIncomingDamageToEnemy(EnemyState enemy)
     {

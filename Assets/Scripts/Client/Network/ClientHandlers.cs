@@ -65,11 +65,17 @@ public class ClientHandlers
                 case NetworkTags.SetPlayerDirection:
                     SetPlayerDirection(message.Deserialize<IntegerPairData>());
                     break;
+                //case NetworkTags.ActivatePlayerSkill:
+                //    ActivatePlayerSkill(message.Deserialize<StringIntegerData>());
+                //    break;
+                //case NetworkTags.DeactivatePlayerSkill:
+                //    DeactivatePlayerSkill(message.Deserialize<StringIntegerData>());
+                //    break;
                 case NetworkTags.ActivatePlayerSkill:
-                    ActivatePlayerSkill(message.Deserialize<StringIntegerData>());
+                    ActivatePlayerSkill(message.Deserialize<SkillActivationData>());
                     break;
                 case NetworkTags.DeactivatePlayerSkill:
-                    DeactivatePlayerSkill(message.Deserialize<StringIntegerData>());
+                    DeactivatePlayerSkill(message.Deserialize<SkillActivationData>());
                     break;
 
             }
@@ -237,19 +243,45 @@ public class ClientHandlers
             .SetDirection((SpriteDirection)integerData.Integer2);
     }
 
-    public void ActivatePlayerSkill(StringIntegerData stringIntegerData)
+    //public void ActivatePlayerSkill(StringIntegerData stringIntegerData)
+    //{
+    //    if (PlayerState.ActiveSkills.Count(x => x.Key == stringIntegerData.String && x.Value == stringIntegerData.Integer) == 0)
+    //    {
+    //        PlayerState.ActiveSkills.Add(new KeyValueState (
+    //            stringIntegerData.String,
+    //            stringIntegerData.Integer));
+    //    }
+    //}
+
+    public void ActivatePlayerSkill(SkillActivationData skillActivationData)
     {
-        if (PlayerState.ActiveSkills.Count(x => x.Key == stringIntegerData.String && x.Value == stringIntegerData.Integer) == 0)
+        var playerState = StateManager.WorldState.GetPlayerState(skillActivationData.Receivingharacter);
+
+        if (playerState.ActiveSkills.Count(x => x.Key == skillActivationData.Name && x.Value == skillActivationData.ActivatingCharacter) == 0)
         {
-            PlayerState.ActiveSkills.Add(new KeyValueState (
-                stringIntegerData.String,
-                stringIntegerData.Integer));
+            playerState.ActiveSkills.Add(new KeyValueState(
+                skillActivationData.Name,
+                skillActivationData.ActivatingCharacter) {  
+                    Index = skillActivationData.Level 
+            });
+
+            StateManager.StateCalculator.CalcCharacterState(playerState);
         }
     }
 
-    public void DeactivatePlayerSkill(StringIntegerData stringIntegerData)
+    public void DeactivatePlayerSkill(SkillActivationData skillActivationData)
     {
-        PlayerState.ActiveSkills.RemoveAll(x => x.Key == stringIntegerData.String && x.Value == stringIntegerData.Integer);
+        var playerState = StateManager.WorldState.GetPlayerState(skillActivationData.Receivingharacter);
+
+        playerState.ActiveSkills.RemoveAll(x => x.Key == skillActivationData.Name && x.Value == skillActivationData.ActivatingCharacter);
+
+        StateManager.StateCalculator.CalcCharacterState(playerState);
+       
     }
+
+    //public void DeactivatePlayerSkill(StringIntegerData stringIntegerData)
+    //{
+    //    PlayerState.ActiveSkills.RemoveAll(x => x.Key == stringIntegerData.String && x.Value == stringIntegerData.Integer);
+    //}
 
 }

@@ -408,3 +408,35 @@ public struct KeyValueStateData : IDarkRiftSerializable
         e.Writer.Write(KeyValueState);
     }
 }
+
+public struct SkillActivationData : IDarkRiftSerializable
+{
+    public int ActivatingCharacter;
+    public int Receivingharacter;
+    public string Name;
+    public int Level;
+
+    public SkillActivationData(int activatingCharacter, int receivingCharacter, string name, int level )
+    {
+        ActivatingCharacter = activatingCharacter;
+        Receivingharacter = receivingCharacter;
+        Name = name;
+        Level = level;
+    }
+
+    public void Deserialize(DeserializeEvent e)
+    {
+        ActivatingCharacter = e.Reader.ReadInt32();
+        Receivingharacter = e.Reader.ReadInt32();
+        Name = e.Reader.ReadString();
+        Level = e.Reader.ReadInt32();
+    }
+
+    public void Serialize(SerializeEvent e)
+    {
+        e.Writer.Write(ActivatingCharacter);
+        e.Writer.Write(Receivingharacter);
+        e.Writer.Write(Name);
+        e.Writer.Write(Level);
+    }
+}

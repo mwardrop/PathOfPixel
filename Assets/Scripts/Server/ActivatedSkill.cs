@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.Playables;
 
 public class ActivatedPlayerSkill
 {
@@ -24,8 +25,6 @@ public class ActivatedPlayerSkill
         Skill = skill;
         ActivatedPlayerSkills = activatedPlayerSkills;
         PlayersInRadius = new List<int>();
-
-        Activate();
     }
 
     public void Update()
@@ -43,14 +42,27 @@ public class ActivatedPlayerSkill
                 {
                     otherPlayer.ActiveSkills.Add(new KeyValueState(
                         Skill.GetName(),
-                        PlayerState.ClientId));
+                        PlayerState.ClientId) {  
+                            Index = PlayerState.Skills.First(x => x.Key == Skill.GetName()).Value
+                    });
+
+                    ServerManager.Instance.StateManager.StateCalculator.CalcCharacterState(otherPlayer);
 
                     PlayersInRadius.Add(otherPlayer.ClientId);
      
-                    ServerManager.SendNetworkMessage(
-                        otherPlayer.ClientId,
+                    //ServerManager.SendNetworkMessage(
+                    //    otherPlayer.ClientId,
+                    //    NetworkTags.ActivatePlayerSkill,
+                    //    new StringIntegerData(Skill.GetName(), PlayerState.ClientId));
+
+                    ServerManager.BroadcastNetworkMessage(
                         NetworkTags.ActivatePlayerSkill,
-                        new StringIntegerData(Skill.GetName(), PlayerState.ClientId));
+                        new SkillActivationData(
+                            PlayerState.ClientId,
+                            otherPlayer.ClientId,
+                            Skill.GetName(),
+                            PlayerState.Skills.First(x => x.Key == Skill.GetName()).Value
+                        ));
                 }
             }
             else
@@ -58,13 +70,24 @@ public class ActivatedPlayerSkill
                 if (otherPlayer.ActiveSkills.Count(x => x.Key == Skill.GetName() && x.Value == PlayerState.ClientId) > 0)
                 {
                     otherPlayer.ActiveSkills.RemoveAll(x => x.Key == Skill.GetName() && x.Value == PlayerState.ClientId);
+                    
+                    ServerManager.Instance.StateManager.StateCalculator.CalcCharacterState(otherPlayer);
 
                     PlayersInRadius.Remove(otherPlayer.ClientId);
 
-                    ServerManager.SendNetworkMessage(
-                        otherPlayer.ClientId,
+                    //ServerManager.SendNetworkMessage(
+                    //    otherPlayer.ClientId,
+                    //    NetworkTags.DeactivatePlayerSkill,
+                    //    new StringIntegerData(Skill.GetName(), PlayerState.ClientId));
+
+                    ServerManager.BroadcastNetworkMessage(
                         NetworkTags.DeactivatePlayerSkill,
-                        new StringIntegerData(Skill.GetName(), PlayerState.ClientId));
+                        new SkillActivationData(
+                            PlayerState.ClientId,
+                            otherPlayer.ClientId,
+                            Skill.GetName(),
+                            PlayerState.Skills.First(x => x.Key == Skill.GetName()).Value
+                        ));
                 }
             }
         }
@@ -77,13 +100,27 @@ public class ActivatedPlayerSkill
         {
             PlayerState.ActiveSkills.Add(new KeyValueState(
                 Skill.GetName(),
-                PlayerState.ClientId));
+                PlayerState.ClientId) { 
+                    Index = PlayerState.Skills.First(x => x.Key == Skill.GetName()).Value 
+                });
+
+            ServerManager.Instance.StateManager.StateCalculator.CalcCharacterState(PlayerState);
+
+            ServerManager.BroadcastNetworkMessage(
+                NetworkTags.ActivatePlayerSkill,
+                new SkillActivationData(
+                    PlayerState.ClientId,
+                    PlayerState.ClientId,
+                    Skill.GetName(),
+                    PlayerState.Skills.First(x => x.Key == Skill.GetName()).Value
+                ));
+
         }
 
-        ServerManager.SendNetworkMessage(
-            PlayerState.ClientId,
-            NetworkTags.ActivatePlayerSkill,
-            new StringIntegerData(Skill.GetName(), PlayerState.ClientId));
+        //ServerManager.SendNetworkMessage(
+        //    PlayerState.ClientId,
+        //    NetworkTags.ActivatePlayerSkill,
+        //    new StringIntegerData(Skill.GetName(), PlayerState.ClientId));
 
         ServerManager.Instance.StartCoroutine(DeactivateSkillCoroutine());
 
@@ -101,15 +138,38 @@ public class ActivatedPlayerSkill
     {
         PlayerState.ActiveSkills.RemoveAll(x => x.Key == Skill.GetName() && x.Value == PlayerState.ClientId);
 
-        foreach(int playerId in PlayersInRadius)
-        {
-            ServerManager.Instance.StateManager.WorldState.GetPlayerState(playerId).ActiveSkills.RemoveAll(
-                x => x.Key == Skill.GetName() && x.Value == PlayerState.ClientId);
-        }
+        ServerManager.Instance.StateManager.StateCalculator.CalcCharacterState(PlayerState);
 
         ServerManager.BroadcastNetworkMessage(
             NetworkTags.DeactivatePlayerSkill,
-            new StringIntegerData(Skill.GetName(), PlayerState.ClientId));
+            new SkillActivationData(
+                PlayerState.ClientId,
+                PlayerState.ClientId,
+                Skill.GetName(),
+                PlayerState.Skills.First(x => x.Key == Skill.GetName()).Value
+            ));
+
+        foreach (int playerId in PlayersInRadius)
+        {
+            var otherPlayer = ServerManager.Instance.StateManager.WorldState.GetPlayerState(playerId);
+            otherPlayer.ActiveSkills.RemoveAll(
+                x => x.Key == Skill.GetName() && x.Value == PlayerState.ClientId);
+
+            ServerManager.Instance.StateManager.StateCalculator.CalcCharacterState(otherPlayer);
+
+            ServerManager.BroadcastNetworkMessage(
+                NetworkTags.DeactivatePlayerSkill,
+                new SkillActivationData(
+                    PlayerState.ClientId,
+                    otherPlayer.ClientId,
+                    Skill.GetName(),
+                    PlayerState.Skills.First(x => x.Key == Skill.GetName()).Value
+                ));
+        }
+
+        //ServerManager.BroadcastNetworkMessage(
+        //    NetworkTags.DeactivatePlayerSkill,
+        //    new StringIntegerData(Skill.GetName(), PlayerState.ClientId));
 
         ActivatedPlayerSkills.Remove(this);
     }

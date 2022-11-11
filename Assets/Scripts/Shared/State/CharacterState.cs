@@ -48,9 +48,20 @@ public class CharacterState : ICharacterState, IDarkRiftSerializable
     public string ActiveAttack { get; set; }
     public List<KeyValueState> ActiveSkills { get; set; }
 
+    // Calculate Fields
     public float IncomingPhysicalDamage { get; set; }
     public float IncomingFireDamage { get; set; }
     public float IncomingColdDamage { get; set; }
+    public float IncreasedPhysicalDamage { get; set; }
+    public float IncreasedColdDamage { get; set; }
+    public float IncreasedFireDamage { get; set; }
+    public float IncreasedDodge { get; set; }
+    public float IncreasedMoveSpeed { get; set; }
+    public float IncreasedMaxMana { get; set; }
+    public float IncreasedManaRegen { get; set; }
+    public float IncreasedMaxHealth { get; set; }
+    public float IncreasedHealthRegen { get; set; }
+    public float ReservedMana { get; set; }
 
     public CharacterState()
     {
@@ -194,4 +205,14 @@ public interface ICharacterState
     public float IncomingPhysicalDamage { get; set; }
     public float IncomingFireDamage { get; set; }
     public float IncomingColdDamage { get; set; }
+    public float IncreasedPhysicalDamage { get; set; }
+    public float IncreasedColdDamage { get; set; }
+    public float IncreasedFireDamage { get; set; }
+    public float IncreasedDodge { get; set; }
+    public float IncreasedMoveSpeed { get; set; }
+    public float IncreasedMaxMana { get; set; }
+    public float IncreasedManaRegen { get; set; }
+    public float IncreasedMaxHealth { get; set; }
+    public float IncreasedHealthRegen { get; set; }
+    public float ReservedMana { get; set; }
 }

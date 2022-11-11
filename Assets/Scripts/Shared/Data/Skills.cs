@@ -13,8 +13,10 @@ namespace Data.Skills
         public int IconId { get; set; }
         public float Duration { get; set; }
         public float Radius { get; set; }
+        public float ManaReservation { get; set; }
 
         public string GetName();
+        public ICharacterState UpdateCharacterState(ICharacterState characterState);
     }
 
     public class BaseSkill: ISkill
@@ -25,6 +27,7 @@ namespace Data.Skills
         public int IconId { get; set; }
         public float Duration { get; set; }
         public float Radius { get; set; }
+        public float ManaReservation { get; set; }
 
         public string GetName()
         {
@@ -34,10 +37,15 @@ namespace Data.Skills
         public BaseSkill(int level)
         {
             Level = level;
+            ManaReservation = 20;
         }
-    } 
 
-    public class SummerSolsticeSkill: BaseSkill, ISkill
+        public virtual ICharacterState UpdateCharacterState(ICharacterState characterState) {
+            characterState.ReservedMana += ManaReservation;
+            return characterState; }
+    }
+
+    public class SummerSolsticeSkill : BaseSkill, ISkill
     {
         public SummerSolsticeSkill(int level = 1) : base(level)
         {
@@ -46,6 +54,12 @@ namespace Data.Skills
             IconId = 1;
             Radius = 5;
             Duration = 60;
+        }
+        public override ICharacterState UpdateCharacterState(ICharacterState characterState)
+        {
+            base.UpdateCharacterState(characterState);
+            characterState.FireDamage += 1;
+            return characterState;
         }
     }
 
@@ -58,6 +72,12 @@ namespace Data.Skills
             IconId = 2;
             Radius = 5;
             Duration = 60;
+        }
+        public override ICharacterState UpdateCharacterState(ICharacterState characterState)
+        {
+            base.UpdateCharacterState(characterState);
+            characterState.ColdDamage += 1;
+            return characterState;
         }
     }
 
@@ -72,6 +92,12 @@ namespace Data.Skills
             Radius = 5;
             Duration = 60;
         }
+        public override ICharacterState UpdateCharacterState(ICharacterState characterState)
+        {
+            base.UpdateCharacterState(characterState);
+            characterState.PhysicalDamage += 1;
+            return characterState;
+        }
     }
 
 
@@ -80,10 +106,16 @@ namespace Data.Skills
         public FreezingWinterSkill(int level = 1) : base(level)
         {
             Name = "Freezing Winter";
-            Description = "1% Chance to Freeze on Attack per Level for you and Allies within 5 Radius.";
+            Description = "Adds 1% Chance to Freeze on Attack per Level for you and Allies within 5 Radius.";
             IconId = 4;
             Radius = 5;
             Duration = 30;
+        }
+        public override ICharacterState UpdateCharacterState(ICharacterState characterState)
+        {
+            base.UpdateCharacterState(characterState);
+            characterState.FreezeChance += 1;
+            return characterState;
         }
     }
 
@@ -92,10 +124,16 @@ namespace Data.Skills
         public BurningSummerSkill(int level = 1) : base(level)
         {
             Name = "Burning Summer";
-            Description = "1% Chance to Burn on Attack per Level for you and Allies within 5 Radius.";
+            Description = "Adds 1% Chance to Burn on Attack per Level for you and Allies within 5 Radius.";
             IconId = 5;
             Radius = 5;
             Duration = 30;
+        }
+        public override ICharacterState UpdateCharacterState(ICharacterState characterState)
+        {
+            base.UpdateCharacterState(characterState);
+            characterState.BurnChance += 1;
+            return characterState;
         }
     }
 
@@ -104,10 +142,52 @@ namespace Data.Skills
         public BleedingFurySkill(int level = 1) : base(level)
         {
             Name = "Bleeding Fury";
-            Description = "1% Chance to Bleed on Attack per Level for you and Allies within 5 Radius.";
+            Description = "Adds 1% Chance to Bleed on Attack per Level for you and Allies within 5 Radius.";
             IconId = 6;
             Radius = 5;
             Duration = 30;
+        }
+        public override ICharacterState UpdateCharacterState(ICharacterState characterState)
+        {
+            base.UpdateCharacterState(characterState);
+            characterState.BleedChance += 1;
+            return characterState;
+        }
+    }
+
+    public class WarmEmbraceSkill : BaseSkill, ISkill
+    {
+        public WarmEmbraceSkill(int level = 1) : base(level)
+        {
+            Name = "Warm Embrace";
+            Description = "Increases Health Regeneration by 1% per Level for you and Allies within 5 Radius.";
+            IconId = 7;
+            Radius = 5;
+            Duration = 30;
+        }
+        public override ICharacterState UpdateCharacterState(ICharacterState characterState)
+        {
+            base.UpdateCharacterState(characterState);
+            characterState.IncreasedHealthRegen += 1;
+            return characterState;
+        }
+    }
+
+    public class ColdEmbraceSkill : BaseSkill, ISkill
+    {
+        public ColdEmbraceSkill(int level = 1) : base(level)
+        {
+            Name = "Cold Embrace";
+            Description = "Increases Mana Regeneration by 1% per Level for you and Allies within 5 Radius.";
+            IconId = 8;
+            Radius = 5;
+            Duration = 30;
+        }
+        public override ICharacterState UpdateCharacterState(ICharacterState characterState)
+        {
+            base.UpdateCharacterState(characterState);
+            characterState.IncreasedManaRegen += 1;
+            return characterState;
         }
     }
 
