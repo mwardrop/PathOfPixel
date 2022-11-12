@@ -29,14 +29,6 @@ public class ServerManager : MonoBehaviour
     //    }
     //}
 
-    public void Update()
-    {
-        if (StateManager != null)
-        {
-            StateManager.Update();
-        }
-    }
-
     void Awake()
     {
         if (Instance != null)
@@ -60,9 +52,25 @@ public class ServerManager : MonoBehaviour
 
             Server.ClientManager.ClientConnected += OnClientConnected;
             Server.ClientManager.ClientDisconnected += OnClientDisconnected;
+
+            InvokeRepeating("OneSecondUpdate", 0, 1);
+
         }  catch(Exception ex) {
             Debug.LogWarning("Server failed to start.");
         }
+    }
+
+    public void Update()
+    {
+        if (StateManager != null)
+        {
+            StateManager.Update();
+        }
+    }
+
+    public void OneSecondUpdate()
+    {
+        StateManager.OneSecondUpdate();
     }
 
     void OnDestroy()

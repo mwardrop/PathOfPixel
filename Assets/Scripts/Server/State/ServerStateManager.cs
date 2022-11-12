@@ -30,6 +30,11 @@ public class ServerStateManager
         StateUpdater.Update(WorldState);
     }
 
+    public void OneSecondUpdate()
+    {
+        StateUpdater.OneSecondUpdate(WorldState);
+    }
+
     public void LoadScene(string scene)
     {
         SceneState OverworldScene = new SceneState() { Name = scene };

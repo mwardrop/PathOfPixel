@@ -34,7 +34,11 @@ public enum NetworkTags
     ActivateEnemySkill = 27,
     DeactivateEnemySkill = 28,
     UpdatePlayerLocation = 29,
-    UpdatePlayerExperience = 30
+    UpdatePlayerExperience = 30,
+
+    UpdatePlayerRegen = 31,
+    UpdateEnemyRegen = 32
+
 }
 
 public struct LoginRequestData : IDarkRiftSerializable
@@ -282,6 +286,31 @@ public struct GuidData : IDarkRiftSerializable
     }
 }
 
+public struct GuidIntegerData : IDarkRiftSerializable
+{
+    public System.Guid Guid;
+    public int Integer;
+
+    public GuidIntegerData(System.Guid guid, int integer)
+    {
+        Guid = guid;
+        Integer = integer;
+    }
+
+    public void Deserialize(DeserializeEvent e)
+    {
+        string tempGuid = e.Reader.ReadString();
+        Guid = new System.Guid(tempGuid);
+        Integer = e.Reader.ReadInt32();
+    }
+
+    public void Serialize(SerializeEvent e)
+    {
+        e.Writer.Write(Guid.ToString());
+        e.Writer.Write(Integer);
+    }
+}
+
 public struct EnemyTakeDamageData : IDarkRiftSerializable
 {
     public System.Guid EnemyGuid;
@@ -480,5 +509,66 @@ public struct SkillActivationData : IDarkRiftSerializable
         e.Writer.Write(Name);
         e.Writer.Write(Level);
         e.Writer.Write(Scene);
+    }
+}
+
+public struct EnemyRegenData : IDarkRiftSerializable
+{
+    public System.Guid Guid;
+    public float Health;
+    public float Mana;
+    public string Scene;
+
+    public EnemyRegenData(System.Guid guid, float health, float mana, string scene)
+    {
+        Guid = guid;
+        Health = health;
+        Mana = mana;
+        Scene = scene;
+    }
+
+    public void Deserialize(DeserializeEvent e)
+    {
+        string tempGuid = e.Reader.ReadString();
+        Guid = new System.Guid(tempGuid);
+        Health = e.Reader.ReadSingle();
+        Mana = e.Reader.ReadSingle();
+        Scene = e.Reader.ReadString();
+    }
+
+    public void Serialize(SerializeEvent e)
+    {
+        e.Writer.Write(Guid.ToString());
+        e.Writer.Write(Health);
+        e.Writer.Write(Mana);
+        e.Writer.Write(Scene);
+    }
+}
+
+public struct PlayerRegenData : IDarkRiftSerializable
+{
+    public int Id;
+    public float Health;
+    public float Mana;
+
+    public PlayerRegenData(int id, float health, float mana)
+    {
+        Id = id;
+        Health = health;
+        Mana = mana;
+    }
+
+    public void Deserialize(DeserializeEvent e)
+    {
+        Id = e.Reader.ReadInt32();
+        Health = e.Reader.ReadSingle();
+        Mana = e.Reader.ReadSingle();
+    }
+
+    public void Serialize(SerializeEvent e)
+    {
+        e.Writer.Write(Id);
+        e.Writer.Write(Health);
+        e.Writer.Write(Mana);
     }
 }

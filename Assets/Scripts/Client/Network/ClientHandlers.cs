@@ -83,6 +83,12 @@ public class ClientHandlers
                 case NetworkTags.UpdatePlayerExperience:
                     UpdatePlayerExperience(message.Deserialize<IntegerPairData>());
                     break;
+                case NetworkTags.UpdatePlayerRegen:
+                    UpdatePlayerRegen(message.Deserialize<PlayerRegenData>());
+                    break;
+                case NetworkTags.UpdateEnemyRegen:
+                    UpdateEnemyRegen(message.Deserialize<EnemyRegenData>());
+                    break;
 
             }
         }
@@ -338,5 +344,19 @@ public class ClientHandlers
     {
         StateManager.WorldState.GetPlayerState(integerPairData.Integer1).Experience = integerPairData.Integer2;
         
+    }
+
+    public void UpdateEnemyRegen(EnemyRegenData enemyRegenData)
+    {
+        var enemy = StateManager.WorldState.GetEnemyStateByGuid(enemyRegenData.Guid, enemyRegenData.Scene);
+        enemy.Health = enemyRegenData.Health;
+        enemy.Mana = enemyRegenData.Mana;
+    }
+
+    public void UpdatePlayerRegen(PlayerRegenData playerRegenData)
+    {
+        var player = StateManager.WorldState.GetPlayerState(playerRegenData.Id);
+        player.Health = playerRegenData.Health;
+        player.Mana = playerRegenData.Mana;
     }
 }

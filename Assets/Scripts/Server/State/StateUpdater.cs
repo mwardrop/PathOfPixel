@@ -6,25 +6,66 @@ using System.Collections.Generic;
 using System.Linq;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.Playables;
+using UnityEngine.TextCore.Text;
+using static UnityEngine.EventSystems.EventTrigger;
 
 public class StateUpdater
 {
-    public StateUpdater()
+
+    public void OneSecondUpdate(WorldState worldstate)
     {
-        //ServerManager.Instance.InvokeRepeating("StateManager.StateUpdater.OneSecondTick", 0, 1);
-        //ServerManager.Instance.InvokeRepeating("StateManager.StateUpdater.ThirtySecondTick", 0, 30);
+        foreach(PlayerState player in worldstate.Players)
+        {
+            if (!player.IsDead)
+            {
+                ApplyRegenToCharacter(player);
+
+                ServerManager.BroadcastNetworkMessage(
+                    NetworkTags.UpdatePlayerRegen,
+                    new PlayerRegenData(
+                        player.ClientId,
+                        player.Health,
+                        player.Mana
+                    )
+                );
+            }
+        }
+
+        foreach (SceneState scene in worldstate.Scenes)
+        {
+            foreach(EnemyState enemy in scene.Enemies)
+            {
+                if (!enemy.IsDead)
+                {
+                    ApplyRegenToCharacter(enemy);
+
+                    ServerManager.BroadcastNetworkMessage(
+                        NetworkTags.UpdateEnemyRegen,
+                        new EnemyRegenData(
+                            enemy.EnemyGuid,
+                            enemy.Health,
+                            enemy.Mana,
+                            scene.Name
+                        )
+                    );
+                }
+            }
+        }
+        
     }
 
-    //public void OneSecondTick()
-    //{
-
-    //}
-
-    //public void ThirtySecondTick()
-    //{
-
-    //}
-
+    public void ApplyRegenToCharacter(ICharacterState character)
+    {
+        if (character.Health != character.MaxHealth)
+        {
+            character.Health = Math.Min(character.Health + character.HealthRegen, character.MaxHealth);
+        }
+        if (character.Mana != character.MaxMana)
+        {
+            character.Mana = Math.Min(character.Mana + character.ManaRegen, character.MaxMana);
+        }
+    }
     public void Update(WorldState worldstate)
     {
 
@@ -58,15 +99,20 @@ public class StateUpdater
 
     private void UpdatePlayer(PlayerState player, WorldState world)
     {
-        ApplyIncomingDamageToPlayer(player);
+        if (!player.IsDead)
+        {
+            ApplyIncomingDamageToPlayer(player);
+        }
     }
 
     private void UpdateEnemy(EnemyState enemy, SceneState scene, WorldState world)
     {
-        ApplyIncomingDamageToEnemy(enemy, scene);
+        if (!enemy.IsDead)
+        {
+            ApplyIncomingDamageToEnemy(enemy, scene);
 
-        SetEnemyTarget(enemy, world.Players, scene);
-
+            SetEnemyTarget(enemy, world.Players, scene);
+        }
     }
 
     private void ApplyIncomingDamageToEnemy(EnemyState enemy, SceneState scene)
