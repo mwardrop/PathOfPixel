@@ -1,5 +1,6 @@
 ﻿
 
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -88,6 +89,17 @@ public class StateUpdater
 
             if (enemy.IsDead)
             {
+                var totalDamage = enemy.DamageTracker.Sum(x => x.Value);
+                foreach(KeyValueState playerDamage in enemy.DamageTracker)
+                {
+                    var player = ServerManager.Instance.StateManager.WorldState.GetPlayerState(Int32.Parse(playerDamage.Key));
+                    player.Experience += enemy.Experience * ((playerDamage.Value * 100) / totalDamage) / 100;
+
+                    ServerManager.BroadcastNetworkMessage(
+                        NetworkTags.UpdatePlayerExperience,
+                        new IntegerPairData(player.ClientId, player.Experience));
+                }
+
                 ServerManager.Instance.StartCoroutine(DestroyCoroutine());
                 IEnumerator DestroyCoroutine()
                 {

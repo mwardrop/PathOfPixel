@@ -31,10 +31,10 @@ public enum NetworkTags
     SetPlayerHotbarItem = 24,
     ActivatePlayerSkill = 25,
     DeactivatePlayerSkill = 26,
-
     ActivateEnemySkill = 27,
     DeactivateEnemySkill = 28,
     UpdatePlayerLocation = 29,
+    UpdatePlayerExperience = 30
 }
 
 public struct LoginRequestData : IDarkRiftSerializable

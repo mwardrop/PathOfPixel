@@ -36,9 +36,14 @@ public class ServerStateManager
 
         WorldState.Scenes.Add(OverworldScene);
 
-        SpawnEnemy("OverworldScene", "Possessed 1", new Vector2(-2f, -4.5f), new Possessed(), true);
-        SpawnEnemy("OverworldScene", "Possessed 2", new Vector2(-6f, -6f), new Possessed(), false);
-
+        SpawnEnemy("OverworldScene", "Possessed 1", new Vector2(-15, -10), new Possessed(), true);
+        SpawnEnemy("OverworldScene", "Possessed 2", new Vector2(-10, -10), new Possessed(), false);
+        SpawnEnemy("OverworldScene", "Possessed 3", new Vector2(-5, -10), new Possessed(), true);
+        SpawnEnemy("OverworldScene", "Possessed 4", new Vector2(0, -10), new Possessed(), false);
+        SpawnEnemy("OverworldScene", "Possessed 5", new Vector2(5, -10), new Possessed(), true);
+        SpawnEnemy("OverworldScene", "Possessed 6", new Vector2(10, -10), new Possessed(), false);
+        SpawnEnemy("OverworldScene", "Possessed 7", new Vector2(15, -10), new Possessed(), true);
+        SpawnEnemy("OverworldScene", "Possessed 8", new Vector2(20, -10), new Possessed(), false);
     }
 
     public EnemyState SpawnEnemy(string scene, string name, Vector2 location, ICharacter character, bool activateSkills = false)

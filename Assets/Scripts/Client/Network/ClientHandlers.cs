@@ -80,6 +80,9 @@ public class ClientHandlers
                 case NetworkTags.DeactivateEnemySkill:
                     DeactivateEnemySkill(message.Deserialize<SkillActivationData>());
                     break;
+                case NetworkTags.UpdatePlayerExperience:
+                    UpdatePlayerExperience(message.Deserialize<IntegerPairData>());
+                    break;
 
             }
         }
@@ -331,4 +334,9 @@ public class ClientHandlers
 
     }
 
+    public void UpdatePlayerExperience(IntegerPairData integerPairData)
+    {
+        StateManager.WorldState.GetPlayerState(integerPairData.Integer1).Experience = integerPairData.Integer2;
+        
+    }
 }
