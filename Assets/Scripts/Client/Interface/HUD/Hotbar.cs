@@ -12,6 +12,13 @@ public class Hotbar : MonoBehaviour
     public GameObject ManaOrbWave;
     private RectTransform ManaTransform {  get { return ManaOrbWave.GetComponent<RectTransform>(); } }
 
+    private HotbarSkill Skill1 { get { return transform.Find("Skill1").GetComponent<HotbarSkill>(); } }
+    private HotbarSkill Skill2 { get { return transform.Find("Skill2").GetComponent<HotbarSkill>(); } }
+    private HotbarSkill Skill3 { get { return transform.Find("Skill3").GetComponent<HotbarSkill>(); } }
+    private HotbarSkill Skill4 { get { return transform.Find("Skill4").GetComponent<HotbarSkill>(); } }
+    private HotbarSkill Skill5 { get { return transform.Find("Skill5").GetComponent<HotbarSkill>(); } }
+    private HotbarSkill Skill6 { get { return transform.Find("Skill6").GetComponent<HotbarSkill>(); } }
+
     private PlayerState PlayerState
     {
         get
@@ -30,12 +37,12 @@ public class Hotbar : MonoBehaviour
     {
         if (PlayerState != null)
         {
-            if (Input.GetKeyUp(KeyCode.Alpha1)) { transform.Find("Skill1").GetComponent<HotbarSkill>().Activate(); }
-            if (Input.GetKeyUp(KeyCode.Alpha2)) { transform.Find("Skill2").GetComponent<HotbarSkill>().Activate(); }
-            if (Input.GetKeyUp(KeyCode.Alpha3)) { transform.Find("Skill3").GetComponent<HotbarSkill>().Activate(); }
-            if (Input.GetKeyUp(KeyCode.Alpha4)) { transform.Find("Skill4").GetComponent<HotbarSkill>().Activate(); }
-            if (Input.GetKeyUp(KeyCode.Alpha5)) { transform.Find("Skill5").GetComponent<HotbarSkill>().Activate(); }
-            if (Input.GetKeyUp(KeyCode.Alpha6)) { transform.Find("Skill6").GetComponent<HotbarSkill>().Activate(); }
+            if (Input.GetKeyUp(KeyCode.Alpha1)) { Skill1.Activate(); }
+            if (Input.GetKeyUp(KeyCode.Alpha2)) { Skill2.Activate(); }
+            if (Input.GetKeyUp(KeyCode.Alpha3)) { Skill3.Activate(); }
+            if (Input.GetKeyUp(KeyCode.Alpha4)) { Skill4.Activate(); }
+            if (Input.GetKeyUp(KeyCode.Alpha5)) { Skill5.Activate(); }
+            if (Input.GetKeyUp(KeyCode.Alpha6)) { Skill6.Activate(); }
 
             float maxExp = (100 * PlayerState.Level) * PlayerState.Level;
             float currentExp = PlayerState.Experience;

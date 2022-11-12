@@ -1,8 +1,6 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using System.Linq.Expressions;
 using DarkRift;
 using DarkRift.Server;
 using DarkRift.Server.Unity;
@@ -17,17 +15,6 @@ public class ServerManager : MonoBehaviour
 
     public Dictionary<int, ServerConnection> Connections = new Dictionary<int, ServerConnection>();
     public ServerStateManager StateManager;
-
-    //public new void StartCoroutine(IEnumerator coroutine)
-    //{
-    //    base.StartCoroutine(coroutine);
-
-    //    IEnumerator DeactivateSkillCoroutine()
-    //    {
-    //        yield return WaitForSeconds(3);
-
-    //    }
-    //}
 
     void Awake()
     {
@@ -122,8 +109,7 @@ public class ServerManager : MonoBehaviour
         try
             {
             existingConnectionId = Connections.First(x =>
-                x.Value.Username == data.Username &&
-                x.Value.Client.ConnectionState == ConnectionState.Disconnected
+                x.Value.Username == data.Username
             ).Key;
         } catch { }
 
@@ -171,16 +157,21 @@ public class ServerManager : MonoBehaviour
 
     public static void SendNetworkMessage(IClient client, NetworkTags networkTag, IDarkRiftSerializable payload = null)
     {
-
-        if (payload == null) {
-            using (Message m = Message.CreateEmpty((ushort)networkTag))
+        if (client.ConnectionState == ConnectionState.Connected)
+        {
+            if (payload == null)
             {
-                client.SendMessage(m, SendMode.Reliable);
+                using (Message m = Message.CreateEmpty((ushort)networkTag))
+                {
+                    client.SendMessage(m, SendMode.Reliable);
+                }
             }
-        } else {
-            using (Message m = Message.Create((ushort)networkTag, payload))
+            else
             {
-                client.SendMessage(m, SendMode.Reliable);
+                using (Message m = Message.Create((ushort)networkTag, payload))
+                {
+                    client.SendMessage(m, SendMode.Reliable);
+                }
             }
         }
     }
@@ -189,18 +180,21 @@ public class ServerManager : MonoBehaviour
     {
         foreach (KeyValuePair<int, ServerConnection> connection in Instance.Connections)
         {
-            if (payload == null)
+            if (connection.Value.Client.ConnectionState == ConnectionState.Connected)
             {
-                using (Message m = Message.CreateEmpty((ushort)networkTag))
+                if (payload == null)
                 {
-                    connection.Value.Client.SendMessage(m, SendMode.Reliable);
+                    using (Message m = Message.CreateEmpty((ushort)networkTag))
+                    {
+                        connection.Value.Client.SendMessage(m, SendMode.Reliable);
+                    }
                 }
-            }
-            else
-            {
-                using (Message m = Message.Create((ushort)networkTag, payload))
+                else
                 {
-                    connection.Value.Client.SendMessage(m, SendMode.Reliable);
+                    using (Message m = Message.Create((ushort)networkTag, payload))
+                    {
+                        connection.Value.Client.SendMessage(m, SendMode.Reliable);
+                    }
                 }
             }
         }

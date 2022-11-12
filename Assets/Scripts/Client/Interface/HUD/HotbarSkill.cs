@@ -1,15 +1,11 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text.RegularExpressions;
 using UnityEngine;
 using UnityEngine.EventSystems;
-using UnityEngine.Windows;
+using static TMPro.SpriteAssetUtilities.TexturePacker_JsonArray;
 
 public class HotbarSkill : MonoBehaviour, IDropHandler, IPointerClickHandler
 {
-
     public Sprite HotbarSkillNormal;
     public Sprite HotbarSkillActive;
     public Sprite HotbarSkillAttack;
@@ -19,6 +15,8 @@ public class HotbarSkill : MonoBehaviour, IDropHandler, IPointerClickHandler
     private int HotbarIndex;
     private GameObject HotbarIconObject;
     private Icon HotbarIcon;
+
+    private PlayerState PlayerState { get { try { return ClientManager.Instance.StateManager.PlayerState; } catch { return null; } } }
 
     private UnityEngine.UI.Image _image;
     public UnityEngine.UI.Image image
@@ -42,13 +40,8 @@ public class HotbarSkill : MonoBehaviour, IDropHandler, IPointerClickHandler
     {
                 
         Icon dropIcon = eventData.pointerDrag.GetComponent<Icon>();
-        IconType = dropIcon.Type;
-        IconTypeKey = dropIcon.TypeKey;
 
-        HotbarIcon.CurrentIcon = dropIcon.CurrentIcon;
-        HotbarIconObject.SetActive(true);
-
-        ClientManager.Instance.StateManager.Actions.SetPlayerHotbarItem(IconTypeKey, IconType, HotbarIndex);
+        ClientManager.Instance.StateManager.Actions.SetPlayerHotbarItem(dropIcon.TypeKey, dropIcon.Type, HotbarIndex);
     }
 
     public void OnPointerClick(PointerEventData eventData)
@@ -63,14 +56,6 @@ public class HotbarSkill : MonoBehaviour, IDropHandler, IPointerClickHandler
         {
             case IconType.Attack:
                 ClientManager.Instance.StateManager.Actions.SetPlayerActiveAttack(IconTypeKey);
-                for (var i = 0; i < 6; i++)
-                {
-                    var skill = gameObject.transform.parent.Find($"Skill{i + 1}").gameObject.GetComponent<HotbarSkill>();
-                    if (skill.image.sprite == HotbarSkillAttack) { 
-                        skill.image.sprite = HotbarSkillNormal; 
-                    }
-                }
-                image.sprite = HotbarSkillAttack;
                 break;
             case IconType.Skill:
                 ClientManager.Instance.StateManager.Actions.ActivatePlayerSkill(IconTypeKey);
@@ -81,23 +66,72 @@ public class HotbarSkill : MonoBehaviour, IDropHandler, IPointerClickHandler
 
     public void Update()
     {
-        if(IconType == IconType.Skill)
+        if (PlayerState != null)
         {
-            var playerState = ClientManager.Instance.StateManager.PlayerState;
-            if (playerState.ActiveSkills.Count(x => x.Key == IconTypeKey && x.Value == playerState.ClientId) == 1)
+            var state = GetHotbarStateItem(HotbarIndex);
+
+            if (state != null)
             {
-                image.sprite = HotbarSkillActive;
+                if (IconTypeKey != state.Key)
+                {
+                    IconTypeKey = state.Key;
+                    IconType = (IconType)state.Value;
+
+                    switch (IconType)
+                    {
+                        case IconType.Attack:
+                            var attack = CreateInstance.Attack(IconTypeKey, 0);
+                            HotbarIcon.CurrentIcon = (Sprite)HotbarIcon.GetType().GetField($"AttackIcon{attack.IconId}").GetValue(HotbarIcon);
+                            break;
+                        case IconType.Skill:
+                            var skill = CreateInstance.Skill(IconTypeKey, 0);
+                            HotbarIcon.CurrentIcon = (Sprite)HotbarIcon.GetType().GetField($"SkillIcon{skill.IconId}").GetValue(HotbarIcon);
+                            break;
+                    }
+
+                    HotbarIcon.Type = IconType;
+                    HotbarIcon.TypeKey = IconTypeKey;
+                    HotbarIcon.gameObject.SetActive(true);
+                }
             }
-            else
+
+            if (IconType == IconType.Skill)
             {
-                image.sprite = HotbarSkillNormal;
+                if (PlayerState.ActiveSkills.Count(x => x.Key == IconTypeKey && x.Value == PlayerState.ClientId) == 1)
+                {
+                    image.sprite = HotbarSkillActive;
+                }
+                else
+                {
+                    image.sprite = HotbarSkillNormal;
+                }
+            }
+
+            if (IconType == IconType.Attack)
+            {
+                if (IconTypeKey == PlayerState.ActiveAttack)
+                {
+                    for (var i = 0; i < 6; i++)
+                    {
+                        var skill = gameObject.transform.parent.Find($"Skill{i + 1}").gameObject.GetComponent<HotbarSkill>();
+                        if (skill.image.sprite == HotbarSkillAttack && skill.IconTypeKey != PlayerState.ActiveAttack)
+                        {
+                            skill.image.sprite = HotbarSkillNormal;
+                        }
+                    }
+                    image.sprite = HotbarSkillAttack;
+                }
             }
         }
     }
 
-    void Start()
+    private KeyValueState GetHotbarStateItem(int index)
     {
-        // TODO: On initial state load, should mimic OnDrop
+        try {
+            return PlayerState.HotbarItems.First(x => x.Index == index);
+        } catch {
+            return null;
+        }
     }
 
 }
