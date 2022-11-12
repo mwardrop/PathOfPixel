@@ -3,15 +3,12 @@ using UnityEngine;
 public class ActiveSkills : MonoBehaviour
 {
 
-    public PlayerState PlayerState;
-
-    // Start is called before the first frame update
-    void Start()
-    {
-        try { PlayerState = ClientManager.Instance.StateManager.PlayerState; } catch { PlayerState = null; }
+    public PlayerState PlayerState { get
+        {
+            try { return ClientManager.Instance.StateManager.PlayerState; } catch { return null; }
+        } 
     }
 
-    // Update is called once per frame
     void Update()
     {
         if (PlayerState != null)

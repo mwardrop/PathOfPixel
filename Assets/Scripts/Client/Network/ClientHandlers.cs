@@ -10,14 +10,17 @@ public class ClientHandlers
 {
 
     private WorldState WorldState;
-    private PlayerState PlayerState;
+    private PlayerState PlayerState {  get
+        {
+            return StateManager.PlayerState;
+        } 
+    }
     private ClientStateManager StateManager;
 
     public ClientHandlers(ClientStateManager stateManager)
     {
         StateManager = stateManager;
         WorldState = stateManager.WorldState;
-        PlayerState = stateManager.PlayerState;
     }
 
     public void OnNetworkMessage(object sender, MessageReceivedEventArgs e)
@@ -87,7 +90,9 @@ public class ClientHandlers
         
         PlayerState playerState = playerStateData.PlayerState;
 
-        if (WorldState.Players.Where(x => x.ClientId == playerState.ClientId).Count() > 0)
+        var existsInState = WorldState.Players.Count(x => x.ClientId == playerState.ClientId) != 0;
+
+        if (existsInState)
         {
             PropertyCopier<PlayerState, PlayerState>.Copy(
                 playerState, 
@@ -108,7 +113,7 @@ public class ClientHandlers
 
         GameObject newPlayer = CreateInstance.Prefab(prefab, playerState.Location);          
 
-        if (playerState.ClientId == PlayerState.ClientId)
+        if (playerState.ClientId == ClientManager.Instance.Client.ID)
         {
              newPlayer.tag = "LocalPlayer";
         }
@@ -119,7 +124,7 @@ public class ClientHandlers
 
         newPlayer.GetComponent<PlayerSprite>().NetworkClientId = playerState.ClientId;
 
-        ServerManager.Instance.StartCoroutine(TargetableCoroutine(PlayerState));
+        ServerManager.Instance.StartCoroutine(TargetableCoroutine(playerState));
         IEnumerator TargetableCoroutine(PlayerState playerState)
         {
             yield return new WaitForSeconds(30);
@@ -131,6 +136,23 @@ public class ClientHandlers
     public void SpawnEnemy(EnemyStateData enemyStateData)
     {
         EnemyState enemyState = enemyStateData.EnemyState;
+
+        var existsInState = WorldState.Scenes
+            .First(x => x.Name.ToLower() == enemyStateData.Scene.ToLower()).Enemies
+            .Count(x => x.EnemyGuid == enemyStateData.EnemyState.EnemyGuid) != 0;
+
+        if (existsInState)
+        {
+            PropertyCopier<EnemyState, EnemyState>.Copy(
+                enemyState,
+                WorldState.GetEnemyStateByGuid(enemyState.EnemyGuid, enemyStateData.Scene));
+
+        }
+        else
+        {
+            WorldState.Scenes.First(x => x.Name.ToLower() == enemyStateData.Scene.ToLower())
+                .Enemies.Add(enemyState);
+        }
 
         GameObject prefab = ClientManager.Prefabs.PossessedSprite;
 
@@ -165,10 +187,23 @@ public class ClientHandlers
 
     public void EnemyTakeDamage(EnemyTakeDamageData enemyTakeDamageData)
     {
-        EnemyState enemy = WorldState.GetEnemyStateByGuid(enemyTakeDamageData.EnemyGuid, PlayerState.Scene);
+        EnemyState enemy = WorldState.GetEnemyStateByGuid(enemyTakeDamageData.EnemyGuid, enemyTakeDamageData.Scene);
 
         enemy.Health = enemyTakeDamageData.Health;
         enemy.IsDead = enemyTakeDamageData.IsDead;
+
+        if(enemy.IsDead)
+        {
+            ClientManager.Instance.StartCoroutine(DestroyCoroutine());
+            IEnumerator DestroyCoroutine()
+            {
+                yield return new WaitForSeconds(60);
+                StateManager.WorldState.Scenes
+                    .First(x => x.Name.ToLower() == enemyTakeDamageData.Scene.ToLower()).Enemies
+                    .Remove(enemy);
+
+            }
+        }
 
         StateManager.GetEnemyGameObject(enemyTakeDamageData.EnemyGuid)
             .GetComponent<EnemySprite>().SetState(SpriteState.Hurt);

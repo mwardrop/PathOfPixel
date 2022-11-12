@@ -1,10 +1,9 @@
 using UnityEngine;
 using Data.Characters;
-using System;
-using UnityEngine.TextCore.Text;
 using Random = UnityEngine.Random;
 using System.Collections.Generic;
 using System.Linq;
+using System.Collections;
 
 public class ServerStateManager
 {
@@ -35,30 +34,86 @@ public class ServerStateManager
     {
         SceneState OverworldScene = new SceneState() { Name = scene };
 
-        OverworldScene.Enemies.Add(
-            (EnemyState)StateCalculator.CalcCharacterState(new EnemyState(
-                "Possessed 1",
-                new Vector2(-2f, -4.5f),
-                new Possessed()
-                ))
-            );
-        ActivateEnemySkill(OverworldScene.Enemies[0], OverworldScene.Enemies[0].Skills[0].Key, "OverworldScene");
-        ActivateEnemySkill(OverworldScene.Enemies[0], OverworldScene.Enemies[0].Skills[1].Key, "OverworldScene");
-        //OverworldScene.Enemies[0].ActiveSkills.Add(
-        //    new KeyValueState(
-        //        OverworldScene.Enemies[0].Skills[0].Key,
-        //        OverworldScene.Enemies[0].EnemyGuid.GetHashCode())
-        //    { Index = OverworldScene.Enemies[0].Skills[0].Value });
-
-        OverworldScene.Enemies.Add(
-         (EnemyState)StateCalculator.CalcCharacterState(new EnemyState(
-             "Possessed 2",
-             new Vector2(-6f, -6f),
-             new Possessed()
-             ))
-         );
-
         WorldState.Scenes.Add(OverworldScene);
+
+        SpawnEnemy("OverworldScene", "Possessed 1", new Vector2(-2f, -4.5f), new Possessed(), true);
+        SpawnEnemy("OverworldScene", "Possessed 2", new Vector2(-6f, -6f), new Possessed(), false);
+
+    }
+
+    public EnemyState SpawnEnemy(string scene, string name, Vector2 location, ICharacter character, bool activateSkills = false)
+    {
+        var OverworldScene = WorldState.Scenes.First(x => x.Name.ToLower() == scene.ToLower());
+
+        var newEnemy = new EnemyState(
+            name,
+            location,
+            character
+        );
+
+        if(activateSkills)
+        {
+            foreach(KeyValueState skill in newEnemy.Skills)
+            {
+                ActivateEnemySkill(newEnemy, skill.Key, scene);
+            }
+        }
+
+        StateCalculator.CalcCharacterState(newEnemy);
+
+        OverworldScene.Enemies.Add(newEnemy);
+
+        ServerManager.BroadcastNetworkMessage(
+            NetworkTags.SpawnEnemy, 
+            new EnemyStateData(newEnemy, scene));
+
+        return newEnemy;
+    }
+
+    public PlayerState SpawnPlayer(string scene, int clientId, string username, Vector2 location, ICharacter character)
+    {
+
+        if (WorldState.Players.Count(x => x.ClientId == clientId) == 0)
+        {
+            // TODO : User should be able to create new and load existing PlayerStates (Warrior, Mage / Load, New)
+            var newPlayer =
+                new PlayerState(
+                    clientId,
+                    username,
+                    scene,
+                    character,
+                    location
+            );
+
+            newPlayer.AttackPoints = newPlayer.SkillPoints = newPlayer.PassivePoints = 50;
+
+            StateCalculator.CalcCharacterState(newPlayer);
+
+            WorldState.Players.Add(newPlayer);
+
+            newPlayer.TargetLocation = newPlayer.Location = new Vector2(Random.Range(-3, 3), Random.Range(-3, 3));
+            newPlayer.Health = newPlayer.MaxHealth;
+            newPlayer.Mana = newPlayer.MaxMana;
+            newPlayer.isTargetable = false;
+
+
+            ServerManager.BroadcastNetworkMessage(
+                NetworkTags.SpawnPlayer,
+                new PlayerStateData(newPlayer)
+            );
+
+            ServerManager.Instance.StartCoroutine(TargetableCoroutine(newPlayer));
+            IEnumerator TargetableCoroutine(PlayerState playerState)
+            {
+                yield return new WaitForSeconds(30);
+                playerState.isTargetable = true;
+            }
+
+            return newPlayer;
+        }
+
+        return null;
+
     }
 
     public float[] GetAttackDamage(ICharacterState characterState)

@@ -81,6 +81,7 @@ namespace Client.Editor
             if(ClientManager.Instance.StateManager.PlayerState == null)
             {
                 ShowError("Player State not loaded.");
+                return;
             }
 
 

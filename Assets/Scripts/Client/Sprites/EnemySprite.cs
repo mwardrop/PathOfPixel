@@ -40,8 +40,7 @@ public class EnemySprite : CharacterSprite
     {
         SetDirection(direction);
         SetState(state);
-        InvokeRepeating("UpdateState", 0, 1);
-
+        InvokeRepeating("UpdateState", 0, .5f);
     }
 
     protected override void Update()

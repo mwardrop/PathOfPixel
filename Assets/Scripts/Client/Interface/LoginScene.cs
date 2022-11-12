@@ -61,19 +61,18 @@ public class LoginScene : MonoBehaviour
 
     void HostClicked()
     {
-        //EditorUtility.DisplayDialog("Not Implemented", "Dedicated Host is not yet implemented.", "Ok");
-        //SceneManager.LoadScene("OverworldScene", LoadSceneMode.Single);
+
     }
 
     void SettingsClicked()
     {
-        //EditorUtility.DisplayDialog("Not Implemented", "Settings is not yet implemented.", "Ok");
+
     }
 
 
     private void OnConnectFail(Exception exception)
     {
-        //EditorUtility.DisplayDialog("Could not connect to server.", exception.Message.ToString(), "Ok");
+
     }
 
 

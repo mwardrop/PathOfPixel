@@ -62,8 +62,6 @@ public class ClientActions {
 
     public void UpdateEnemyLocation(System.Guid enemyGuid, Vector2 location, string scene)
     {
-        // TODO : Probably shouldnt have state management here. Can this be removed, I dont think
-        //        we check anything client side against the enemies current state location
         StateManager.WorldState
             .GetEnemyStateByGuid(enemyGuid, scene).Location = location;
 
@@ -72,6 +70,20 @@ public class ClientActions {
             ClientManager.SendNetworkMessage(
                 NetworkTags.UpdateEnemyLocation,
                 new UpdateEnemyLocationData(enemyGuid, location, scene));
+        }
+    }
+
+    public void UpdatePlayerLocation(int clientId, Vector2 location)
+    {
+
+        StateManager.WorldState
+            .GetPlayerState(clientId).Location = location;
+
+        if (ClientManager.IsHost)
+        {
+            ClientManager.SendNetworkMessage(
+                NetworkTags.UpdatePlayerLocation,
+                new UpdatePlayerLocationData(clientId, location));
         }
     }
 

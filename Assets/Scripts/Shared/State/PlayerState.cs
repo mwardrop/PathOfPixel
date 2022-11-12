@@ -3,6 +3,7 @@ using Data.Characters;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using UnityEngine;
 
 [Serializable]
 public class PlayerState: CharacterState, ICharacterState, IDarkRiftSerializable
@@ -22,13 +23,14 @@ public class PlayerState: CharacterState, ICharacterState, IDarkRiftSerializable
         Initialize();
     }
 
-    public PlayerState(int clientId, string username, string scene, ICharacter character) : base(character)
+    public PlayerState(int clientId, string username, string scene, ICharacter character, Vector2 location) : base(character)
     {
         Initialize();
 
         Name = username;
         Scene = scene;
         ClientId = clientId;
+        Location = Location;
 
     }
 

@@ -1,5 +1,8 @@
+using System;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.SceneManagement;
 
 public class ClientStateManager 
@@ -10,8 +13,14 @@ public class ClientStateManager
     {
         get
         {
-            return WorldState.Players
-                .First(x => x.ClientId == ClientId);
+            try
+            {
+                return WorldState.Players
+                    .First(x => x.ClientId == ClientId);
+            } catch
+            {
+                return null;
+            }
         }
     }
     public int ClientId
@@ -34,7 +43,7 @@ public class ClientStateManager
 
         ClientManager.Instance.Client.MessageReceived += Handlers.OnNetworkMessage;
 
-        LoadScene(PlayerState.Scene, LoadSceneMode.Single);
+        LoadScene("OverworldScene", LoadSceneMode.Single);
     }
 
     public void Update()
@@ -71,29 +80,30 @@ public class ClientStateManager
 
 
 
-    private void LoadScene(string scene, LoadSceneMode mode)
+    public void LoadScene(string scene, LoadSceneMode mode)
     {
         SceneManager.sceneLoaded += LoadSceneCallback;
         SceneManager.LoadScene(scene, mode);
 
         void LoadSceneCallback(Scene scene, LoadSceneMode mode)
         {
-            foreach (PlayerState player in ClientManager.Instance.StateManager.WorldState.Players)
+            if (scene.name.ToLower() != "loginscene")
             {
-                if (player.Scene.ToLower() == scene.name.ToLower() && player.ClientId != ClientManager.Instance.StateManager.PlayerState.ClientId)
+                foreach (PlayerState player in ClientManager.Instance.StateManager.WorldState.Players)
                 {
-                    Handlers.SpawnPlayer(new PlayerStateData(player));
+                    if (player.Scene.ToLower() == scene.name.ToLower())
+                    {
+                        Handlers.SpawnPlayer(new PlayerStateData(player));
+                    }
                 }
-            }
 
-            foreach (EnemyState enemy in ClientManager.Instance.StateManager.WorldState.Scenes.First(x => x.Name.ToLower() == scene.name.ToLower()).Enemies)
-            {
-                Handlers.SpawnEnemy(new EnemyStateData(enemy));
-            }
+                foreach (EnemyState enemy in ClientManager.Instance.StateManager.WorldState.Scenes.First(x => x.Name.ToLower() == scene.name.ToLower()).Enemies)
+                {
+                    Handlers.SpawnEnemy(new EnemyStateData(enemy, scene.name));
+                }
 
-            ClientManager.Instance.StateManager.Actions.Spawn();
+                ClientManager.Instance.StateManager.Actions.Spawn();
+            }
         }
     }
-
-
 }

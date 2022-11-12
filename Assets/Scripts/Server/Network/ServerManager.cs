@@ -124,8 +124,6 @@ public class ServerManager : MonoBehaviour
 
         Connections.Add(client.ID, newConnection);
 
-        StateManager.WorldState.Players.Add(newConnection.PlayerState);
-
         SendNetworkMessage(
             client, 
             NetworkTags.LoginRequestAccepted, 

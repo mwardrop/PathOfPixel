@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class PlayerSprite : CharacterSprite
 {
@@ -26,6 +27,7 @@ public class PlayerSprite : CharacterSprite
         SetDirection(direction);
         SetState(state);
         SetAttack(SpriteState.Attack1);
+        InvokeRepeating("UpdateState", 0, .5f);
     }
 
     protected override void Update()
@@ -70,6 +72,14 @@ public class PlayerSprite : CharacterSprite
     private void SetAttack(SpriteState attack)
     {
         SelectedAttack = attack;
+    }
+
+    private void UpdateState()
+    {
+        ClientManager.Instance.StateManager.Actions.UpdatePlayerLocation(
+            NetworkClientId,
+            new Vector2(transform.position.x, transform.position.y));
+
     }
 
 }

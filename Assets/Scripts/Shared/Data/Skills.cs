@@ -89,7 +89,7 @@ namespace Data.Skills
             Name = "Frenzy";
             Description = "Add +1 Physical Damage to Attacks per Level for you and Allies within 5 Radius.";
             IconId = 3;
-            Radius = 10;
+            Radius = 5;
             Duration = 60;
         }
         public override ICharacterState UpdateCharacterState(ICharacterState characterState)
@@ -162,7 +162,7 @@ namespace Data.Skills
             Name = "Warm Embrace";
             Description = "Increases Health Regeneration by 1% per Level for you and Allies within 5 Radius.";
             IconId = 7;
-            Radius = 10;
+            Radius = 5;
             Duration = 30;
         }
         public override ICharacterState UpdateCharacterState(ICharacterState characterState)

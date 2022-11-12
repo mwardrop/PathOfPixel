@@ -25,16 +25,6 @@ public class ServerConnection
 
         Client.MessageReceived += OnMessage;
 
-        // TODO : User should be able to create new and load existing PlayerStates (Warrior, Mage / Load, New)
-        PlayerState = (PlayerState)StateManager.StateCalculator.CalcCharacterState(
-            new PlayerState(
-                Client.ID, 
-                username, 
-                "OverworldScene",
-                new Warrior()
-            )
-        );
-        PlayerState.AttackPoints = PlayerState.SkillPoints = PlayerState.PassivePoints = 50;
     }
 
     public void Disconnect()
@@ -103,6 +93,9 @@ public class ServerConnection
                 case NetworkTags.ActivatePlayerSkill:
                     ActivatePlayerSkill(message.Deserialize<StringData>());
                     break;
+                case NetworkTags.UpdatePlayerLocation:
+                    UpdatePlayerLocation(message.Deserialize<UpdatePlayerLocationData>());
+                    break;
 
             }
         }
@@ -164,26 +157,12 @@ public class ServerConnection
 
     private void SpawnPlayer()
     {
-        PlayerState.TargetLocation = PlayerState.Location = new Vector2(Random.Range(-3, 3), Random.Range(-3, 3));
-        PlayerState.isTargetable = false;
-
-        if (StateManager.WorldState.Players.Count(x => x.ClientId == PlayerState.ClientId) == 0)
-        {
-            StateManager.WorldState.Players.Add(PlayerState);
-        }
-
-        BroadcastNetworkMessage(
-            NetworkTags.SpawnPlayer,
-            new PlayerStateData(PlayerState)
-        );
-
-        ServerManager.Instance.StartCoroutine(TargetableCoroutine(PlayerState));
-        IEnumerator TargetableCoroutine(PlayerState playerState)
-        {
-            yield return new WaitForSeconds(30);
-            playerState.isTargetable = true;
-        }
-
+        PlayerState = StateManager.SpawnPlayer(
+            "OverworldScene", 
+            Client.ID, 
+            Username, 
+            new Vector2(Random.Range(-3, 3), Random.Range(-3, 3)), 
+            new Warrior());
     }
 
     private void MovePlayer(Vector2Data targetData)
@@ -191,7 +170,7 @@ public class ServerConnection
 
         Vector2 target = targetData.Target;
 
-        PlayerState.TargetLocation = PlayerState.Location = target;
+        PlayerState.TargetLocation = target;
         PlayerState.isTargetable = true;
 
         BroadcastNetworkMessage(
@@ -205,6 +184,13 @@ public class ServerConnection
         StateManager.WorldState.GetEnemyStateByGuid(
             updateEnemyLocationData.EnemyGuid,
             updateEnemyLocationData.SceneName).Location = updateEnemyLocationData.Location;
+    }
+
+    private void UpdatePlayerLocation(UpdatePlayerLocationData updatePlayerLocationData)
+    {
+        StateManager.WorldState.GetPlayerState(
+            updatePlayerLocationData.ClientId
+        ).Location = updatePlayerLocationData.Location;
     }
 
     private void UpdatePlayerState()

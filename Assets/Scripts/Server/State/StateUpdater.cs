@@ -1,5 +1,6 @@
 ﻿
 
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using Unity.VisualScripting;
@@ -61,13 +62,13 @@ public class StateUpdater
 
     private void UpdateEnemy(EnemyState enemy, SceneState scene, WorldState world)
     {
-        ApplyIncomingDamageToEnemy(enemy);
+        ApplyIncomingDamageToEnemy(enemy, scene);
 
         SetEnemyTarget(enemy, world.Players, scene);
 
     }
 
-    private void ApplyIncomingDamageToEnemy(EnemyState enemy)
+    private void ApplyIncomingDamageToEnemy(EnemyState enemy, SceneState scene)
     {
         if (enemy.IncomingPhysicalDamage > 0 || enemy.IncomingFireDamage > 0 || enemy.IncomingColdDamage > 0) {
 
@@ -83,7 +84,20 @@ public class StateUpdater
 
             ServerManager.BroadcastNetworkMessage(
                 NetworkTags.EnemyTakeDamage,
-                new EnemyTakeDamageData(enemy.EnemyGuid, enemy.Health, enemy.IsDead));
+                new EnemyTakeDamageData(enemy.EnemyGuid, enemy.Health, scene.Name, enemy.IsDead));
+
+            if (enemy.IsDead)
+            {
+                ServerManager.Instance.StartCoroutine(DestroyCoroutine());
+                IEnumerator DestroyCoroutine()
+                {
+                    yield return new WaitForSeconds(60);
+                    ServerManager.Instance.StateManager.WorldState.Scenes
+                        .First(x => x.Name.ToLower() == scene.Name.ToLower()).Enemies
+                        .Remove(enemy);
+
+                }
+            }
         }
 
     }

@@ -74,6 +74,7 @@ public abstract class CharacterSprite : BaseSprite
                 yield return new WaitForSeconds(60);
                 spriteRenderer.enabled = false;
                 Destroy(this.gameObject);
+
             }
             return true;
         }
@@ -192,48 +193,4 @@ public abstract class CharacterSprite : BaseSprite
         rigidBody2D.MovePosition(Vector3.MoveTowards(transform.position, destination, speed * Time.fixedDeltaTime));
     }
 
-    //public void Damage(float damageAmount, float knockback = 0)
-    //{
-        //if (canTakeDamage)
-        //{
-        //    incomingDamage += damageAmount;
-
-        //    if (knockback > 0)
-        //    {
-        //        float x = transform.position.x;
-        //        float y = transform.position.y;
-        //        float z = transform.position.z;
-        //        switch (direction)
-        //        {
-        //            case SpriteDirection.Up:
-        //                y -= knockback;
-        //                break;
-        //            case SpriteDirection.Down:
-        //                y += knockback;
-        //                break;
-        //            case SpriteDirection.Right:
-        //                x -= knockback;
-        //                break;
-        //            case SpriteDirection.Left:
-        //                x += knockback;
-        //                break;
-        //        }
-
-        //        MoveToDestination(new Vector3(x, y, z), knockback);
-        //    }
-        //}
-    //}
-
-    public void Destroy(int seconds = 60)
-    {
-
-        StartCoroutine(DestroyCoroutine());
-
-        IEnumerator DestroyCoroutine()
-        {
-            yield return new WaitForSeconds(seconds);
-            spriteRenderer.enabled = false;
-            Destroy(this.gameObject);
-        }
-    }
 }

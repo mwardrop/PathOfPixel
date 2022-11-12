@@ -33,7 +33,8 @@ public enum NetworkTags
     DeactivatePlayerSkill = 26,
 
     ActivateEnemySkill = 27,
-    DeactivateEnemySkill = 28
+    DeactivateEnemySkill = 28,
+    UpdatePlayerLocation = 29,
 }
 
 public struct LoginRequestData : IDarkRiftSerializable
@@ -107,20 +108,24 @@ public struct PlayerStateData : IDarkRiftSerializable
 public struct EnemyStateData : IDarkRiftSerializable
 {
     public EnemyState EnemyState;
+    public string Scene;
 
-    public EnemyStateData(EnemyState enemyState)
+    public EnemyStateData(EnemyState enemyState, string scene)
     {
         EnemyState = enemyState;
+        Scene = scene;
     }
 
     public void Deserialize(DeserializeEvent e)
     {
         EnemyState = e.Reader.ReadSerializable<EnemyState>();
+        Scene = e.Reader.ReadString();
     }
 
     public void Serialize(SerializeEvent e)
     {
         e.Writer.Write(EnemyState);
+        e.Writer.Write(Scene);
     }
 }
 
@@ -282,12 +287,14 @@ public struct EnemyTakeDamageData : IDarkRiftSerializable
     public System.Guid EnemyGuid;
     public float Health;
     public bool IsDead;
+    public string Scene;
 
-    public EnemyTakeDamageData(System.Guid enemyGuid, float health, bool isDead = false)
+    public EnemyTakeDamageData(System.Guid enemyGuid, float health, string scene, bool isDead = false)
     {
         EnemyGuid = enemyGuid;
         Health = health;
         IsDead = isDead;
+        Scene = scene;
     }
 
     public void Deserialize(DeserializeEvent e)
@@ -296,6 +303,7 @@ public struct EnemyTakeDamageData : IDarkRiftSerializable
         EnemyGuid = new System.Guid(tempGuid);
         Health = e.Reader.ReadSingle();
         IsDead = e.Reader.ReadBoolean();
+        Scene = e.Reader.ReadString();
     }
 
     public void Serialize(SerializeEvent e)
@@ -303,6 +311,7 @@ public struct EnemyTakeDamageData : IDarkRiftSerializable
         e.Writer.Write(EnemyGuid.ToString());
         e.Writer.Write(Health);
         e.Writer.Write(IsDead);
+        e.Writer.Write(Scene);
     }
 }
 
@@ -389,6 +398,32 @@ public struct UpdateEnemyLocationData : IDarkRiftSerializable
         e.Writer.Write(EnemyGuid.ToString());
         e.Writer.WriteVector2(Location);
         e.Writer.Write(SceneName);
+    }
+}
+
+public struct UpdatePlayerLocationData : IDarkRiftSerializable
+{
+    public int ClientId;
+    public Vector2 Location;
+
+    public UpdatePlayerLocationData(int clientId, Vector2 location)
+    {
+        ClientId = clientId;
+        Location = location;
+
+    }
+
+    public void Deserialize(DeserializeEvent e)
+    {
+        ClientId = e.Reader.ReadInt32();
+        Location = e.Reader.ReadVector2();
+    }
+
+    public void Serialize(SerializeEvent e)
+    {
+        e.Writer.Write(ClientId);
+        e.Writer.WriteVector2(Location);
+
     }
 }
 
