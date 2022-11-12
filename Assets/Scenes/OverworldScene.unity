@@ -2756,6 +2756,14 @@ PrefabInstance:
       propertyPath: m_Name
       value: UserInterface
       objectReference: {fileID: 0}
+    - target: {fileID: 2881987534314132858, guid: 6f92726896652d54eaa9b48432237da1, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2881987534314132858, guid: 6f92726896652d54eaa9b48432237da1, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 3045638167731831984, guid: 6f92726896652d54eaa9b48432237da1, type: 3}
       propertyPath: m_RaycastTarget
       value: 1

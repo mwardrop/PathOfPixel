@@ -6,6 +6,11 @@ using UnityEngine.UI;
 public class Hotbar : MonoBehaviour
 {
     public Slider LevelBar;
+    public GameObject HealthOrbWave;
+    private RectTransform HealthTransform { get { return HealthOrbWave.GetComponent<RectTransform>(); } }
+
+    public GameObject ManaOrbWave;
+    private RectTransform ManaTransform {  get { return ManaOrbWave.GetComponent<RectTransform>(); } }
 
     private PlayerState PlayerState
     {
@@ -36,6 +41,15 @@ public class Hotbar : MonoBehaviour
             float currentExp = PlayerState.Experience;
 
             LevelBar.value = currentExp / maxExp;
+
+            HealthTransform.anchoredPosition = new Vector2(
+                HealthTransform.anchoredPosition.x,
+                ((PlayerState.Health / PlayerState.MaxHealth) * 100) - 40);
+
+            ManaTransform.anchoredPosition = new Vector2(
+                ManaTransform.anchoredPosition.x,
+                ((PlayerState.Mana / PlayerState.MaxMana) * 100) - 40);
+
         }
     }
 }
