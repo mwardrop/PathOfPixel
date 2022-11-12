@@ -70,12 +70,44 @@ public class ServerStateManager
         return newEnemy;
     }
 
+    // Spawn existing player
+    public PlayerState SpawnPlayer(PlayerState playerState)
+    {
+        WorldState.Players.Add(playerState);
+
+        playerState.isTargetable = false;
+
+        if(playerState.IsDead)
+        {
+            playerState.TargetLocation = playerState.Location = new Vector2(Random.Range(-3, 3), Random.Range(-3, 3));
+            playerState.Health = playerState.MaxHealth;
+            playerState.Mana = playerState.MaxMana;
+            playerState.IsDead = false;
+            playerState.Experience = 0;
+
+        }
+
+        ServerManager.BroadcastNetworkMessage(
+            NetworkTags.SpawnPlayer,
+            new PlayerStateData(playerState)
+        );
+
+        ServerManager.Instance.StartCoroutine(TargetableCoroutine(playerState));
+        IEnumerator TargetableCoroutine(PlayerState playerState)
+        {
+            yield return new WaitForSeconds(30);
+            playerState.isTargetable = true;
+        }
+
+        return playerState;
+    }
+
+    // Spawn new player
     public PlayerState SpawnPlayer(string scene, int clientId, string username, Vector2 location, ICharacter character)
     {
 
         if (WorldState.Players.Count(x => x.ClientId == clientId) == 0)
         {
-            // TODO : User should be able to create new and load existing PlayerStates (Warrior, Mage / Load, New)
             var newPlayer =
                 new PlayerState(
                     clientId,

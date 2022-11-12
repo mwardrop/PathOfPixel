@@ -10,21 +10,33 @@ using Random = UnityEngine.Random;
 public class ServerConnection
 {
     public string Username { get; }
-    public IClient Client { get; }
+    public string Password { get; }
+    public IClient Client { get; set; }
 
     public PlayerState PlayerState;
 
     public ServerStateManager StateManager;
 
-    public ServerConnection(IClient client, string username, ServerStateManager stateManager)
+    public ServerConnection(IClient client, string username, string password, ServerStateManager stateManager)
     {
 
         Client = client;
         Username = username;
+        Password = password;
         StateManager = stateManager;
 
         Client.MessageReceived += OnMessage;
 
+    }
+
+    public ServerConnection Restore(IClient client)
+    {
+        Client = client;
+        PlayerState.ClientId = client.ID;
+
+        Client.MessageReceived += OnMessage;
+
+        return this;
     }
 
     public void Disconnect()
@@ -157,12 +169,17 @@ public class ServerConnection
 
     private void SpawnPlayer()
     {
-        PlayerState = StateManager.SpawnPlayer(
-            "OverworldScene", 
-            Client.ID, 
-            Username, 
-            new Vector2(Random.Range(-3, 3), Random.Range(-3, 3)), 
-            new Warrior());
+        if(PlayerState == null) { 
+            PlayerState = StateManager.SpawnPlayer(
+                "OverworldScene", 
+                Client.ID, 
+                Username, 
+                new Vector2(Random.Range(-3, 3), Random.Range(-3, 3)), 
+                new Warrior());
+        } else
+        {
+            PlayerState = StateManager.SpawnPlayer(PlayerState);
+        }
     }
 
     private void MovePlayer(Vector2Data targetData)

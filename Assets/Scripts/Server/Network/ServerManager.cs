@@ -61,7 +61,7 @@ public class ServerManager : MonoBehaviour
             Server.ClientManager.ClientConnected += OnClientConnected;
             Server.ClientManager.ClientDisconnected += OnClientDisconnected;
         }  catch(Exception ex) {
-            Debug.LogException(ex);
+            Debug.LogWarning("Server failed to start.");
         }
     }
 
@@ -79,7 +79,7 @@ public class ServerManager : MonoBehaviour
         e.Client.MessageReceived -= OnMessage;
 
         StateManager.WorldState.Players.RemoveAll(x => x.ClientId == e.Client.ID);
-        Connections.Remove(e.Client.ID);
+        //Connections.Remove(e.Client.ID);
 
         BroadcastNetworkMessage(
             NetworkTags.PlayerDisconnect,
@@ -108,21 +108,41 @@ public class ServerManager : MonoBehaviour
     private void OnClientLogin(IClient client, LoginRequestData data)
     {
 
-        if (Connections.Where(x => x.Value.Username == data.Username).Count() > 0)
-        {
-            SendNetworkMessage(
-                client,
-                NetworkTags.LoginRequestDenied);
-
-            return;
-  
-        }
-
         client.MessageReceived -= OnMessage;
 
-        ServerConnection newConnection = new ServerConnection(client, data.Username, StateManager);
+        var existingConnectionId = 0;
+        try
+            {
+            existingConnectionId = Connections.First(x =>
+                x.Value.Username == data.Username &&
+                x.Value.Client.ConnectionState == ConnectionState.Disconnected
+            ).Key;
+        } catch { }
 
-        Connections.Add(client.ID, newConnection);
+        if(existingConnectionId != 0)
+        {
+            var existingConnection = Connections[existingConnectionId];
+
+            if( existingConnection.Client.ConnectionState == ConnectionState.Connected ||
+                existingConnection.Password != data.Password)
+            {
+                SendNetworkMessage(
+                    client,
+                    NetworkTags.LoginRequestDenied);
+
+                return;
+            }
+            
+            Connections.Remove(existingConnectionId);
+
+            Connections.Add(client.ID, existingConnection.Restore(client));
+
+        } else
+        {
+            ServerConnection newConnection = new ServerConnection(client, data.Username, data.Password, StateManager);
+
+            Connections.Add(client.ID, newConnection);
+        }
 
         SendNetworkMessage(
             client, 
