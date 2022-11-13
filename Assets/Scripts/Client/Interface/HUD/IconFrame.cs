@@ -47,6 +47,14 @@ public class IconFrame : MonoBehaviour, IPointerClickHandler
                 break;
         }
 
+        if(level.text == "0" || icon.Type == IconType.Passive)
+        {
+            icon.IsDraggable = false;
+        } else
+        {
+            icon.IsDraggable = true;
+        }
+
     }
 
         public void OnPointerClick(PointerEventData eventData) // 3

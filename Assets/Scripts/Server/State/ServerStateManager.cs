@@ -128,15 +128,14 @@ public class ServerStateManager
             );
 
             newPlayer.AttackPoints = newPlayer.SkillPoints = newPlayer.PassivePoints = 50;
+            newPlayer.TargetLocation = newPlayer.Location = new Vector2(Random.Range(-3, 3), Random.Range(-3, 3));
+            newPlayer.isTargetable = false;
+            newPlayer.HotbarItems.Add(new KeyValueState("SweepAttack", 0) { Index = 1 });
+            newPlayer.HotbarItems.Add(new KeyValueState("FrenzySkill", 1) { Index = 6 });
 
             StateCalculator.CalcCharacterState(newPlayer);
 
             WorldState.Players.Add(newPlayer);
-
-            newPlayer.TargetLocation = newPlayer.Location = new Vector2(Random.Range(-3, 3), Random.Range(-3, 3));
-            newPlayer.Health = newPlayer.MaxHealth;
-            newPlayer.Mana = newPlayer.MaxMana;
-            newPlayer.isTargetable = false;
 
 
             ServerManager.BroadcastNetworkMessage(

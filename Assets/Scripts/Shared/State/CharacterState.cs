@@ -81,6 +81,9 @@ public class CharacterState : ICharacterState, IDarkRiftSerializable
         character.Skills.ForEach(x => Skills.Add(new KeyValueState() { Key = x.GetName(), Value = x.Level }));
         character.Passives.ForEach(x => Passives.Add(new KeyValueState() { Key = x.GetName(), Value = x.Level }));
 
+        Health = character.MaxHealth;
+        Mana = character.MaxMana;
+
         Type = (CharacterType)Enum.Parse(typeof(CharacterType), character.GetName());
         ActiveAttack = Attacks.First().Key;
     }
