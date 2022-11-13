@@ -111,6 +111,8 @@ public class ClientHandlers
             WorldState.Players.Add(playerState);
         }
 
+        StateManager.StateCalculator.CalcCharacterState(playerState);
+
         GameObject prefab = ClientManager.Prefabs.PossessedSprite;
 
         switch (playerState.Type)

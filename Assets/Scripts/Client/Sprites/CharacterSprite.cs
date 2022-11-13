@@ -63,7 +63,8 @@ public abstract class CharacterSprite : BaseSprite
 
     protected virtual bool Death()
     {
-        if (CharacterState.IsDead)
+
+        if (CharacterState != null && CharacterState.IsDead)
         {
             SetState(SpriteState.Death);
             this.GetComponent<BoxCollider2D>().enabled = false;

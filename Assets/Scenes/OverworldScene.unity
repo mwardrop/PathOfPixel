@@ -2768,6 +2768,10 @@ PrefabInstance:
       propertyPath: m_RaycastTarget
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 3588367580081528956, guid: 6f92726896652d54eaa9b48432237da1, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4207684491175802882, guid: 6f92726896652d54eaa9b48432237da1, type: 3}
       propertyPath: m_Color.b
       value: 0

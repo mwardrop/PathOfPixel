@@ -36,6 +36,7 @@ public class CharacterState : ICharacterState, IDarkRiftSerializable
     public float Dodge { get; set; }
     public float Accuracy { get; set; }
     public float CritChance { get; set; }
+    public float StunChance { get; set; }
     public int Level { get; set; }
     public int Experience { get; set; }
     public Vector2 Location { get; set; }
@@ -115,6 +116,7 @@ public class CharacterState : ICharacterState, IDarkRiftSerializable
         Dodge = e.Reader.ReadSingle();
         Accuracy = e.Reader.ReadSingle();
         CritChance = e.Reader.ReadSingle();
+        StunChance = e.Reader.ReadSingle();
         Level = e.Reader.ReadInt32();
         Experience = e.Reader.ReadInt32();
         Location = e.Reader.ReadVector2();
@@ -154,6 +156,7 @@ public class CharacterState : ICharacterState, IDarkRiftSerializable
         e.Writer.Write(Dodge);
         e.Writer.Write(Accuracy);
         e.Writer.Write(CritChance);
+        e.Writer.Write(StunChance);
         e.Writer.Write(Level);
         e.Writer.Write(Experience);
         e.Writer.WriteVector2(Location);
@@ -190,6 +193,7 @@ public interface ICharacterState
     public float Dodge { get; set; }
     public float Accuracy { get; set; }
     public float CritChance { get; set; }
+    public float StunChance { get; set; }
     public int Level { get; set; }
     public int Experience { get; set; }
     public Vector2 Location { get; set; }

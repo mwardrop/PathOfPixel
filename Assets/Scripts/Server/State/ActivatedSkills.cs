@@ -1,4 +1,5 @@
-﻿using Data.Skills;
+﻿using DarkRift;
+using Data.Skills;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -30,6 +31,8 @@ public class ActivatedPlayerSkill
     {
         if(PlayerState == null) { Deactivate(); }
         if(PlayerState.IsDead) { Deactivate(); }
+        if (ServerManager.Instance.Connections[PlayerState.ClientId].Client.ConnectionState 
+            != ConnectionState.Connected) { Deactivate(); }
 
         if (!Deactivated)
         {

@@ -15,17 +15,18 @@ public class SkillsPanel : BasePanel
     }
     private SkillsScreens SelectedScreen = SkillsScreens.Attacks;
 
-    public Button AttacksButton, SkillsButton, PassivesButton, CloseButton;
+    public Button AttacksButton, SkillsButton, PassivesButton;
     public GameObject Frame1, Frame2, Frame3, Frame4, Frame5, Frame6, Frame7, Frame8, Frame9, Frame10, Frame11, Frame12, Frame13, Frame14, Frame15, Frame16;
 
     public GameObject IconPrefab;
     // Start is called before the first frame update
-    void Start()
+    protected override void Start()
     {
+        base.Start();
+
         AttacksButton.onClick.AddListener(AttacksClicked);
         SkillsButton.onClick.AddListener(SkillsClicked);
         PassivesButton.onClick.AddListener(PassivesClicked);
-        CloseButton.onClick.AddListener(CloseClicked);
         DrawScreen();
     }
 
@@ -135,13 +136,6 @@ public class SkillsPanel : BasePanel
         SkillsButton.transform.Find("Clicked").gameObject.SetActive(false);
         PassivesButton.transform.Find("Clicked").gameObject.SetActive(false);
     }
-
-    private void CloseClicked()
-    {
-        gameObject.SetActive(false);
-
-    }
-
 }
 
     

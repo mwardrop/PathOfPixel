@@ -58,7 +58,8 @@ public class PlayerSprite : CharacterSprite
 
     private bool Move()
     {
-        if (!PlayerState.IsDead &&
+        if (PlayerState != null &&
+            !PlayerState.IsDead &&
             Vector3.Distance(transform.position, Target) >= MoveRadius &&
             Vector3.Distance(transform.position, Target) > 0.001)
         {
