@@ -80,7 +80,7 @@ namespace Data.Attacks
             Description = "Slam your weapon into the ground, knocking back enemies.";
             AnimationId = 2;
             IconId = 1;
-            PhysicalDamage = 2;
+            PhysicalDamage = 2 * level;
             FireDamage = 0;
             ColdDamage = 0;
             Bleed = false;

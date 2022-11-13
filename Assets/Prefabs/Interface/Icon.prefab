@@ -202,6 +202,9 @@ MonoBehaviour:
   PassiveIcon37: {fileID: 303201345, guid: fad9bb5a9d94dbe489c892c5ecacf13b, type: 3}
   PassiveIcon38: {fileID: 1734727999, guid: fad9bb5a9d94dbe489c892c5ecacf13b, type: 3}
   CurrentIcon: {fileID: 0}
+  IsDraggable: 0
+  Type: 0
+  TypeKey: 
 --- !u!225 &2068367260165742957
 CanvasGroup:
   m_ObjectHideFlags: 0

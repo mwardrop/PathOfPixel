@@ -13,6 +13,7 @@ TagManager:
   - PlayerAttackCollider
   - EnemyAttackCollider
   - HUD
+  - ToolTip
   layers:
   - Default
   - TransparentFX
@@ -22,7 +23,7 @@ TagManager:
   - UI
   - PlayerSpawn
   - EnemySpawn
-  - 
+  - ToolTip
   - 
   - 
   - 

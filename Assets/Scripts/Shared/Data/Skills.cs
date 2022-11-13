@@ -58,7 +58,7 @@ namespace Data.Skills
         public override ICharacterState UpdateCharacterState(ICharacterState characterState)
         {
             base.UpdateCharacterState(characterState);
-            characterState.FireDamage += 1;
+            characterState.FireDamage += 1 * Level;
             return characterState;
         }
     }
@@ -76,7 +76,7 @@ namespace Data.Skills
         public override ICharacterState UpdateCharacterState(ICharacterState characterState)
         {
             base.UpdateCharacterState(characterState);
-            characterState.ColdDamage += 1;
+            characterState.ColdDamage += 1 * Level;
             return characterState;
         }
     }
@@ -95,7 +95,7 @@ namespace Data.Skills
         public override ICharacterState UpdateCharacterState(ICharacterState characterState)
         {
             base.UpdateCharacterState(characterState);
-            characterState.PhysicalDamage += 1;
+            characterState.PhysicalDamage += 1 * Level;
             return characterState;
         }
     }
@@ -114,7 +114,7 @@ namespace Data.Skills
         public override ICharacterState UpdateCharacterState(ICharacterState characterState)
         {
             base.UpdateCharacterState(characterState);
-            characterState.FreezeChance += 1;
+            characterState.FreezeChance += 1 * Level;
             return characterState;
         }
     }
@@ -132,7 +132,7 @@ namespace Data.Skills
         public override ICharacterState UpdateCharacterState(ICharacterState characterState)
         {
             base.UpdateCharacterState(characterState);
-            characterState.BurnChance += 1;
+            characterState.BurnChance += 1 * Level;
             return characterState;
         }
     }
@@ -150,7 +150,7 @@ namespace Data.Skills
         public override ICharacterState UpdateCharacterState(ICharacterState characterState)
         {
             base.UpdateCharacterState(characterState);
-            characterState.BleedChance += 1;
+            characterState.BleedChance += 1 * Level;
             return characterState;
         }
     }
@@ -168,7 +168,7 @@ namespace Data.Skills
         public override ICharacterState UpdateCharacterState(ICharacterState characterState)
         {
             base.UpdateCharacterState(characterState);
-            characterState.IncreasedHealthRegen += 1;
+            characterState.IncreasedHealthRegen += 1 * Level;
             return characterState;
         }
     }
@@ -186,7 +186,7 @@ namespace Data.Skills
         public override ICharacterState UpdateCharacterState(ICharacterState characterState)
         {
             base.UpdateCharacterState(characterState);
-            characterState.IncreasedManaRegen += 1;
+            characterState.IncreasedManaRegen += 1 * Level;
             return characterState;
         }
     }

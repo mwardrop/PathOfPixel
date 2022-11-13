@@ -40,7 +40,8 @@ public class StatsPanel : BasePanel
            {PlayerState.Dodge}%
            {PlayerState.Accuracy}%
            {PlayerState.CritChance}%
-           {PlayerState.StunChance}%";
+           {PlayerState.StunChance}%
+           {PlayerState.MoveSpeed}%";
     }
 
 

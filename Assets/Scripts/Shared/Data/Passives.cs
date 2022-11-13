@@ -44,7 +44,7 @@ namespace Data.Passives
         }
         public override ICharacterState UpdateCharacterState(ICharacterState characterState)
         {
-            characterState.IncreasedPhysicalDamage += 1;
+            characterState.IncreasedPhysicalDamage += 1 * Level;
             return characterState;
         }
     }
@@ -59,7 +59,7 @@ namespace Data.Passives
         }
         public override ICharacterState UpdateCharacterState(ICharacterState characterState)
         {
-            characterState.IncreasedFireDamage += 1;
+            characterState.IncreasedFireDamage += 1 * Level;
             return characterState;
         }
     }
@@ -74,7 +74,7 @@ namespace Data.Passives
         }
         public override ICharacterState UpdateCharacterState(ICharacterState characterState)
         {
-            characterState.IncreasedColdDamage += 1;
+            characterState.IncreasedColdDamage += 1 * Level;
             return characterState;
         }
     }
@@ -89,8 +89,8 @@ namespace Data.Passives
         }
         public override ICharacterState UpdateCharacterState(ICharacterState characterState)
         {
-            characterState.IncreasedDodge += 1;
-            characterState.IncreasedMoveSpeed += 1;
+            characterState.IncreasedDodge += 1 * Level;
+            characterState.IncreasedMoveSpeed += 1 * Level;
             return characterState;
         }
     }
@@ -105,8 +105,8 @@ namespace Data.Passives
         }
         public override ICharacterState UpdateCharacterState(ICharacterState characterState)
         {
-            characterState.IncreasedMaxMana += 1;
-            characterState.IncreasedManaRegen += 1;
+            characterState.IncreasedMaxMana += 1 * Level;
+            characterState.IncreasedManaRegen += 1 * Level;
             return characterState;
         }
     }
@@ -121,8 +121,8 @@ namespace Data.Passives
         }
         public override ICharacterState UpdateCharacterState(ICharacterState characterState)
         {
-            characterState.IncreasedMaxHealth += 1;
-            characterState.IncreasedHealthRegen += 1;
+            characterState.IncreasedMaxHealth += 1 * Level;
+            characterState.IncreasedHealthRegen += 1 * Level;
             return characterState;
         }
     }
@@ -132,12 +132,12 @@ namespace Data.Passives
         public HealthPassive(int level = 1) : base(level)
         {
             Name = "Health";
-            Description = "Adds +5 health per Level.";
+            Description = "Adds +5 Health per Level.";
             IconId = 7;
         }
         public override ICharacterState UpdateCharacterState(ICharacterState characterState)
         {
-            characterState.MaxHealth += 1;
+            characterState.MaxHealth += 5 * Level;
             return characterState;
         }
     }
@@ -146,13 +146,13 @@ namespace Data.Passives
     {
         public ManaPassive(int level = 1) : base(level)
         {
-            Name = "Health";
-            Description = "Adds +5 health per Level.";
+            Name = "Mana";
+            Description = "Adds +5 Mana per Level.";
             IconId = 8;
         }
         public override ICharacterState UpdateCharacterState(ICharacterState characterState)
         {
-            characterState.MaxHealth += 1;
+            characterState.MaxMana += 5 * Level;
             return characterState;
         }
     }

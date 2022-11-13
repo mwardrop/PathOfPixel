@@ -1,3 +1,4 @@
+using Data.Passives;
 using System.Linq;
 using TMPro;
 using UnityEngine;
@@ -57,6 +58,8 @@ public class SkillsPanel : BasePanel
             var icon = gameObject.transform.Find("IconFrames").Find($"Frame{i + 1}").Find("Icon").GetComponent<Icon>();
             var level = gameObject.transform.Find("IconFrames").Find($"Frame{i + 1}").Find("Level").GetComponent<TextMeshProUGUI>();
             var frame = gameObject.transform.Find("IconFrames").Find($"Frame{i + 1}");
+            var toolTip = gameObject.transform.Find("IconFrames").Find($"Frame{i + 1}").Find("Icon").Find("ToolTip").GetComponent<ToolTip>();
+
             frame.gameObject.SetActive(false);
 
             switch (SelectedScreen)
@@ -72,6 +75,8 @@ public class SkillsPanel : BasePanel
                         icon.Type = IconType.Attack;
                         icon.TypeKey = playerType.Attacks[i].GetName();
                         frame.gameObject.SetActive(true);
+                        toolTip.Label = attack.Name;
+                        toolTip.Description = attack.Description;
                     }
                     break;
                 case SkillsScreens.Passives:
@@ -85,6 +90,8 @@ public class SkillsPanel : BasePanel
                         icon.Type = IconType.Passive;
                         icon.TypeKey = playerType.Passives[i].GetName();
                         frame.gameObject.SetActive(true);
+                        toolTip.Label = passive.Name;
+                        toolTip.Description = passive.Description;
                     }
                     break;
                 case SkillsScreens.Skills:
@@ -98,6 +105,8 @@ public class SkillsPanel : BasePanel
                         icon.Type = IconType.Skill;
                         icon.TypeKey = playerType.Skills[i].GetName();
                         frame.gameObject.SetActive(true);
+                        toolTip.Label = skill.Name;
+                        toolTip.Description = skill.Description;
                     }
                     break;
             }

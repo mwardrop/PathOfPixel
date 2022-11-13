@@ -114,6 +114,8 @@ public class ClientActions {
             StateManager.PlayerState.Attacks
                 .First(x => x.Key == name).Value += 1;
 
+            StateManager.StateCalculator.CalcCharacterState(StateManager.PlayerState);
+
             ClientManager.SendNetworkMessage(
                 NetworkTags.SpendAttackPoint,
                 new StringData(name));
@@ -128,6 +130,8 @@ public class ClientActions {
             StateManager.PlayerState.Skills
                 .First(x => x.Key == name).Value += 1;
 
+            StateManager.StateCalculator.CalcCharacterState(StateManager.PlayerState);
+
             ClientManager.SendNetworkMessage(
                 NetworkTags.SpendSkillPoint,
                 new StringData(name));
@@ -141,6 +145,8 @@ public class ClientActions {
             StateManager.PlayerState.PassivePoints -= 1;
             StateManager.PlayerState.Passives
                 .First(x => x.Key == name).Value += 1;
+
+            StateManager.StateCalculator.CalcCharacterState(StateManager.PlayerState);
 
             ClientManager.SendNetworkMessage(
                 NetworkTags.SpendPassivePoint,
