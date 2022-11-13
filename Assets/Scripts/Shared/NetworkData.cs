@@ -35,10 +35,8 @@ public enum NetworkTags
     DeactivateEnemySkill = 28,
     UpdatePlayerLocation = 29,
     UpdatePlayerExperience = 30,
-
     UpdatePlayerRegen = 31,
     UpdateEnemyRegen = 32
-
 }
 
 public struct LoginRequestData : IDarkRiftSerializable
