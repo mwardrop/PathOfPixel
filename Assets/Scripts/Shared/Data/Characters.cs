@@ -5,7 +5,18 @@ using System.Collections.Generic;
 using System.Linq;
 
 namespace Data.Characters
-{ 
+{
+    public enum CharacterRarity
+    {
+        Common,
+        Magic,
+        Rare,
+        Legendary,
+        Mythic,
+        Boss,
+        Player
+    }
+
     public interface ICharacter
     {
         public float MaxHealth { get; set; }
@@ -27,6 +38,7 @@ namespace Data.Characters
         public float CritChance { get; set; }
         public float MoveSpeed { get; set; }
         public int Experience { get; set; }
+        public CharacterRarity Rarity {get; set;}
 
         public List<IAttack> Attacks { get; set; }
         public List<ISkill> Skills { get; set; }
@@ -56,6 +68,7 @@ namespace Data.Characters
         public float CritChance { get; set; }
         public float MoveSpeed { get; set; }
         public int Experience { get; set; }
+        public CharacterRarity Rarity { get; set; }
 
         public List<IAttack> Attacks { get; set; }
         public List<ISkill> Skills { get; set; }
@@ -77,6 +90,7 @@ namespace Data.Characters
     {
         public Warrior(int level = 1) : base(level)
         {
+            Rarity = CharacterRarity.Player;
             MaxHealth = 100 + (level * 10);
             HealthRegen = 1 + (level * 2);
             MaxMana = 20 + level;
@@ -124,6 +138,7 @@ namespace Data.Characters
     {
         public Possessed(int level = 1) : base(level)
         {
+            Rarity = CharacterRarity.Common;
             MaxHealth = 10 + (level * 5);
             HealthRegen = 1;
             MaxMana = 100;

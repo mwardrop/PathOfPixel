@@ -4,6 +4,9 @@ using Random = UnityEngine.Random;
 using System.Collections.Generic;
 using System.Linq;
 using System.Collections;
+using System;
+using static UnityEditor.FilePathAttribute;
+using System.Runtime.CompilerServices;
 
 public class ServerStateManager
 {
@@ -18,7 +21,7 @@ public class ServerStateManager
     public ServerStateManager()
     {
         WorldState = new WorldState();
-        StateUpdater = new StateUpdater();
+        StateUpdater = new StateUpdater(this);
         ItemGenerator = new ItemGenerator();
         StateCalculator = new StateCalculator();
         ActivatedPlayerSkills = new List<ActivatedPlayerSkill>();
@@ -137,7 +140,6 @@ public class ServerStateManager
 
             WorldState.Players.Add(newPlayer);
 
-
             ServerManager.BroadcastNetworkMessage(
                 NetworkTags.SpawnPlayer,
                 new PlayerStateData(newPlayer)
@@ -199,36 +201,182 @@ public class ServerStateManager
         }
     }
 
-    //public GameObject generateWorldDrop(GameObject dropObject, int itemLevel)
-    //{
+    public void ApplyIncomingDamageToEnemy(EnemyState enemy, SceneState scene)
+    {
+        if (enemy.IncomingPhysicalDamage > 0 || enemy.IncomingFireDamage > 0 || enemy.IncomingColdDamage > 0)
+        {
 
-    //    float x = 0;
-    //    float y = 0;
+            enemy.Health -= enemy.IncomingPhysicalDamage;
+            enemy.Health -= enemy.IncomingFireDamage;
+            enemy.Health -= enemy.IncomingColdDamage;
 
-    //    // Set X 50/50 chance to move negative/postive out from dropObject by 1-2
-    //    if(Random.Range(0,2) == 0) { x = Random.Range(0.5f, 1.5f); } else { x = Random.Range(-1.5f, -0.5f); }
-    //    // Set Y 50/50 chance to move negative/postive out from dropObject by 1-2
-    //    if (Random.Range(0, 2) == 0) { y = Random.Range(0.5f, 1.5f); } else {  y = Random.Range(-1.5f, -0.5f); }
+            enemy.IsDead = enemy.Health <= 0 ? true : false;
 
-    //    return generateWorldDrop(
-    //        itemLevel,
-    //        dropObject.transform.position.x + x,
-    //        dropObject.transform.position.y + y
-    //        );
-    //}
+            enemy.IncomingPhysicalDamage = 0;
+            enemy.IncomingFireDamage = 0;
+            enemy.IncomingColdDamage = 0;
 
-    //public GameObject generateWorldDrop(int itemLevel, float x, float y)
-    //{
-    //    InventoryItem item = itemGenerator.createInventoryItem(itemLevel);
-    //    worldDrops.Add(item);
+            ServerManager.BroadcastNetworkMessage(
+                NetworkTags.EnemyTakeDamage,
+                new EnemyTakeDamageData(enemy.EnemyGuid, enemy.Health, scene.Name, enemy.IsDead));
 
-    //    GameObject itemDrop =  Instantiate(itemDropPrefab, new Vector3(x, y, 0), Quaternion.identity);
-    //    itemDrop.GetComponent<ItemDropSprite>().itemGuid = item.ItemGuid;
-    //    itemDrop.GetComponent<ItemDropSprite>().inventoryItem = item;
+            if (enemy.IsDead)
+            {
 
-    //    return itemDrop;
+                ServerManager.Instance.StartCoroutine(DestroyCoroutine());
+                IEnumerator DestroyCoroutine()
+                {
+                    yield return null;
 
-    //}
+                    GenerateEnemyDeathRewards(enemy, scene.Name);
+
+                    yield return new WaitForSeconds(60);
+                    WorldState.Scenes
+                        .First(x => x.Name.ToLower() == scene.Name.ToLower()).Enemies
+                        .Remove(enemy);
+
+                }
+            }
+        }
+
+    }
+
+    public void ApplyIncomingDamageToPlayer(PlayerState player)
+    {
+        if (player.IncomingPhysicalDamage > 0 || player.IncomingFireDamage > 0 || player.IncomingColdDamage > 0)
+        {
+
+            player.Health -= player.IncomingPhysicalDamage;
+            player.Health -= player.IncomingFireDamage;
+            player.Health -= player.IncomingColdDamage;
+
+            player.IsDead = player.Health <= 0 ? true : false;
+
+            player.IncomingPhysicalDamage = 0;
+            player.IncomingFireDamage = 0;
+            player.IncomingColdDamage = 0;
+
+            ServerManager.BroadcastNetworkMessage(
+                NetworkTags.PlayerTakeDamage,
+                new PlayerTakeDamageData(player.ClientId, player.Health, player.IsDead));
+        }
+
+    }
+
+    public void SetEnemyTarget(EnemyState enemy, List<PlayerState> players, SceneState scene)
+    {
+        if (players.Count > 0)
+        {
+            Dictionary<int, float> distanceFromPlayers = new Dictionary<int, float>();
+
+            foreach (PlayerState player in players)
+            {
+                if (player.Scene.ToLower() == scene.Name.ToLower() && player.isTargetable)
+                {
+                    distanceFromPlayers.Add(player.ClientId, Vector2.Distance(player.Location, enemy.Location));
+                }
+            }
+
+            if (distanceFromPlayers.Count > 0)
+            {
+
+                int targetId = distanceFromPlayers.OrderByDescending(x => x.Value).Last().Key;
+
+                if (enemy.TargetPlayerId != targetId)
+                {
+                    enemy.TargetPlayerId = targetId;
+
+                    ServerManager.BroadcastNetworkMessage(
+                        NetworkTags.EnemyNewTarget,
+                        new EnemyPlayerPairData(enemy.EnemyGuid, targetId, scene.Name));
+                }
+            }
+        }
+
+    }
+
+    public void ApplyRegenToCharacter(ICharacterState character)
+    {
+        if (character.Health != character.MaxHealth)
+        {
+            character.Health = Math.Min(character.Health + character.HealthRegen, character.MaxHealth);
+        }
+        if (character.Mana != character.MaxMana)
+        {
+            character.Mana = Math.Min(character.Mana + character.ManaRegen, character.MaxMana);
+        }
+    }
+
+    public void GenerateEnemyDeathRewards(EnemyState enemy, string scene)
+    {
+        // Distribute Experience based on damage done
+        var totalDamage = enemy.DamageTracker.Sum(x => x.Value);
+        foreach (KeyValueState playerDamage in enemy.DamageTracker)
+        {
+            var player = WorldState.GetPlayerState(Int32.Parse(playerDamage.Key));
+            player.Experience += enemy.Experience * ((playerDamage.Value * 100) / totalDamage) / 100;
+
+            ServerManager.BroadcastNetworkMessage(
+                NetworkTags.UpdatePlayerExperience,
+                new IntegerPairData(player.ClientId, player.Experience));
+        }
+
+
+        List<ItemState> itemDrops = new List<ItemState>();
+
+        int GetWeightedEnemyDropCount(CharacterRarity characterType)
+        {
+            switch (characterType)
+            {
+                case Data.Characters.CharacterRarity.Common:
+                    return Random.Range(0, 2);
+                case Data.Characters.CharacterRarity.Magic:
+                    return Random.Range(1, 3);
+                case Data.Characters.CharacterRarity.Rare:
+                    return Random.Range(2, 4);
+                case Data.Characters.CharacterRarity.Legendary:
+                    return Random.Range(3, 5);
+                case Data.Characters.CharacterRarity.Mythic:
+                    return Random.Range(4, 6);
+                case Data.Characters.CharacterRarity.Boss:
+                    return Random.Range(7, 12);
+                default:
+                    return Random.Range(0, 2);
+            }
+        }
+
+        int dropCount = GetWeightedEnemyDropCount(enemy.Rarity);
+        for (int i = 0; i < dropCount; i++)
+        {
+            GenerateItemDrop(scene, enemy.Location, enemy.Level);
+        }
+
+    }
+
+    public ItemState GenerateItemDrop(string scene, Vector2 location, int itemLevel)
+    {
+        ItemState item = ItemGenerator.CreateItem(Random.Range(itemLevel - 5, itemLevel + 5));
+
+        float x = 0;
+        float y = 0;
+
+        // Set X 50/50 chance to move negative/postive out from dropObject by 1-2
+        if (Random.Range(0, 2) == 0) { x = Random.Range(0.5f, 1.5f); } else { x = Random.Range(-1.5f, -0.5f); }
+        // Set Y 50/50 chance to move negative/postive out from dropObject by 1-2
+        if (Random.Range(0, 2) == 0) { y = Random.Range(0.5f, 1.5f); } else { y = Random.Range(-1.5f, -0.5f); }
+
+        item.Location = new Vector2(location.x + x, location.y + y);
+        
+        WorldState.Scenes.First(x => x.Name.ToLower() == scene.ToLower()).ItemDrops.Add(item);
+
+        ServerManager.BroadcastNetworkMessage(
+            NetworkTags.ItemDropped,
+            new ItemDropData(item, scene));
+
+        return item;
+    }
+
+
 
     //public List<GameObject> generateChestDrops(GameObject chest)
     //{

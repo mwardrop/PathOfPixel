@@ -5,6 +5,7 @@ using System.Collections;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.Playables;
+using static UnityEditor.Progress;
 
 public class ClientHandlers
 {
@@ -89,6 +90,9 @@ public class ClientHandlers
                 case NetworkTags.UpdateEnemyRegen:
                     UpdateEnemyRegen(message.Deserialize<EnemyRegenData>());
                     break;
+                case NetworkTags.ItemDropped:
+                    ItemDropped(message.Deserialize<ItemDropData>());
+                    break;
 
             }
         }
@@ -115,9 +119,9 @@ public class ClientHandlers
 
         GameObject prefab = ClientManager.Prefabs.PossessedSprite;
 
-        switch (playerState.Type)
+        switch (playerState.Type.ToLower())
         {
-            case CharacterType.Warrior:
+            case "warrior":
                 prefab = ClientManager.Prefabs.WarriorSprite;
                 break;
         }
@@ -167,9 +171,9 @@ public class ClientHandlers
 
         GameObject prefab = ClientManager.Prefabs.PossessedSprite;
 
-        switch (enemyState.Type)
+        switch (enemyState.Type.ToLower())
         {
-            case CharacterType.Possessed:
+            case "possessed":
                 prefab = ClientManager.Prefabs.PossessedSprite;
                 break;
         }
@@ -361,4 +365,18 @@ public class ClientHandlers
         player.Health = playerRegenData.Health;
         player.Mana = playerRegenData.Mana;
     }
+
+    public void ItemDropped(ItemDropData itemDropData)
+    {
+        var itemState = itemDropData.ItemState;
+        StateManager.WorldState.Scenes
+            .First(x => x.Name.ToLower() == itemDropData.Scene.ToLower()).ItemDrops
+            .Add(itemState);
+
+        GameObject itemDrop = CreateInstance.Prefab(ClientManager.Prefabs.ItemDropSprite, itemState.Location);
+        var itemDropSprite = itemDrop.GetComponent<ItemDropSprite>();
+        itemDropSprite.itemGuid = itemState.ItemGuid;
+        itemDropSprite.ItemDrop = itemState;
+    }
+
 }

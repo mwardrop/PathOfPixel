@@ -6,7 +6,7 @@ using UnityEngine;
 public class ItemDropSprite : BaseSprite
 {
     public Guid itemGuid;
-    public ItemState inventoryItem;
+    public ItemState ItemDrop;
 
     public Sprite ChestSprite1;
     public Sprite ChestSprite2;
@@ -75,35 +75,35 @@ public class ItemDropSprite : BaseSprite
 
     public void Start()
     {
-        if(inventoryItem != null)
+        if(ItemDrop != null)
         {
 
             String baseSpriteKey = "";
 
-            switch(inventoryItem.ItemType)
+            switch(ItemDrop.ItemType)
             {
                 case ItemStateType.Chest:
                 case ItemStateType.Feet:
                 case ItemStateType.Head:
                 case ItemStateType.Legs:
-                    baseSpriteKey = inventoryItem.ItemType.ToString();
+                    baseSpriteKey = ItemDrop.ItemType.ToString();
                     break;
                 case ItemStateType.Weapon:
                 case ItemStateType.Other:
-                    baseSpriteKey = inventoryItem.ItemSubType.ToString();
+                    baseSpriteKey = ItemDrop.ItemSubType.ToString();
                     break;
             }
 
             if (!String.IsNullOrEmpty(baseSpriteKey))
             {
-                baseSpriteKey += "Sprite" + (inventoryItem.ItemImageId + 1).ToString();
+                baseSpriteKey += "Sprite" + (ItemDrop.ItemImageId + 1).ToString();
 
-                String raritySpriteKey = inventoryItem.ItemRarity + baseSpriteKey;
+                String raritySpriteKey = ItemDrop.ItemRarity + baseSpriteKey;
 
                 if(!sprites.ContainsKey(raritySpriteKey))
                 {
                     Sprite baseSprite = (Sprite)this.GetType().GetField(baseSpriteKey).GetValue(this);
-                    Color replacementColor = (Color)this.GetType().GetField(inventoryItem.ItemRarity.ToString() + "Color").GetValue(this);
+                    Color replacementColor = (Color)this.GetType().GetField(ItemDrop.ItemRarity.ToString() + "Color").GetValue(this);
                     Texture2D newTexture = TextureColorSwapper.SwapColors(baseSprite.texture, SwapColor, replacementColor);
                     Sprite coloredSprite = Sprite.Create(newTexture, spriteRenderer.sprite.rect, new Vector2(0, 1));
                     coloredSprite.name = raritySpriteKey;

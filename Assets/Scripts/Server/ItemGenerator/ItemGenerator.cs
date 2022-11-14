@@ -27,26 +27,26 @@ public class ItemGenerator
     private WeaponItemGenerator weaponItemGenerator = new WeaponItemGenerator();
 
 
-    public ItemState createInventoryItem(int itemLevel)
+    public ItemState CreateItem(int itemLevel)
     {
         
-        return createInventoryItem(
+        return CreateItem(
             itemLevel,
             (ItemStateType)Random.Range(0, typeof(ItemStateType).GetEnumValues().Length)
         );
     }
 
-    public ItemState createInventoryItem(int itemLevel, ItemStateType itemType)
+    public ItemState CreateItem(int itemLevel, ItemStateType itemType)
     {
 
-        return createInventoryItem(
+        return CreateItem(
             itemLevel,
             itemType,
             GetWeightedItemRarity()
         );
     }
 
-    public ItemState createInventoryItem(int itemLevel, ItemStateType itemType, ItemStateRarity itemRarity)
+    public ItemState CreateItem(int itemLevel, ItemStateType itemType, ItemStateRarity itemRarity)
     {
         ItemState item = new ItemState();
         item.ItemLevel = Random.Range(itemLevel, itemLevel + 5);

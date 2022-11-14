@@ -1,22 +1,13 @@
 ﻿using DarkRift;
 using DarkriftSerializationExtensions;
-using Data;
 using Data.Characters;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
-public enum CharacterType
-{
-    Warrior,
-    Mage,
-    Possessed
-}
-
 public class CharacterState : ICharacterState, IDarkRiftSerializable
 {
-    public CharacterType Type { get; set; }
+    public string Type { get; set; }
     public string Name { get; set; }
     public float Health { get; set; }
     public float MaxHealth { get; set; }
@@ -48,6 +39,7 @@ public class CharacterState : ICharacterState, IDarkRiftSerializable
     public List<KeyValueState> Passives { get; set; }
     public string ActiveAttack { get; set; }
     public List<KeyValueState> ActiveSkills { get; set; }
+    public CharacterRarity Rarity { get; set; }
 
     // Calculate Fields
     public float IncomingPhysicalDamage { get; set; }
@@ -84,7 +76,7 @@ public class CharacterState : ICharacterState, IDarkRiftSerializable
         Health = character.MaxHealth;
         Mana = character.MaxMana;
 
-        Type = (CharacterType)Enum.Parse(typeof(CharacterType), character.GetName());
+        Type = character.GetName();
         ActiveAttack = Attacks.First().Key;
     }
 
@@ -99,7 +91,7 @@ public class CharacterState : ICharacterState, IDarkRiftSerializable
 
     public virtual void Deserialize(DeserializeEvent e)
     {
-        Type = (CharacterType)e.Reader.ReadInt32();
+        Type = e.Reader.ReadString();
         Name = e.Reader.ReadString();
         Health = e.Reader.ReadSingle();
         MaxHealth = e.Reader.ReadSingle();
@@ -135,11 +127,12 @@ public class CharacterState : ICharacterState, IDarkRiftSerializable
         ActiveAttack = e.Reader.ReadString();
         KeyValueState[] tempActiveSkills = e.Reader.ReadSerializables<KeyValueState>();
         ActiveSkills = tempActiveSkills.ToList();
+        Rarity = (CharacterRarity)e.Reader.ReadInt32();
     }
 
     public virtual void Serialize(SerializeEvent e)
     {
-        e.Writer.Write((int)Type);
+        e.Writer.Write(Type);
         e.Writer.Write(Name);
         e.Writer.Write(Health);
         e.Writer.Write(MaxHealth);
@@ -171,12 +164,13 @@ public class CharacterState : ICharacterState, IDarkRiftSerializable
         e.Writer.Write(Passives.ToArray());
         e.Writer.Write(ActiveAttack);
         e.Writer.Write(ActiveSkills.ToArray());
+        e.Writer.Write((int)Rarity);
     }
 }
 
 public interface ICharacterState
 {
-    public CharacterType Type { get; set; }
+    public string Type { get; set; }
     public string Name { get; set; }
     public float Health { get; set; }
     public float MaxHealth { get; set; }

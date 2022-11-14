@@ -36,7 +36,8 @@ public enum NetworkTags
     UpdatePlayerLocation = 29,
     UpdatePlayerExperience = 30,
     UpdatePlayerRegen = 31,
-    UpdateEnemyRegen = 32
+    UpdateEnemyRegen = 32,
+    ItemDropped = 33
 }
 
 public struct LoginRequestData : IDarkRiftSerializable
@@ -568,5 +569,29 @@ public struct PlayerRegenData : IDarkRiftSerializable
         e.Writer.Write(Id);
         e.Writer.Write(Health);
         e.Writer.Write(Mana);
+    }
+}
+
+public struct ItemDropData : IDarkRiftSerializable
+{
+    public ItemState ItemState;
+    public string Scene;
+
+    public ItemDropData(ItemState itemState, string scene)
+    {
+        ItemState = itemState;
+        Scene = scene;
+    }
+
+    public void Deserialize(DeserializeEvent e)
+    {
+        ItemState = e.Reader.ReadSerializable<ItemState>();
+        Scene = e.Reader.ReadString();
+    }
+
+    public void Serialize(SerializeEvent e)
+    {
+        e.Writer.Write(ItemState);
+        e.Writer.Write(Scene);
     }
 }

@@ -6,4 +6,5 @@ public class ClientPrefabs : MonoBehaviour
 {
     public GameObject WarriorSprite;
     public GameObject PossessedSprite;
+    public GameObject ItemDropSprite;
 }
