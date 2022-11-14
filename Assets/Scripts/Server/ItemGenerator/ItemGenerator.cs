@@ -49,7 +49,7 @@ public class ItemGenerator
     public ItemState CreateItem(int itemLevel, ItemStateType itemType, ItemStateRarity itemRarity)
     {
         ItemState item = new ItemState();
-        item.ItemLevel = Random.Range(itemLevel, itemLevel + 5);
+        item.ItemLevel = itemLevel;
         item.ItemType = itemType;
         item.ItemRarity = itemRarity;
 

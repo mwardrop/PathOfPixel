@@ -187,4 +187,11 @@ public class ClientActions {
                name
             ));
     }
+
+    public void ItemPickedUp(ItemState itemState, string scene)
+    {
+        ClientManager.SendNetworkMessage(
+            NetworkTags.ItemPickedUp,
+            new ItemDropData(itemState, scene));
+    }
 }

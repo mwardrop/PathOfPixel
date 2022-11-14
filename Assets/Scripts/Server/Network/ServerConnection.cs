@@ -108,6 +108,9 @@ public class ServerConnection
                 case NetworkTags.UpdatePlayerLocation:
                     UpdatePlayerLocation(message.Deserialize<UpdatePlayerLocationData>());
                     break;
+                case NetworkTags.ItemPickedUp:
+                    ItemPickedUp(message.Deserialize<ItemDropData>());
+                    break;
 
             }
         }
@@ -305,6 +308,38 @@ public class ServerConnection
         {
             StateManager.ActivatePlayerSkill(PlayerState, stringData.String);
         }
+    }
+
+    public void ItemPickedUp(ItemDropData itemDropData)
+    {
+        if (PlayerState.Inventory.Count() <= 15) {
+            StateManager.WorldState.Scenes
+                .First(x => x.Name.ToLower() == itemDropData.Scene.ToLower()).ItemDrops
+                .RemoveAll(x => x.ItemGuid == itemDropData.ItemState.ItemGuid);
+
+            var freeSlot = 0;
+            foreach(InventoryItemState inventoryItem in PlayerState.Inventory.OrderBy(x => x.Slot))
+            {
+                if(inventoryItem.Slot != freeSlot)
+                {
+                    return;
+                }
+                freeSlot++;
+            }
+
+            var newInventoryItem = new InventoryItemState(freeSlot, itemDropData.ItemState);
+            PlayerState.Inventory.Add(newInventoryItem);
+
+            SendNetworkMessage(
+                NetworkTags.ItemPickedUp,
+                new ItemPickupData(
+                    newInventoryItem, 
+                    Client.ID, 
+                    itemDropData.ItemState.ItemGuid, 
+                    itemDropData.Scene
+                ));
+        }
+
     }
 
     private void SendNetworkMessage(NetworkTags networkTag, IDarkRiftSerializable payload)

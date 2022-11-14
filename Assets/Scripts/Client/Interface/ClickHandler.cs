@@ -74,7 +74,7 @@ public class ClickHandler : MonoBehaviour
 
             spriteRenderer.sortingOrder = playerSprite.spriteRenderer.sortingOrder + 1;
 
-            showIndicator();
+            //showIndicator();
 
             enemyClicked = false;
         }      

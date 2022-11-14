@@ -4,8 +4,6 @@ using System;
 using System.Collections;
 using System.Linq;
 using UnityEngine;
-using UnityEngine.Playables;
-using static UnityEditor.Progress;
 
 public class ClientHandlers
 {
@@ -93,7 +91,9 @@ public class ClientHandlers
                 case NetworkTags.ItemDropped:
                     ItemDropped(message.Deserialize<ItemDropData>());
                     break;
-
+                case NetworkTags.ItemPickedUp:
+                    ItemPickedUp(message.Deserialize<ItemPickupData>());
+                    break;
             }
         }
     }
@@ -377,6 +377,19 @@ public class ClientHandlers
         var itemDropSprite = itemDrop.GetComponent<ItemDropSprite>();
         itemDropSprite.itemGuid = itemState.ItemGuid;
         itemDropSprite.ItemDrop = itemState;
+    }
+
+    public void ItemPickedUp(ItemPickupData itemPickupData)
+    {
+        StateManager.WorldState.Scenes.First(x => x.Name.ToLower() == itemPickupData.Scene.ToLower()).ItemDrops.RemoveAll(x => x.ItemGuid == itemPickupData.ItemGuid);
+
+        GameObject.Destroy(StateManager.GetItemDropObject(itemPickupData.ItemGuid));
+
+        if (itemPickupData.ClientId == PlayerState.ClientId)
+        {
+            PlayerState.Inventory.Add(itemPickupData.InventoryItem);
+        }
+
     }
 
 }

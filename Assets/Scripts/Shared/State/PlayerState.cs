@@ -8,7 +8,7 @@ using UnityEngine;
 [Serializable]
 public class PlayerState: CharacterState, ICharacterState, IDarkRiftSerializable
 {
-    public List<ItemState> Inventory;
+    public List<InventoryItemState> Inventory;
 
     public string Scene { get; set; }
     public int ClientId { get; set; }
@@ -36,7 +36,7 @@ public class PlayerState: CharacterState, ICharacterState, IDarkRiftSerializable
 
     private void Initialize()
     {
-        Inventory = new List<ItemState>();
+        Inventory = new List<InventoryItemState>();
         HotbarItems = new List<KeyValueState>();
     }
 
@@ -45,7 +45,7 @@ public class PlayerState: CharacterState, ICharacterState, IDarkRiftSerializable
         base.Deserialize(e);
         Scene = e.Reader.ReadString();
         ClientId = e.Reader.ReadInt32();
-        ItemState[] tempInventory = e.Reader.ReadSerializables<ItemState>();
+        InventoryItemState[] tempInventory = e.Reader.ReadSerializables<InventoryItemState>();
         Inventory = tempInventory.ToList();
         isTargetable = e.Reader.ReadBoolean();
         AttackPoints = e.Reader.ReadInt32();

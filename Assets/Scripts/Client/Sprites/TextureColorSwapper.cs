@@ -21,7 +21,6 @@ public static class TextureColorSwapper
                 Color currentColor = originalTexture.GetPixel(x, y);
                 if(currentColor.r == 1)
                 {
-                    Debug.Log(currentColor);
                     if(currentColor.a > 0)
                     {
                         Debug.Log("Found sold red and not transparent");

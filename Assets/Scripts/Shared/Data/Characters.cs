@@ -138,7 +138,7 @@ namespace Data.Characters
     {
         public Possessed(int level = 1) : base(level)
         {
-            Rarity = CharacterRarity.Common;
+            Rarity = CharacterRarity.Rare;
             MaxHealth = 10 + (level * 5);
             HealthRegen = 1;
             MaxMana = 100;

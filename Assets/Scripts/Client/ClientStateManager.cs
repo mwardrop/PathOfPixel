@@ -78,6 +78,16 @@ public class ClientStateManager
         catch { return null; }
     }
 
+    public GameObject GetItemDropObject(System.Guid itemGuid)
+    {
+        try
+        {
+            return GameObject.FindGameObjectsWithTag("ItemDrop").ToList().
+                First(x => x.GetComponent<ItemDropSprite>().itemGuid == itemGuid);
+        }
+        catch { return null; }
+    }
+
 
 
     public void LoadScene(string scene, LoadSceneMode mode)

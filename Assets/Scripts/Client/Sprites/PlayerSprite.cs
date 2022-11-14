@@ -19,6 +19,7 @@ public class PlayerSprite : CharacterSprite
     public float AttackRadius = 1.2f;
     public float MoveRadius = 1;
     public EnemySprite TargetEnemy;
+    public float PickupRadius = 3;
 
     void Start()
     {

@@ -1,7 +1,10 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
+using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 public class ItemDropSprite : BaseSprite
 {
@@ -100,22 +103,27 @@ public class ItemDropSprite : BaseSprite
 
                 String raritySpriteKey = ItemDrop.ItemRarity + baseSpriteKey;
 
-                if(!sprites.ContainsKey(raritySpriteKey))
+                if (!sprites.ContainsKey(raritySpriteKey))
                 {
                     Sprite baseSprite = (Sprite)this.GetType().GetField(baseSpriteKey).GetValue(this);
                     Color replacementColor = (Color)this.GetType().GetField(ItemDrop.ItemRarity.ToString() + "Color").GetValue(this);
                     Texture2D newTexture = TextureColorSwapper.SwapColors(baseSprite.texture, SwapColor, replacementColor);
-                    Sprite coloredSprite = Sprite.Create(newTexture, spriteRenderer.sprite.rect, new Vector2(0, 1));
+                    Sprite coloredSprite = Sprite.Create(newTexture, baseSprite.rect, new Vector2(0, 1));
                     coloredSprite.name = raritySpriteKey;
 
                     sprites.Add(raritySpriteKey, coloredSprite);
                 }
 
                 spriteRenderer.sprite = sprites.GetValueOrDefault(raritySpriteKey);
-
                 spriteRenderer.material.mainTexture = spriteRenderer.sprite.texture;
+                var collider = this.GetComponent<BoxCollider2D>();
 
-                this.transform.Rotate(0, 0, UnityEngine.Random.Range(0, 360));
+                collider.size = spriteRenderer.sprite.rect.size / 100;
+                collider.offset = new Vector2(
+                    (spriteRenderer.sprite.rect.width / 2) / 100, 
+                    -(spriteRenderer.sprite.rect.height / 2) / 100);
+
+                transform.Rotate(0,0, UnityEngine.Random.Range(0, 360));
 
             }
         }
@@ -124,7 +132,16 @@ public class ItemDropSprite : BaseSprite
 
     protected override void Update()
     {
-        
+        if(Input.GetMouseButtonDown(0) && this.GetComponent<BoxCollider2D>().OverlapPoint(Camera.main.ScreenToWorldPoint(Input.mousePosition)))
+        {
+            var playerObject = GameObject.FindWithTag("LocalPlayer");
+            var playerSprite = playerObject.GetComponent<PlayerSprite>();
+
+            if (Vector2.Distance(GameObject.FindWithTag("LocalPlayer").transform.position, transform.position) <= playerSprite.PickupRadius)
+            {
+                ClientManager.Instance.StateManager.Actions.ItemPickedUp(ItemDrop, playerSprite.PlayerState.Scene);
+            }
+        }
     }
 
 }

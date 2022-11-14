@@ -5,8 +5,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Collections;
 using System;
-using static UnityEditor.FilePathAttribute;
-using System.Runtime.CompilerServices;
 
 public class ServerStateManager
 {
