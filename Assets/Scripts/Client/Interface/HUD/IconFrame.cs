@@ -25,7 +25,13 @@ public class IconFrame : MonoBehaviour, IPointerClickHandler
     {
         get
         {
-            if (!_level) { _level = gameObject.transform.Find("Level").gameObject.GetComponent<TextMeshProUGUI>(); }
+            try
+            {
+                if (!_level) { _level = gameObject.transform.Find("Level").gameObject.GetComponent<TextMeshProUGUI>(); }
+            } catch
+            {
+                return null;
+            }
             return _level;
         }
         set { _level = value; }
@@ -33,31 +39,40 @@ public class IconFrame : MonoBehaviour, IPointerClickHandler
 
     public void Update()
     {
-
-        switch (icon.Type)
+        if (level != null)
         {
-            case IconType.Attack:
-                level.text = ClientManager.Instance.StateManager.PlayerState.Attacks.First(x => x.Key == icon.TypeKey).Value.ToString();
-                break;
-            case IconType.Skill:
-                level.text = ClientManager.Instance.StateManager.PlayerState.Skills.First(x => x.Key == icon.TypeKey).Value.ToString();
-                break;
-            case IconType.Passive:
-                level.text = ClientManager.Instance.StateManager.PlayerState.Passives.First(x => x.Key == icon.TypeKey).Value.ToString();
-                break;
-        }
+            switch (icon.Type)
+            {
+                case IconType.Attack:
+                    level.text = ClientManager.Instance.StateManager.PlayerState.Attacks.First(x => x.Key == icon.TypeKey).Value.ToString();
+                    break;
+                case IconType.Skill:
+                    level.text = ClientManager.Instance.StateManager.PlayerState.Skills.First(x => x.Key == icon.TypeKey).Value.ToString();
+                    break;
+                case IconType.Passive:
+                    level.text = ClientManager.Instance.StateManager.PlayerState.Passives.First(x => x.Key == icon.TypeKey).Value.ToString();
+                    break;
+            }
+            if (level.text == "0" || icon.Type == IconType.Passive)
+            {
+                icon.IsDraggable = false;
+            }
+            else
+            {
+                icon.IsDraggable = true;
+            }
 
-        if(level.text == "0" || icon.Type == IconType.Passive)
-        {
-            icon.IsDraggable = false;
         } else
         {
-            icon.IsDraggable = true;
+            if(icon.Type == IconType.Gear)
+            {
+                icon.IsDraggable = true;
+            }
         }
 
     }
 
-        public void OnPointerClick(PointerEventData eventData) // 3
+    public void OnPointerClick(PointerEventData eventData) // 3
     {
         gameObject.transform.Find("Clicked").gameObject.SetActive(true);
         Invoke("ResetButtons", 0.1f);

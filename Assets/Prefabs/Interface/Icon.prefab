@@ -201,7 +201,51 @@ MonoBehaviour:
   PassiveIcon36: {fileID: -1731006123, guid: fad9bb5a9d94dbe489c892c5ecacf13b, type: 3}
   PassiveIcon37: {fileID: 303201345, guid: fad9bb5a9d94dbe489c892c5ecacf13b, type: 3}
   PassiveIcon38: {fileID: 1734727999, guid: fad9bb5a9d94dbe489c892c5ecacf13b, type: 3}
-  CurrentIcon: {fileID: 0}
+  ChestSprite1: {fileID: 21300000, guid: 689700df49ac0744ba6c2acd99e7f626, type: 3}
+  ChestSprite2: {fileID: 21300000, guid: 30e69fe0222d6854ab69671f651149b7, type: 3}
+  ChestSprite3: {fileID: 21300000, guid: bffab7f829743e94bb507d593b9452b9, type: 3}
+  ChestSprite4: {fileID: 21300000, guid: 57719d5f6ad173443803368ab7fd34fe, type: 3}
+  ChestSprite5: {fileID: 21300000, guid: cad5ae6d95ffac14cbab79b554871a43, type: 3}
+  ChestSprite6: {fileID: 21300000, guid: 1f2afdafcef29d347b417a7d4e0295b3, type: 3}
+  ChestSprite7: {fileID: 21300000, guid: 6735d6bccfd0ec44faf6b818bef9ab18, type: 3}
+  ChestSprite8: {fileID: 21300000, guid: 75608fb46c63b1f4abab196b973e99b3, type: 3}
+  FeetSprite1: {fileID: 21300000, guid: e8815a572e1d216489a2d9f1c1981c1c, type: 3}
+  FeetSprite2: {fileID: 21300000, guid: 008756c971d846349afbade2506ac116, type: 3}
+  FeetSprite3: {fileID: 21300000, guid: f7db32ce62f733442b3ca5803818c6c3, type: 3}
+  FeetSprite4: {fileID: 21300000, guid: ff8c84c884104464383098350a0e68dd, type: 3}
+  HeadSprite1: {fileID: 21300000, guid: fc3f5beaea649914582c30615f393858, type: 3}
+  HeadSprite2: {fileID: 21300000, guid: b1d4d982b294c0841ba80f3bca5d9e5c, type: 3}
+  HeadSprite3: {fileID: 21300000, guid: a8cfa4ced02c2f24788569576e1688c9, type: 3}
+  HeadSprite4: {fileID: 21300000, guid: 3136026c714990a4ebba213ccb1de2ca, type: 3}
+  HeadSprite5: {fileID: 21300000, guid: ef37974be23364347bf75a3b9515d809, type: 3}
+  LegsSprite1: {fileID: 21300000, guid: 9fb85be9241253944914bc3ef0734e09, type: 3}
+  LegsSprite2: {fileID: 21300000, guid: 9a077e323e3866841a86c65be8058bb7, type: 3}
+  LegsSprite3: {fileID: 21300000, guid: c12fe5fe6a62199419e227bc63395bb7, type: 3}
+  LegsSprite4: {fileID: 21300000, guid: 911231ba20f009f4896f126a0fc4d888, type: 3}
+  LegsSprite5: {fileID: 21300000, guid: 063a600b73cc94a46a42a3bad54343f9, type: 3}
+  OtherAmuletSprite1: {fileID: 21300000, guid: 46352bd456566cd41bd4b934c0f71f14, type: 3}
+  OtherAmuletSprite2: {fileID: 21300000, guid: ce54b6131f1a6b94db615dfcb8d0f221, type: 3}
+  OtherAmuletSprite3: {fileID: 21300000, guid: 3d71b1db4755de249931ae39ef398793, type: 3}
+  OtherRingSprite1: {fileID: 21300000, guid: 32e69ace666e37d468312d9eb5304664, type: 3}
+  OtherRingSprite2: {fileID: 21300000, guid: bb4369c012a377b4a9acd6c7979cf593, type: 3}
+  OtherRingSprite3: {fileID: 21300000, guid: 3d71b1db4755de249931ae39ef398793, type: 3}
+  OtherGlovesSprite1: {fileID: 21300000, guid: bfe7507e4d738ff44a9217e0a0d9acf7, type: 3}
+  WeaponSwordSprite1: {fileID: 21300000, guid: a1feecaf4542ebc4b98e02a301c4d9d7, type: 3}
+  WeaponSwordSprite2: {fileID: 21300000, guid: e84974b65b3ef8e46b19c6c5a5487389, type: 3}
+  WeaponSwordSprite3: {fileID: 21300000, guid: e761a6d6f901350438b3b97c04e0376e, type: 3}
+  WeaponSwordSprite4: {fileID: 21300000, guid: a2bdd6ffaa319904f853965b4c2ee689, type: 3}
+  WeaponSwordSprite5: {fileID: 21300000, guid: 4aa13318813a57a45bb14ccc6cfbacbc, type: 3}
+  WeaponSwordSprite6: {fileID: 21300000, guid: 81202bc184b6c354f8acf513917c7929, type: 3}
+  WeaponAxeSprite1: {fileID: 21300000, guid: 309fd7aba69165d4e8948d008ffbdc6b, type: 3}
+  WeaponAxeSprite2: {fileID: 21300000, guid: 1d137cf3479dc8d4ebaa12c82784011c, type: 3}
+  WeaponAxeSprite3: {fileID: 21300000, guid: b59989084190e2e42a3a64e88e479d65, type: 3}
+  WeaponStaffSprite1: {fileID: 21300000, guid: dc587b5dd386e3345b719d6d5f7b5b69, type: 3}
+  WeaponStaffSprite2: {fileID: 21300000, guid: e84974b65b3ef8e46b19c6c5a5487389, type: 3}
+  WeaponStaffSprite3: {fileID: 21300000, guid: 62b6c7d2bf0e75e4e9424844ab894aff, type: 3}
+  WeaponHammerSprite1: {fileID: 21300000, guid: f77d5cf35a55d874d8798e4345768f3d, type: 3}
+  WeaponFishingRodSprite1: {fileID: 21300000, guid: e84c11c428b48c64ca69134922b8c6ff, type: 3}
+  SlotWeapon: {fileID: 21300000, guid: 674250c824dccdd4ca7c76e605e4c316, type: 3}
+  CurrentIcon: {fileID: 21300000, guid: b37191618731c064fa22f71b121543c3, type: 3}
   IsDraggable: 0
   Type: 0
   TypeKey: 

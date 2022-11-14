@@ -12,7 +12,8 @@ public enum IconType
     Attack,
     Skill,
     Passive,
-    Item
+    Item,
+    Gear
 }
 
 public class Icon : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDragHandler
@@ -131,6 +132,63 @@ public class Icon : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDragHand
     public Sprite PassiveIcon36;
     public Sprite PassiveIcon37;
     public Sprite PassiveIcon38;
+
+    public Sprite ChestSprite1;
+    public Sprite ChestSprite2;
+    public Sprite ChestSprite3;
+    public Sprite ChestSprite4;
+    public Sprite ChestSprite5;
+    public Sprite ChestSprite6;
+    public Sprite ChestSprite7;
+    public Sprite ChestSprite8;
+
+    public Sprite FeetSprite1;
+    public Sprite FeetSprite2;
+    public Sprite FeetSprite3;
+    public Sprite FeetSprite4;
+
+    public Sprite HeadSprite1;
+    public Sprite HeadSprite2;
+    public Sprite HeadSprite3;
+    public Sprite HeadSprite4;
+    public Sprite HeadSprite5;
+
+    public Sprite LegsSprite1;
+    public Sprite LegsSprite2;
+    public Sprite LegsSprite3;
+    public Sprite LegsSprite4;
+    public Sprite LegsSprite5;
+
+    public Sprite OtherAmuletSprite1;
+    public Sprite OtherAmuletSprite2;
+    public Sprite OtherAmuletSprite3;
+
+    public Sprite OtherRingSprite1;
+    public Sprite OtherRingSprite2;
+    public Sprite OtherRingSprite3;
+
+    public Sprite OtherGlovesSprite1;
+
+    public Sprite WeaponSwordSprite1;
+    public Sprite WeaponSwordSprite2;
+    public Sprite WeaponSwordSprite3;
+    public Sprite WeaponSwordSprite4;
+    public Sprite WeaponSwordSprite5;
+    public Sprite WeaponSwordSprite6;
+
+    public Sprite WeaponAxeSprite1;
+    public Sprite WeaponAxeSprite2;
+    public Sprite WeaponAxeSprite3;
+
+    public Sprite WeaponStaffSprite1;
+    public Sprite WeaponStaffSprite2;
+    public Sprite WeaponStaffSprite3;
+
+    public Sprite WeaponHammerSprite1;
+
+    public Sprite WeaponFishingRodSprite1;
+
+    public Sprite SlotWeapon;
 
     public Sprite CurrentIcon;
 
