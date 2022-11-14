@@ -8,7 +8,7 @@ using UnityEngine;
 [Serializable]
 public class PlayerState: CharacterState, ICharacterState, IDarkRiftSerializable
 {
-    public List<InventoryItemState> Inventory;
+    public InventoryState Inventory;
 
     public string Scene { get; set; }
     public int ClientId { get; set; }
@@ -36,7 +36,7 @@ public class PlayerState: CharacterState, ICharacterState, IDarkRiftSerializable
 
     private void Initialize()
     {
-        Inventory = new List<InventoryItemState>();
+        Inventory = new InventoryState();
         HotbarItems = new List<KeyValueState>();
     }
 
@@ -45,8 +45,7 @@ public class PlayerState: CharacterState, ICharacterState, IDarkRiftSerializable
         base.Deserialize(e);
         Scene = e.Reader.ReadString();
         ClientId = e.Reader.ReadInt32();
-        InventoryItemState[] tempInventory = e.Reader.ReadSerializables<InventoryItemState>();
-        Inventory = tempInventory.ToList();
+        Inventory = e.Reader.ReadSerializable<InventoryState>();
         isTargetable = e.Reader.ReadBoolean();
         AttackPoints = e.Reader.ReadInt32();
         SkillPoints = e.Reader.ReadInt32();
@@ -60,7 +59,7 @@ public class PlayerState: CharacterState, ICharacterState, IDarkRiftSerializable
         base.Serialize(e);
         e.Writer.Write(Scene);
         e.Writer.Write(ClientId);
-        e.Writer.Write(Inventory.ToArray());
+        e.Writer.Write(Inventory);
         e.Writer.Write(isTargetable);
         e.Writer.Write(AttackPoints);
         e.Writer.Write(SkillPoints);

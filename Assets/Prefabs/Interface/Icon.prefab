@@ -244,8 +244,14 @@ MonoBehaviour:
   WeaponStaffSprite3: {fileID: 21300000, guid: 62b6c7d2bf0e75e4e9424844ab894aff, type: 3}
   WeaponHammerSprite1: {fileID: 21300000, guid: f77d5cf35a55d874d8798e4345768f3d, type: 3}
   WeaponFishingRodSprite1: {fileID: 21300000, guid: e84c11c428b48c64ca69134922b8c6ff, type: 3}
-  SlotWeapon: {fileID: 21300000, guid: 674250c824dccdd4ca7c76e605e4c316, type: 3}
-  CurrentIcon: {fileID: 21300000, guid: b37191618731c064fa22f71b121543c3, type: 3}
+  InventorySlotWeapon: {fileID: 21300000, guid: 674250c824dccdd4ca7c76e605e4c316, type: 3}
+  InventorySlotChest: {fileID: 21300000, guid: d7c90a65357980d4489a0fa5fc07b6bb, type: 3}
+  InventorySlotFeet: {fileID: 21300000, guid: 66df2c52fa0b79242bd0019d27160eab, type: 3}
+  InventorySlotHead: {fileID: 21300000, guid: 7ae0381dff9862a4797a9069d7ea7cfe, type: 3}
+  InventorySlotLegs: {fileID: 21300000, guid: f1ad658e91ed1a445bccb18399dec090, type: 3}
+  InventorySlotOther: {fileID: 21300000, guid: 7641cf74a11f6df488a0f36120066699, type: 3}
+  CurrentIcon: {fileID: 21300000, guid: 7641cf74a11f6df488a0f36120066699, type: 3}
+  TransparentIcon: {fileID: 21300000, guid: 7641cf74a11f6df488a0f36120066699, type: 3}
   IsDraggable: 0
   Type: 0
   TypeKey: 

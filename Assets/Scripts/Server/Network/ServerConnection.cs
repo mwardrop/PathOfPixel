@@ -312,13 +312,13 @@ public class ServerConnection
 
     public void ItemPickedUp(ItemDropData itemDropData)
     {
-        if (PlayerState.Inventory.Count() <= 15) {
+        if (PlayerState.Inventory.Items.Count() <= 15) {
             StateManager.WorldState.Scenes
                 .First(x => x.Name.ToLower() == itemDropData.Scene.ToLower()).ItemDrops
                 .RemoveAll(x => x.ItemGuid == itemDropData.ItemState.ItemGuid);
 
             var freeSlot = 0;
-            foreach(InventoryItemState inventoryItem in PlayerState.Inventory.OrderBy(x => x.Slot))
+            foreach(InventoryItemState inventoryItem in PlayerState.Inventory.Items.OrderBy(x => x.Slot))
             {
                 if(inventoryItem.Slot != freeSlot)
                 {
@@ -328,7 +328,7 @@ public class ServerConnection
             }
 
             var newInventoryItem = new InventoryItemState(freeSlot, itemDropData.ItemState);
-            PlayerState.Inventory.Add(newInventoryItem);
+            PlayerState.Inventory.Items.Add(newInventoryItem);
 
             SendNetworkMessage(
                 NetworkTags.ItemPickedUp,

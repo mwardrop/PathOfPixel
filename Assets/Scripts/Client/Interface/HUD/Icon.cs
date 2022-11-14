@@ -188,9 +188,15 @@ public class Icon : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDragHand
 
     public Sprite WeaponFishingRodSprite1;
 
-    public Sprite SlotWeapon;
+    public Sprite InventorySlotWeapon;
+    public Sprite InventorySlotChest;
+    public Sprite InventorySlotFeet;
+    public Sprite InventorySlotHead;
+    public Sprite InventorySlotLegs;
+    public Sprite InventorySlotOther;
 
     public Sprite CurrentIcon;
+    public Sprite TransparentIcon;
 
     private GameObject DragIconObject;
     private bool IsDragging = false;

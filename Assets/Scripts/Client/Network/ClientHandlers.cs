@@ -387,7 +387,7 @@ public class ClientHandlers
 
         if (itemPickupData.ClientId == PlayerState.ClientId)
         {
-            PlayerState.Inventory.Add(itemPickupData.InventoryItem);
+            PlayerState.Inventory.Items.Add(itemPickupData.InventoryItem);
         }
 
     }
