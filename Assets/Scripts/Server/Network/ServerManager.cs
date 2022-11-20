@@ -234,6 +234,8 @@ public class ServerManager : MonoBehaviour
     {
         if (File.Exists($"{Application.persistentDataPath}/SaveGame.dat"))
         {
+            Debug.Log($"LOADED GAME STATE - {Application.persistentDataPath}/SaveGame.dat");
+
             var byteArray = File.ReadAllBytes($"{Application.persistentDataPath}/SaveGame.dat");
             var reader = DarkRiftReader.CreateFromArray(byteArray, 0, byteArray.Length);
             var saveGame = reader.ReadSerializable<SaveGame>();

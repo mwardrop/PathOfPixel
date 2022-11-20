@@ -38,7 +38,9 @@ public enum NetworkTags
     UpdatePlayerRegen = 31,
     UpdateEnemyRegen = 32,
     ItemDropped = 33,
-    ItemPickedUp = 34
+    ItemPickedUp = 34,
+    EquipItem  = 35,
+    InventoryUpdate = 36
 }
 
 public struct LoginRequestData : IDarkRiftSerializable
@@ -627,5 +629,29 @@ public struct ItemPickupData : IDarkRiftSerializable
         e.Writer.Write(ClientId);
         e.Writer.Write(ItemGuid.ToString());
         e.Writer.Write(Scene);
+    }
+}
+
+public struct InventoryUpdateData : IDarkRiftSerializable
+{
+    public InventoryState InventoryState;
+    public int PlayerId;
+
+    public InventoryUpdateData(InventoryState inventoryState, int playerId)
+    {
+        InventoryState = inventoryState;
+        PlayerId = playerId;
+    }
+
+    public void Deserialize(DeserializeEvent e)
+    {
+        InventoryState = e.Reader.ReadSerializable<InventoryState>();
+        PlayerId = e.Reader.ReadInt32();
+    }
+
+    public void Serialize(SerializeEvent e)
+    {
+        e.Writer.Write(InventoryState);
+        e.Writer.Write(PlayerId);
     }
 }

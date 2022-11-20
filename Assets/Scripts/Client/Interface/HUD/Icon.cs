@@ -13,7 +13,8 @@ public enum IconType
     Skill,
     Passive,
     Item,
-    Gear
+    Gear,
+    None
 }
 
 public class Icon : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDragHandler

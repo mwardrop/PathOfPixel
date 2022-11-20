@@ -374,6 +374,23 @@ public class ServerStateManager
         return item;
     }
 
+    public int FindEmptyInventorySlot(PlayerState playerState)
+    {
+        var freeSlot = 0;
+
+        foreach (InventoryItemState inventoryItem in playerState.Inventory.Items.OrderBy(x => x.Slot))
+        {
+            if ((int)inventoryItem.Slot != freeSlot)
+            {
+                return freeSlot;
+            }
+            freeSlot++;
+        }
+
+        return freeSlot;
+
+    }
+
 
 
     //public List<GameObject> generateChestDrops(GameObject chest)

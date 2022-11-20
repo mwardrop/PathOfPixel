@@ -119,6 +119,9 @@ public class ServerConnection
                 case NetworkTags.ItemPickedUp:
                     ItemPickedUp(message.Deserialize<ItemDropData>());
                     break;
+                case NetworkTags.EquipItem:
+                    EquipItem(message.Deserialize<IntegerPairData>());
+                    break;
 
             }
         }
@@ -325,20 +328,12 @@ public class ServerConnection
                 .First(x => x.Name.ToLower() == itemDropData.Scene.ToLower()).ItemDrops
                 .RemoveAll(x => x.ItemGuid == itemDropData.ItemState.ItemGuid);
 
-            var freeSlot = 0;
-            foreach(InventoryItemState inventoryItem in PlayerState.Inventory.Items.OrderBy(x => x.Slot))
-            {
-                if(inventoryItem.Slot != freeSlot)
-                {
-                    return;
-                }
-                freeSlot++;
-            }
-
+            var freeSlot = StateManager.FindEmptyInventorySlot(PlayerState);
             var newInventoryItem = new InventoryItemState(freeSlot, itemDropData.ItemState);
+
             PlayerState.Inventory.Items.Add(newInventoryItem);
 
-            SendNetworkMessage(
+            BroadcastNetworkMessage(
                 NetworkTags.ItemPickedUp,
                 new ItemPickupData(
                     newInventoryItem, 
@@ -347,6 +342,39 @@ public class ServerConnection
                     itemDropData.Scene
                 ));
         }
+
+    }
+
+    public void EquipItem(IntegerPairData integerData)
+    {
+
+        var inventorySlot = (InventorySlots)integerData.Integer1;
+        var equipmentSlot = (InventorySlots)integerData.Integer2;
+
+        var inventoryItem = PlayerState.Inventory.Items.First(x => x.Slot == inventorySlot);
+        PlayerState.Inventory.Items.Remove(inventoryItem);
+        
+        if (inventoryItem.Item.ItemType.ToString().ToLower() != string.Concat(equipmentSlot.ToString().Where(char.IsLetter)).ToLower())
+        {
+            return; // Only allow equiping in correct equipment slot
+        }
+
+        var existingEquipedItems = PlayerState.Inventory.Equiped.Where(x => x.Slot == equipmentSlot);
+        if(existingEquipedItems.Count() > 0)
+        {
+            var existingItem = existingEquipedItems.First();
+            PlayerState.Inventory.Equiped.Remove(existingItem);
+
+            existingItem.Slot = inventorySlot;
+            PlayerState.Inventory.Items.Add(existingItem);
+
+        }
+
+        inventoryItem.Slot = equipmentSlot;
+        PlayerState.Inventory.Equiped.Add(inventoryItem);
+
+        BroadcastNetworkMessage(NetworkTags.InventoryUpdate,
+            new InventoryUpdateData(PlayerState.Inventory, PlayerState.ClientId));
 
     }
 

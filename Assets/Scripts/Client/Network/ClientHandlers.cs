@@ -94,6 +94,9 @@ public class ClientHandlers
                 case NetworkTags.ItemPickedUp:
                     ItemPickedUp(message.Deserialize<ItemPickupData>());
                     break;
+                case NetworkTags.InventoryUpdate:
+                    InventoryUpdate(message.Deserialize<InventoryUpdateData>());
+                    break;
             }
         }
     }
@@ -389,7 +392,15 @@ public class ClientHandlers
         {
             PlayerState.Inventory.Items.Add(itemPickupData.InventoryItem);
         }
+    }
 
+    public void InventoryUpdate(InventoryUpdateData inventoryUpdateData)
+    {
+
+        if (inventoryUpdateData.PlayerId == PlayerState.ClientId)
+        {
+            PlayerState.Inventory = inventoryUpdateData.InventoryState;
+        }
     }
 
 }
