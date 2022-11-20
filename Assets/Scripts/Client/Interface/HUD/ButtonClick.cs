@@ -67,7 +67,10 @@ public class ButtonClick : MonoBehaviour, IPointerDownHandler, IPointerClickHand
     public void OnPointerClick(PointerEventData eventData)
     {
         IsActive = !IsActive;
-        
+        if(Panel == null)
+        {
+            ServerManager.Instance.SaveGame();
+        }
     }
 
 }

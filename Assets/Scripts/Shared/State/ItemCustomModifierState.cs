@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -9,6 +10,7 @@ public enum ItemCustomModifierType
     AttackSpeed
 }
 
+[Serializable]
 public class ItemCustomModifier : ScriptableObject
 {
     // Start is called before the first frame update

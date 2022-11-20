@@ -1,6 +1,7 @@
-﻿
-using DarkRift;
+﻿using DarkRift;
+using System;
 
+[Serializable]
 public class KeyValueState : IDarkRiftSerializable
 {
     public string Key { get; set; }

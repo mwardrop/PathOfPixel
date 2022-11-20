@@ -7,6 +7,7 @@ using System.Linq;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
+[Serializable]
 public class ServerConnection
 {
     public string Username { get; }
@@ -16,6 +17,13 @@ public class ServerConnection
     public PlayerState PlayerState;
 
     public ServerStateManager StateManager;
+
+    public ServerConnection(string username, string password, ServerStateManager stateManager, PlayerState playerState) {
+        Username = username;
+        Password = password;
+        StateManager = stateManager;
+        PlayerState = playerState;
+    }
 
     public ServerConnection(IClient client, string username, string password, ServerStateManager stateManager)
     {

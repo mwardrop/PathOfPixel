@@ -1,7 +1,9 @@
 ﻿using DarkRift;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
+[Serializable]
 public class SceneState : IDarkRiftSerializable
 {
     public string Name;

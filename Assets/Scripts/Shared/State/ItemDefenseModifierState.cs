@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -11,6 +12,7 @@ public enum ItemDefenseModifierType
     ColdResistance,
 }
 
+[Serializable]
 public class ItemDefenseModifier : ScriptableObject
 {
     public ItemDefenseModifierType modifierType;

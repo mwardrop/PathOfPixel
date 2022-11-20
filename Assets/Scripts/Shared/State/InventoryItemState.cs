@@ -1,5 +1,7 @@
 ﻿using DarkRift;
+using System;
 
+[Serializable]
 public class InventoryItemState: IDarkRiftSerializable
 {
     public int Slot;

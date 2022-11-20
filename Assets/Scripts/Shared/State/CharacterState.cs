@@ -1,10 +1,12 @@
 ﻿using DarkRift;
 using DarkriftSerializationExtensions;
 using Data.Characters;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
+[Serializable]
 public class CharacterState : ICharacterState, IDarkRiftSerializable
 {
     public string Type { get; set; }
