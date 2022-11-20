@@ -320,7 +320,7 @@ public class ServerConnection
 
     public void ItemPickedUp(ItemDropData itemDropData)
     {
-        if (PlayerState.Inventory.Items.Count() <= 15) {
+        if (PlayerState.Inventory.Items.Count() <= 50) {
             StateManager.WorldState.Scenes
                 .First(x => x.Name.ToLower() == itemDropData.Scene.ToLower()).ItemDrops
                 .RemoveAll(x => x.ItemGuid == itemDropData.ItemState.ItemGuid);

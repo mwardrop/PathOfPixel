@@ -6,7 +6,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-public class IconFrame : MonoBehaviour, IPointerClickHandler
+public class SkillFrame : MonoBehaviour, IPointerClickHandler
 {
 
     private Icon _icon;
@@ -62,13 +62,7 @@ public class IconFrame : MonoBehaviour, IPointerClickHandler
                 icon.IsDraggable = true;
             }
 
-        } else
-        {
-            if(icon.Type == IconType.Gear)
-            {
-                icon.IsDraggable = true;
-            }
-        }
+        } 
 
     }
 
