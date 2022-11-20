@@ -65,6 +65,10 @@ public class ClickHandler : MonoBehaviour
 
                     ClientManager.Instance.StateManager.Actions.Move(target);
 
+                    showIndicator();
+
+                    enemyClicked = false;
+
                 }
             }
 
@@ -74,9 +78,6 @@ public class ClickHandler : MonoBehaviour
 
             spriteRenderer.sortingOrder = playerSprite.spriteRenderer.sortingOrder + 1;
 
-            //showIndicator();
-
-            enemyClicked = false;
         }      
 
         if (spriteRenderer.enabled)

@@ -203,6 +203,8 @@ public class Icon : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDragHand
     public bool IsDraggable = false;
     public IconType Type;
     public string TypeKey;
+    public float DragScale = 0.2f;
+    public int ReferenceKey;
 
     private UnityEngine.UI.Image _image;
     public UnityEngine.UI.Image image
@@ -222,7 +224,7 @@ public class Icon : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDragHand
         if(IsDraggable && IsDragging && Input.GetMouseButtonUp(0))
         {
             GameObject.Destroy(this.gameObject);
-        }
+        }      
     }
 
     private CanvasGroup canvasGroup;
@@ -241,13 +243,14 @@ public class Icon : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDragHand
                 DragIconObject = CreateInstance.Prefab(this.gameObject, transform.position);
                 DragIconObject.transform.SetParent(GameObject.FindWithTag("HUD").transform);
                 DragIconObject.GetComponent<CanvasGroup>().alpha = 0.6f;
-                DragIconObject.transform.localScale = Vector3.one * 0.2f;
+                DragIconObject.transform.localScale = Vector3.one * DragScale;
 
                 Icon dragIcon = DragIconObject.GetComponent<Icon>();
                 dragIcon.CurrentIcon = CurrentIcon;
                 dragIcon.IsDragging = true;
                 dragIcon.Type = Type;
                 dragIcon.TypeKey = TypeKey;
+                dragIcon.ReferenceKey = ReferenceKey;
             }
             
             DragIconObject.transform.position = eventData.position;           

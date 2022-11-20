@@ -228,7 +228,7 @@ MonoBehaviour:
   OtherAmuletSprite3: {fileID: 21300000, guid: 3d71b1db4755de249931ae39ef398793, type: 3}
   OtherRingSprite1: {fileID: 21300000, guid: 32e69ace666e37d468312d9eb5304664, type: 3}
   OtherRingSprite2: {fileID: 21300000, guid: bb4369c012a377b4a9acd6c7979cf593, type: 3}
-  OtherRingSprite3: {fileID: 21300000, guid: 3d71b1db4755de249931ae39ef398793, type: 3}
+  OtherRingSprite3: {fileID: 21300000, guid: 150ec20eeeae1a64ba639e9d87720c1c, type: 3}
   OtherGlovesSprite1: {fileID: 21300000, guid: bfe7507e4d738ff44a9217e0a0d9acf7, type: 3}
   WeaponSwordSprite1: {fileID: 21300000, guid: a1feecaf4542ebc4b98e02a301c4d9d7, type: 3}
   WeaponSwordSprite2: {fileID: 21300000, guid: e84974b65b3ef8e46b19c6c5a5487389, type: 3}
@@ -240,7 +240,7 @@ MonoBehaviour:
   WeaponAxeSprite2: {fileID: 21300000, guid: 1d137cf3479dc8d4ebaa12c82784011c, type: 3}
   WeaponAxeSprite3: {fileID: 21300000, guid: b59989084190e2e42a3a64e88e479d65, type: 3}
   WeaponStaffSprite1: {fileID: 21300000, guid: dc587b5dd386e3345b719d6d5f7b5b69, type: 3}
-  WeaponStaffSprite2: {fileID: 21300000, guid: e84974b65b3ef8e46b19c6c5a5487389, type: 3}
+  WeaponStaffSprite2: {fileID: 21300000, guid: 7ede41d506fdb4f4d94e105613780dbb, type: 3}
   WeaponStaffSprite3: {fileID: 21300000, guid: 62b6c7d2bf0e75e4e9424844ab894aff, type: 3}
   WeaponHammerSprite1: {fileID: 21300000, guid: f77d5cf35a55d874d8798e4345768f3d, type: 3}
   WeaponFishingRodSprite1: {fileID: 21300000, guid: e84c11c428b48c64ca69134922b8c6ff, type: 3}
@@ -255,6 +255,7 @@ MonoBehaviour:
   IsDraggable: 0
   Type: 0
   TypeKey: 
+  DragScale: 0.2
 --- !u!225 &2068367260165742957
 CanvasGroup:
   m_ObjectHideFlags: 0

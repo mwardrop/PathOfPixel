@@ -61,7 +61,7 @@ public class PlayerSprite : CharacterSprite
     {
         if (PlayerState != null &&
             !PlayerState.IsDead &&
-            Vector3.Distance(transform.position, Target) >= MoveRadius &&
+ //           Vector3.Distance(transform.position, Target) >= MoveRadius &&
             Vector3.Distance(transform.position, Target) > 0.001)
         {
             SetState(SpriteState.Walk);

@@ -194,4 +194,11 @@ public class ClientActions {
             NetworkTags.ItemPickedUp,
             new ItemDropData(itemState, scene));
     }
+
+    public void EquipItem(int inventorySlot)
+    {
+        ClientManager.SendNetworkMessage
+            (NetworkTags.EquipItem, 
+            new IntegerData(inventorySlot));
+    }
 }

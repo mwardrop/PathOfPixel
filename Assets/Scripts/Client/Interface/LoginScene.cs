@@ -23,8 +23,10 @@ public class LoginScene : MonoBehaviour
         LoginButton.onClick.AddListener(LoginClicked);
         HostButton.onClick.AddListener(HostClicked);
         SettingsButton.onClick.AddListener(SettingsClicked);
-        if(autoLogin) { 
-            ClientManager.Instance.Connect("127.0.0.1", 4296, UnityEngine.Random.Range(0, 1000).ToString(), "NoPassword", OnConnectFail); }
+        if(autoLogin) {
+            //  ClientManager.Instance.Connect("127.0.0.1", 4296, UnityEngine.Random.Range(0, 1000).ToString(), "NoPassword", OnConnectFail); }
+            ClientManager.Instance.Connect("127.0.0.1", 4296, "74", "NoPassword", OnConnectFail);
+        }
     }
 
 
