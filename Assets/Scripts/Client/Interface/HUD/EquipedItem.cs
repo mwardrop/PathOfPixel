@@ -59,12 +59,16 @@ public class EquipedItem : MonoBehaviour, IDropHandler
 
     public void OnDrop(PointerEventData eventData)
     {
+        var dropIcon = eventData.pointerDrag.GetComponent<Icon>();
 
-        var inventorySlot = (InventorySlots)eventData.pointerDrag.GetComponent<Icon>().ReferenceKey;
+        if (dropIcon.Type == IconType.Gear)
+        {
+            var inventorySlot = (InventorySlots)eventData.pointerDrag.GetComponent<Icon>().ReferenceKey;
 
-        var equipmentSlot = (InventorySlots)Enum.Parse(typeof(InventorySlots), $"{gameObject.name}");
+            var equipmentSlot = (InventorySlots)Enum.Parse(typeof(InventorySlots), $"{gameObject.name}");
 
-        ClientManager.Instance.StateManager.Actions.EquipItem(inventorySlot, equipmentSlot);
+            ClientManager.Instance.StateManager.Actions.EquipItem(inventorySlot, equipmentSlot);
+        }
     }
 
 }
