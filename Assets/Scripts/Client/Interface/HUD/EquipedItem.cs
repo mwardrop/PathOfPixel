@@ -67,7 +67,7 @@ public class EquipedItem : MonoBehaviour, IDropHandler
 
             var equipmentSlot = (InventorySlots)Enum.Parse(typeof(InventorySlots), $"{gameObject.name}");
 
-            ClientManager.Instance.StateManager.Actions.EquipItem(inventorySlot, equipmentSlot);
+            ClientManager.Instance.StateManager.Actions.InventoryUpdate(inventorySlot, equipmentSlot);
         }
     }
 

@@ -39,7 +39,7 @@ public enum NetworkTags
     UpdateEnemyRegen = 32,
     ItemDropped = 33,
     ItemPickedUp = 34,
-    EquipItem  = 35,
+    //EquipItem  = 35,
     InventoryUpdate = 36
 }
 

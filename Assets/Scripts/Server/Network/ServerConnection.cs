@@ -119,8 +119,8 @@ public class ServerConnection
                 case NetworkTags.ItemPickedUp:
                     ItemPickedUp(message.Deserialize<ItemDropData>());
                     break;
-                case NetworkTags.EquipItem:
-                    EquipItem(message.Deserialize<IntegerPairData>());
+                case NetworkTags.InventoryUpdate:
+                    InventoryUpdate(message.Deserialize<IntegerPairData>());
                     break;
 
             }
@@ -345,33 +345,104 @@ public class ServerConnection
 
     }
 
-    public void EquipItem(IntegerPairData integerData)
+    public void InventoryUpdate(IntegerPairData integerData)
     {
 
-        var inventorySlot = (InventorySlots)integerData.Integer1;
-        var equipmentSlot = (InventorySlots)integerData.Integer2;
+        var sourceSlot = (InventorySlots)integerData.Integer1;
+        var destinationSlot = (InventorySlots)integerData.Integer2;
 
-        var inventoryItem = PlayerState.Inventory.Items.First(x => x.Slot == inventorySlot);
-        PlayerState.Inventory.Items.Remove(inventoryItem);
-        
-        if (inventoryItem.Item.ItemType.ToString().ToLower() != string.Concat(equipmentSlot.ToString().Where(char.IsLetter)).ToLower())
+        InventoryItemState sourceItem;
+
+        // Remove source Item from Inventory/Equiped
+        if ((int)sourceSlot < 50) // Source is inventory
         {
-            return; // Only allow equiping in correct equipment slot
+            sourceItem = PlayerState.Inventory.Items.First(x => x.Slot == sourceSlot);
+            PlayerState.Inventory.Items.Remove(sourceItem);
+        } else { // Source is equiped item
+            sourceItem = PlayerState.Inventory.Equiped.First(x => x.Slot == sourceSlot);
+            PlayerState.Inventory.Equiped.Remove(sourceItem);
         }
 
-        var existingEquipedItems = PlayerState.Inventory.Equiped.Where(x => x.Slot == equipmentSlot);
-        if(existingEquipedItems.Count() > 0)
+        if ((int)destinationSlot > 0) // Do nothing and let item be destroyed if External (-1) destination slot
         {
-            var existingItem = existingEquipedItems.First();
-            PlayerState.Inventory.Equiped.Remove(existingItem);
+            if ((int)destinationSlot > 50 && (int)sourceSlot < 50)
+            {
+                // Equiping an item
+                if (sourceItem.Item.ItemType.ToString().ToLower() != string.Concat(destinationSlot.ToString().Where(char.IsLetter)).ToLower())
+                {
+                    PlayerState.Inventory.Items.Add(sourceItem);
+                    return; // Only allow equiping in correct equipment slot, No State Change
+                }
 
-            existingItem.Slot = inventorySlot;
-            PlayerState.Inventory.Items.Add(existingItem);
+                var existingEquipedItems = PlayerState.Inventory.Equiped.Where(x => x.Slot == destinationSlot);
+                if (existingEquipedItems.Count() > 0)
+                {
+                    // Existing equiped item, swap
+                    var existingItem = existingEquipedItems.First();
+                    PlayerState.Inventory.Equiped.Remove(existingItem);
 
+                    existingItem.Slot = sourceSlot;
+                    PlayerState.Inventory.Items.Add(existingItem);
+
+                }
+
+                sourceItem.Slot = destinationSlot;
+                PlayerState.Inventory.Equiped.Add(sourceItem);
+            }
+            else if ((int)destinationSlot < 50 && (int)sourceSlot > 50)
+            {
+                // Unequiping an item
+                var existingDestinationItems = PlayerState.Inventory.Equiped.Where(x => x.Slot == destinationSlot);
+                if (existingDestinationItems.Count() == 0)
+                {
+                    // Empty Destination Slot, unequip the item
+                    sourceItem.Slot = destinationSlot;
+                    PlayerState.Inventory.Items.Add(sourceItem);
+                }
+                else
+                {
+                    // Filled Destination Slot, try and swap
+                    var existingItem = existingDestinationItems.First();
+                    if (sourceItem.Item.ItemType == existingItem.Item.ItemType)
+                    {
+                        // Same equipment type swap
+                        existingItem.Slot = sourceSlot;
+                        sourceItem.Slot = destinationSlot;
+
+                        PlayerState.Inventory.Items.Remove(existingItem);
+                        PlayerState.Inventory.Equiped.Add(existingItem);
+
+                        PlayerState.Inventory.Items.Add(sourceItem);
+
+                    }
+                    else
+                    {
+                        PlayerState.Inventory.Equiped.Add(sourceItem);
+                        return; // Only allow swapping of same item types, No State Change
+                    }
+                }
+
+            }
+            else if ((int)destinationSlot < 50 && (int)sourceSlot < 50)
+            {
+                // Moving an item
+                var existingDestinationItems = PlayerState.Inventory.Items.Where(x => x.Slot == destinationSlot);
+                if (existingDestinationItems.Count() == 0)
+                {
+                    // Empty destination slot
+                    sourceItem.Slot = destinationSlot;
+                }
+                else
+                {
+                    // Filled Destination Slot, try and swap
+                    var existingItem = existingDestinationItems.First();
+
+                    existingItem.Slot = sourceSlot;
+                    sourceItem.Slot = destinationSlot;
+                }
+                PlayerState.Inventory.Items.Add(sourceItem);
+            }
         }
-
-        inventoryItem.Slot = equipmentSlot;
-        PlayerState.Inventory.Equiped.Add(inventoryItem);
 
         BroadcastNetworkMessage(NetworkTags.InventoryUpdate,
             new InventoryUpdateData(PlayerState.Inventory, PlayerState.ClientId));

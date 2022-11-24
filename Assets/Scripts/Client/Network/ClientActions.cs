@@ -195,10 +195,10 @@ public class ClientActions {
             new ItemDropData(itemState, scene));
     }
 
-    public void EquipItem(InventorySlots inventorySlot, InventorySlots equipmentSlot)
+    public void InventoryUpdate(InventorySlots inventorySlot, InventorySlots equipmentSlot)
     {
         ClientManager.SendNetworkMessage
-            (NetworkTags.EquipItem, 
+            (NetworkTags.InventoryUpdate, 
             new IntegerPairData((int)inventorySlot, (int)equipmentSlot));
     }
 }
