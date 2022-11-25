@@ -1,6 +1,7 @@
 ﻿using DarkRift;
 using DarkRift.Server;
 using Data.Characters;
+using Extensions;
 using System;
 using System.Collections;
 using System.Linq;
@@ -365,10 +366,10 @@ public class ServerConnection
 
         if ((int)destinationSlot > 0) // Do nothing and let item be destroyed if External (-1) destination slot
         {
+            // Equiping an item
             if ((int)destinationSlot > 50 && (int)sourceSlot < 50)
-            {
-                // Equiping an item
-                if (sourceItem.Item.ItemType.ToString().ToLower() != string.Concat(destinationSlot.ToString().Where(char.IsLetter)).ToLower())
+            {          
+                if (sourceItem.Item.ItemType.ToString().ToLower() != destinationSlot.ToString().OnlyLetters().ToLower())
                 {
                     PlayerState.Inventory.Items.Add(sourceItem);
                     return; // Only allow equiping in correct equipment slot, No State Change
@@ -389,9 +390,10 @@ public class ServerConnection
                 sourceItem.Slot = destinationSlot;
                 PlayerState.Inventory.Equiped.Add(sourceItem);
             }
+            // Unequiping an item
             else if ((int)destinationSlot < 50 && (int)sourceSlot > 50)
             {
-                // Unequiping an item
+                
                 var existingDestinationItems = PlayerState.Inventory.Equiped.Where(x => x.Slot == destinationSlot);
                 if (existingDestinationItems.Count() == 0)
                 {
@@ -423,9 +425,9 @@ public class ServerConnection
                 }
 
             }
+            // Moving an item
             else if ((int)destinationSlot < 50 && (int)sourceSlot < 50)
             {
-                // Moving an item
                 var existingDestinationItems = PlayerState.Inventory.Items.Where(x => x.Slot == destinationSlot);
                 if (existingDestinationItems.Count() == 0)
                 {

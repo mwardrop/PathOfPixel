@@ -1,3 +1,4 @@
+using Extensions;
 using System;
 using System.Linq;
 using UnityEngine;
@@ -31,7 +32,7 @@ public class HotbarSkill : MonoBehaviour, IDropHandler, IPointerClickHandler
 
     public void Awake()
     {
-        HotbarIndex = Int32.Parse(string.Concat(name.Where(char.IsNumber)));
+        HotbarIndex = name.OnlyNumbers();
         HotbarIconObject = gameObject.transform.parent.Find($"IconSkill{HotbarIndex}").gameObject;
         HotbarIcon = HotbarIconObject.GetComponent<Icon>();
     }
