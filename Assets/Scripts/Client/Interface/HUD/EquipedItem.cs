@@ -17,6 +17,7 @@ public class EquipedItem : MonoBehaviour, IDropHandler
         }
     }
 
+    private static Dictionary<String, Sprite> sprites = new Dictionary<String, Sprite>();
 
     void Start()
     {
@@ -43,13 +44,21 @@ public class EquipedItem : MonoBehaviour, IDropHandler
             {
                 TypeKey = equipedItem.Item.ItemSubType.ToString();
             }
+            var baseSpriteKey = $"{TypeKey}Sprite{equipedItem.Item.ItemImageId + 1}";
 
-            var baseSprite = (Sprite)icon.GetType().GetField($"{TypeKey}Sprite{equipedItem.Item.ItemImageId + 1}").GetValue(icon);
-            var replacementColor = (Color)typeof(GameConstants).GetField(equipedItem.Item.ItemRarity + "Color").GetValue(null);
-            var newTexture = TextureColorSwapper.SwapColors(baseSprite.texture, GameConstants.SwapColor, replacementColor);
-            var coloredSprite = Sprite.Create(newTexture, baseSprite.rect, new Vector2(0, 1));
+            var raritySpriteKey = equipedItem.Item.ItemRarity + baseSpriteKey;
 
-            icon.CurrentIcon = coloredSprite;
+            if (!sprites.ContainsKey(raritySpriteKey))
+            {
+
+                var baseSprite = (Sprite)icon.GetType().GetField(baseSpriteKey).GetValue(icon);
+                var replacementColor = (Color)typeof(GameConstants).GetField(equipedItem.Item.ItemRarity + "Color").GetValue(null);
+                var newTexture = TextureColorSwapper.SwapColors(baseSprite.texture, GameConstants.SwapColor, replacementColor);
+                var coloredSprite = Sprite.Create(newTexture, baseSprite.rect, new Vector2(0, 1));
+
+                sprites.Add(raritySpriteKey, coloredSprite);
+            }
+            icon.CurrentIcon = sprites.GetValueOrDefault(raritySpriteKey); ;
             icon.IsDraggable = true;
             icon.Type = IconType.Gear;
             icon.ReferenceKey = (int)equipedItem.Slot;

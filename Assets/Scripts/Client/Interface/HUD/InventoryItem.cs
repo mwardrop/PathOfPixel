@@ -58,7 +58,7 @@ public class InventoryItem : MonoBehaviour
 
             if (!sprites.ContainsKey(raritySpriteKey))
             {
-                var baseSprite = (Sprite)icon.GetType().GetField($"{icon.TypeKey}Sprite{state.Item.ItemImageId + 1}").GetValue(icon);
+                var baseSprite = (Sprite)icon.GetType().GetField(baseSpriteKey).GetValue(icon);
                 var replacementColor = (Color)typeof(GameConstants).GetField(state.Item.ItemRarity + "Color").GetValue(null);
                 var newTexture = TextureColorSwapper.SwapColors(baseSprite.texture, GameConstants.SwapColor, replacementColor);
                 var coloredSprite = Sprite.Create(newTexture, baseSprite.rect, new Vector2(0, 1));
