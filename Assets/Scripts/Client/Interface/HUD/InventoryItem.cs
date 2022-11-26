@@ -4,8 +4,9 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
-public class InventoryItem : MonoBehaviour
+public class InventoryItem : MonoBehaviour,IDropHandler
 {
     private Icon _icon;
     public Icon icon
@@ -36,8 +37,8 @@ public class InventoryItem : MonoBehaviour
 
     // Update is called once per frame
     void Update()
-    {
-        var existingState = PlayerState.Inventory.Items.Where(x => (int)x.Slot == gameObject.name.OnlyNumbers());
+    { 
+        var existingState = PlayerState.Inventory.Items.Where(x => (int)x.Slot == gameObject.name.OnlyNumbers() - 1);
 
         if (existingState.Any())
         {
@@ -70,6 +71,7 @@ public class InventoryItem : MonoBehaviour
             icon.IsDraggable = true;
             icon.Type = IconType.Gear;
             icon.ReferenceKey = (int)state.Slot;
+            icon.DropHandled = false;
         }
         else
         {
@@ -77,6 +79,23 @@ public class InventoryItem : MonoBehaviour
             icon.IsDraggable = false;
             icon.Type = IconType.None;
             icon.ReferenceKey = gameObject.name.OnlyNumbers();
+            icon.DropHandled = false;
+        }
+    }
+
+    public void OnDrop(PointerEventData eventData)
+    {
+        var dropIcon = eventData.pointerDrag.GetComponent<Icon>();
+
+        dropIcon.DropHandled = true;
+
+        if (dropIcon.Type == IconType.Gear)
+        {
+            var sourceSlot = (InventorySlots)eventData.pointerDrag.GetComponent<Icon>().ReferenceKey;
+
+            var destinationSlot = (InventorySlots)Enum.Parse(typeof(InventorySlots), $"Slot{gameObject.name.OnlyNumbers()}");
+
+            ClientManager.Instance.StateManager.Actions.InventoryUpdate(sourceSlot, destinationSlot);
         }
     }
 }

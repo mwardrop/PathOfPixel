@@ -1,4 +1,5 @@
 using Data.Attacks;
+using Extensions;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -18,6 +19,8 @@ public class EquipedItem : MonoBehaviour, IDropHandler
     }
 
     private static Dictionary<String, Sprite> sprites = new Dictionary<String, Sprite>();
+
+    public Sprite background;
 
     void Start()
     {
@@ -62,13 +65,24 @@ public class EquipedItem : MonoBehaviour, IDropHandler
             icon.IsDraggable = true;
             icon.Type = IconType.Gear;
             icon.ReferenceKey = (int)equipedItem.Slot;
+            icon.DropHandled = true;
+            icon.DragScale = 0.6f;
 
+        } else
+        {
+            icon.CurrentIcon = background;
+            icon.IsDraggable = false;
+            icon.Type = IconType.None;
+            icon.ReferenceKey = -1;
+            icon.DropHandled = true;
         }
     }
 
     public void OnDrop(PointerEventData eventData)
     {
         var dropIcon = eventData.pointerDrag.GetComponent<Icon>();
+
+        dropIcon.DropHandled = true;
 
         if (dropIcon.Type == IconType.Gear)
         {

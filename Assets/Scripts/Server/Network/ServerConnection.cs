@@ -364,14 +364,18 @@ public class ServerConnection
             PlayerState.Inventory.Equiped.Remove(sourceItem);
         }
 
-        if ((int)destinationSlot > 0) // Do nothing and let item be destroyed if External (-1) destination slot
+        if ((int)destinationSlot >= 0) // Do nothing and let item be destroyed if External (-1) destination slot
         {
             // Equiping an item
-            if ((int)destinationSlot > 50 && (int)sourceSlot < 50)
+            if ((int)destinationSlot > 50)
             {          
                 if (sourceItem.Item.ItemType.ToString().ToLower() != destinationSlot.ToString().OnlyLetters().ToLower())
                 {
-                    PlayerState.Inventory.Items.Add(sourceItem);
+                    if((int)sourceSlot < 50) {
+                        PlayerState.Inventory.Items.Add(sourceItem);
+                    } else {
+                        PlayerState.Inventory.Equiped.Add(sourceItem);
+                    }                
                     return; // Only allow equiping in correct equipment slot, No State Change
                 }
 

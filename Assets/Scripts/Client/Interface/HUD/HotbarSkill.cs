@@ -42,6 +42,8 @@ public class HotbarSkill : MonoBehaviour, IDropHandler, IPointerClickHandler
                 
         Icon dropIcon = eventData.pointerDrag.GetComponent<Icon>();
 
+        dropIcon.DropHandled = true;
+
         if (dropIcon.Type == IconType.Skill || dropIcon.Type == IconType.Attack || dropIcon.Type == IconType.Passive)
         {
             ClientManager.Instance.StateManager.Actions.SetPlayerHotbarItem(dropIcon.TypeKey, dropIcon.Type, HotbarIndex);

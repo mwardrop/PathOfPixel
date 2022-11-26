@@ -206,6 +206,7 @@ public class Icon : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDragHand
     public string TypeKey;
     public float DragScale = 0.2f;
     public int ReferenceKey;
+    public bool DropHandled = false;
 
     private UnityEngine.UI.Image _image;
     public UnityEngine.UI.Image image
@@ -273,6 +274,13 @@ public class Icon : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDragHand
         if (IsDraggable)
         {
             canvasGroup.blocksRaycasts = true;
+        }
+
+        if (Type == IconType.Gear && DropHandled == false)
+        {
+            var sourceSlot = (InventorySlots)eventData.pointerDrag.GetComponent<Icon>().ReferenceKey;
+
+            ClientManager.Instance.StateManager.Actions.InventoryUpdate(sourceSlot, InventorySlots.External);
         }
     }
 }
