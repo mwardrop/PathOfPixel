@@ -373,7 +373,7 @@ public class ServerConnection
         if ((int)destinationSlot >= 0) // Do nothing and let item be destroyed if External (-1) destination slot
         {
             // Equiping an item
-            if ((int)destinationSlot > 50)
+            if ((int)destinationSlot > 50 && (int)destinationSlot < 60)
             {          
                 if (sourceItem.Item.ItemType.ToString().ToLower() != destinationSlot.ToString().OnlyLetters().ToLower())
                 {
@@ -401,7 +401,7 @@ public class ServerConnection
                 PlayerState.Inventory.Equiped.Add(sourceItem);
             }
             // Unequiping an item
-            else if ((int)destinationSlot < 50 && (int)sourceSlot > 50)
+            else if ((int)destinationSlot < 50 && ((int)sourceSlot > 50 && (int)sourceSlot < 60))
             {
                 
                 var existingDestinationItems = PlayerState.Inventory.Equiped.Where(x => x.Slot == destinationSlot);

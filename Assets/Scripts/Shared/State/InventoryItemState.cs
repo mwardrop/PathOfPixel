@@ -22,7 +22,10 @@ public enum InventorySlots
     Feet = 54,
     Weapon = 55,
     Other1 = 56,
-    Other2 = 57
+    Other2 = 57,
+
+    Trade1 =  61, Trade2 = 62, Trade3 = 63, Trade4 = 64, Trade5 = 65,
+    Trade6 = 66, Trade7 = 67, Trade8 = 68, Trade9 = 69, Trade10 = 70
 }
 
 [Serializable]
