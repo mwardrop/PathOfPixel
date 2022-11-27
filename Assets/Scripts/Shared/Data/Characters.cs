@@ -8,13 +8,23 @@ namespace Data.Characters
 {
     public enum CharacterRarity
     {
-        Common,
-        Magic,
-        Rare,
-        Legendary,
-        Mythic,
-        Boss,
-        Player
+        Common = 1,
+        Magic = 2,
+        Rare = 3,
+        Legendary = 4,
+        Mythic = 5,
+        Boss = 10,
+        Player = 0
+    }
+
+    public enum PlayerCharacters
+    {
+        Warrior
+    }
+
+    public enum EnemyCharacters
+    {
+        Possessed
     }
 
     public interface ICharacter
@@ -79,18 +89,18 @@ namespace Data.Characters
             return this.GetType().ToString().Split(".").Last();
         }
 
-        public BaseCharacter(int level = 1)
+        public BaseCharacter(int level = 1, CharacterRarity rarity = CharacterRarity.Common)
         {
             Level = level;
+            Rarity = rarity;
         }
 
     }
 
     public class Warrior: BaseCharacter, ICharacter
     {
-        public Warrior(int level = 1) : base(level)
+        public Warrior(int level = 1, CharacterRarity rarity = CharacterRarity.Player) : base(level, rarity)
         {
-            Rarity = CharacterRarity.Player;
             MaxHealth = 100 + (level * 10);
             HealthRegen = 1 + (level * 2);
             MaxMana = 20 + level;
@@ -136,16 +146,15 @@ namespace Data.Characters
 
     public class Possessed : BaseCharacter, ICharacter
     {
-        public Possessed(int level = 1) : base(level)
+        public Possessed(int level = 1, CharacterRarity rarity = CharacterRarity.Common) : base(level, rarity)
         {
-            Rarity = CharacterRarity.Rare;
-            MaxHealth = 10 + (level * 5);
+            MaxHealth = 10 + (level * 5) * (int)Rarity;
             HealthRegen = 1;
             MaxMana = 100;
             ManaRegen = 1;
-            PhysicalDamage = 5 + (level * 2);
+            PhysicalDamage = 5 + (level * 2) * (int)Rarity;
             MoveSpeed = 1f;
-            Experience = 10 * level;
+            Experience = 10 * level * (int)Rarity;
 
             Attacks = new List<IAttack>() {
                 new SweepAttack(level)

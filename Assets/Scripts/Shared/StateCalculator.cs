@@ -32,7 +32,7 @@ public class StateCalculator
 
         // Reset Character State
         PropertyCopier<ICharacter, ICharacterState>.Copy(
-            CreateInstance.Character(characterState.Type.ToString(), characterState.Level),
+            CreateInstance.Character(characterState.Type.ToString(), characterState.Level, characterState.Rarity),
             characterState);
 
         var activeAttack = CreateInstance.Attack(characterState.ActiveAttack,

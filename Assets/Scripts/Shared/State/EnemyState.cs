@@ -13,20 +13,21 @@ public class EnemyState : CharacterState, ICharacterState, IDarkRiftSerializable
     public Guid EnemyGuid { get; set; }
     public int TargetPlayerId { get; set; }
     public Vector2 HomeLocation { get; set; }
-    public List<KeyValueState> DamageTracker {get; set;}
+    public List<KeyValueState> DamageTracker {get; set; }
+    public string Spawn { get; set; }
 
     public EnemyState():base()
     {
         Initialize();
     }
 
-    public EnemyState(string name, Vector2 location, ICharacter character) : base(character)
+    public EnemyState(string name, string spawn, Vector2 location, ICharacter character) : base(character, location)
     {
         Initialize();
 
         Name = name;
-        Location = new Vector2(location.x, location.y);
         HomeLocation = new Vector2(location.x, location.y);
+        Spawn = spawn;
     }
 
     private void Initialize()
@@ -43,6 +44,7 @@ public class EnemyState : CharacterState, ICharacterState, IDarkRiftSerializable
         EnemyGuid = Guid.Parse(tempGuid);
         TargetPlayerId = e.Reader.ReadInt32();
         HomeLocation = e.Reader.ReadVector2();
+        Spawn = e.Reader.ReadString();
     }
 
     public override void Serialize(SerializeEvent e)
@@ -51,6 +53,7 @@ public class EnemyState : CharacterState, ICharacterState, IDarkRiftSerializable
         e.Writer.Write(EnemyGuid.ToString());
         e.Writer.Write(TargetPlayerId);
         e.Writer.WriteVector2(HomeLocation);
+        e.Writer.Write(Spawn);
     }
 
 }

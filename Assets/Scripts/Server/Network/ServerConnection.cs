@@ -184,13 +184,19 @@ public class ServerConnection
 
     private void SpawnPlayer()
     {
-        if(PlayerState == null) { 
+        if(PlayerState == null) {
+
+            var scene = StateManager.WorldState.Scenes.First(x => x.Name.ToLower() == "overworldscene");
+            var spawn = scene.PlayerSpawns.First();
+            var x = Random.Range(spawn.MinBounds.x, spawn.MaxBounds.x);
+            var y = Random.Range(spawn.MinBounds.y, spawn.MaxBounds.y);
+
             PlayerState = StateManager.SpawnPlayer(
-                "OverworldScene", 
+                scene, 
                 Client.ID, 
                 Username, 
-                new Vector2(Random.Range(-3, 3), Random.Range(-3, 3)), 
-                new Warrior());
+                new Vector2(x, y), 
+                new Warrior(1, CharacterRarity.Player));
         } else
         {
             PlayerState = StateManager.SpawnPlayer(PlayerState);

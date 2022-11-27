@@ -99,6 +99,9 @@ public class ClientStateManager
         {
             if (scene.name.ToLower() != "loginscene")
             {
+                GameObject.FindGameObjectsWithTag("PlayerSpawn").ToList().ForEach(x => x.SetActive(false));
+                GameObject.FindGameObjectsWithTag("EnemySpawn").ToList().ForEach(x => x.SetActive(false));
+
                 foreach (PlayerState player in ClientManager.Instance.StateManager.WorldState.Players)
                 {
                     if (player.Scene.ToLower() == scene.name.ToLower())

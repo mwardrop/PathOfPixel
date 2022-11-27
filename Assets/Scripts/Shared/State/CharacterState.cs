@@ -63,7 +63,7 @@ public class CharacterState : ICharacterState, IDarkRiftSerializable
         Initialize();
     }
 
-    public CharacterState(ICharacter character)
+    public CharacterState(ICharacter character, Vector2 location)
     {
         Initialize();
 
@@ -77,6 +77,8 @@ public class CharacterState : ICharacterState, IDarkRiftSerializable
 
         Health = character.MaxHealth;
         Mana = character.MaxMana;
+        Location = new Vector2(location.x, location.y);
+        TargetLocation = new Vector2(location.x, location.y);
 
         Type = character.GetName();
         ActiveAttack = Attacks.First().Key;
@@ -204,6 +206,7 @@ public interface ICharacterState
     public List<KeyValueState> Passives { get; set; }
     public string ActiveAttack { get; set; }
     public List<KeyValueState> ActiveSkills { get; set; }
+    public CharacterRarity Rarity { get; set; }
 
     public float IncomingPhysicalDamage { get; set; }
     public float IncomingFireDamage { get; set; }

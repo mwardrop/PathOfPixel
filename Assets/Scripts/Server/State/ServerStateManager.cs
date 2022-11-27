@@ -5,6 +5,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Collections;
 using System;
+using DarkRift;
+using System.IO;
 
 public class ServerStateManager
 {
@@ -18,46 +20,31 @@ public class ServerStateManager
 
     public ServerStateManager()
     {
-        WorldState = new WorldState();
-        StateUpdater = new StateUpdater(this);
+        WorldState = new WorldState();      
         ItemGenerator = new ItemGenerator();
         StateCalculator = new StateCalculator();
         ActivatedPlayerSkills = new List<ActivatedPlayerSkill>();
         ActivatedEnemySkills = new List<ActivatedEnemySkill>();
-    }
 
-    public void Update()
-    {
-        StateUpdater.Update(WorldState);
-    }
+        LoadScene("OverworldScene"); // TODO: Load all scenes on server side
 
-    public void OneSecondUpdate()
-    {
-        StateUpdater.OneSecondUpdate(WorldState);
+        StateUpdater = new StateUpdater(this);
     }
 
     public void LoadScene(string scene)
     {
-        SceneState OverworldScene = new SceneState() { Name = scene };
+        var byteArray = File.ReadAllBytes($"{Application.persistentDataPath}/Scenes/{scene}.dat");
+        var reader = DarkRiftReader.CreateFromArray(byteArray, 0, byteArray.Length);
+        var sceneState = reader.ReadSerializable<SceneState>();
 
-        WorldState.Scenes.Add(OverworldScene);
-
-        SpawnEnemy("OverworldScene", "Possessed 1", new Vector2(-15, -10), new Possessed(), true);
-        SpawnEnemy("OverworldScene", "Possessed 2", new Vector2(-10, -10), new Possessed(), false);
-        SpawnEnemy("OverworldScene", "Possessed 3", new Vector2(-5, -10), new Possessed(), true);
-        SpawnEnemy("OverworldScene", "Possessed 4", new Vector2(0, -10), new Possessed(), false);
-        SpawnEnemy("OverworldScene", "Possessed 5", new Vector2(5, -10), new Possessed(), true);
-        SpawnEnemy("OverworldScene", "Possessed 6", new Vector2(10, -10), new Possessed(), false);
-        SpawnEnemy("OverworldScene", "Possessed 7", new Vector2(15, -10), new Possessed(), true);
-        SpawnEnemy("OverworldScene", "Possessed 8", new Vector2(20, -10), new Possessed(), false);
+        WorldState.Scenes.Add(sceneState);
     }
 
-    public EnemyState SpawnEnemy(string scene, string name, Vector2 location, ICharacter character, bool activateSkills = false)
+    public EnemyState SpawnEnemy(SceneState scene, EnemySpawnState spawn, string name, Vector2 location, ICharacter character, bool activateSkills = false)
     {
-        var OverworldScene = WorldState.Scenes.First(x => x.Name.ToLower() == scene.ToLower());
-
         var newEnemy = new EnemyState(
             name,
+            spawn.Name,
             location,
             character
         );
@@ -66,17 +53,17 @@ public class ServerStateManager
         {
             foreach(KeyValueState skill in newEnemy.Skills)
             {
-                ActivateEnemySkill(newEnemy, skill.Key, scene);
+                ActivateEnemySkill(newEnemy, skill.Key, scene.Name);
             }
         }
 
         StateCalculator.CalcCharacterState(newEnemy);
 
-        OverworldScene.Enemies.Add(newEnemy);
+        scene.Enemies.Add(newEnemy);
 
         ServerManager.BroadcastNetworkMessage(
             NetworkTags.SpawnEnemy, 
-            new EnemyStateData(newEnemy, scene));
+            new EnemyStateData(newEnemy, scene.Name));
 
         return newEnemy;
     }
@@ -114,7 +101,7 @@ public class ServerStateManager
     }
 
     // Spawn new player
-    public PlayerState SpawnPlayer(string scene, int clientId, string username, Vector2 location, ICharacter character)
+    public PlayerState SpawnPlayer(SceneState scene, int clientId, string username, Vector2 location, ICharacter character)
     {
 
         if (WorldState.Players.Count(x => x.ClientId == clientId) == 0)
@@ -123,13 +110,13 @@ public class ServerStateManager
                 new PlayerState(
                     clientId,
                     username,
-                    scene,
+                    scene.Name,
                     character,
                     location
             );
 
             newPlayer.AttackPoints = newPlayer.SkillPoints = newPlayer.PassivePoints = 50;
-            newPlayer.TargetLocation = newPlayer.Location = new Vector2(Random.Range(-3, 3), Random.Range(-3, 3));
+            //newPlayer.TargetLocation = newPlayer.Location = new Vector2(Random.Range(-3, 3), Random.Range(-3, 3));
             newPlayer.isTargetable = false;
             newPlayer.HotbarItems.Add(new KeyValueState("SweepAttack", 0) { Index = 1 });
             newPlayer.HotbarItems.Add(new KeyValueState("FrenzySkill", 1) { Index = 6 });

@@ -10,11 +10,11 @@ using Data.Passives;
 public static class CreateInstance
 {
 
-    public static ICharacter Character(string name, int level = 1)
+    public static ICharacter Character(string name, int level = 1, CharacterRarity rarity = CharacterRarity.Common)
     {
         return (ICharacter)Activator.CreateInstance(
             Type.GetType($"Data.Characters.{name}"),
-            level);
+            level, rarity);
     }
 
     public static IAttack Attack(string name, int level = 1)

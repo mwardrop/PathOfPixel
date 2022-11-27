@@ -15,6 +15,8 @@ TagManager:
   - HUD
   - ToolTip
   - ItemDrop
+  - PlayerSpawn
+  - EnemySpawn
   layers:
   - Default
   - TransparentFX

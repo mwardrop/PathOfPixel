@@ -23,15 +23,13 @@ public class PlayerState: CharacterState, ICharacterState, IDarkRiftSerializable
         Initialize();
     }
 
-    public PlayerState(int clientId, string username, string scene, ICharacter character, Vector2 location) : base(character)
+    public PlayerState(int clientId, string username, string scene, ICharacter character, Vector2 location) : base(character, location)
     {
         Initialize();
 
         Name = username;
         Scene = scene;
         ClientId = clientId;
-        Location = Location;
-
     }
 
     private void Initialize()

@@ -17,7 +17,7 @@ public class ServerManager : MonoBehaviour
     public static ServerManager Instance;
 
     private XmlUnityServer XmlServer;
-    private DarkRiftServer Server;
+    public DarkRiftServer Server;
 
     public Dictionary<int, ServerConnection> Connections = new Dictionary<int, ServerConnection>();
     public ServerStateManager StateManager;
@@ -38,7 +38,6 @@ public class ServerManager : MonoBehaviour
         try
         {
             StateManager = new ServerStateManager();
-            StateManager.LoadScene("OverworldScene");
 
             XmlServer = GetComponent<XmlUnityServer>();
             Server = XmlServer.Server;
@@ -48,25 +47,25 @@ public class ServerManager : MonoBehaviour
 
             LoadGame();
 
-            InvokeRepeating("OneSecondUpdate", 0, 1);
+            //InvokeRepeating("OneSecondUpdate", 0, 1);
 
         }  catch(Exception ex) {
             Debug.LogWarning("Server failed to start.");
         }
     }
 
-    public void Update()
-    {
-        if (StateManager != null)
-        {
-            StateManager.Update();
-        }
-    }
+    //public void Update()
+    //{
+    //    if (StateManager != null)
+    //    {
+    //        StateManager.Update();
+    //    }
+    //}
 
-    public void OneSecondUpdate()
-    {
-        StateManager.OneSecondUpdate();
-    }
+    //public void OneSecondUpdate()
+    //{
+    //    StateManager.OneSecondUpdate();
+    //}
 
     void OnDestroy()
     {
