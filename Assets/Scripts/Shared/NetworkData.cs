@@ -39,8 +39,13 @@ public enum NetworkTags
     UpdateEnemyRegen = 32,
     ItemDropped = 33,
     ItemPickedUp = 34,
-    //EquipItem  = 35,
-    InventoryUpdate = 36
+    InventoryUpdate = 35,
+
+    InitiateTrade = 36,
+    UpdateTrade = 37,
+    AcceptTrade = 38,
+    CancelTrade = 39,
+    CompleteTrade = 40
 }
 
 public struct LoginRequestData : IDarkRiftSerializable
@@ -653,5 +658,35 @@ public struct InventoryUpdateData : IDarkRiftSerializable
     {
         e.Writer.Write(InventoryState);
         e.Writer.Write(PlayerId);
+    }
+}
+
+public struct TradeData : IDarkRiftSerializable
+{
+    public int RequestingPlayerId;
+    public int RecievingPlayerId;
+
+    public ActiveTradeState TradeState;
+
+    public TradeData(int requestingPlayerId, int recievingPlayerId, ActiveTradeState tradeState)
+    {
+        RequestingPlayerId = requestingPlayerId;
+        RecievingPlayerId = recievingPlayerId;
+        TradeState = tradeState;
+    }
+
+    public void Deserialize(DeserializeEvent e)
+    {
+        RequestingPlayerId = e.Reader.ReadInt32();
+        RecievingPlayerId = e.Reader.ReadInt32();
+        TradeState = e.Reader.ReadSerializable<ActiveTradeState>();
+        
+    }
+
+    public void Serialize(SerializeEvent e)
+    {
+        e.Writer.Write(RequestingPlayerId);
+        e.Writer.Write(RecievingPlayerId);
+        e.Writer.Write(TradeState);
     }
 }

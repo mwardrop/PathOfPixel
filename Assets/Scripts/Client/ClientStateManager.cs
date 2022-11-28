@@ -33,6 +33,7 @@ public class ClientStateManager
 
     public ClientActions Actions;
     public ClientHandlers Handlers;
+    public ActiveTradeState ActiveTrade;
 
     public ClientStateManager(WorldState worldState)
     {       

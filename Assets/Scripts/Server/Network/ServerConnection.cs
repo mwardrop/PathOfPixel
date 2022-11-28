@@ -123,6 +123,12 @@ public class ServerConnection
                 case NetworkTags.InventoryUpdate:
                     InventoryUpdate(message.Deserialize<IntegerPairData>());
                     break;
+                case NetworkTags.InitiateTrade:
+                    InitiateTrade(message.Deserialize<IntegerData>());
+                    break;
+                case NetworkTags.CancelTrade:
+                    CancelTrade();
+                    break;
 
             }
         }
@@ -320,7 +326,7 @@ public class ServerConnection
         PlayerState.HotbarItems.Add(keyValueStateData.KeyValueState);
     }
 
-    public void ActivatePlayerSkill(StringData stringData)
+    private void ActivatePlayerSkill(StringData stringData)
     {
         if(PlayerState.HotbarItems.Count(x => x.Key == stringData.String) > 0)
         {
@@ -328,7 +334,7 @@ public class ServerConnection
         }
     }
 
-    public void ItemPickedUp(ItemDropData itemDropData)
+    private void ItemPickedUp(ItemDropData itemDropData)
     {
         if (PlayerState.Inventory.Items.Count() <= GameConstants.InventorySize) {
             StateManager.WorldState.Scenes
@@ -352,7 +358,7 @@ public class ServerConnection
 
     }
 
-    public void InventoryUpdate(IntegerPairData integerData)
+    private void InventoryUpdate(IntegerPairData integerData)
     {
 
         var sourceSlot = (InventorySlots)integerData.Integer1;
@@ -459,6 +465,38 @@ public class ServerConnection
         BroadcastNetworkMessage(NetworkTags.InventoryUpdate,
             new InventoryUpdateData(PlayerState.Inventory, PlayerState.ClientId));
 
+    }
+
+    private void InitiateTrade(IntegerData integerData)
+    {
+        var existingTrade = StateManager.ActiveTrades.Count(x => x.RequestingPlayerId == PlayerState.ClientId || x.RecievingPlayerId == PlayerState.ClientId);
+
+        if(existingTrade  == 0)
+        {
+            var trade = new ActiveTradeState(PlayerState.ClientId, integerData.Integer);
+            StateManager.ActiveTrades.Add(trade);
+
+            BroadcastNetworkMessage(NetworkTags.InitiateTrade,
+                new TradeData(PlayerState.ClientId, integerData.Integer, trade));
+        }
+    }
+
+    private void CancelTrade()
+    {
+        var existingTrades = StateManager.ActiveTrades.Where(x => x.RequestingPlayerId == PlayerState.ClientId || x.RecievingPlayerId == PlayerState.ClientId).ToList();
+    
+        foreach(var trade in existingTrades)
+        {
+            StateManager.ActiveTrades.Remove(trade);
+
+            BroadcastNetworkMessage(NetworkTags.CancelTrade,
+                new IntegerData(trade.RequestingPlayerId));
+
+            BroadcastNetworkMessage(NetworkTags.CancelTrade,
+                new IntegerData(trade.RecievingPlayerId));
+
+        }
+    
     }
 
     private void SendNetworkMessage(NetworkTags networkTag, IDarkRiftSerializable payload)

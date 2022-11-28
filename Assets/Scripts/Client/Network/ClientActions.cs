@@ -197,8 +197,20 @@ public class ClientActions {
 
     public void InventoryUpdate(InventorySlots sourceSlot, InventorySlots destinationSlot)
     {
-        ClientManager.SendNetworkMessage
-            (NetworkTags.InventoryUpdate, 
+        ClientManager.SendNetworkMessage(
+            NetworkTags.InventoryUpdate, 
             new IntegerPairData((int)sourceSlot, (int)destinationSlot));
+    }
+
+    public void InitiateTrade(int playerId = -1)
+    {
+        ClientManager.SendNetworkMessage(
+            NetworkTags.InitiateTrade,
+            new IntegerData(playerId));
+    }
+
+    public void CancelTrade()
+    {
+        ClientManager.SendNetworkMessage(NetworkTags.CancelTrade);
     }
 }

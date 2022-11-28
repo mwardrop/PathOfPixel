@@ -97,6 +97,12 @@ public class ClientHandlers
                 case NetworkTags.InventoryUpdate:
                     InventoryUpdate(message.Deserialize<InventoryUpdateData>());
                     break;
+                case NetworkTags.InitiateTrade:
+                    InitiateTrade(message.Deserialize<TradeData>());
+                    break;
+                case NetworkTags.CancelTrade:
+                    CancelTrade(message.Deserialize<IntegerData>());
+                    break;
             }
         }
     }
@@ -400,6 +406,25 @@ public class ClientHandlers
         if (inventoryUpdateData.PlayerId == PlayerState.ClientId)
         {
             PlayerState.Inventory = inventoryUpdateData.InventoryState;
+        }
+    }
+
+    public void InitiateTrade(TradeData tradeData)
+    {
+        if(tradeData.RequestingPlayerId == PlayerState.ClientId || tradeData.RecievingPlayerId == PlayerState.ClientId)
+        {
+            StateManager.ActiveTrade = tradeData.TradeState;
+            GameObject.FindWithTag("HUD").transform.Find("PanelTrade").gameObject.SetActive(true);
+            GameObject.FindWithTag("HUD").transform.Find("PanelInventory").gameObject.SetActive(true);
+        }
+    }
+
+    public void CancelTrade(IntegerData integerData)
+    {
+        if (integerData.Integer == PlayerState.ClientId)
+        {
+            StateManager.ActiveTrade = null;
+            GameObject.FindWithTag("HUD").transform.Find("PanelTrade").gameObject.SetActive(false);
         }
     }
 

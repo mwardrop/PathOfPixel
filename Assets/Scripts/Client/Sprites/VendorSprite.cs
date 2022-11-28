@@ -19,7 +19,7 @@ public class VendorSprite : BaseSprite
 
             if (Vector2.Distance(GameObject.FindWithTag("LocalPlayer").transform.position, transform.position) <= playerSprite.PickupRadius)
             {
-                Debug.Log("Trade with Vendor!");
+                ClientManager.Instance.StateManager.Actions.InitiateTrade();
             }
         }
     }

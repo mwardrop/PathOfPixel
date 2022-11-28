@@ -15,6 +15,7 @@ public class ServerStateManager
     public StateCalculator StateCalculator;
     public List<ActivatedPlayerSkill> ActivatedPlayerSkills;
     public List<ActivatedEnemySkill> ActivatedEnemySkills;
+    public List<ActiveTradeState> ActiveTrades;
 
     private ItemGenerator ItemGenerator;
 
@@ -25,6 +26,7 @@ public class ServerStateManager
         StateCalculator = new StateCalculator();
         ActivatedPlayerSkills = new List<ActivatedPlayerSkill>();
         ActivatedEnemySkills = new List<ActivatedEnemySkill>();
+        ActiveTrades = new List<ActiveTradeState>();
 
         LoadScene("OverworldScene"); // TODO: Load all scenes on server side
 
