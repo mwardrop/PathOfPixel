@@ -213,4 +213,9 @@ public class ClientActions {
     {
         ClientManager.SendNetworkMessage(NetworkTags.CancelTrade);
     }
+
+    public void AcceptTrade()
+    {
+        ClientManager.SendNetworkMessage(NetworkTags.AcceptTrade);
+    }
 }

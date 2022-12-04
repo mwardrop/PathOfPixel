@@ -103,6 +103,9 @@ public class ClientHandlers
                 case NetworkTags.CancelTrade:
                     CancelTrade(message.Deserialize<IntegerData>());
                     break;
+                case NetworkTags.UpdateTrade:
+                    UpdateTrade(message.Deserialize<TradeData>());
+                    break;
             }
         }
     }
@@ -427,5 +430,20 @@ public class ClientHandlers
             GameObject.FindWithTag("HUD").transform.Find("PanelTrade").gameObject.SetActive(false);
         }
     }
+
+    public void UpdateTrade(TradeData tradeData)
+    {
+        if (tradeData.RequestingPlayerId == PlayerState.ClientId || tradeData.RecievingPlayerId == PlayerState.ClientId)
+        {
+            StateManager.ActiveTrade = tradeData.TradeState;
+
+            if(tradeData.TradeState.RequestingAccepted && tradeData.TradeState.RecievingAccepted)
+            {
+                StateManager.ActiveTrade = null;
+                GameObject.FindWithTag("HUD").transform.Find("PanelTrade").gameObject.SetActive(false);
+            }
+        }
+    }
+
 
 }

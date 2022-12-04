@@ -38,7 +38,7 @@ public class InventoryItem : MonoBehaviour,IDropHandler
     // Update is called once per frame
     void Update()
     { 
-        var existingState = PlayerState.Inventory.Items.Where(x => (int)x.Slot == gameObject.name.OnlyNumbers() - 1);
+        var existingState = PlayerState.Inventory.Items.Where(x => x.Slot == (InventorySlots)Enum.Parse(typeof(InventorySlots), $"{gameObject.name}"));
 
         if (existingState.Any())
         {
@@ -93,7 +93,7 @@ public class InventoryItem : MonoBehaviour,IDropHandler
         {
             var sourceSlot = (InventorySlots)eventData.pointerDrag.GetComponent<Icon>().ReferenceKey;
 
-            var destinationSlot = (InventorySlots)Enum.Parse(typeof(InventorySlots), $"Slot{gameObject.name.OnlyNumbers()}");
+            var destinationSlot = (InventorySlots)Enum.Parse(typeof(InventorySlots), $"{gameObject.name}");
 
             ClientManager.Instance.StateManager.Actions.InventoryUpdate(sourceSlot, destinationSlot);
         }

@@ -1,12 +1,7 @@
 ﻿using DarkRift;
-using DarkriftSerializationExtensions;
 using Data.Characters;
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
-using static UnityEditor.FilePathAttribute;
-using UnityEngine.TextCore.Text;
 
 [Serializable]
 public class EnemySpawnState : SpawnState, IDarkRiftSerializable

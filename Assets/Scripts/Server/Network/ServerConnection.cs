@@ -129,6 +129,9 @@ public class ServerConnection
                 case NetworkTags.CancelTrade:
                     CancelTrade();
                     break;
+                case NetworkTags.AcceptTrade:
+                    AcceptTrade();
+                    break;
 
             }
         }
@@ -366,8 +369,8 @@ public class ServerConnection
 
         InventoryItemState sourceItem;
 
-        // Remove source Item from Inventory/Equiped
-        if ((int)sourceSlot < 50) // Source is inventory
+        // Remove source Item from Inventory/Equiped/Trade
+        if ((int)sourceSlot < 50 || (int)sourceSlot > 60) // Source is inventory/trade
         {
             sourceItem = PlayerState.Inventory.Items.First(x => x.Slot == sourceSlot);
             PlayerState.Inventory.Items.Remove(sourceItem);
@@ -379,15 +382,18 @@ public class ServerConnection
         if ((int)destinationSlot >= 0) // Do nothing and let item be destroyed if External (-1) destination slot
         {
             // Equiping an item
-            if ((int)destinationSlot > 50 && (int)destinationSlot < 60)
-            {          
+            if ((int)destinationSlot > 50 && (int)destinationSlot < 60 && (int)sourceSlot < 60)
+            {
                 if (sourceItem.Item.ItemType.ToString().ToLower() != destinationSlot.ToString().OnlyLetters().ToLower())
                 {
-                    if((int)sourceSlot < 50) {
+                    if ((int)sourceSlot < 50)
+                    {
                         PlayerState.Inventory.Items.Add(sourceItem);
-                    } else {
+                    }
+                    else
+                    {
                         PlayerState.Inventory.Equiped.Add(sourceItem);
-                    }                
+                    }
                     return; // Only allow equiping in correct equipment slot, No State Change
                 }
 
@@ -409,7 +415,7 @@ public class ServerConnection
             // Unequiping an item
             else if ((int)destinationSlot < 50 && ((int)sourceSlot > 50 && (int)sourceSlot < 60))
             {
-                
+
                 var existingDestinationItems = PlayerState.Inventory.Equiped.Where(x => x.Slot == destinationSlot);
                 if (existingDestinationItems.Count() == 0)
                 {
@@ -442,7 +448,7 @@ public class ServerConnection
 
             }
             // Moving an item
-            else if ((int)destinationSlot < 50 && (int)sourceSlot < 50)
+            else if (((int)destinationSlot < 50 || (int)destinationSlot > 60) && ((int)sourceSlot < 50  || (int)sourceSlot > 60))
             {
                 var existingDestinationItems = PlayerState.Inventory.Items.Where(x => x.Slot == destinationSlot);
                 if (existingDestinationItems.Count() == 0)
@@ -459,7 +465,51 @@ public class ServerConnection
                     sourceItem.Slot = destinationSlot;
                 }
                 PlayerState.Inventory.Items.Add(sourceItem);
+
+                var existingTrades = StateManager.ActiveTrades.Where(x => x.RequestingPlayerId == PlayerState.ClientId || x.RecievingPlayerId == PlayerState.ClientId);
+
+                if (existingTrades.Any())
+                {
+
+                    var currentTrade = existingTrades.First();
+                    var isRequestingPlayer = currentTrade.RequestingPlayerId == PlayerState.ClientId;
+
+                    // Add Item to Trade
+                    if ((int)destinationSlot > 60 && (int)sourceSlot < 50)
+                    {
+                        if(isRequestingPlayer) {
+                            currentTrade.RequestingOffer.Add(sourceItem);
+                        } else {
+                            currentTrade.RecievingOffer.Add(sourceItem);
+                        }
+                    }
+
+                    // Remove Item from Trade
+                    if ((int)destinationSlot < 50 && (int)sourceSlot > 60)
+                    {
+                        if (isRequestingPlayer) {
+                            currentTrade.RequestingOffer.Remove(sourceItem);
+                        } else {
+                            currentTrade.RecievingOffer.Remove(sourceItem);
+                        }
+                    }
+
+                    currentTrade.RequestingAccepted = false;
+                    currentTrade.RecievingAccepted = false;
+
+                    BroadcastNetworkMessage(NetworkTags.UpdateTrade,
+                        new TradeData(currentTrade.RequestingPlayerId, currentTrade.RecievingPlayerId, currentTrade));
+                }
+
+            } else {
+                // No valid inventory change found, put item back
+                if ((int)sourceSlot < 50 || (int)sourceSlot > 60) { // Source is inventory/trade
+                    PlayerState.Inventory.Items.Add(sourceItem);
+                } else { // Source is equiped
+                    PlayerState.Inventory.Equiped.Add(sourceItem);
+                }
             }
+
         }
 
         BroadcastNetworkMessage(NetworkTags.InventoryUpdate,
@@ -489,14 +539,91 @@ public class ServerConnection
         {
             StateManager.ActiveTrades.Remove(trade);
 
+            var requestingPlayer = StateManager.WorldState.GetPlayerState(trade.RequestingPlayerId);
+
+            foreach(var item in trade.RequestingOffer)
+            {
+                var freeSlot = StateManager.FindEmptyInventorySlot(requestingPlayer);
+                item.Slot = (InventorySlots)freeSlot;
+            }
+
             BroadcastNetworkMessage(NetworkTags.CancelTrade,
                 new IntegerData(trade.RequestingPlayerId));
 
-            BroadcastNetworkMessage(NetworkTags.CancelTrade,
-                new IntegerData(trade.RecievingPlayerId));
+            BroadcastNetworkMessage(NetworkTags.InventoryUpdate,
+                new InventoryUpdateData(requestingPlayer.Inventory, trade.RequestingPlayerId));
+
+            if (trade.RecievingPlayerId > -1)
+            {
+                var recievingPlayer = StateManager.WorldState.GetPlayerState(trade.RecievingPlayerId);
+
+                foreach (var item in trade.RecievingOffer)
+                {
+                    var freeSlot = StateManager.FindEmptyInventorySlot(recievingPlayer);
+                    item.Slot = (InventorySlots)freeSlot;
+                }
+
+                BroadcastNetworkMessage(NetworkTags.CancelTrade,
+                    new IntegerData(trade.RecievingPlayerId));
+
+                BroadcastNetworkMessage(NetworkTags.InventoryUpdate,
+                    new InventoryUpdateData(recievingPlayer.Inventory, trade.RecievingPlayerId));
+
+            }
 
         }
     
+    }
+
+    private void AcceptTrade()
+    {
+        var existingTrades = StateManager.ActiveTrades.Where(x => x.RequestingPlayerId == PlayerState.ClientId || x.RecievingPlayerId == PlayerState.ClientId).ToList();
+
+        if (existingTrades.Any())
+        {
+            var currentTrade = existingTrades.First();
+            var isRequestingPlayer = currentTrade.RequestingPlayerId == PlayerState.ClientId;
+            if(isRequestingPlayer) {
+                currentTrade.RequestingAccepted = true;
+            } else {
+                currentTrade.RecievingAccepted = true;
+            }
+
+            BroadcastNetworkMessage(NetworkTags.UpdateTrade,
+                new TradeData(currentTrade.RequestingPlayerId, currentTrade.RecievingPlayerId, currentTrade));
+
+            if (currentTrade.RequestingAccepted  == true && currentTrade.RecievingAccepted == true)
+            {
+                StateManager.ActiveTrades.RemoveAll(x => x.RequestingPlayerId == currentTrade.RequestingPlayerId || x.RecievingPlayerId == currentTrade.RecievingPlayerId);
+
+                var recievingPlayer = StateManager.WorldState.GetPlayerState(currentTrade.RecievingPlayerId);
+                var requestingPlayer = StateManager.WorldState.GetPlayerState(currentTrade.RequestingPlayerId);
+
+                foreach(var item in currentTrade.RequestingOffer)
+                {
+                    var freeSlot = StateManager.FindEmptyInventorySlot(recievingPlayer);
+                    item.Slot = (InventorySlots)freeSlot;
+                    recievingPlayer.Inventory.Items.Add(item);
+                    requestingPlayer.Inventory.Items.Remove(item);
+                }
+
+                foreach (var item in currentTrade.RecievingOffer)
+                {
+                    var freeSlot = StateManager.FindEmptyInventorySlot(requestingPlayer);
+                    item.Slot = (InventorySlots)freeSlot;
+                    recievingPlayer.Inventory.Items.Remove(item);
+                    requestingPlayer.Inventory.Items.Add(item);
+                }
+
+                BroadcastNetworkMessage(NetworkTags.InventoryUpdate,
+                    new InventoryUpdateData(recievingPlayer.Inventory, recievingPlayer.ClientId));
+
+                BroadcastNetworkMessage(NetworkTags.InventoryUpdate,
+                    new InventoryUpdateData(requestingPlayer.Inventory, requestingPlayer.ClientId));
+
+            }
+        }
+
     }
 
     private void SendNetworkMessage(NetworkTags networkTag, IDarkRiftSerializable payload)

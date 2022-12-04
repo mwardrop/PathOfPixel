@@ -22,6 +22,9 @@ public class ActiveTradeState : IDarkRiftSerializable
 
     public bool IsVendorTrade { get; set; }
 
+    public bool RequestingAccepted { get; set; }
+    public bool RecievingAccepted { get; set; }
+
     public ActiveTradeState() { }
 
     public ActiveTradeState(int requestingPlayerId, int recievingPlayerId)
@@ -52,6 +55,9 @@ public class ActiveTradeState : IDarkRiftSerializable
         RequestingPremiumCurrency = e.Reader.ReadInt32();
         RecievingStandardCurrency = e.Reader.ReadInt32();
         RecievingPremiumCurrency = e.Reader.ReadInt32();
+        IsVendorTrade = e.Reader.ReadBoolean();
+        RequestingAccepted = e.Reader.ReadBoolean();
+        RecievingAccepted = e.Reader.ReadBoolean();
     }
 
     public void Serialize(SerializeEvent e)
@@ -64,6 +70,9 @@ public class ActiveTradeState : IDarkRiftSerializable
         e.Writer.Write(RequestingPremiumCurrency);
         e.Writer.Write(RecievingStandardCurrency);
         e.Writer.Write(RecievingPremiumCurrency);
+        e.Writer.Write(IsVendorTrade);
+        e.Writer.Write(RequestingAccepted);
+        e.Writer.Write(RecievingAccepted);
     }
 
 }
