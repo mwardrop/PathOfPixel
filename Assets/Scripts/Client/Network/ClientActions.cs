@@ -218,4 +218,11 @@ public class ClientActions {
     {
         ClientManager.SendNetworkMessage(NetworkTags.AcceptTrade);
     }
+
+    public void CurrencyPickedUp(CurrencyState currencyState, string scene)
+    {
+        ClientManager.SendNetworkMessage(
+            NetworkTags.CurrencyPickedUp,
+            new CurrencyDropData(currencyState, scene));
+    }
 }

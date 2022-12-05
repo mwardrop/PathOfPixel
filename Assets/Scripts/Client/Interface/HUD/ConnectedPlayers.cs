@@ -25,13 +25,16 @@ public class ConnectedPlayers : MonoBehaviour
         {
             var networkPlayerFrame = transform.GetChild(i).gameObject;
 
-            if (Players.Count() >= i)
+            if (Players != null)
             {
-                networkPlayerFrame.SetActive(true);
-            }
-            else
-            {
-                networkPlayerFrame.SetActive(false);
+                if (Players.Count() >= i)
+                {
+                    networkPlayerFrame.SetActive(true);
+                }
+                else
+                {
+                    networkPlayerFrame.SetActive(false);
+                }
             }
 
         }

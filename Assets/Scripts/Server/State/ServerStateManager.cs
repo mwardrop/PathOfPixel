@@ -306,44 +306,54 @@ public class ServerStateManager
             ServerManager.BroadcastNetworkMessage(
                 NetworkTags.UpdatePlayerExperience,
                 new IntegerPairData(player.ClientId, player.Experience));
+
+            int currencyDropCount = GetWeightedEnemyDropCount(enemy.Rarity, 2);
+
+            bool isPremiumCurrency = false;
+
+            if(enemy.Rarity > CharacterRarity.Rare)
+            {
+                var random = Random.Range(0, 2);
+                if(random == 2)
+                {
+                    isPremiumCurrency = true;
+                }
+            }
+
+            GenerateCurrencyDrop(scene, enemy.Location, enemy.Level, player.ClientId, isPremiumCurrency);
         }
 
+        int itemDropCount = GetWeightedEnemyDropCount(enemy.Rarity);
+        for (int i = 0; i < itemDropCount; i++)
+        {
+            GenerateItemDrop(scene, enemy.Location, enemy.Level);
+        }
 
-        List<ItemState> itemDrops = new List<ItemState>();
-
-        int GetWeightedEnemyDropCount(CharacterRarity characterType)
+        int GetWeightedEnemyDropCount(CharacterRarity characterType, int addedWeight = 0)
         {
             switch (characterType)
             {
                 case Data.Characters.CharacterRarity.Common:
-                    return Random.Range(0, 2);
+                    return Random.Range(0 + addedWeight, 2 + addedWeight);
                 case Data.Characters.CharacterRarity.Magic:
-                    return Random.Range(1, 3);
+                    return Random.Range(1 + addedWeight, 3 + addedWeight);
                 case Data.Characters.CharacterRarity.Rare:
-                    return Random.Range(2, 4);
+                    return Random.Range(2 + addedWeight, 4 + addedWeight);
                 case Data.Characters.CharacterRarity.Legendary:
-                    return Random.Range(3, 5);
+                    return Random.Range(3 + addedWeight, 5 + addedWeight);
                 case Data.Characters.CharacterRarity.Mythic:
-                    return Random.Range(4, 6);
+                    return Random.Range(4 + addedWeight, 6 + addedWeight);
                 case Data.Characters.CharacterRarity.Boss:
-                    return Random.Range(7, 12);
+                    return Random.Range(7 + addedWeight, 12 + addedWeight);
                 default:
-                    return Random.Range(0, 2);
+                    return Random.Range(0 + addedWeight, 2 + addedWeight);
             }
-        }
-
-        int dropCount = GetWeightedEnemyDropCount(enemy.Rarity);
-        for (int i = 0; i < dropCount; i++)
-        {
-            GenerateItemDrop(scene, enemy.Location, enemy.Level);
         }
 
     }
 
     public ItemState GenerateItemDrop(string scene, Vector2 location, int itemLevel)
     {
-        ItemState item = ItemGenerator.CreateItem(Random.Range(itemLevel - 5, itemLevel + 5));
-
         float x = 0;
         float y = 0;
 
@@ -351,6 +361,8 @@ public class ServerStateManager
         if (Random.Range(0, 2) == 0) { x = Random.Range(0.5f, 1.5f); } else { x = Random.Range(-1.5f, -0.5f); }
         // Set Y 50/50 chance to move negative/postive out from dropObject by 1-2
         if (Random.Range(0, 2) == 0) { y = Random.Range(0.5f, 1.5f); } else { y = Random.Range(-1.5f, -0.5f); }
+
+        ItemState item = ItemGenerator.CreateItem(Random.Range(Math.Max(itemLevel - 5, 1), itemLevel + 5));
 
         item.Location = new Vector2(location.x + x, location.y + y);
         
@@ -361,6 +373,42 @@ public class ServerStateManager
             new ItemDropData(item, scene));
 
         return item;
+    }
+
+    public CurrencyState GenerateCurrencyDrop(string scene, Vector2 location, int currencyLevel, int playerId, bool isPremium)
+    {       
+        float x = 0;
+        float y = 0;
+
+        // Set X 50/50 chance to move negative/postive out from dropObject by 1-2
+        if (Random.Range(0, 2) == 0) { x = Random.Range(0.5f, 1.5f); } else { x = Random.Range(-1.5f, -0.5f); }
+        // Set Y 50/50 chance to move negative/postive out from dropObject by 1-2
+        if (Random.Range(0, 2) == 0) { y = Random.Range(0.5f, 1.5f); } else { y = Random.Range(-1.5f, -0.5f); }
+
+        CurrencyState currency = new CurrencyState() { 
+            PlayerId = playerId, 
+            Location = new Vector2(location.x + x, location.y + y)
+        };
+
+        currencyLevel = Random.Range(Math.Max(currencyLevel - 5, 1), currencyLevel + 5);
+
+        if (isPremium)  {
+            currency.Amount = currencyLevel;
+            var max = currencyLevel;
+            if (currency.Amount > (max / 2)) { currency.Type = CurrencyType.PremiumLarge; } else { currency.Type = CurrencyType.PremiumSmall; }
+        } else {
+            currency.Amount = Random.Range(1, currencyLevel) * Random.Range(1, currencyLevel);
+            var max = currencyLevel * currencyLevel;
+            if(currency.Amount > (max / 2)) { currency.Type = CurrencyType.StandardLarge; } else { currency.Type = CurrencyType.StandardSmall; }
+        }
+
+        WorldState.Scenes.First(x => x.Name.ToLower() == scene.ToLower()).CurrencyDrops.Add(currency);
+
+        ServerManager.BroadcastNetworkMessage(
+            NetworkTags.CurrencyDropped,
+            new CurrencyDropData(currency, scene));
+
+        return currency;
     }
 
     public int FindEmptyInventorySlot(PlayerState playerState)

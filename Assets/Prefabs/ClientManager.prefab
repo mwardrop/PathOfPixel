@@ -98,3 +98,4 @@ MonoBehaviour:
   WarriorSprite: {fileID: 7198830804527960167, guid: d797be9d1d464964f80edfdfe5df8904, type: 3}
   PossessedSprite: {fileID: 1183764082010960867, guid: cdb2c2a91a72a5740bc5b7898b272f2e, type: 3}
   ItemDropSprite: {fileID: 6306971299929502878, guid: 8dd094613fbe36d45b1aec05b380f0de, type: 3}
+  CurrencyDropSprite: {fileID: 7688542031054183087, guid: f639e17474994b246b0fa199425af3ef, type: 3}

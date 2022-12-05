@@ -89,6 +89,16 @@ public class ClientStateManager
         catch { return null; }
     }
 
+    public GameObject GetCurrencyDropObject(System.Guid currencyGuid)
+    {
+        try
+        {
+            return GameObject.FindGameObjectsWithTag("CurrencyDrop").ToList().
+                First(x => x.GetComponent<CurrencyDropSprite>().CurrencyGuid == currencyGuid);
+        }
+        catch { return null; }
+    }
+
 
 
     public void LoadScene(string scene, LoadSceneMode mode)

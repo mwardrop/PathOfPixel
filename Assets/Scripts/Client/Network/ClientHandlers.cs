@@ -106,6 +106,12 @@ public class ClientHandlers
                 case NetworkTags.UpdateTrade:
                     UpdateTrade(message.Deserialize<TradeData>());
                     break;
+                case NetworkTags.CurrencyDropped:
+                    CurrencyDropped(message.Deserialize<CurrencyDropData>());
+                    break;
+                case NetworkTags.CurrencyPickedUp:
+                    CurrencyPickedUp(message.Deserialize<CurrencyDropData>());
+                    break;
             }
         }
     }
@@ -445,5 +451,46 @@ public class ClientHandlers
         }
     }
 
+    public void CurrencyDropped(CurrencyDropData currencyDropData)
+    {
+        var currencyState = currencyDropData.CurrencyState;
+        if (currencyState.PlayerId == PlayerState.ClientId)
+        {
+            StateManager.WorldState.Scenes
+                .First(x => x.Name.ToLower() == currencyDropData.Scene.ToLower()).CurrencyDrops
+                .Add(currencyState);
+
+            GameObject currencyDrop = CreateInstance.Prefab(ClientManager.Prefabs.CurrencyDropSprite, currencyState.Location);
+            var currencyDropSprite = currencyDrop.GetComponent<CurrencyDropSprite>();
+            currencyDropSprite.CurrencyGuid = currencyState.CurrencyGuid;
+            currencyDropSprite.CurrencyDrop = currencyState;
+        }
+    }
+
+    public void CurrencyPickedUp(CurrencyDropData currencyDropData)
+    {
+
+        var currencyState = currencyDropData.CurrencyState;
+        if (currencyState.PlayerId == PlayerState.ClientId)
+        {
+
+            StateManager.WorldState.Scenes
+                .First(x => x.Name.ToLower() == currencyDropData.Scene.ToLower()).CurrencyDrops
+                .RemoveAll(x => x.CurrencyGuid == currencyState.CurrencyGuid);
+
+            if ((int)currencyState.Type > 1)
+            {
+                PlayerState.Inventory.PremiumCurrency += currencyState.Amount;
+            }
+            else
+            {
+                PlayerState.Inventory.StandardCurrency += currencyState.Amount;
+            }
+
+            GameObject.Destroy(StateManager.GetCurrencyDropObject(currencyState.CurrencyGuid));
+
+        }
+
+    }
 
 }

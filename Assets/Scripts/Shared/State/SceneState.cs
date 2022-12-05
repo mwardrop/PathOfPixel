@@ -12,6 +12,7 @@ public class SceneState : IDarkRiftSerializable
     public List<SpawnState> PlayerSpawns;
     public List<EnemySpawnState> EnemySpawns;
     public List<SpawnState> ChestSpawns;
+    public List<CurrencyState> CurrencyDrops;
 
     public SceneState()
     {
@@ -20,6 +21,7 @@ public class SceneState : IDarkRiftSerializable
         PlayerSpawns = new List<SpawnState>();
         EnemySpawns = new List<EnemySpawnState>();
         ChestSpawns = new List<SpawnState>();
+        CurrencyDrops = new List<CurrencyState>();
     }
 
     public void Deserialize(DeserializeEvent e)
@@ -35,6 +37,8 @@ public class SceneState : IDarkRiftSerializable
         EnemySpawns = tempEnemySpawns.ToList();
         SpawnState[] tempChestSpawns = e.Reader.ReadSerializables<SpawnState>();
         ChestSpawns = tempChestSpawns.ToList();
+        CurrencyState[] tempCurrencyDrops = e.Reader.ReadSerializables<CurrencyState>();
+        CurrencyDrops = tempCurrencyDrops.ToList();
     }
 
     public void Serialize(SerializeEvent e)
@@ -45,6 +49,7 @@ public class SceneState : IDarkRiftSerializable
         e.Writer.Write(PlayerSpawns.ToArray());
         e.Writer.Write(EnemySpawns.ToArray());
         e.Writer.Write(ChestSpawns.ToArray());
+        e.Writer.Write(CurrencyDrops.ToArray());
     }
 }
 

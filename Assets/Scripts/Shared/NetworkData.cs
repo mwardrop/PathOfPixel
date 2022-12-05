@@ -40,12 +40,13 @@ public enum NetworkTags
     ItemDropped = 33,
     ItemPickedUp = 34,
     InventoryUpdate = 35,
-
     InitiateTrade = 36,
     UpdateTrade = 37,
     AcceptTrade = 38,
     CancelTrade = 39,
-    CompleteTrade = 40
+
+    CurrencyDropped = 40,
+    CurrencyPickedUp = 41
 }
 
 public struct LoginRequestData : IDarkRiftSerializable
@@ -688,5 +689,29 @@ public struct TradeData : IDarkRiftSerializable
         e.Writer.Write(RequestingPlayerId);
         e.Writer.Write(RecievingPlayerId);
         e.Writer.Write(TradeState);
+    }
+}
+
+public struct CurrencyDropData : IDarkRiftSerializable
+{
+    public CurrencyState CurrencyState;
+    public string Scene;
+
+    public CurrencyDropData(CurrencyState currencyState, string scene)
+    {
+        CurrencyState = currencyState;
+        Scene = scene;
+    }
+
+    public void Deserialize(DeserializeEvent e)
+    {
+        CurrencyState = e.Reader.ReadSerializable<CurrencyState>();
+        Scene = e.Reader.ReadString();
+    }
+
+    public void Serialize(SerializeEvent e)
+    {
+        e.Writer.Write(CurrencyState);
+        e.Writer.Write(Scene);
     }
 }

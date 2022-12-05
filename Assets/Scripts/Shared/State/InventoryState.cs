@@ -8,6 +8,8 @@ public class InventoryState : IDarkRiftSerializable
 {
     public List<InventoryItemState> Items;
     public List<InventoryItemState> Equiped;
+    public int StandardCurrency = 0;
+    public int PremiumCurrency = 0;
 
     public InventoryState() {
         Items = new List<InventoryItemState>();
@@ -21,12 +23,15 @@ public class InventoryState : IDarkRiftSerializable
         Items = tempItems.ToList();
         InventoryItemState[] tempEquiped = e.Reader.ReadSerializables<InventoryItemState>();
         Equiped = tempEquiped.ToList();
-
+        StandardCurrency = e.Reader.ReadInt32();
+        PremiumCurrency = e.Reader.ReadInt32();
     }
 
     public void Serialize(SerializeEvent e)
     {
         e.Writer.Write(Items.ToArray());
         e.Writer.Write(Equiped.ToArray());
+        e.Writer.Write(StandardCurrency);
+        e.Writer.Write(PremiumCurrency);
     }
 }

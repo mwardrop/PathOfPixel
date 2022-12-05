@@ -132,7 +132,9 @@ public class ServerConnection
                 case NetworkTags.AcceptTrade:
                     AcceptTrade();
                     break;
-
+                case NetworkTags.CurrencyPickedUp:
+                    CurrencyPickedUp(message.Deserialize<CurrencyDropData>());
+                    break;
             }
         }
     }
@@ -622,6 +624,33 @@ public class ServerConnection
                     new InventoryUpdateData(requestingPlayer.Inventory, requestingPlayer.ClientId));
 
             }
+        }
+
+    }
+
+    private void CurrencyPickedUp(CurrencyDropData currencyDropData)
+    {
+
+        var currencyState = currencyDropData.CurrencyState;
+
+        if (currencyState.PlayerId == PlayerState.ClientId)
+        {
+            StateManager.WorldState.Scenes
+                .First(x => x.Name.ToLower() == currencyDropData.Scene.ToLower()).CurrencyDrops
+                .RemoveAll(x => x.CurrencyGuid == currencyState.CurrencyGuid);
+
+            if((int)currencyState.Type > 1) {
+                PlayerState.Inventory.PremiumCurrency += currencyState.Amount;
+            } else {
+                PlayerState.Inventory.StandardCurrency += currencyState.Amount;
+            }
+
+            BroadcastNetworkMessage(
+                NetworkTags.CurrencyPickedUp,
+                new CurrencyDropData(
+                    currencyState,
+                    currencyDropData.Scene  
+                ));
         }
 
     }
